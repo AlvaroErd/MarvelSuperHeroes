@@ -5,6 +5,10 @@ plugins {
     id "dagger.hilt.android.plugin"
 }
 
+def apikeyPropertiesFile = rootProject.file("apikey.properties")
+def apikeyProperties = new Properties()
+apikeyProperties.load(new FileInputStream(apikeyPropertiesFile))
+
 android {
 
     viewBinding {
@@ -34,13 +38,23 @@ android {
     }
 
     buildTypes {
+//        In order to test this app for the Mango team, you need to create an apikey.properties file and paste this:
+//        BASE_URL = "https://gateway.marvel.com/"
+//        API_KEY_PUBLIC = "3fd64832e3b735d17d55426fdaa3dd3c"
+//        API_KEY_PRIVATE = "08ac92157217a77d37794bc61ff391d6f7349d13"
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            buildConfigField "String", "BASE_URL", apikeyProperties['BASE_URL']
+            buildConfigField "String", "API_KEY_PUBLIC", apikeyProperties['API_KEY_PUBLIC']
+            buildConfigField "String", "API_KEY_PRIVATE", apikeyProperties['API_KEY_PRIVATE']
         }
         debug {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            buildConfigField "String", "BASE_URL", apikeyProperties['BASE_URL']
+            buildConfigField "String", "API_KEY_PUBLIC", apikeyProperties['API_KEY_PUBLIC']
+            buildConfigField "String", "API_KEY_PRIVATE", apikeyProperties['API_KEY_PRIVATE']
         }
     }
 
