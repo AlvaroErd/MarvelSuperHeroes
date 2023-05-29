@@ -15,11 +15,10 @@ import com.alerdoci.marvelsuperheroes.app.screens.home.composable.HomeScreen
 @Composable
 fun SetupNavGraph(
     navController: NavHostController,
-    startDestination: String
 ) {
     NavHost(
         navController = navController,
-        startDestination = startDestination
+        startDestination = Screen.Home.route
     ) {
         // Home
         composable(route = Screen.Home.route) {
@@ -27,7 +26,7 @@ fun SetupNavGraph(
                 enterTransition = slideInHorizontally() + fadeIn(),
                 exitTransition = slideOutHorizontally() + fadeOut()
             ) {
-                HomeScreen(navController = navController)
+                HomeScreen(navController)
             }
         }
     }
