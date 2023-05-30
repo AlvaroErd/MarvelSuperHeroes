@@ -15,6 +15,10 @@ build config. But shhh, don´t tell this to anyone, it´s a secret 🤫
 Or you can provice your own api key from
 here [Marvel docs](https://developer.marvel.com/documentation/getting_started).
 
+## Preview 📱
+
+Coming Soon...
+
 ## Built With 🔨
 
 - [Android SDK](https://developer.android.com/) - Create an Android App
@@ -36,7 +40,7 @@ here [Marvel docs](https://developer.marvel.com/documentation/getting_started).
 
 ## Features 🧩
 
-Coming Soon
+Coming Soon...
 
 ## Architecture 🏛️
 
