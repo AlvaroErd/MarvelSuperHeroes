@@ -11,7 +11,7 @@ import coil.decode.GifDecoder
 import coil.decode.ImageDecoderDecoder
 
 @Composable
-fun ImageGif(img: Int, imgGifModifier: Modifier) {
+fun LoadGif(img: Int, modifier: Modifier) {
     val imageLoader = ImageLoader.Builder(LocalContext.current)
         .components {
             if (Build.VERSION.SDK_INT >= 28) {
@@ -24,6 +24,6 @@ fun ImageGif(img: Int, imgGifModifier: Modifier) {
     Image(
         painter = rememberAsyncImagePainter(img, imageLoader),
         contentDescription = "",
-        modifier = imgGifModifier,
+        modifier = modifier,
     )
 }

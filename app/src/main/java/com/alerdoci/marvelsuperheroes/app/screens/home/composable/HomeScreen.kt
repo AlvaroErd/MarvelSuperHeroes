@@ -2,6 +2,7 @@ package com.alerdoci.marvelsuperheroes.app.screens.home.composable
 
 import android.content.res.Configuration
 import android.widget.Toast
+import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -29,8 +30,6 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.drawBehind
-import androidx.compose.ui.graphics.Path
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
@@ -39,11 +38,15 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
+import com.airbnb.lottie.compose.LottieAnimation
+import com.airbnb.lottie.compose.LottieCompositionSpec
+import com.airbnb.lottie.compose.rememberLottieComposition
 import com.alerdoci.marvelsuperheroes.R
+import com.alerdoci.marvelsuperheroes.app.components.DiagonalDivider
 import com.alerdoci.marvelsuperheroes.app.screens.home.viewmodel.HomeViewModel
 import com.alerdoci.marvelsuperheroes.app.theme.red_800
 
-@OptIn(ExperimentalMaterial3Api::class)
+@OptIn(ExperimentalMaterial3Api::class, ExperimentalAnimationApi::class)
 @Composable
 fun HomeScreen(
     navController: NavHostController,
@@ -65,12 +68,27 @@ fun HomeScreen(
         ) { paddingValues ->
             Column(modifier = Modifier.fillMaxSize())
             {
+                val marvelTitle by rememberLottieComposition(LottieCompositionSpec.RawRes(R.raw.lottie_marvel_title))
+                Box(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(paddingValues = paddingValues)
+                        .background(red_800)
+                        .padding(top = 20.dp),
+                    Alignment.TopCenter,
+                ) {
+                    LottieAnimation(
+                        composition = marvelTitle,
+                        modifier = Modifier
+                            .height(50.dp)
+                    )
+                }
                 Column(
                     modifier = Modifier
                         .fillMaxWidth()
                         .padding(paddingValues = paddingValues)
                         .background(red_800)
-                        .padding(bottom = 16.dp, top = 10.dp),
+                        .padding(top = 10.dp, bottom = 16.dp),
                     horizontalAlignment = Alignment.CenterHorizontally,
                 ) {
                     SearchBar(
@@ -159,28 +177,6 @@ fun HomeScreen(
                 }
             }
         }
-    }
-}
-
-
-@Composable
-fun DiagonalDivider(modifier: Modifier = Modifier) {
-    Box(
-        modifier = modifier
-            .fillMaxWidth()
-            .drawBehind {
-                val width = size.width
-                val height = size.height
-                val path = Path().apply {
-                    moveTo(0f, 0f)
-                    lineTo(width, 0f)
-                    lineTo(width * 0f, height)
-                    lineTo(0f, height)
-                    close()
-                }
-                drawPath(path, color = red_800)
-            }
-    ) {
     }
 }
 

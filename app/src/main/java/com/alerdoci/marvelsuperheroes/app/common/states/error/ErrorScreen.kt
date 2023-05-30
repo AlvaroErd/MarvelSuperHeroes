@@ -22,7 +22,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.alerdoci.marvelsuperheroes.R
-import com.alerdoci.marvelsuperheroes.app.components.ImageGif
+import com.alerdoci.marvelsuperheroes.app.components.LoadGif
 import com.alerdoci.marvelsuperheroes.app.theme.montserratFont
 
 @Composable
@@ -37,9 +37,9 @@ fun ErrorScreen() {
             horizontalAlignment = Alignment.CenterHorizontally,
             modifier = Modifier.padding(horizontal = 20.dp)
         ) {
-            ImageGif(
+            LoadGif(
                 img = R.drawable.error_awkward_gif,
-                imgGifModifier = Modifier
+                modifier = Modifier
                     .size(200.dp)
                     .clip(MaterialTheme.shapes.large)
             )
