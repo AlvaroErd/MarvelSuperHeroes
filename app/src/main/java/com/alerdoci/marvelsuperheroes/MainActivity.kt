@@ -22,7 +22,7 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
 
         installSplashScreen().apply {
-            Thread.sleep(2800)
+            Thread.sleep(2500)
         }
         setContent {
             MarvelSuperHeroesTheme {

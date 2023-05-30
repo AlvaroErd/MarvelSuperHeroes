@@ -9,4 +9,7 @@
     <string name="error">Oops! Something went wrong</string>
     <string name="try_reload">That´s awkward. Please try again</string>
     <string name="unknown_error">Unknown error</string>
+
+    //Home ccreen
+    <string name="search_superhero">Search Superhero 🦸‍</string>
 </resources>

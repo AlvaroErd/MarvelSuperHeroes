@@ -8,7 +8,7 @@ import retrofit2.http.Query
 interface MarvelService {
 
     @GET("v1/public/characters")
-    fun getMarvelSuperHeroes(
+    suspend fun getMarvelSuperHeroes(
         @Query("apikey") apikey: String,
         @Query("ts") ts: String,
         @Query("hash") hash: String,
