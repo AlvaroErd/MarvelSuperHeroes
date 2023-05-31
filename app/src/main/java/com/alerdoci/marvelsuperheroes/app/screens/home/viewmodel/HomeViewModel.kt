@@ -4,7 +4,13 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.paging.PagingData
 import com.alerdoci.marvelsuperheroes.app.common.states.ResourceState
+import com.alerdoci.marvelsuperheroes.domain.models.features.superheroes.ModelComics
+import com.alerdoci.marvelsuperheroes.domain.models.features.superheroes.ModelEvents
 import com.alerdoci.marvelsuperheroes.domain.models.features.superheroes.ModelResult
+import com.alerdoci.marvelsuperheroes.domain.models.features.superheroes.ModelSeries
+import com.alerdoci.marvelsuperheroes.domain.models.features.superheroes.ModelStories
+import com.alerdoci.marvelsuperheroes.domain.models.features.superheroes.ModelThumbnail
+import com.alerdoci.marvelsuperheroes.domain.models.features.superheroes.ModelUrl
 import com.alerdoci.marvelsuperheroes.domain.usecases.GetMarvelSuperHeroesPagingUseCase
 import com.alerdoci.marvelsuperheroes.domain.usecases.GetMarvelSuperHeroesUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -59,24 +65,73 @@ class HomeViewModel @Inject constructor(
             getMarvelSuperHeroesPagingUseCase(marvelSuperheroes)
 
 }
-//
-////Mock
-//val marvelSuperHero1 = ModelResult(
-//comics = "",
-//description = "",
-//events = "",
-//id = "",
-//modified = "",
-//name = "",
-//resourceURI = "",
-//series = "",
-//stories = "",
-//thumbnail = "",
-//urls = "",
-//)
-//
-//var marvelSuperHeroes = listOf(
-//    marvelSuperHero1,
-//    marvelSuperHero2,
-//    marvelSuperHero3,
-//)
+
+//Mock
+val marvelSuperHeroMock1 = ModelResult(
+    id = 1,
+    name = "Baby Groot",
+    description = "Fabulas reformidans viverra invidunt errem vis vitae fastidii. Convenire odio ipsum mutat ligula sociosqu scripserit civibus dicit. Expetenda tortor bibendum instructior maiestatis.",
+    modified = "",
+    thumbnail = ModelThumbnail(
+        ".jpg",
+        "https://ae01.alicdn.com/kf/S25773c4386c04f95aad6442731a4e601h"
+    ),
+    resourceURI = "",
+    comics = ModelComics(null, null, emptyList(), null),
+    series = ModelSeries(null, null, emptyList(), null),
+    stories = ModelStories(null, null, emptyList(), null),
+    events = ModelEvents(null, null, emptyList(), null),
+    urls = listOf(
+        ModelUrl("tipo1", "https://ejemplo1.com"),
+        ModelUrl("tipo2", "https://ejemplo2.com"),
+        ModelUrl("tipo3", "https://ejemplo3.com"),
+    )
+)
+
+val marvelSuperHeroMock2 = ModelResult(
+    id = 1,
+    name = "Baby Rocket",
+    description = "Te theophrastus idque pro hinc mediocritatem metus definiebas rutrum. Sed affert sapientem delicata vituperata at quaestio molestiae turpis gubergren. Neglegentur deserunt ferri dicam feugiat nisl expetendis dolore iuvaret.",
+    modified = "",
+    thumbnail = ModelThumbnail(
+        ".jpg",
+        "https://cdn.vox-cdn.com/thumbor/3OJIOHLH8C5FScmhPCmuSnk2heE=/0x0:4096x1716/1200x800/filters:focal(1721x531:2375x1185)/cdn.vox-cdn.com/uploads/chorus_image/image/72270263/FBK0100_TRL_comp_FRA_v0213.1079_R.0"
+    ),
+    resourceURI = "",
+    comics = ModelComics(null, null, emptyList(), null),
+    series = ModelSeries(null, null, emptyList(), null),
+    stories = ModelStories(null, null, emptyList(), null),
+    events = ModelEvents(null, null, emptyList(), null),
+    urls = listOf(
+        ModelUrl("tipo1", "https://ejemplo1.com"),
+        ModelUrl("tipo2", "https://ejemplo2.com"),
+        ModelUrl("tipo3", "https://ejemplo3.com"),
+    )
+)
+
+val marvelSuperHeroMock3 = ModelResult(
+    id = 1,
+    name = "Baby Yoda",
+    description = "Ante vocent suscipit disputationi persecuti noluisse. Dolorem congue dolores finibus ipsum option. Iusto aliquip ligula omittantur purus comprehensam platonem rhoncus.",
+    modified = "",
+    thumbnail = ModelThumbnail(
+        ".jpg",
+        "https://i0.wp.com/imgs.hipertextual.com/wp-content/uploads/2020/01/hipertextual-es-figura-baby-yoda-mas-real-que-podras-comprar-2020062519.jpeg?fit=1920%2C1080&quality=50&strip=all&ssl=1"
+    ),
+    resourceURI = "",
+    comics = ModelComics(null, null, emptyList(), null),
+    series = ModelSeries(null, null, emptyList(), null),
+    stories = ModelStories(null, null, emptyList(), null),
+    events = ModelEvents(null, null, emptyList(), null),
+    urls = listOf(
+        ModelUrl("tipo1", "https://ejemplo1.com"),
+        ModelUrl("tipo2", "https://ejemplo2.com"),
+        ModelUrl("tipo3", "https://ejemplo3.com"),
+    )
+)
+
+var marvelSuperHeroesMock = listOf(
+    marvelSuperHeroMock1,
+    marvelSuperHeroMock2,
+    marvelSuperHeroMock3,
+)
