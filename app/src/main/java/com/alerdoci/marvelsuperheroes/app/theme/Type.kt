@@ -8,49 +8,74 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.sp
 import com.alerdoci.marvelsuperheroes.R
 
-// Set of Material typography styles to start with
-val marvelTypography = Typography(
-    bodyLarge = TextStyle(
-        fontFamily = FontFamily.Default,
-        fontWeight = FontWeight.Normal,
-        fontSize = 14.sp,
-        lineHeight = 20.sp,
-        letterSpacing = 0.5.sp
-    )
+val RocGrotesk = FontFamily(
+    Font(R.font.roc_grotesk_regular, FontWeight.Normal),
+    Font(R.font.roc_grotesk_medium, FontWeight.Medium),
+    Font(R.font.roc_grotesk_bold, FontWeight.Bold),
+    Font(R.font.roc_grotesk_thin, FontWeight.Thin),
+    Font(R.font.roc_grotesk_light, FontWeight.Light)
 )
-val montserratFont = FontFamily(
-    fonts = listOf(
-        Font(
-            resId = R.font.montserrat_bold,
-            weight = FontWeight.Bold
-        ),
-        Font(
-            resId = R.font.montserrat_extra_bold,
-            weight = FontWeight.ExtraBold
-        ),
-        Font(
-            resId = R.font.montserrat_extra_light,
-            weight = FontWeight.ExtraLight
-        ),
-        Font(
-            resId = R.font.montserrat_light,
-            weight = FontWeight.Light
-        ),
-        Font(
-            resId = R.font.montserrat_medium,
-            weight = FontWeight.Medium
-        ),
-        Font(
-            resId = R.font.montserrat_regular,
-            weight = FontWeight.Normal
-        ),
-        Font(
-            resId = R.font.montserrat_semi_bold,
-            weight = FontWeight.SemiBold
-        ),
-        Font(
-            resId = R.font.montserrat_thin,
-            weight = FontWeight.Thin
-        ),
-    )
+
+// Set of Material typography styles to start with
+val Typography = Typography(
+    displayLarge = TextStyle(
+        fontFamily = RocGrotesk,
+        fontWeight = FontWeight.Medium,
+        fontSize = 28.sp
+    ),
+    displayMedium = TextStyle(
+        fontFamily = RocGrotesk,
+        fontWeight = FontWeight.Medium,
+        fontSize = 24.sp
+    ),
+    displaySmall = TextStyle(
+        fontFamily = RocGrotesk,
+        fontWeight = FontWeight.Medium,
+        fontSize = 22.sp
+    ),
+    headlineLarge = TextStyle(
+        fontFamily = RocGrotesk,
+        fontWeight = FontWeight.Medium,
+        fontSize = 14.sp
+    ),
+    headlineMedium = TextStyle(
+        fontFamily = RocGrotesk,
+        fontWeight = FontWeight.Normal,
+        fontSize = 10.sp
+    ),
+    bodyLarge = TextStyle(
+        fontFamily = RocGrotesk,
+        fontWeight = FontWeight.Normal,
+        fontSize = 14.sp
+    ),
+    bodyMedium = TextStyle(
+        fontFamily = RocGrotesk,
+        fontWeight = FontWeight.Normal,
+        fontSize = 12.sp
+    ),
+    bodySmall = TextStyle(
+        fontFamily = RocGrotesk,
+        fontWeight = FontWeight.Normal,
+        fontSize = 8.sp
+    ),
+    titleMedium = TextStyle(
+        fontFamily = RocGrotesk,
+        fontWeight = FontWeight.Normal,
+        fontSize = 18.sp
+    ),
+    titleSmall = TextStyle(
+        fontFamily = RocGrotesk,
+        fontWeight = FontWeight.Medium,
+        fontSize = 16.sp
+    ),
+    labelLarge = TextStyle(
+        fontFamily = RocGrotesk,
+        fontWeight = FontWeight.Medium,
+        fontSize = 18.sp
+    ),
+    labelMedium = TextStyle(
+        fontFamily = RocGrotesk,
+        fontWeight = FontWeight.Medium,
+        fontSize = 14.sp
+    ),
 )

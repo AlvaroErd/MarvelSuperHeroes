@@ -15,15 +15,12 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.TextStyle
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.alerdoci.marvelsuperheroes.R
 import com.alerdoci.marvelsuperheroes.app.components.LoadGif
-import com.alerdoci.marvelsuperheroes.app.theme.montserratFont
 
 @Composable
 fun ErrorScreen() {
@@ -50,19 +47,15 @@ fun ErrorScreen() {
                 text = stringResource(R.string.error),
                 textAlign = TextAlign.Center,
                 fontSize = 20.sp,
-                style = TextStyle(
-                    fontWeight = FontWeight.Bold,
-                    fontFamily = montserratFont,
-                    color = MaterialTheme.colorScheme.error
-                ),
+                style = MaterialTheme.typography.titleLarge,
+                color = MaterialTheme.colorScheme.error,
             )
 
             Spacer(Modifier.height(5.dp))
 
             Text(
                 text = stringResource(R.string.try_reload),
-                style = MaterialTheme.typography.titleSmall,
-                fontFamily = montserratFont,
+                style = MaterialTheme.typography.bodyMedium,
             )
 
         }

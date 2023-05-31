@@ -97,7 +97,7 @@ fun MarvelSuperHeroesTheme(
         MaterialTheme(
             colorScheme = colorScheme,
             shapes = Shapes,
-            typography = marvelTypography,
+            typography = Typography,
             content = content
         )
     }
