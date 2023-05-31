@@ -2,18 +2,26 @@ package com.alerdoci.marvelsuperheroes.app.screens.home.composable
 
 import android.content.res.Configuration
 import android.widget.Toast
-import androidx.compose.animation.ExperimentalAnimationApi
+import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
+import androidx.compose.foundation.basicMarquee
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.shape.CutCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Close
 import androidx.compose.material.icons.filled.Search
+import androidx.compose.material3.Divider
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -30,23 +38,34 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.alpha
+import androidx.compose.ui.draw.blur
+import androidx.compose.ui.draw.clip
+import androidx.compose.ui.draw.drawBehind
+import androidx.compose.ui.draw.rotate
+import androidx.compose.ui.geometry.Offset
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavHostController
-import androidx.navigation.compose.rememberNavController
+import coil.compose.AsyncImage
 import com.airbnb.lottie.compose.LottieAnimation
 import com.airbnb.lottie.compose.LottieCompositionSpec
 import com.airbnb.lottie.compose.rememberLottieComposition
 import com.alerdoci.marvelsuperheroes.R
 import com.alerdoci.marvelsuperheroes.app.components.DiagonalDivider
 import com.alerdoci.marvelsuperheroes.app.screens.home.viewmodel.HomeViewModel
+import com.alerdoci.marvelsuperheroes.app.screens.home.viewmodel.marvelSuperHeroMock1
 import com.alerdoci.marvelsuperheroes.app.theme.red_800
+import com.alerdoci.marvelsuperheroes.domain.models.features.superheroes.ModelResult
 
-@OptIn(ExperimentalMaterial3Api::class, ExperimentalAnimationApi::class)
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun HomeScreen(
     navController: NavHostController,
@@ -173,17 +192,242 @@ fun HomeScreen(
                         .padding(14.dp)
                 )
                 {
-                    Text(text = "Surface")
+                    SuperheroItem(superHero = marvelSuperHeroMock1, onItemClick = {})
+                }
+            }
+            Box(
+                contentAlignment = Alignment.BottomCenter,
+                modifier = Modifier
+                    .fillMaxSize()
+
+            ) {
+                Box(
+                    modifier = Modifier
+                        .height(40.dp)
+                        .background(red_800),
+                ) {
+                    DiagonalDivider(
+                        modifier = Modifier
+                            .fillMaxSize()
+                            .rotate(180f)
+                            .background(MaterialTheme.colorScheme.background),
+                    )
                 }
             }
         }
     }
 }
 
+@OptIn(ExperimentalFoundationApi::class)
+@Composable
+fun SuperheroItem(
+    superHero: ModelResult,
+    modifier: Modifier = Modifier,
+    onItemClick: (superHeroId: Int) -> Unit
+) {
+    Box(
+        modifier = Modifier
+            .fillMaxWidth()
+            .height(150.dp)
+            .clip(CutCornerShape(topStart = 20.dp, bottomEnd = 20.dp))
+            .background(MaterialTheme.colorScheme.surfaceVariant)
+    ) {
+        Row(
+            modifier = Modifier
+                .fillMaxSize()
+                .clip(CutCornerShape(topStart = 20.dp, bottomEnd = 20.dp))
+//                .shadow(10.dp)
+        ) {
+//            val imageLoader = ImageLoader(LocalContext.current)
+//            val imageRequest = ImageRequest.Builder(LocalContext.current).data(superHero.thumbnail?.path + superHero.thumbnail?.extension)
+//                .crossfade(true)
+//                .build()
+//            val painter = rememberAsyncImagePainter(model = imageRequest)
+//            val painterState = painter.state
+//            Image(
+//                painter = painter,
+//                contentDescription = superHero.name,
+//                modifier = Modifier
+//                    .size(120.dp)
+//                    .align(Alignment.CenterVertically)
+//            )
+//            if (painterState is AsyncImagePainter.State.Loading) {
+//                Box(contentAlignment = Alignment.Center) {
+//                    Image(
+//                        painter = painterResource(id = R.drawable.groot_placeholder),
+//                        contentDescription = "",
+//                        modifier = Modifier.fillMaxSize()
+//                    )
+//                }
+//            }
+            Box(
+                modifier = Modifier.fillMaxHeight()
+            ) {
+                AsyncImage(
+                    model = superHero.thumbnail?.path + superHero.thumbnail?.extension,
+                    contentDescription = "",
+                    placeholder = painterResource(R.drawable.groot_placeholder),
+                    contentScale = ContentScale.Crop,
+                    modifier = Modifier
+                        .blur(10.dp)
+                        .aspectRatio(1 / 1f),
+                )
+
+                AsyncImage(
+                    model = superHero.thumbnail?.path + superHero.thumbnail?.extension,
+                    contentDescription = "",
+                    placeholder = painterResource(R.drawable.groot_placeholder),
+                    contentScale = ContentScale.Crop,
+                    modifier = Modifier
+                        .padding(all = 15.dp)
+                        .clip(MaterialTheme.shapes.large)
+                        .clickable {
+                            superHero.id?.let { onItemClick(it) }
+                        }
+                        .aspectRatio(1 / 1f),
+                )
+            }
+            Column(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(10.dp),
+                Arrangement.Center
+            ) {
+                Text(
+                    text = "Baby Groot",
+                    style = MaterialTheme.typography.displaySmall,
+                    modifier = Modifier
+                        .padding(bottom = 8.dp)
+                        .drawBehind {
+                            val strokeWidthPx = 2.dp.toPx()
+                            val verticalOffset = size.height - 1.sp.toPx()
+                            drawLine(
+                                color = red_800,
+                                strokeWidth = strokeWidthPx,
+                                start = Offset(0f, verticalOffset),
+                                end = Offset(size.width, verticalOffset)
+                            )
+                        }
+                )
+                Text(
+                    text = "Description: I am Groot, I am Groot, I am Groot, I am Groot, I am Groot, I am Groot, I am Groot, I am Groot",
+                    style = MaterialTheme.typography.bodyLarge,
+                    modifier = Modifier.basicMarquee(
+                        iterations = Int.MAX_VALUE,
+                        delayMillis = 0,
+                        initialDelayMillis = 3000
+                    )
+                )
+                Row(
+                    modifier = Modifier
+                        .padding(horizontal = 6.dp)
+                        .fillMaxWidth(),
+                    horizontalArrangement = Arrangement.SpaceBetween,
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    Column(
+                        modifier = Modifier.padding(top = 6.dp),
+                        horizontalAlignment = Alignment.CenterHorizontally,
+                        verticalArrangement = Arrangement.Center
+
+                    ) {
+                        Icon(
+                            painterResource(id = R.drawable.ic_events),
+                            contentDescription = "",
+                            tint = MaterialTheme.colorScheme.onBackground,
+                            modifier = Modifier
+                                .height(35.dp)
+                                .padding(vertical = 6.dp)
+                        )
+                        Text(
+                            text = "23 Series",
+                            style = MaterialTheme.typography.bodyMedium,
+                        )
+                    }
+                    Divider(
+                        modifier = Modifier
+                            .fillMaxHeight()
+                            .padding(vertical = 30.dp)
+                            .width(1.dp)
+                            .background(MaterialTheme.colorScheme.onBackground)
+                            .alpha(0.6f)
+                    )
+                    Column(
+                        modifier = Modifier.padding(top = 6.dp),
+                        horizontalAlignment = Alignment.CenterHorizontally,
+                        verticalArrangement = Arrangement.Center
+                    ) {
+                        Icon(
+                            painterResource(id = R.drawable.ic_comic),
+                            contentDescription = "",
+                            tint = MaterialTheme.colorScheme.onBackground,
+                            modifier = Modifier
+                                .height(35.dp)
+                                .padding(vertical = 6.dp)
+                        )
+                        Text(
+                            text = "12 Comics",
+                            style = MaterialTheme.typography.bodyMedium,
+                        )
+                    }
+                    Divider(
+                        modifier = Modifier
+                            .fillMaxHeight()
+                            .padding(vertical = 30.dp)
+                            .width(1.dp)
+                            .background(MaterialTheme.colorScheme.onBackground)
+                            .alpha(0.6f)
+                    )
+                    Column(
+                        modifier = Modifier.padding(top = 6.dp),
+                        horizontalAlignment = Alignment.CenterHorizontally,
+                        verticalArrangement = Arrangement.Center
+                    ) {
+                        Icon(
+                            painterResource(id = R.drawable.ic_serie),
+                            contentDescription = "",
+                            tint = MaterialTheme.colorScheme.onBackground,
+                            modifier = Modifier
+                                .height(35.dp)
+                                .padding(vertical = 6.dp),
+                        )
+                        Text(
+                            text = "7 Series",
+                            style = MaterialTheme.typography.bodyMedium,
+                        )
+                    }
+                }
+            }
+        }
+    }
+}
+
+
+//}
+//LazyColumn(
+//verticalArrangement = Arrangement.spacedBy(12.dp),
+//) {
+//    itemsIndexed(itemsList) { index, item ->
+//
+//        Text("Item at index $index is $item")
+//
+//        if (index < itemsList.lastIndex)
+//            Divider(color = Color.Black, thickness = 1.dp)
+//    }
+//}
+
+//
+//@Preview("Light Theme", showBackground = true)
+//@Preview("Dark Theme", uiMode = Configuration.UI_MODE_NIGHT_YES, showBackground = true)
+//@Composable
+//fun HomeScreenPreview() {
+//    val navController = rememberNavController()
+//    HomeScreen(navController = navController)
+//}
+
 @Preview("Light Theme", showBackground = true)
 @Preview("Dark Theme", uiMode = Configuration.UI_MODE_NIGHT_YES, showBackground = true)
 @Composable
-fun HomeScreenPreview() {
-    val navController = rememberNavController()
-    HomeScreen(navController = navController)
+fun SuperheroItemPreview() {
+    SuperheroItem(superHero = marvelSuperHeroMock1, onItemClick = {})
 }
