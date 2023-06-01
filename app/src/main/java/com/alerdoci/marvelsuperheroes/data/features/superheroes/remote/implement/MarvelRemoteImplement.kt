@@ -20,17 +20,28 @@ open class MarvelRepositoryImplement @Inject constructor(
         offset: Int, limit: Int
     ): Flow<List<ModelResult>> = flow {
         val timestamp = System.currentTimeMillis().toString()
-        val superheroes = remoteService.getMarvelSuperHeroes(
-            BuildConfig.API_KEY_PUBLIC,
-            timestamp,
-            NetworkModule.getHash(timestamp),
-            offset = offset,
-            limit = limit
-        )
-
-        if (superheroes.isSuccessful) {
-            emit(superheroes.body()?.data?.results?.map { superhero -> superhero.toDomain() }
-                ?: emptyList())
+        try {
+            val superheroes = remoteService.getMarvelSuperHeroes(
+                BuildConfig.API_KEY_PUBLIC,
+                timestamp,
+                NetworkModule.getHash(timestamp),
+                offset = offset,
+                limit = limit
+            )
+            if (superheroes.isSuccessful) {
+                val results = superheroes.body()?.data?.results
+                if (!results.isNullOrEmpty()) {
+                    emit(results.map { superhero -> superhero.toDomain() })
+                } else {
+                    emit(emptyList())
+                }
+            } else {
+                emit(emptyList())
+            }
+        } catch (e: Exception) {
+            emit(
+                emptyList(),
+            )
         }
     }
 }
