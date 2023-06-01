@@ -332,7 +332,7 @@ fun SuperheroItem(
 
                     ) {
                         Icon(
-                            painterResource(id = R.drawable.ic_events),
+                            painterResource(id = R.drawable.ic_event),
                             contentDescription = "",
                             tint = MaterialTheme.colorScheme.onBackground,
                             modifier = Modifier
@@ -340,7 +340,7 @@ fun SuperheroItem(
                                 .padding(vertical = 6.dp)
                         )
                         Text(
-                            text = "23 Series",
+                            text = "23 Events",
                             style = MaterialTheme.typography.bodyMedium,
                         )
                     }
