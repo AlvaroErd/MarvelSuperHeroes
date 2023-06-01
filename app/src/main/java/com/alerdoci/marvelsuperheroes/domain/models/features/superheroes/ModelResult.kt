@@ -10,6 +10,6 @@ data class ModelResult(
     val resourceURI: String?,
     val series: ModelSeries?,
     val stories: ModelStories?,
-    val thumbnail: ModelThumbnail?,
-    val urls: List<ModelUrl>?
+    val urls: List<ModelUrl>?,
+    val imageFinal: String?
 )

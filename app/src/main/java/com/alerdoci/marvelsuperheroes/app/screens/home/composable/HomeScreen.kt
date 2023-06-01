@@ -17,6 +17,8 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.CutCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Close
@@ -59,9 +61,13 @@ import com.airbnb.lottie.compose.LottieAnimation
 import com.airbnb.lottie.compose.LottieCompositionSpec
 import com.airbnb.lottie.compose.rememberLottieComposition
 import com.alerdoci.marvelsuperheroes.R
+import com.alerdoci.marvelsuperheroes.app.common.states.ResourceState
+import com.alerdoci.marvelsuperheroes.app.common.states.error.ErrorScreen
+import com.alerdoci.marvelsuperheroes.app.common.states.loading.LoadingScreen
 import com.alerdoci.marvelsuperheroes.app.components.DiagonalDivider
 import com.alerdoci.marvelsuperheroes.app.screens.home.viewmodel.HomeViewModel
 import com.alerdoci.marvelsuperheroes.app.screens.home.viewmodel.marvelSuperHeroMock1
+import com.alerdoci.marvelsuperheroes.app.theme.grey_500
 import com.alerdoci.marvelsuperheroes.app.theme.red_800
 import com.alerdoci.marvelsuperheroes.domain.models.features.superheroes.ModelResult
 
@@ -69,8 +75,8 @@ import com.alerdoci.marvelsuperheroes.domain.models.features.superheroes.ModelRe
 @Composable
 fun HomeScreen(
     navController: NavHostController,
-//    onItemClick: (String) -> Unit),
-    viewModel: HomeViewModel = hiltViewModel()
+    viewModel: HomeViewModel = hiltViewModel(),
+//    onItemClick: (superHeroId: Int) -> Unit,
 ) {
     Surface(
         modifier = Modifier.fillMaxSize(),
@@ -192,14 +198,56 @@ fun HomeScreen(
                         .padding(14.dp)
                 )
                 {
-                    SuperheroItem(superHero = marvelSuperHeroMock1, onItemClick = {})
+                    val superHeroListState by viewModel.superHeroes.collectAsStateWithLifecycle()
+                    var items by remember { mutableStateOf<List<ModelResult>>(emptyList()) }
+
+                    when (superHeroListState) {
+                        is ResourceState.Loading -> Column(
+                            modifier = Modifier.fillMaxSize(),
+                            horizontalAlignment = Alignment.CenterHorizontally,
+                            verticalArrangement = Arrangement.Center
+                        ) {
+                            LoadingScreen()
+                        }
+
+                        is ResourceState.Error -> Box(
+                            contentAlignment = Alignment.Center,
+                            modifier = Modifier.fillMaxSize()
+                        ) {
+                            ErrorScreen()
+                        }
+
+                        is ResourceState.Success -> items =
+                            (superHeroListState as ResourceState.Success).data as List<ModelResult>
+
+                        else -> {}
+                    }
+                    LazyColumn(
+                        verticalArrangement = Arrangement.spacedBy(12.dp),
+                        modifier = Modifier
+                            .fillMaxWidth(),
+                    ) {
+                        items(items) { superHeroItem ->
+
+                            println("superHeroItem: ${superHeroItem.name}")
+                            SuperheroItem(superHero = superHeroItem, onItemClick = { })
+
+                            if (items.indexOf(superHeroItem) < items.lastIndex)
+                                Divider(
+                                    color = grey_500,
+                                    thickness = 1.dp,
+                                    modifier = Modifier
+                                        .padding(top = 12.dp)
+                                        .alpha(0.3f)
+                                )
+                        }
+                    }
                 }
             }
             Box(
                 contentAlignment = Alignment.BottomCenter,
                 modifier = Modifier
                     .fillMaxSize()
-
             ) {
                 Box(
                     modifier = Modifier
@@ -264,19 +312,19 @@ fun SuperheroItem(
                 modifier = Modifier.fillMaxHeight()
             ) {
                 AsyncImage(
-                    model = superHero.thumbnail?.path + superHero.thumbnail?.extension,
+                    model = superHero.imageFinal,
                     contentDescription = "",
-                    placeholder = painterResource(R.drawable.groot_placeholder),
+//                    placeholder = painterResource(R.drawable.groot_placeholder),
                     contentScale = ContentScale.Crop,
                     modifier = Modifier
-                        .blur(10.dp)
+                        .blur(20.dp)
                         .aspectRatio(1 / 1f),
                 )
-
                 AsyncImage(
-                    model = superHero.thumbnail?.path + superHero.thumbnail?.extension,
+
+                    model = superHero.imageFinal,
                     contentDescription = "",
-                    placeholder = painterResource(R.drawable.groot_placeholder),
+//                    placeholder = painterResource(R.drawable.groot_placeholder),
                     contentScale = ContentScale.Crop,
                     modifier = Modifier
                         .padding(all = 15.dp)
@@ -294,7 +342,8 @@ fun SuperheroItem(
                 Arrangement.Center
             ) {
                 Text(
-                    text = "Baby Groot",
+                    text = superHero.name.orEmpty(),
+                    maxLines = 2,
                     style = MaterialTheme.typography.displaySmall,
                     modifier = Modifier
                         .padding(bottom = 8.dp)
@@ -310,7 +359,7 @@ fun SuperheroItem(
                         }
                 )
                 Text(
-                    text = "Description: I am Groot, I am Groot, I am Groot, I am Groot, I am Groot, I am Groot, I am Groot, I am Groot",
+                    text = if (superHero.description == "") "Description not available" else superHero.description.orEmpty(),
                     style = MaterialTheme.typography.bodyLarge,
                     modifier = Modifier.basicMarquee(
                         iterations = Int.MAX_VALUE,
@@ -340,7 +389,7 @@ fun SuperheroItem(
                                 .padding(vertical = 6.dp)
                         )
                         Text(
-                            text = "23 Events",
+                            text = "${superHero.events?.available}" + " Events",
                             style = MaterialTheme.typography.bodyMedium,
                         )
                     }
@@ -366,7 +415,7 @@ fun SuperheroItem(
                                 .padding(vertical = 6.dp)
                         )
                         Text(
-                            text = "12 Comics",
+                            text = "${superHero.comics?.available}" + " Comics",
                             style = MaterialTheme.typography.bodyMedium,
                         )
                     }
@@ -392,7 +441,7 @@ fun SuperheroItem(
                                 .padding(vertical = 6.dp),
                         )
                         Text(
-                            text = "7 Series",
+                            text = "${superHero.series?.available}" + " Series",
                             style = MaterialTheme.typography.bodyMedium,
                         )
                     }
@@ -401,20 +450,6 @@ fun SuperheroItem(
         }
     }
 }
-
-
-//}
-//LazyColumn(
-//verticalArrangement = Arrangement.spacedBy(12.dp),
-//) {
-//    itemsIndexed(itemsList) { index, item ->
-//
-//        Text("Item at index $index is $item")
-//
-//        if (index < itemsList.lastIndex)
-//            Divider(color = Color.Black, thickness = 1.dp)
-//    }
-//}
 
 //
 //@Preview("Light Theme", showBackground = true)

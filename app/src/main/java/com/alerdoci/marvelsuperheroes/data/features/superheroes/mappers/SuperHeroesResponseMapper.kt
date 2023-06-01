@@ -56,8 +56,11 @@ fun RemoteResult.toDomain(): ModelResult = ModelResult(
     resourceURI = this.resourceURI,
     series = this.series?.toDomain(),
     stories = this.stories?.toDomain(),
-    thumbnail = this.thumbnail?.toDomain(),
     urls = this.urls?.map { it.toDomain() },
+    imageFinal = (this.thumbnail?.path + "/standard_fantastic" + "." + this.thumbnail?.extension).replace(
+        "http",
+        "https"
+    )
 )
 
 fun RemoteComics.toDomain(): ModelComics = ModelComics(
