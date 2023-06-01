@@ -17,41 +17,40 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import com.alerdoci.marvelsuperheroes.R
 import com.alerdoci.marvelsuperheroes.app.components.LoadGif
+import com.alerdoci.marvelsuperheroes.app.theme.dimens
+import com.alerdoci.marvelsuperheroes.app.theme.spacing
 
 @Composable
 fun ErrorScreen() {
     Box(
         contentAlignment = Alignment.Center,
         modifier = Modifier
-            .padding(10.dp)
+            .padding(MaterialTheme.spacing.small)
             .fillMaxSize()
     ) {
         Column(
             horizontalAlignment = Alignment.CenterHorizontally,
-            modifier = Modifier.padding(horizontal = 20.dp)
+            modifier = Modifier.padding(horizontal = MaterialTheme.spacing.extraMedium)
         ) {
             LoadGif(
                 img = R.drawable.error_awkward_gif,
                 modifier = Modifier
-                    .size(200.dp)
+                    .size(MaterialTheme.dimens.custom200)
                     .clip(MaterialTheme.shapes.large)
             )
 
-            Spacer(Modifier.height(20.dp))
+            Spacer(Modifier.height(MaterialTheme.spacing.extraMedium))
 
             Text(
                 text = stringResource(R.string.error),
                 textAlign = TextAlign.Center,
-                fontSize = 20.sp,
                 style = MaterialTheme.typography.titleLarge,
                 color = MaterialTheme.colorScheme.error,
             )
 
-            Spacer(Modifier.height(5.dp))
+            Spacer(Modifier.height(MaterialTheme.spacing.semiSmall))
 
             Text(
                 text = stringResource(R.string.try_reload),

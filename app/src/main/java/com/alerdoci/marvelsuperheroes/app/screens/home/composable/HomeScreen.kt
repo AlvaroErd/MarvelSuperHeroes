@@ -16,6 +16,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
@@ -23,6 +24,7 @@ import androidx.compose.foundation.shape.CutCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Close
 import androidx.compose.material.icons.filled.Search
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Divider
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
@@ -56,7 +58,7 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavHostController
-import coil.compose.AsyncImage
+import coil.compose.SubcomposeAsyncImage
 import com.airbnb.lottie.compose.LottieAnimation
 import com.airbnb.lottie.compose.LottieCompositionSpec
 import com.airbnb.lottie.compose.rememberLottieComposition
@@ -67,9 +69,11 @@ import com.alerdoci.marvelsuperheroes.app.common.states.loading.LoadingScreen
 import com.alerdoci.marvelsuperheroes.app.components.DiagonalDivider
 import com.alerdoci.marvelsuperheroes.app.screens.home.viewmodel.HomeViewModel
 import com.alerdoci.marvelsuperheroes.app.screens.home.viewmodel.marvelSuperHeroMock1
+import com.alerdoci.marvelsuperheroes.app.theme.dimens
 import com.alerdoci.marvelsuperheroes.app.theme.grey_500
 import com.alerdoci.marvelsuperheroes.app.theme.orange_A200
 import com.alerdoci.marvelsuperheroes.app.theme.red_800
+import com.alerdoci.marvelsuperheroes.app.theme.spacing
 import com.alerdoci.marvelsuperheroes.domain.models.features.superheroes.ModelResult
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -100,13 +104,13 @@ fun HomeScreen(
                         .fillMaxWidth()
                         .padding(paddingValues = paddingValues)
                         .background(red_800)
-                        .padding(top = 20.dp),
+                        .padding(top = MaterialTheme.spacing.extraMedium),
                     Alignment.TopCenter,
                 ) {
                     LottieAnimation(
                         composition = marvelTitle,
                         modifier = Modifier
-                            .height(50.dp)
+                            .height(MaterialTheme.dimens.custom50)
                     )
                 }
                 Column(
@@ -114,7 +118,10 @@ fun HomeScreen(
                         .fillMaxWidth()
                         .padding(paddingValues = paddingValues)
                         .background(red_800)
-                        .padding(top = 10.dp, bottom = 16.dp),
+                        .padding(
+                            top = MaterialTheme.spacing.extraMedium,
+                            bottom = MaterialTheme.spacing.medium
+                        ),
                     horizontalAlignment = Alignment.CenterHorizontally,
                 ) {
                     SearchBar(
@@ -188,7 +195,7 @@ fun HomeScreen(
                 Column(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .height(40.dp)
+                        .height(MaterialTheme.dimens.custom40)
                 )
                 {
                     DiagonalDivider(modifier = Modifier.weight(1f))
@@ -196,7 +203,7 @@ fun HomeScreen(
                 Column(
                     modifier = Modifier
                         .fillMaxSize()
-                        .padding(14.dp)
+                        .padding(MaterialTheme.spacing.xMedium)
                 )
                 {
                     val superHeroListState by viewModel.superHeroes.collectAsStateWithLifecycle()
@@ -224,7 +231,7 @@ fun HomeScreen(
                         else -> {}
                     }
                     LazyColumn(
-                        verticalArrangement = Arrangement.spacedBy(12.dp),
+                        verticalArrangement = Arrangement.spacedBy(MaterialTheme.spacing.tiny),
                         modifier = Modifier
                             .fillMaxWidth(),
                     ) {
@@ -236,9 +243,9 @@ fun HomeScreen(
                             if (items.indexOf(superHeroItem) < items.lastIndex)
                                 Divider(
                                     color = grey_500,
-                                    thickness = 1.dp,
+                                    thickness = MaterialTheme.dimens.custom1,
                                     modifier = Modifier
-                                        .padding(top = 12.dp)
+                                        .padding(top = MaterialTheme.spacing.tiny)
                                         .alpha(0.3f)
                                 )
                         }
@@ -252,7 +259,7 @@ fun HomeScreen(
             ) {
                 Box(
                     modifier = Modifier
-                        .height(40.dp)
+                        .height(MaterialTheme.dimens.custom40)
                         .background(red_800),
                 ) {
                     DiagonalDivider(
@@ -277,8 +284,13 @@ fun SuperheroItem(
     Box(
         modifier = Modifier
             .fillMaxWidth()
-            .height(150.dp)
-            .clip(CutCornerShape(topStart = 20.dp, bottomEnd = 20.dp))
+            .height(MaterialTheme.dimens.custom150)
+            .clip(
+                CutCornerShape(
+                    topStart = MaterialTheme.dimens.custom20,
+                    MaterialTheme.dimens.custom20
+                )
+            )
             .background(MaterialTheme.colorScheme.surfaceVariant)
             .clickable {
                 superHero.id?.let { onItemClick(it) }
@@ -287,7 +299,6 @@ fun SuperheroItem(
         Row(
             modifier = Modifier
                 .fillMaxSize()
-                .clip(CutCornerShape(topStart = 20.dp, bottomEnd = 20.dp))
 //                .shadow(10.dp)
         ) {
 //            val imageLoader = ImageLoader(LocalContext.current)
@@ -315,39 +326,44 @@ fun SuperheroItem(
             Box(
                 modifier = Modifier.fillMaxHeight()
             ) {
-                AsyncImage(
+                SubcomposeAsyncImage(
                     model = superHero.imageFinal,
                     contentDescription = stringResource(
                         id = R.string.photo_content_description,
                         superHero.name.orEmpty()
                     ),
-//                    placeholder = painterResource(R.drawable.groot_placeholder),
+                    loading = {
+                        CircularProgressIndicator(
+                            color = red_800,
+                            modifier = Modifier.size(MaterialTheme.dimens.custom30)
+                        )
+                    },
                     contentScale = ContentScale.Crop,
                     modifier = Modifier
-                        .blur(20.dp)
+                        .blur(MaterialTheme.dimens.custom20)
                         .aspectRatio(1 / 1f),
                 )
-                AsyncImage(
+                SubcomposeAsyncImage(
                     model = superHero.imageFinal,
                     contentDescription = stringResource(
                         id = R.string.photo_content_description,
                         superHero.name.orEmpty()
                     ),
-//                    placeholder = painterResource(R.drawable.groot_placeholder),
+                    loading = { CircularProgressIndicator(color = red_800) },
                     contentScale = ContentScale.Crop,
                     modifier = Modifier
-                        .padding(all = 15.dp)
-                        .clip(MaterialTheme.shapes.large)
-                        .clickable {
-                            superHero.id?.let { onItemClick(it) }
-                        }
+                        .padding(all = MaterialTheme.spacing.xMedium)
+                        .clip(CutCornerShape(topStart = MaterialTheme.spacing.extraMedium))
+//                        .clickable {
+//                            superHero.id?.let { onItemClick(it) }
+//                        }
                         .aspectRatio(1 / 1f),
                 )
             }
             Column(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(10.dp),
+                    .padding(MaterialTheme.dimens.custom10),
                 Arrangement.Center
             ) {
                 Text(
@@ -355,13 +371,12 @@ fun SuperheroItem(
                     maxLines = 2,
                     style = MaterialTheme.typography.displaySmall,
                     modifier = Modifier
-                        .padding(bottom = 8.dp)
+                        .padding(bottom = MaterialTheme.spacing.small)
                         .drawBehind {
-                            val strokeWidthPx = 1.dp.toPx()
                             val verticalOffset = size.height
                             drawLine(
                                 color = orange_A200,
-                                strokeWidth = strokeWidthPx,
+                                strokeWidth = 1.dp.toPx(),
                                 start = Offset(0f, verticalOffset),
                                 end = Offset(size.width, verticalOffset)
                             )
@@ -378,13 +393,13 @@ fun SuperheroItem(
                 )
                 Row(
                     modifier = Modifier
-                        .padding(horizontal = 6.dp)
+                        .padding(horizontal = MaterialTheme.spacing.semiSmall)
                         .fillMaxWidth(),
                     horizontalArrangement = Arrangement.SpaceBetween,
                     verticalAlignment = Alignment.CenterVertically
                 ) {
                     Column(
-                        modifier = Modifier.padding(top = 6.dp),
+                        modifier = Modifier.padding(top = MaterialTheme.spacing.semiSmall),
                         horizontalAlignment = Alignment.CenterHorizontally,
                         verticalArrangement = Arrangement.Center
 
@@ -394,8 +409,8 @@ fun SuperheroItem(
                             contentDescription = stringResource(R.string.events_icon),
                             tint = MaterialTheme.colorScheme.onBackground,
                             modifier = Modifier
-                                .height(35.dp)
-                                .padding(vertical = 6.dp)
+                                .height(MaterialTheme.dimens.custom36)
+                                .padding(vertical = MaterialTheme.spacing.semiSmall)
                         )
                         Text(
                             text = pluralStringResource(
@@ -409,13 +424,13 @@ fun SuperheroItem(
                     Divider(
                         modifier = Modifier
                             .fillMaxHeight()
-                            .padding(vertical = 30.dp)
-                            .width(1.dp)
+                            .padding(vertical = MaterialTheme.dimens.custom30)
+                            .width(MaterialTheme.dimens.custom1)
                             .background(MaterialTheme.colorScheme.onBackground)
                             .alpha(0.6f)
                     )
                     Column(
-                        modifier = Modifier.padding(top = 6.dp),
+                        modifier = Modifier.padding(top = MaterialTheme.spacing.semiSmall),
                         horizontalAlignment = Alignment.CenterHorizontally,
                         verticalArrangement = Arrangement.Center
                     ) {
@@ -424,8 +439,8 @@ fun SuperheroItem(
                             contentDescription = stringResource(R.string.comic_icon),
                             tint = MaterialTheme.colorScheme.onBackground,
                             modifier = Modifier
-                                .height(35.dp)
-                                .padding(vertical = 6.dp)
+                                .height(MaterialTheme.dimens.custom36)
+                                .padding(vertical = MaterialTheme.spacing.semiSmall)
                         )
                         Text(
                             text = pluralStringResource(
@@ -439,13 +454,13 @@ fun SuperheroItem(
                     Divider(
                         modifier = Modifier
                             .fillMaxHeight()
-                            .padding(vertical = 30.dp)
-                            .width(1.dp)
+                            .padding(vertical = MaterialTheme.dimens.custom30)
+                            .width(MaterialTheme.dimens.custom1)
                             .background(MaterialTheme.colorScheme.onBackground)
                             .alpha(0.6f)
                     )
                     Column(
-                        modifier = Modifier.padding(top = 6.dp),
+                        modifier = Modifier.padding(top = MaterialTheme.spacing.semiSmall),
                         horizontalAlignment = Alignment.CenterHorizontally,
                         verticalArrangement = Arrangement.Center
                     ) {
@@ -454,8 +469,8 @@ fun SuperheroItem(
                             contentDescription = stringResource(R.string.series_icon),
                             tint = MaterialTheme.colorScheme.onBackground,
                             modifier = Modifier
-                                .height(35.dp)
-                                .padding(vertical = 6.dp),
+                                .height(MaterialTheme.dimens.custom36)
+                                .padding(vertical = MaterialTheme.spacing.semiSmall)
                         )
                         Text(
                             text = pluralStringResource(
