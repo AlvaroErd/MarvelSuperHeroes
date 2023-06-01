@@ -49,10 +49,10 @@ import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.pluralStringResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavHostController
@@ -68,6 +68,7 @@ import com.alerdoci.marvelsuperheroes.app.components.DiagonalDivider
 import com.alerdoci.marvelsuperheroes.app.screens.home.viewmodel.HomeViewModel
 import com.alerdoci.marvelsuperheroes.app.screens.home.viewmodel.marvelSuperHeroMock1
 import com.alerdoci.marvelsuperheroes.app.theme.grey_500
+import com.alerdoci.marvelsuperheroes.app.theme.orange_A200
 import com.alerdoci.marvelsuperheroes.app.theme.red_800
 import com.alerdoci.marvelsuperheroes.domain.models.features.superheroes.ModelResult
 
@@ -76,7 +77,7 @@ import com.alerdoci.marvelsuperheroes.domain.models.features.superheroes.ModelRe
 fun HomeScreen(
     navController: NavHostController,
     viewModel: HomeViewModel = hiltViewModel(),
-//    onItemClick: (superHeroId: Int) -> Unit,
+    onItemClick: (String) -> Unit
 ) {
     Surface(
         modifier = Modifier.fillMaxSize(),
@@ -279,6 +280,9 @@ fun SuperheroItem(
             .height(150.dp)
             .clip(CutCornerShape(topStart = 20.dp, bottomEnd = 20.dp))
             .background(MaterialTheme.colorScheme.surfaceVariant)
+            .clickable {
+                superHero.id?.let { onItemClick(it) }
+            },
     ) {
         Row(
             modifier = Modifier
@@ -313,7 +317,10 @@ fun SuperheroItem(
             ) {
                 AsyncImage(
                     model = superHero.imageFinal,
-                    contentDescription = "",
+                    contentDescription = stringResource(
+                        id = R.string.photo_content_description,
+                        superHero.name.orEmpty()
+                    ),
 //                    placeholder = painterResource(R.drawable.groot_placeholder),
                     contentScale = ContentScale.Crop,
                     modifier = Modifier
@@ -321,9 +328,11 @@ fun SuperheroItem(
                         .aspectRatio(1 / 1f),
                 )
                 AsyncImage(
-
                     model = superHero.imageFinal,
-                    contentDescription = "",
+                    contentDescription = stringResource(
+                        id = R.string.photo_content_description,
+                        superHero.name.orEmpty()
+                    ),
 //                    placeholder = painterResource(R.drawable.groot_placeholder),
                     contentScale = ContentScale.Crop,
                     modifier = Modifier
@@ -348,10 +357,10 @@ fun SuperheroItem(
                     modifier = Modifier
                         .padding(bottom = 8.dp)
                         .drawBehind {
-                            val strokeWidthPx = 2.dp.toPx()
-                            val verticalOffset = size.height - 1.sp.toPx()
+                            val strokeWidthPx = 1.dp.toPx()
+                            val verticalOffset = size.height
                             drawLine(
-                                color = red_800,
+                                color = orange_A200,
                                 strokeWidth = strokeWidthPx,
                                 start = Offset(0f, verticalOffset),
                                 end = Offset(size.width, verticalOffset)
@@ -359,7 +368,7 @@ fun SuperheroItem(
                         }
                 )
                 Text(
-                    text = if (superHero.description == "") "Description not available" else superHero.description.orEmpty(),
+                    text = if (superHero.description.isNullOrBlank()) stringResource(R.string.description_not_available) else superHero.description.orEmpty(),
                     style = MaterialTheme.typography.bodyLarge,
                     modifier = Modifier.basicMarquee(
                         iterations = Int.MAX_VALUE,
@@ -382,14 +391,18 @@ fun SuperheroItem(
                     ) {
                         Icon(
                             painterResource(id = R.drawable.ic_event),
-                            contentDescription = "",
+                            contentDescription = stringResource(R.string.events_icon),
                             tint = MaterialTheme.colorScheme.onBackground,
                             modifier = Modifier
                                 .height(35.dp)
                                 .padding(vertical = 6.dp)
                         )
                         Text(
-                            text = "${superHero.events?.available}" + " Events",
+                            text = pluralStringResource(
+                                id = R.plurals.events,
+                                count = superHero.events?.available ?: 1,
+                                superHero.events?.available ?: 1
+                            ),
                             style = MaterialTheme.typography.bodyMedium,
                         )
                     }
@@ -408,14 +421,18 @@ fun SuperheroItem(
                     ) {
                         Icon(
                             painterResource(id = R.drawable.ic_comic),
-                            contentDescription = "",
+                            contentDescription = stringResource(R.string.comic_icon),
                             tint = MaterialTheme.colorScheme.onBackground,
                             modifier = Modifier
                                 .height(35.dp)
                                 .padding(vertical = 6.dp)
                         )
                         Text(
-                            text = "${superHero.comics?.available}" + " Comics",
+                            text = pluralStringResource(
+                                id = R.plurals.comics,
+                                count = superHero.comics?.available ?: 1,
+                                superHero.comics?.available ?: 1
+                            ),
                             style = MaterialTheme.typography.bodyMedium,
                         )
                     }
@@ -434,14 +451,18 @@ fun SuperheroItem(
                     ) {
                         Icon(
                             painterResource(id = R.drawable.ic_serie),
-                            contentDescription = "",
+                            contentDescription = stringResource(R.string.series_icon),
                             tint = MaterialTheme.colorScheme.onBackground,
                             modifier = Modifier
                                 .height(35.dp)
                                 .padding(vertical = 6.dp),
                         )
                         Text(
-                            text = "${superHero.series?.available}" + " Series",
+                            text = pluralStringResource(
+                                id = R.plurals.series,
+                                count = superHero.series?.available ?: 1,
+                                superHero.series?.available ?: 1
+                            ),
                             style = MaterialTheme.typography.bodyMedium,
                         )
                     }
