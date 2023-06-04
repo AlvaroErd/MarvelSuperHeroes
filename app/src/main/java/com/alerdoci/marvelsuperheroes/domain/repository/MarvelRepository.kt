@@ -11,4 +11,10 @@ interface MarvelRepository {
         offset: Int = OFFSET,
         limit: Int = PAGE_SIZE
     ): Flow<List<ModelResult>>
+
+    suspend fun getMarvelSuperHero(
+        superHeroId: Int,
+        offset: Int = OFFSET,
+        limit: Int = PAGE_SIZE
+    ): Flow<List<ModelResult>>
 }
