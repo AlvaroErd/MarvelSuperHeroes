@@ -1,5 +1,7 @@
 package com.alerdoci.marvelsuperheroes.domain.models.features.superheroes
 
+import java.io.Serializable
+
 data class ModelSuperHeroesList(
     val attributionHTML: String?,
     val attributionText: String?,
@@ -8,4 +10,4 @@ data class ModelSuperHeroesList(
     val data: ModelData?,
     val etag: String?,
     val status: String?
-)
+) : Serializable

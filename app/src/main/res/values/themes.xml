@@ -8,7 +8,7 @@
         <item name="android:navigationBarColor">@android:color/transparent</item>
     </style>
 
-    <style name="Theme.MarvelSuperHeroesSplashScreen" parent="Theme.SplashScreen">:
+    <style name="Theme.MarvelSuperHeroesSplashScreen" parent="Theme.SplashScreen">
         <item name="windowSplashScreenBackground">#101010</item>
         <item name="windowSplashScreenAnimatedIcon">@drawable/splash_marvel</item>
         <item name="windowSplashScreenAnimationDuration">5000</item>

@@ -23,17 +23,17 @@ class SuperHeroViewModel @Inject constructor(
     val currentSuperHero: StateFlow<ResourceState<*>>
         get() = _currentSuperHero
 
-    fun loadSuperHero(superHeroId: Int) {
-        _currentSuperHero.update { ResourceState.Loading("") }
-        viewModelScope.launch(Dispatchers.IO) {
+        fun loadSuperHero(superHeroId: Int) {
+            _currentSuperHero.update { ResourceState.Loading("") }
+            viewModelScope.launch(Dispatchers.IO) {
 
-            getMarvelSuperHeroUseCase(superHeroId = superHeroId).collectLatest { superHero ->
-                _currentSuperHero.update {
-                    if (superHero.isNotEmpty())
-                        ResourceState.Success(superHero)
-                    else
-                        ResourceState.Error(InvalidObjectException("SuperHero not found :("))
-                }
+                getMarvelSuperHeroUseCase(superHeroId = superHeroId).collectLatest { superHero ->
+                    _currentSuperHero.update {
+                        if (superHero.isNotEmpty())
+                            ResourceState.Success(superHero)
+                        else
+                            ResourceState.Error(InvalidObjectException("SuperHero not found :("))
+                    }
             }
         }
     }

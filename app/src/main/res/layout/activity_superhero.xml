@@ -4,15 +4,4 @@
     android:id="@+id/container"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".app.screens.superhero.SuperheroActivity">
-
-    <androidx.appcompat.widget.LinearLayoutCompat
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:text="Hola" />
-    </androidx.appcompat.widget.LinearLayoutCompat>
-</FrameLayout>
+    tools:context=".app.screens.superhero.SuperheroActivity" />
