@@ -9,6 +9,8 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
+import coil.load
+import com.alerdoci.marvelsuperheroes.R
 import com.alerdoci.marvelsuperheroes.app.common.states.ResourceState
 import com.alerdoci.marvelsuperheroes.app.screens.superhero.viewmodel.SuperHeroViewModel
 import com.alerdoci.marvelsuperheroes.databinding.FragmentSuperheroBinding
@@ -41,6 +43,7 @@ class SuperHeroFragment : Fragment() {
         this.binding = FragmentSuperheroBinding.inflate(inflater)
         viewModel.loadSuperHero(superHeroId)
         return this.binding!!.root
+
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -62,6 +65,7 @@ class SuperHeroFragment : Fragment() {
                             is ResourceState.Error -> {}
                             else -> {}
                         }
+
                     }
                 }
             }
@@ -71,14 +75,16 @@ class SuperHeroFragment : Fragment() {
     private fun loadSuperHero() {
         this.binding?.apply {
 
-            this.tvSuperHeroName.text = currentSuperHero[0].name
+            this.tvCharacterName.text = currentSuperHero[0].name
+            this.ivCharacterImage.load(currentSuperHero[0].imageFinal)
             if (currentSuperHero[0].description?.isEmpty() == true) {
-                tvSuperHeroDescription.text = "Descripción no disponible"
+                tvCharacterDescription.text = getString(R.string.description_not_available)
             } else {
-                tvSuperHeroDescription.text = currentSuperHero[0].description
+                tvCharacterDescription.text = currentSuperHero[0].description
             }
         }
     }
+
 
     override fun onDestroy() {
         super.onDestroy()

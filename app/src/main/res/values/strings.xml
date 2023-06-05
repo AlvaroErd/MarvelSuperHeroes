@@ -10,7 +10,7 @@
     <string name="try_reload">That´s awkward. Please try again</string>
     <string name="unknown_error">Unknown error</string>
 
-    //Home ccreen
+    //Home screen
     <string name="search_superhero">Search Superhero 🦸‍</string>
     <string name="series_icon">Series Icon</string>
     <string name="comic_icon">Comic Icon</string>
@@ -29,4 +29,12 @@
     <string name="photo_content_description">Photo of %s</string>
     <string name="description_not_available">Description not available</string>
     <string name="events_icon">Events Icon</string>
+
+    //SuperHero screen
+    <string name="description">Description:</string>
+    <plurals name="comics_availables">
+        <item quantity="one">Appear in %d comic:</item>
+        <item quantity="other">Appear in %d comics:</item>
+    </plurals>
+    <string name="comics_appear">Comics in which this character appears:</string>
 </resources>

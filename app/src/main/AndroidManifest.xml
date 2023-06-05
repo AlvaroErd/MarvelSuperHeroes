@@ -32,6 +32,7 @@
         <activity
             android:name=".app.screens.superhero.SuperheroActivity"
             android:theme="@style/Theme.MarvelSuperHeroes"
+            android:configChanges="orientation|screenSize"
             android:exported="false" />
     </application>
 </manifest>
