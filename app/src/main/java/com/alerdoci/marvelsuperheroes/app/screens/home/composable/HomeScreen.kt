@@ -119,7 +119,6 @@ fun HomeScreen(
                 Column(
                     modifier = Modifier
                         .fillMaxWidth()
-//                        .padding(paddingValues = paddingValues)
                         .background(red_800)
                         .padding(top = MaterialTheme.spacing.extraMedium),
                     Arrangement.Center
@@ -155,7 +154,7 @@ fun HomeScreen(
 //                                textSearched = ""
                                 Toast.makeText(
                                     context,
-                                    "Search Bar not implented yet :( \n Item searched: $textSearched",
+                                    "Search Bar not implemented yet :( \n Item searched: $textSearched",
                                     Toast.LENGTH_LONG
                                 )
                                     .show()

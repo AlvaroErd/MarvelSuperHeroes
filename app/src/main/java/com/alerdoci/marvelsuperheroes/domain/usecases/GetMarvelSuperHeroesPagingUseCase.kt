@@ -13,7 +13,6 @@ open class GetMarvelSuperHeroesPagingUseCase @Inject constructor(
     open operator fun invoke() = Pager(
         config = PagingConfig(
             pageSize = PAGE_SIZE,
-            prefetchDistance = 16,
         ),
         pagingSourceFactory = { superHeroPaging }
     ).flow

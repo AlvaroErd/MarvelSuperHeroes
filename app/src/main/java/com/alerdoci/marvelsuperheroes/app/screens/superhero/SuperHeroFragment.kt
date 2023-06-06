@@ -49,7 +49,6 @@ class SuperHeroFragment : Fragment() {
         this.binding = FragmentSuperheroBinding.inflate(inflater)
         viewModel.loadSuperHero(superHeroId)
         return this.binding!!.root
-
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -61,15 +60,23 @@ class SuperHeroFragment : Fragment() {
 
                     viewModel.currentSuperHero.collectLatest { superHeroState ->
                         when (superHeroState) {
-                            is ResourceState.Loading -> {}
+                            is ResourceState.Loading -> {
+                                binding?.progressBar?.visibility = View.VISIBLE
+                            }
+
                             is ResourceState.Success -> {
                                 currentSuperHero = superHeroState.data as List<ModelResult>
                                 withContext(Dispatchers.Main) {
                                     loadSuperHero()
                                 }
+                                binding?.progressBar?.visibility = View.GONE
                             }
 
-                            is ResourceState.Error -> {}
+                            is ResourceState.Error -> {
+                                binding?.ivError?.visibility = View.VISIBLE
+                                binding?.tvError?.visibility = View.VISIBLE
+                            }
+
                             else -> {}
                         }
                     }
@@ -77,16 +84,24 @@ class SuperHeroFragment : Fragment() {
 
                 viewModel.currentSuperHeroComic.collectLatest { superHeroComicState ->
                     when (superHeroComicState) {
-                        is ResourceState.Loading -> {}
+                        is ResourceState.Loading -> {
+                            binding?.progressBar?.visibility = View.VISIBLE
+                        }
+
                         is ResourceState.Success -> {
                             currentSuperHeroComic =
                                 superHeroComicState.data as List<ModelComicsSuperHeroList>
                             withContext(Dispatchers.Main) {
                                 loadSuperHeroComics()
                             }
+                            binding?.progressBar?.visibility = View.GONE
                         }
 
-                        is ResourceState.Error -> {}
+                        is ResourceState.Error -> {
+                            binding?.ivError?.visibility = View.VISIBLE
+                            binding?.tvError?.visibility = View.VISIBLE
+                        }
+
                         else -> {}
                     }
                 }
