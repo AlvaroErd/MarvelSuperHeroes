@@ -128,7 +128,7 @@
                         android:fontFamily="@font/roc_grotesk_medium"
                         android:gravity="center"
                         android:text="@string/visit_on_wiki"
-                        android:textColor="@color/white"
+                        android:textColor="@color/amber_500"
                         android:textSize="16sp"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"

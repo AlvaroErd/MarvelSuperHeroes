@@ -76,7 +76,7 @@ fun ComicCard(
         modifier = Modifier
             .height(220.dp)
             .width(170.dp)
-            .padding(end = 10.dp),
+            .padding(end = 14.dp),
         contentAlignment = Alignment.Center
     ) {
         SubcomposeAsyncImage(
