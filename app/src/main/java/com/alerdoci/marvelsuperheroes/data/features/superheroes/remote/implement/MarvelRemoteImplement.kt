@@ -18,32 +18,26 @@ open class MarvelRepositoryImplement @Inject constructor(
     private val remoteService: MarvelService,
 ) : MarvelRepository {
 
-    override suspend fun getMarvelSuperHeroes(
-        offset: Int, limit: Int
+    override suspend fun getMarvelSuperHeroesPaging(
+        offset: Int, limit: Int,
     ): Flow<List<ModelResult>> = flow {
         val timestamp = System.currentTimeMillis().toString()
-        try {
-            val superheroes = remoteService.getMarvelSuperHeroes(
-                BuildConfig.API_KEY_PUBLIC,
-                timestamp,
-                NetworkModule.getHash(timestamp),
-                offset = offset,
-                limit = limit
-            )
-            if (superheroes.isSuccessful) {
-                val results = superheroes.body()?.data?.results
-                if (!results.isNullOrEmpty()) {
-                    emit(results.map { superhero -> superhero.toDomain() })
-                } else {
-                    emit(emptyList())
-                }
+        val superheroes = remoteService.getMarvelSuperHeroes(
+            offset = offset * limit,
+            limit = limit,
+            BuildConfig.API_KEY_PUBLIC,
+            timestamp,
+            NetworkModule.getHash(timestamp),
+        )
+        if (superheroes.isSuccessful) {
+            val results = superheroes.body()?.data?.results
+            if (!results.isNullOrEmpty()) {
+                emit(results.map { superhero -> superhero.toDomain() })
             } else {
                 emit(emptyList())
             }
-        } catch (e: Exception) {
-            emit(
-                emptyList(),
-            )
+        } else {
+            emit(emptyList())
         }
     }
 
@@ -53,7 +47,6 @@ open class MarvelRepositoryImplement @Inject constructor(
         limit: Int
     ): Flow<List<ModelResult>> = flow {
         val timestamp = System.currentTimeMillis().toString()
-        try {
             val superhero = remoteService.getMarvelSuperHero(
                 superHeroId = superHeroId,
                 BuildConfig.API_KEY_PUBLIC,
@@ -72,11 +65,6 @@ open class MarvelRepositoryImplement @Inject constructor(
             } else {
                 emit(emptyList())
             }
-        } catch (e: Exception) {
-            emit(
-                emptyList(),
-            )
-        }
     }
 
     override suspend fun getMarvelSuperHeroComics(
@@ -85,7 +73,6 @@ open class MarvelRepositoryImplement @Inject constructor(
         limit: Int
     ): Flow<List<ModelComicsSuperHeroList>> = flow {
         val timestamp = System.currentTimeMillis().toString()
-        try {
             val superhero = remoteService.getMarvelSuperHeroComics(
                 superHeroId = superHeroId,
                 BuildConfig.API_KEY_PUBLIC,
@@ -101,10 +88,5 @@ open class MarvelRepositoryImplement @Inject constructor(
             } else {
                 emit(emptyList())
             }
-        } catch (e: Exception) {
-            emit(
-                emptyList(),
-            )
-        }
     }
 }

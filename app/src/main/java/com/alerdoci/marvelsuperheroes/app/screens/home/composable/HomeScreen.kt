@@ -20,8 +20,6 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.items
-import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CutCornerShape
 import androidx.compose.material.icons.Icons
@@ -41,6 +39,7 @@ import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -63,8 +62,9 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.zIndex
 import androidx.hilt.navigation.compose.hiltViewModel
-import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavHostController
+import androidx.paging.compose.collectAsLazyPagingItems
+import androidx.paging.compose.items
 import coil.compose.SubcomposeAsyncImage
 import com.airbnb.lottie.compose.LottieAnimation
 import com.airbnb.lottie.compose.LottieCompositionSpec
@@ -95,7 +95,10 @@ fun HomeScreen(
         modifier = Modifier.fillMaxSize(),
         color = MaterialTheme.colorScheme.background,
     ) {
-        val superHeroListState by viewModel.superHeroes.collectAsStateWithLifecycle()
+        val superHeroListState by viewModel.superHeroes.collectAsState()
+        val superHeroListPagingState =
+            viewModel.getMarvelSuperHeroesPager().collectAsLazyPagingItems()
+
         var textSearched by remember { mutableStateOf("") }
         var textActive by remember { mutableStateOf(false) }
         val context = LocalContext.current
@@ -149,7 +152,7 @@ fun HomeScreen(
 //                                textSearched = ""
                                 Toast.makeText(
                                     context,
-                                    "Item searched: $textSearched",
+                                    "Search Bar not implented yet :( \n Item searched: $textSearched",
                                     Toast.LENGTH_LONG
                                 )
                                     .show()
@@ -225,15 +228,12 @@ fun HomeScreen(
                                 .padding(horizontal = MaterialTheme.spacing.xMedium)
                         )
                         {
-                            val superHeroListState by viewModel.superHeroes.collectAsStateWithLifecycle()
                             var items by rememberSaveable {
                                 mutableStateOf<List<ModelResult>>(
                                     emptyList()
                                 )
                             }
                             val scrollState = rememberScrollState()
-                            val lazyState = rememberLazyListState()
-
                             when (superHeroListState) {
                                 is ResourceState.Loading -> Column(
                                     modifier = Modifier.fillMaxSize(),
@@ -250,40 +250,29 @@ fun HomeScreen(
                                     ErrorScreen()
                                 }
 
-                                is ResourceState.Success -> items =
-                                    (superHeroListState as ResourceState.Success).data as List<ModelResult>
+                                is ResourceState.Success ->
+                                    LazyColumn(
+                                        verticalArrangement = Arrangement.spacedBy(MaterialTheme.spacing.tiny),
+                                        modifier = Modifier
+                                            .fillMaxWidth()
+                                            .zIndex(1f),
+//                                        state = lazyState
+                                    ) {
+                                        item {
+                                            Spacer(modifier = Modifier.height(if (scrollState.isScrollInProgress) MaterialTheme.dimens.custom0 else MaterialTheme.dimens.custom40))
+                                        }
+                                        items(
+                                            superHeroListPagingState,
+                                            key = { kSuperHero: ModelResult -> kSuperHero.id!! }) { superHeroItem ->
+                                            println("superHeroItem: ${superHeroItem?.name}")
+                                            SuperheroItem(
+                                                superHero = superHeroItem!!,
+                                                onItemClick = onItemClick
+                                            )
+                                        }
+                                    }
 
                                 else -> {}
-                            }
-                            LazyColumn(
-                                verticalArrangement = Arrangement.spacedBy(MaterialTheme.spacing.tiny),
-                                modifier = Modifier
-                                    .fillMaxWidth()
-                                    .zIndex(1f),
-                                state = lazyState
-                            ) {
-                                item {
-                                    Spacer(modifier = Modifier.height(if (scrollState.isScrollInProgress) MaterialTheme.dimens.custom0 else MaterialTheme.dimens.custom40))
-                                }
-                                items(items) { superHeroItem ->
-                                    println("superHeroItem: ${superHeroItem.name}")
-                                    SuperheroItem(
-                                        superHero = superHeroItem,
-                                        onItemClick = onItemClick
-                                    )
-
-                                    if (items.indexOf(superHeroItem) < items.lastIndex)
-                                        Divider(
-                                            color = grey_500,
-                                            thickness = MaterialTheme.dimens.custom1,
-                                            modifier = Modifier
-                                                .padding(top = MaterialTheme.spacing.tiny)
-                                                .alpha(0.3f)
-                                        )
-                                    else {
-                                        Spacer(modifier = Modifier.padding(bottom = (MaterialTheme.dimens.custom50)))
-                                    }
-                                }
                             }
                         }
                         Column(
@@ -299,9 +288,7 @@ fun HomeScreen(
                             )
                         }
                     }
-
                 }
-
             }
         }
     }
@@ -311,7 +298,6 @@ fun HomeScreen(
 @Composable
 fun SuperheroItem(
     superHero: ModelResult,
-    modifier: Modifier = Modifier,
     onItemClick: (superHeroId: Int) -> Unit
 ) {
     Box(
@@ -500,16 +486,14 @@ fun SuperheroItem(
             }
         }
     }
+    Divider(
+        color = grey_500,
+        thickness = MaterialTheme.dimens.custom1,
+        modifier = Modifier
+            .padding(top = MaterialTheme.spacing.tiny)
+            .alpha(0.3f)
+    )
 }
-
-//
-//@Preview("Light Theme", showBackground = true)
-//@Preview("Dark Theme", uiMode = Configuration.UI_MODE_NIGHT_YES, showBackground = true)
-//@Composable
-//fun HomeScreenPreview() {
-//    val navController = rememberNavController()
-//    HomeScreen(navController = navController)
-//}
 
 @Preview("Light Theme", showBackground = true)
 @Preview("Dark Theme", uiMode = Configuration.UI_MODE_NIGHT_YES, showBackground = true)

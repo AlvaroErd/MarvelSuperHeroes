@@ -11,11 +11,11 @@ interface MarvelService {
 
     @GET("v1/public/characters")
     suspend fun getMarvelSuperHeroes(
+        @Query("offset") offset: Int,
+        @Query("limit") limit: Int,
         @Query("apikey") apikey: String,
         @Query("ts") ts: String,
         @Query("hash") hash: String,
-        @Query("offset") offset: Int,
-        @Query("limit") limit: Int
     ): Response<RemoteSuperHeroesList>
 
     @GET("v1/public/characters/{id}")

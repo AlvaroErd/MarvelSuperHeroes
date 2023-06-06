@@ -2,24 +2,19 @@ package com.alerdoci.marvelsuperheroes.domain.usecases
 
 import androidx.paging.Pager
 import androidx.paging.PagingConfig
-import com.alerdoci.marvelsuperheroes.data.constants.Constants.Companion.PAGE_SIZE
 import com.alerdoci.marvelsuperheroes.data.features.superheroes.pagination.MarvelSuperHeroesPagingSource
-import com.alerdoci.marvelsuperheroes.domain.models.features.superheroes.ModelResult
+import com.alerdoci.marvelsuperheroes.domain.constants.Constants.Companion.PAGE_SIZE
 import javax.inject.Inject
 
 open class GetMarvelSuperHeroesPagingUseCase @Inject constructor(
-    private val pager: MarvelSuperHeroesPagingSource
+    private val superHeroPaging: MarvelSuperHeroesPagingSource
 ) {
 
-    operator fun invoke(marvelSuperheroes: ModelResult) = Pager(
+    open operator fun invoke() = Pager(
         config = PagingConfig(
             pageSize = PAGE_SIZE,
-            prefetchDistance = 15
+            prefetchDistance = 16,
         ),
-        pagingSourceFactory = {
-            pager.apply {
-                this.marvelSuperheroes = marvelSuperheroes
-            }
-        }
+        pagingSourceFactory = { superHeroPaging }
     ).flow
 }
