@@ -122,6 +122,12 @@ class SuperHeroFragment : Fragment() {
                 ComicsList(currentSuperHeroComic)
             }
             this.tvMarvelAttribution.text = currentSuperHeroComic[0].attributionText
+
+            if (currentSuperHeroComic[0].data?.results?.size == 0) {
+                tvNoRecentComics.visibility = View.VISIBLE
+            } else {
+                tvNoRecentComics.visibility = View.GONE
+            }
         }
     }
 

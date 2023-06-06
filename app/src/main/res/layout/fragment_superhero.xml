@@ -166,6 +166,19 @@
                         android:layout_marginBottom="16dp"
                         app:layout_constraintTop_toBottomOf="@+id/md_appear" />
 
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:id="@+id/tv_no_recent_comics"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:text="@string/no_recent_comics"
+                        android:fontFamily="@font/roc_grotesk_regular"
+                        android:paddingTop="5dp"
+                        android:textSize="14sp"
+                        android:visibility="visible"
+                        app:layout_constraintTop_toBottomOf="@+id/md_appear"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent" />
+
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
             </androidx.constraintlayout.widget.ConstraintLayout>
@@ -195,7 +208,6 @@
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
                     tools:text="Copyright and attribution Marvel" />
             </androidx.constraintlayout.widget.ConstraintLayout>
 

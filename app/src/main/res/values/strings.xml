@@ -38,4 +38,6 @@
     </plurals>
     <string name="comics_appear">Last appearances in comics:</string>
     <string name="visit_on_wiki">Visit on Wiki</string>
+    <string name="no_recent_comics">This superhero does not have any recent comics</string>
+
 </resources>
