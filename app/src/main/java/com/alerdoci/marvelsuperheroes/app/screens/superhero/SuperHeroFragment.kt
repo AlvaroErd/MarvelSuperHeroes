@@ -1,6 +1,8 @@
 package com.alerdoci.marvelsuperheroes.app.screens.superhero
 
+import android.content.Intent
 import android.content.res.ColorStateList
+import android.net.Uri
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -102,7 +104,12 @@ class SuperHeroFragment : Fragment() {
             } else {
                 tvCharacterDescription.text = currentSuperHero[0].description
             }
-
+            this.btWiki.setOnClickListener {
+                val url = currentSuperHeroComic[0].data?.results?.get(0)?.urls?.get(1)?.url
+                val intent = Intent(Intent.ACTION_VIEW)
+                intent.data = Uri.parse(url)
+                startActivity(intent)
+            }
             val colorInt: Int? = context?.getColor(R.color.amber_500)
             this.btWiki.strokeColor = colorInt?.let { ColorStateList.valueOf(it) }
         }

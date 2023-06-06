@@ -1,4 +1,4 @@
-package com.alerdoci.marvelsuperheroes.data.constants
+package com.alerdoci.marvelsuperheroes.domain.constants
 
 sealed class Constants {
     companion object {

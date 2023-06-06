@@ -26,7 +26,6 @@ import com.alerdoci.marvelsuperheroes.app.theme.MarvelSuperHeroesTheme
 import com.alerdoci.marvelsuperheroes.app.theme.black_1000
 import com.alerdoci.marvelsuperheroes.app.theme.red_800
 import com.alerdoci.marvelsuperheroes.app.theme.spacing
-import com.alerdoci.marvelsuperheroes.domain.models.features.superherocomics.ModelComicsResult
 import com.alerdoci.marvelsuperheroes.domain.models.features.superherocomics.ModelComicsSuperHeroList
 import java.text.SimpleDateFormat
 import java.util.Date
@@ -36,9 +35,29 @@ import java.util.Locale
 fun ComicsList(comicListItems: List<ModelComicsSuperHeroList>) {
     MarvelSuperHeroesTheme {
         Column {
+            val inputDateFormat = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssZ", Locale.getDefault())
+            val outputDateFormat = SimpleDateFormat("dd-MM-yyyy", Locale.getDefault())
+
+            fun Date.toStringFormatted(): String {
+                return outputDateFormat.format(this)
+            }
             LazyRow(horizontalArrangement = Arrangement.spacedBy(MaterialTheme.spacing.extraMedium)) {
                 items(comicListItems) { item ->
-                    ComicCard(item = item)
+                    for (i in 0 until item.data?.results?.size!!) {
+                        val comicImage = item.data.results[i].imageFinal
+                        val comicTitle = item.data.results[i].title
+                        val comicDate =
+                            item.data.results[i].dates?.get(0)?.date.let { inputDateFormat.parse(it) }
+                                ?.toStringFormatted()
+
+                        ComicCard(
+                            item = item,
+                            comicImage = comicImage.toString(),
+                            comicTitle = comicTitle.toString(),
+                            comicDate = comicDate.toString()
+                        )
+                    }
+
                 }
             }
         }
@@ -47,25 +66,25 @@ fun ComicsList(comicListItems: List<ModelComicsSuperHeroList>) {
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
-fun ComicCard(item: ModelComicsResult) {
+fun ComicCard(
+    item: ModelComicsSuperHeroList,
+    comicImage: String,
+    comicTitle: String,
+    comicDate: String
+) {
     Box(
         modifier = Modifier
             .height(220.dp)
-            .width(170.dp),
+            .width(170.dp)
+            .padding(end = 10.dp),
         contentAlignment = Alignment.Center
     ) {
-        val inputDateFormat = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssZ", Locale.getDefault())
-        val outputDateFormat = SimpleDateFormat("dd-MM-yyyy", Locale.getDefault())
-
-        fun Date.toStringFormatted(): String {
-            return outputDateFormat.format(this)
-        }
-
         SubcomposeAsyncImage(
-            model = item.imageFinal,
-            contentDescription = stringResource(
+            model = comicImage,
+            contentDescription =
+            stringResource(
                 id = R.string.photo_content_description,
-                item.title.orEmpty()
+                comicTitle
             ),
             loading = {
                 Box(modifier = Modifier.padding(MaterialTheme.spacing.extraHuge)) {
@@ -90,30 +109,29 @@ fun ComicCard(item: ModelComicsResult) {
                     }
                 },
         )
-        item.title?.let {
-            Text(
-                text = it,
-                modifier = Modifier
-                    .padding(
-                        start = MaterialTheme.spacing.small,
-                        end = MaterialTheme.spacing.small,
-                        bottom = MaterialTheme.spacing.extraLarge
-                    )
-                    .align(Alignment.BottomCenter)
-                    .basicMarquee(
-                        iterations = Int.MAX_VALUE,
-                        delayMillis = 0,
-                        initialDelayMillis = 3000
-                    ),
-                maxLines = 1,
-                overflow = TextOverflow.Ellipsis,
-                style = MaterialTheme.typography.bodyLarge,
-                color = Color.White
-            )
-        }
+
         Text(
-            text = item.dates?.get(0)?.date?.let { inputDateFormat.parse(it) }?.toStringFormatted()
-                ?: "", modifier = Modifier
+            text = comicTitle,
+            modifier = Modifier
+                .padding(
+                    start = MaterialTheme.spacing.small,
+                    end = MaterialTheme.spacing.small,
+                    bottom = MaterialTheme.spacing.extraLarge
+                )
+                .align(Alignment.BottomCenter)
+                .basicMarquee(
+                    iterations = Int.MAX_VALUE,
+                    delayMillis = 0,
+                    initialDelayMillis = 3000
+                ),
+            maxLines = 1,
+            overflow = TextOverflow.Ellipsis,
+            style = MaterialTheme.typography.bodyLarge,
+            color = Color.White
+        )
+        Text(
+            text = comicDate,
+            modifier = Modifier
                 .padding(
                     start = MaterialTheme.spacing.small,
                     end = MaterialTheme.spacing.small,
@@ -132,27 +150,3 @@ fun ComicCard(item: ModelComicsResult) {
         )
     }
 }
-//
-//@Preview("Light Theme")
-//@Preview("Dark Theme", uiMode = Configuration.UI_MODE_NIGHT_YES)
-//@Composable
-//fun ComicsListPreview() {
-//    MarvelSuperHeroesTheme() {
-//        ComicsList(
-//            marvelSuperHeroesMock,
-////            { }
-//        )
-//    }
-//}
-//
-//
-//@Preview("Light Theme")
-//@Preview("Dark Theme", uiMode = Configuration.UI_MODE_NIGHT_YES)
-//@Composable
-//fun ListSimilarTvShowCardsPreview() {
-//    MarvelSuperHeroesTheme() {
-//        ComicCard( item = marvelSuperHeroMock1
-////        onItemClick = {}
-//        )
-//    }
-//}
