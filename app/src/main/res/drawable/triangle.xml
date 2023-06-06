@@ -1,0 +1,12 @@
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="100dp"
+    android:height="100dp"
+    android:viewportHeight="100"
+    android:viewportWidth="100">
+    <group android:name="triableGroup">
+        <path
+            android:name="triangle"
+            android:fillColor="@color/red_800"
+            android:pathData="M 0,100 L 100,100 100,0 z" />
+    </group>
+</vector>

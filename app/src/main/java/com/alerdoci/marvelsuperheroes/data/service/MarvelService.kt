@@ -1,5 +1,6 @@
 package com.alerdoci.marvelsuperheroes.data.service
 
+import com.alerdoci.marvelsuperheroes.data.features.superherocomics.remote.models.RemoteComicsSuperHeroList
 import com.alerdoci.marvelsuperheroes.data.features.superheroes.remote.models.RemoteSuperHeroesList
 import retrofit2.Response
 import retrofit2.http.GET
@@ -26,4 +27,14 @@ interface MarvelService {
         @Query("offset") offset: Int,
         @Query("limit") limit: Int
     ): Response<RemoteSuperHeroesList>
+
+    @GET("v1/public/characters/{id}/comics")
+    suspend fun getMarvelSuperHeroComics(
+        @Path("id") superHeroId: Int,
+        @Query("apikey") apikey: String,
+        @Query("ts") ts: String,
+        @Query("hash") hash: String,
+        @Query("offset") offset: Int,
+        @Query("limit") limit: Int
+    ): Response<RemoteComicsSuperHeroList>
 }

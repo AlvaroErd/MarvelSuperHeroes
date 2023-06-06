@@ -8,99 +8,198 @@
 
     <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="wrap_content">
 
-        <androidx.constraintlayout.widget.ConstraintLayout
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:padding="10dp"
             android:orientation="vertical">
 
-            <com.google.android.material.imageview.ShapeableImageView
-                android:id="@+id/iv_character_image"
-                android:layout_width="0dp"
-                android:layout_height="0dp"
-                android:scaleType="centerCrop"
-                app:layout_constraintDimensionRatio="1:1"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:shapeAppearanceOverlay="@style/SpecificCornerCut"
-                tools:src="@drawable/groot_placeholder" />
-
-
-            <View
-                android:layout_width="wrap_content"
-                android:layout_height="150dp"
-                android:background="@drawable/gradient"
-                app:shapeAppearanceOverlay="@style/SpecificCornerCut"
-                app:layout_constraintBottom_toBottomOf="@id/iv_character_image"
-                app:layout_constraintEnd_toEndOf="@id/iv_character_image"
-                app:layout_constraintStart_toStartOf="@id/iv_character_image" />
-
-            <TextView
-                android:id="@+id/tv_character_name"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:paddingBottom="16dp"
-                android:textColor="@color/white"
-                android:textSize="26sp"
-                android:fontFamily="@font/roc_grotesk_bold"
-                app:layout_constraintBottom_toBottomOf="@+id/iv_character_image"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                tools:text="Baby Groot" />
-
-            <!--            <com.google.android.material.divider.MaterialDivider-->
-            <!--                android:id="@+id/md"-->
-            <!--                android:layout_width="match_parent"-->
-            <!--                android:layout_height="1dp"-->
-            <!--                android:layout_marginTop="10dp"-->
-            <!--                app:dividerColor="@color/orange_A200"-->
-            <!--                app:layout_constraintEnd_toEndOf="parent"-->
-            <!--                app:layout_constraintStart_toStartOf="parent"-->
-            <!--                app:layout_constraintTop_toBottomOf="@+id/iv_character_image" />-->
-
-            <TextView
-                android:id="@+id/tv_character_description_title"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:fontFamily="@font/roc_grotesk_medium"
-                android:paddingTop="10dp"
-                android:text="@string/description"
-                android:textSize="18sp"
-                android:textStyle="italic"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/tv_character_name" />
-
-            <com.google.android.material.divider.MaterialDivider
-                android:id="@+id/md_descr"
-                android:layout_width="0dp"
-                android:layout_height="2dp"
-                android:layout_marginTop="2dp"
-                app:dividerColor="@color/orange_A200"
-                app:layout_constraintEnd_toEndOf="@+id/tv_character_description_title"
-                app:layout_constraintStart_toStartOf="@+id/tv_character_description_title"
-                app:layout_constraintTop_toBottomOf="@+id/tv_character_description_title" />
-
-            <TextView
-                android:id="@+id/tv_character_description"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:fontFamily="@font/roc_grotesk_regular"
-                android:paddingTop="5dp"
-                android:textSize="16sp"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/md_descr"
-                tools:text="Noluisse simul delenit maluisset qui. Cetero suscipiantur vocent detraxit posuere duo antiopam fames. Quot alia lacinia minim arcu vix vulputate periculis sonet. Mauris magnis graeci ius magnis. Verear postea novum electram scripta legimus venenatis." />
-            <!--            android:justificationMode="inter_word"-->
-            <androidx.compose.ui.platform.ComposeView
-                android:id="@+id/compview_comics"
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/cl_main_container"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:layout_constraintTop_toBottomOf="@+id/tv_character_description" />
+                android:orientation="vertical">
 
-        </androidx.constraintlayout.widget.ConstraintLayout>
+                <View
+                    android:layout_width="0dp"
+                    android:layout_height="100dp"
+                    android:background="@drawable/triangle"
+                    app:layout_constraintBottom_toTopOf="@+id/vw_box"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent" />
+
+                <View
+                    android:id="@+id/vw_box"
+                    android:layout_width="0dp"
+                    android:layout_height="150dp"
+                    android:background="@color/red_800"
+                    app:layout_constraintBottom_toBottomOf="@+id/tv_character_name"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent" />
+
+                <com.google.android.material.imageview.ShapeableImageView
+                    android:id="@+id/iv_character_image"
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    android:padding="10dp"
+                    android:scaleType="centerCrop"
+                    app:layout_constraintDimensionRatio="1:1"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:shapeAppearanceOverlay="@style/MyTopCornersCuttedShape"
+                    tools:src="@drawable/groot_placeholder" />
+
+                <View
+                    android:layout_width="0dp"
+                    android:layout_height="150dp"
+                    android:layout_marginHorizontal="10dp"
+                    android:layout_marginBottom="10dp"
+                    android:background="@drawable/gradient"
+                    android:padding="10dp"
+                    app:layout_constraintBottom_toBottomOf="@id/iv_character_image"
+                    app:layout_constraintEnd_toEndOf="@id/iv_character_image"
+                    app:layout_constraintStart_toStartOf="parent" />
+
+                <TextView
+                    android:id="@+id/tv_character_name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/roc_grotesk_bold"
+                    android:paddingBottom="24dp"
+                    android:textColor="@color/white"
+                    android:textSize="26sp"
+                    app:layout_constraintBottom_toBottomOf="@+id/iv_character_image"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    tools:text="Baby Groot" />
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/cl_container"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:paddingHorizontal="10dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/tv_character_name">
+
+                    <TextView
+                        android:id="@+id/tv_character_description_title"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/roc_grotesk_medium"
+                        android:paddingTop="20dp"
+                        android:text="@string/description"
+                        android:textSize="18sp"
+                        android:textStyle="italic"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/tv_character_name"
+                        tools:ignore="NotSibling" />
+
+                    <com.google.android.material.divider.MaterialDivider
+                        android:id="@+id/md_description"
+                        android:layout_width="0dp"
+                        android:layout_height="2dp"
+                        android:layout_marginTop="2dp"
+                        app:dividerColor="@color/orange_A200"
+                        app:layout_constraintEnd_toEndOf="@+id/tv_character_description_title"
+                        app:layout_constraintStart_toStartOf="@+id/tv_character_description_title"
+                        app:layout_constraintTop_toBottomOf="@+id/tv_character_description_title" />
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:id="@+id/tv_character_description"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/roc_grotesk_regular"
+                        android:paddingTop="5dp"
+                        android:textSize="14sp"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/md_description"
+                        tools:text="Noluisse simul delenit maluisset qui. Cetero suscipiantur vocent detraxit posuere duo antiopam fames. Quot alia lacinia minim arcu vix vulputate periculis sonet. Mauris magnis graeci ius magnis. Verear postea novum electram scripta legimus venenatis." />
+
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/bt_wiki"
+                        style="@style/Widget.Material3.Button.IconButton.Outlined"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="20dp"
+                        android:fontFamily="@font/roc_grotesk_medium"
+                        android:gravity="center"
+                        android:text="@string/visit_on_wiki"
+                        android:textColor="@color/white"
+                        android:textSize="16sp"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/tv_character_description"
+                        app:shapeAppearance="@style/MySquaredButton"
+                        app:strokeWidth="2dp" />
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:id="@+id/tv_character_appear_title"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/roc_grotesk_medium"
+                        android:paddingTop="20dp"
+                        android:text="@string/comics_appear"
+                        android:textSize="18sp"
+                        android:textStyle="italic"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/bt_wiki" />
+
+                    <com.google.android.material.divider.MaterialDivider
+                        android:id="@+id/md_appear"
+                        android:layout_width="0dp"
+                        android:layout_height="2dp"
+                        android:layout_marginTop="2dp"
+                        app:dividerColor="@color/orange_A200"
+                        app:layout_constraintEnd_toEndOf="@+id/tv_character_appear_title"
+                        app:layout_constraintStart_toStartOf="@+id/tv_character_appear_title"
+                        app:layout_constraintTop_toBottomOf="@+id/tv_character_appear_title" />
+
+                    <androidx.compose.ui.platform.ComposeView
+                        android:id="@+id/compview_comics"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="16dp"
+                        android:layout_marginBottom="16dp"
+                        app:layout_constraintTop_toBottomOf="@+id/md_appear" />
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="14dp"
+                android:orientation="vertical">
+
+                <View
+                    android:layout_width="0dp"
+                    android:layout_height="30dp"
+                    android:background="@color/red_800"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/tv_marvel_attribution"
+                    android:layout_width="match_parent"
+                    android:layout_height="30dp"
+                    android:fontFamily="@font/roc_grotesk_regular"
+                    android:gravity="center"
+                    android:textSize="11sp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    tools:text="Copyright and attribution Marvel" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+        </LinearLayout>
 
     </ScrollView>
 

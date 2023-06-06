@@ -18,7 +18,6 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
@@ -333,30 +332,7 @@ fun SuperheroItem(
         Row(
             modifier = Modifier
                 .fillMaxSize()
-//                .shadow(10.dp)
         ) {
-//            val imageLoader = ImageLoader(LocalContext.current)
-//            val imageRequest = ImageRequest.Builder(LocalContext.current).data(superHero.thumbnail?.path + superHero.thumbnail?.extension)
-//                .crossfade(true)
-//                .build()
-//            val painter = rememberAsyncImagePainter(model = imageRequest)
-//            val painterState = painter.state
-//            Image(
-//                painter = painter,
-//                contentDescription = superHero.name,
-//                modifier = Modifier
-//                    .size(120.dp)
-//                    .align(Alignment.CenterVertically)
-//            )
-//            if (painterState is AsyncImagePainter.State.Loading) {
-//                Box(contentAlignment = Alignment.Center) {
-//                    Image(
-//                        painter = painterResource(id = R.drawable.groot_placeholder),
-//                        contentDescription = "",
-//                        modifier = Modifier.fillMaxSize()
-//                    )
-//                }
-//            }
             Box(
                 modifier = Modifier.fillMaxHeight()
             ) {
@@ -367,10 +343,11 @@ fun SuperheroItem(
                         superHero.name.orEmpty()
                     ),
                     loading = {
-                        CircularProgressIndicator(
-                            color = red_800,
-                            modifier = Modifier.size(MaterialTheme.dimens.custom30)
-                        )
+                        Box(modifier = Modifier.padding(10.dp)) {
+                            CircularProgressIndicator(
+                                color = red_800
+                            )
+                        }
                     },
                     contentScale = ContentScale.Crop,
                     modifier = Modifier
@@ -383,14 +360,17 @@ fun SuperheroItem(
                         id = R.string.photo_content_description,
                         superHero.name.orEmpty()
                     ),
-                    loading = { CircularProgressIndicator(color = red_800) },
+                    loading = {
+                        Box(modifier = Modifier.padding(10.dp)) {
+                            CircularProgressIndicator(
+                                color = red_800
+                            )
+                        }
+                    },
                     contentScale = ContentScale.Crop,
                     modifier = Modifier
                         .padding(all = MaterialTheme.spacing.xMedium)
                         .clip(CutCornerShape(topStart = MaterialTheme.spacing.extraMedium))
-//                        .clickable {
-//                            superHero.id?.let { onItemClick(it) }
-//                        }
                         .aspectRatio(1 / 1f),
                 )
             }
@@ -419,11 +399,12 @@ fun SuperheroItem(
                 Text(
                     text = if (superHero.description.isNullOrBlank()) stringResource(R.string.description_not_available) else superHero.description.orEmpty(),
                     style = MaterialTheme.typography.bodyLarge,
-                    modifier = Modifier.basicMarquee(
-                        iterations = Int.MAX_VALUE,
-                        delayMillis = 0,
-                        initialDelayMillis = 3000
-                    )
+                    modifier = Modifier
+                        .basicMarquee(
+                            iterations = Int.MAX_VALUE,
+                            delayMillis = 0,
+                            initialDelayMillis = 3000
+                        )
                 )
                 Row(
                     modifier = Modifier

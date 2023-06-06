@@ -36,5 +36,6 @@
         <item quantity="one">Appear in %d comic:</item>
         <item quantity="other">Appear in %d comics:</item>
     </plurals>
-    <string name="comics_appear">Comics in which this character appears:</string>
+    <string name="comics_appear">Last appearances in comics:</string>
+    <string name="visit_on_wiki">Visit on Wiki</string>
 </resources>

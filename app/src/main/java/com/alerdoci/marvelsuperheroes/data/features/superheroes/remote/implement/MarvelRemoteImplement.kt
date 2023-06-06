@@ -2,8 +2,10 @@ package com.alerdoci.marvelsuperheroes.data.features.superheroes.remote.implemen
 
 import com.alerdoci.marvelsuperheroes.BuildConfig
 import com.alerdoci.marvelsuperheroes.data.di.NetworkModule
+import com.alerdoci.marvelsuperheroes.data.features.superherocomics.mappers.toDomain
 import com.alerdoci.marvelsuperheroes.data.features.superheroes.mappers.toDomain
 import com.alerdoci.marvelsuperheroes.data.service.MarvelService
+import com.alerdoci.marvelsuperheroes.domain.models.features.superherocomics.ModelComicsSuperHeroList
 import com.alerdoci.marvelsuperheroes.domain.models.features.superheroes.ModelResult
 import com.alerdoci.marvelsuperheroes.domain.repository.MarvelRepository
 import kotlinx.coroutines.flow.Flow
@@ -66,6 +68,35 @@ open class MarvelRepositoryImplement @Inject constructor(
                     emit(results.map { superhero -> superhero.toDomain() })
                 } else {
                     emit(emptyList())
+                }
+            } else {
+                emit(emptyList())
+            }
+        } catch (e: Exception) {
+            emit(
+                emptyList(),
+            )
+        }
+    }
+
+    override suspend fun getMarvelSuperHeroComics(
+        superHeroId: Int,
+        offset: Int,
+        limit: Int
+    ): Flow<List<ModelComicsSuperHeroList>> = flow {
+        val timestamp = System.currentTimeMillis().toString()
+        try {
+            val superhero = remoteService.getMarvelSuperHeroComics(
+                superHeroId = superHeroId,
+                BuildConfig.API_KEY_PUBLIC,
+                timestamp,
+                NetworkModule.getHash(timestamp),
+                offset = offset,
+                limit = limit
+            )
+            if (superhero.isSuccessful) {
+                superhero.body()?.let { superHeroComic ->
+                    emit(listOf(superHeroComic.toDomain()))
                 }
             } else {
                 emit(emptyList())
