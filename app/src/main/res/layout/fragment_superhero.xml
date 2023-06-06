@@ -250,6 +250,7 @@
                     android:fontFamily="@font/roc_grotesk_regular"
                     android:gravity="center"
                     android:textSize="11sp"
+                    android:textColor="@color/white"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
