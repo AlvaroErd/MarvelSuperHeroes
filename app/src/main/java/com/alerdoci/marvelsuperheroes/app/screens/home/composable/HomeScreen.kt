@@ -99,6 +99,9 @@ fun HomeScreen(
         val superHeroListPagingState =
             viewModel.getMarvelSuperHeroesPager().collectAsLazyPagingItems()
 
+        val superHeroSearchedState by viewModel.superHeroSearched.collectAsState()
+        var superHeroSearchedText: String = ""
+
         var textSearched by remember { mutableStateOf("") }
         var textActive by remember { mutableStateOf(false) }
         val context = LocalContext.current
@@ -190,26 +193,11 @@ fun HomeScreen(
                             )
                         )
                         {
-//                    if (textSearched.isNotEmpty()) {
-//                        val filteredSuperhero =
-//                            ((superHeroListState as ResourceState.Success).data as List<ModelResult>).filter {
-//                                it.contains(
-//                                    textSearched,
-//                                    true
-//                                ) as List
-//                            }
-//                        LazyColumn {
-//                            items(filteredSuperhero) {
-//                                Text(text = textSearched, modifier = Modifier.clickable {
-//                                    Toast.makeText(
-//                                        context,
-//                                        "Item clicked: $textSearched",
-//                                        Toast.LENGTH_LONG
-//                                    ).show()
-//                                })
-//                            }
-//                        }
-//                    }
+                            //Not implemented yet
+//                            if (textSearched.isNotEmpty()) {
+//                            launch getSuperHeroSearched(textSearched)
+//                            else
+//                            launch getMarvelSuperHeroesPager()
                         }
                     }
                     Box(

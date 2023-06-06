@@ -1,6 +1,7 @@
 package com.alerdoci.marvelsuperheroes.app.screens.home.viewmodel
 
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import androidx.paging.PagingData
 import com.alerdoci.marvelsuperheroes.app.common.states.ResourceState
 import com.alerdoci.marvelsuperheroes.domain.models.features.superheroes.ModelComics
@@ -9,26 +10,36 @@ import com.alerdoci.marvelsuperheroes.domain.models.features.superheroes.ModelRe
 import com.alerdoci.marvelsuperheroes.domain.models.features.superheroes.ModelSeries
 import com.alerdoci.marvelsuperheroes.domain.models.features.superheroes.ModelStories
 import com.alerdoci.marvelsuperheroes.domain.models.features.superheroes.ModelUrl
+import com.alerdoci.marvelsuperheroes.domain.usecases.GetMarvelSuperHeroSearchedUseCase
 import com.alerdoci.marvelsuperheroes.domain.usecases.GetMarvelSuperHeroesPagingUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.catch
+import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.flow.update
+import kotlinx.coroutines.launch
+import java.io.InvalidObjectException
 import javax.inject.Inject
 
 @HiltViewModel
 class HomeViewModel @Inject constructor(
     private val getMarvelSuperHeroesPagingUseCase: GetMarvelSuperHeroesPagingUseCase,
+    private val getMarvelSuperHeroSearchedUseCase: GetMarvelSuperHeroSearchedUseCase,
 ) : ViewModel() {
 
     private val _superHeroes by lazy { MutableStateFlow<ResourceState<*>>(ResourceState.Idle) }
     val superHeroes: StateFlow<ResourceState<*>>
         get() = _superHeroes
+
+    private val _superHeroSearched by lazy { MutableStateFlow<ResourceState<*>>(ResourceState.Idle) }
+    val superHeroSearched: StateFlow<ResourceState<*>>
+        get() = _superHeroSearched
 
     fun getMarvelSuperHeroesPager(): Flow<PagingData<ModelResult>> =
         getMarvelSuperHeroesPagingUseCase()
@@ -44,6 +55,20 @@ class HomeViewModel @Inject constructor(
                 pagingData
             }
 
+    fun getSuperHeroSearched(nameSearched: String?) {
+        _superHeroSearched.update { ResourceState.Loading("") }
+        viewModelScope.launch(Dispatchers.IO) {
+
+            getMarvelSuperHeroSearchedUseCase(nameSearched = nameSearched).collectLatest { superHero ->
+                _superHeroSearched.update {
+                    if (superHero.isNotEmpty())
+                        ResourceState.Success(superHero)
+                    else
+                        ResourceState.Error(InvalidObjectException("SuperHero not found :("))
+                }
+            }
+        }
+    }
 }
 
 //Mock

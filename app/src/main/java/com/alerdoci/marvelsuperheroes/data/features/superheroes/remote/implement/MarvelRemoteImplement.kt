@@ -55,16 +55,42 @@ open class MarvelRepositoryImplement @Inject constructor(
                 offset = offset,
                 limit = limit
             )
-            if (superhero.isSuccessful) {
-                val results = superhero.body()?.data?.results
-                if (!results.isNullOrEmpty()) {
-                    emit(results.map { superhero -> superhero.toDomain() })
-                } else {
-                    emit(emptyList())
-                }
+        if (superhero.isSuccessful) {
+            val results = superhero.body()?.data?.results
+            if (!results.isNullOrEmpty()) {
+                emit(results.map { superhero -> superhero.toDomain() })
             } else {
                 emit(emptyList())
             }
+        } else {
+            emit(emptyList())
+        }
+    }
+
+    override suspend fun getMarvelSuperHeroSearched(
+        nameSearched: String?,
+        offset: Int,
+        limit: Int,
+    ): Flow<List<ModelResult>> = flow {
+        val timestamp = System.currentTimeMillis().toString()
+        val superhero = remoteService.getMarvelSuperHeroesSearched(
+            offset = offset,
+            limit = limit,
+            BuildConfig.API_KEY_PUBLIC,
+            timestamp,
+            NetworkModule.getHash(timestamp),
+            nameSearched = nameSearched
+        )
+        if (superhero.isSuccessful) {
+            val results = superhero.body()?.data?.results
+            if (!results.isNullOrEmpty()) {
+                emit(results.map { superhero -> superhero.toDomain() })
+            } else {
+                emit(emptyList())
+            }
+        } else {
+            emit(emptyList())
+        }
     }
 
     override suspend fun getMarvelSuperHeroComics(
@@ -73,8 +99,8 @@ open class MarvelRepositoryImplement @Inject constructor(
         limit: Int
     ): Flow<List<ModelComicsSuperHeroList>> = flow {
         val timestamp = System.currentTimeMillis().toString()
-            val superhero = remoteService.getMarvelSuperHeroComics(
-                superHeroId = superHeroId,
+        val superhero = remoteService.getMarvelSuperHeroComics(
+            superHeroId = superHeroId,
                 BuildConfig.API_KEY_PUBLIC,
                 timestamp,
                 NetworkModule.getHash(timestamp),

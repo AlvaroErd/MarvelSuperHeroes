@@ -18,6 +18,16 @@ interface MarvelService {
         @Query("hash") hash: String,
     ): Response<RemoteSuperHeroesList>
 
+    @GET("v1/public/characters")
+    suspend fun getMarvelSuperHeroesSearched(
+        @Query("offset") offset: Int,
+        @Query("limit") limit: Int,
+        @Query("apikey") apikey: String,
+        @Query("ts") ts: String,
+        @Query("hash") hash: String,
+        @Query("nameStartsWith") nameSearched: String? = null,
+    ): Response<RemoteSuperHeroesList>
+
     @GET("v1/public/characters/{id}")
     suspend fun getMarvelSuperHero(
         @Path("id") superHeroId: Int,
