@@ -92,8 +92,6 @@ Personal tip! Put your smarthphone in dark mode 😎
     
 ## Known bugs to fix 😅
 
-- The api call makes too many requests and exceeds the set limit
-- No message is displayed when that limit is exceeded
 - The splash screen is only compatible with android 12 onwards
 - Gaussian blur of the background image in the main view is only supported on android 12 onwards
 - The searchbar does not filter by name
