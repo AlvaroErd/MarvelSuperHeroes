@@ -18,6 +18,7 @@ ext {
     retrofitVersion = '2.9.0'                       // Retrofit
     gsonVersion = '2.10.1'                          // Gson for retrofit
     okHttpVersion = '4.10.0'                        // OkHttp
+    okHttpInterceptorVersion = '4.10.0'             // OkHttp
     coroutinesVersion = ' 1.6.4'                    // Coroutines
     hiltVersion = '2.45'                            // Hilt
     kaptVersion = '2.44'                            // Hilt Compiler
@@ -107,6 +108,7 @@ ext {
             retrofit         : "com.squareup.retrofit2:retrofit:${retrofitVersion}",
             retrofitConverter: "com.squareup.retrofit2:converter-gson:${retrofitVersion}",
             okHttp           : "com.squareup.okhttp3:okhttp:${okHttpVersion}",
+            okHttpInterceptor: "com.squareup.okhttp3:logging-interceptor:${okHttpInterceptorVersion}",
             kotlin           : "org.jetbrains.kotlin:kotlin-stdlib-jdk8:${kotlinVersion}",
             coreKtx          : "androidx.core:core-ktx:${coreKtxVersion}",
             gson             : "com.google.code.gson:gson:${gsonVersion}",

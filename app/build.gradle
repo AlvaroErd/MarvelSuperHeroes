@@ -141,6 +141,7 @@ dependencies {
     implementation dataDependencies.retrofit
     implementation dataDependencies.retrofitConverter
     implementation dataDependencies.okHttp
+    implementation dataDependencies.okHttpInterceptor
 
     testImplementation dataTestDependencies.mockk
 }
