@@ -211,7 +211,7 @@ fun HomeScreen(
                         Column(
                             modifier = Modifier
                                 .fillMaxSize()
-                                .padding(horizontal = MaterialTheme.spacing.xMedium)
+                                .padding(horizontal = MaterialTheme.spacing.semiMedium)
                         )
                         {
                             var items by rememberSaveable {
@@ -345,7 +345,7 @@ fun SuperheroItem(
                         }
                     },
                     modifier = Modifier
-                        .padding(all = MaterialTheme.spacing.xMedium)
+                        .padding(all = MaterialTheme.spacing.semiMedium)
                         .clip(CutCornerShape(topStart = MaterialTheme.spacing.extraMedium))
                         .aspectRatio(1 / 1f),
                 )

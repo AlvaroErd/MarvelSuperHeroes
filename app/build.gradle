@@ -87,6 +87,7 @@ android {
 }
 
 dependencies {
+    implementation 'androidx.wear.compose:compose-material:1.1.2'
     def appDependencies = rootProject.ext.appDependencies
     def appTestDependencies = rootProject.ext.appTestDependencies
 

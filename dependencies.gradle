@@ -11,7 +11,7 @@ ext {
     appcompatVersion = "1.6.0"
     navigationRuntimeVersion = '2.5.3'
     fragmentKtxVersion = '1.5.5'
-    lifecycleViewModelVersion = '2.5.1'
+    lifecycleViewModelVersion = '2.6.1'
     pagingRuntimeVersion = '3.1.1'
     navigationFragmentKtxVersion = '2.5.3'
     navigationUiKtxVersion = '2.5.3'
