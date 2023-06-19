@@ -95,17 +95,20 @@ fun HomeScreen(
         modifier = Modifier.fillMaxSize(),
         color = MaterialTheme.colorScheme.background,
     ) {
-        val superHeroListState by viewModel.superHeroes.collectAsState()
-        val superHeroListPagingState =
-            viewModel.getMarvelSuperHeroesPager().collectAsLazyPagingItems()
-
-        val superHeroSearchedState by viewModel.superHeroSearched.collectAsState()
-        var superHeroSearchedText: String = ""
 
         var textSearched by remember { mutableStateOf("") }
         var textActive by remember { mutableStateOf(false) }
         val context = LocalContext.current
         val snackbarHostState = remember { SnackbarHostState() }
+
+        val superHeroListState by viewModel.superHeroes.collectAsState()
+
+        val superHeroListPagingStateUnfiltered =
+            viewModel.getMarvelSuperHeroesPager(nameSearched = null).collectAsLazyPagingItems()
+
+        val superHeroListPagingStateFiltered =
+            viewModel.getMarvelSuperHeroesPager(nameSearched = textSearched)
+                .collectAsLazyPagingItems()
 
         Scaffold(snackbarHost = { SnackbarHost(hostState = snackbarHostState) }
         ) {
@@ -154,7 +157,7 @@ fun HomeScreen(
 //                                textSearched = ""
                                 Toast.makeText(
                                     context,
-                                    "Search Bar not implemented yet :( \n Item searched: $textSearched",
+                                    "Item searched: $textSearched",
                                     Toast.LENGTH_LONG
                                 )
                                     .show()
@@ -192,11 +195,7 @@ fun HomeScreen(
                             )
                         )
                         {
-                            //Not implemented yet
-//                            if (textSearched.isNotEmpty()) {
-//                            launch getSuperHeroSearched(textSearched)
-//                            else
-//                            launch getMarvelSuperHeroesPager()
+
                         }
                     }
                     Box(
@@ -220,44 +219,55 @@ fun HomeScreen(
                                     emptyList()
                                 )
                             }
+                            val superHeroListPagingState = if (textSearched.isNullOrEmpty()) {
+                                superHeroListPagingStateUnfiltered
+                            } else {
+                                superHeroListPagingStateFiltered
+                            }
+
                             val scrollState = rememberScrollState()
                             when (superHeroListState) {
-                                is ResourceState.Loading -> Column(
-                                    modifier = Modifier.fillMaxSize(),
-                                    horizontalAlignment = Alignment.CenterHorizontally,
-                                    verticalArrangement = Arrangement.Center
-                                ) {
-                                    LoadingScreen()
+                                is ResourceState.Loading -> {
+                                    Column(
+                                        modifier = Modifier.fillMaxSize(),
+                                        horizontalAlignment = Alignment.CenterHorizontally,
+                                        verticalArrangement = Arrangement.Center
+                                    ) {
+                                        LoadingScreen()
+                                    }
                                 }
 
-                                is ResourceState.Error -> Box(
-                                    contentAlignment = Alignment.Center,
-                                    modifier = Modifier.fillMaxSize()
-                                ) {
-                                    ErrorScreen()
+                                is ResourceState.Error -> {
+                                    Box(
+                                        contentAlignment = Alignment.Center,
+                                        modifier = Modifier.fillMaxSize()
+                                    ) {
+                                        ErrorScreen()
+                                    }
                                 }
 
-                                is ResourceState.Success ->
+                                is ResourceState.Success -> {
                                     LazyColumn(
                                         verticalArrangement = Arrangement.spacedBy(MaterialTheme.spacing.tiny),
                                         modifier = Modifier
                                             .fillMaxWidth()
                                             .zIndex(1f),
-//                                        state = lazyState
                                     ) {
                                         item {
                                             Spacer(modifier = Modifier.height(if (scrollState.isScrollInProgress) MaterialTheme.dimens.custom0 else MaterialTheme.dimens.custom40))
                                         }
                                         items(
                                             superHeroListPagingState,
-                                            key = { kSuperHero: ModelResult -> kSuperHero.id!! }) { superHeroItem ->
-                                            println("superHeroItem: ${superHeroItem?.name}")
+                                            key = { superHero -> superHero.id ?: 0 }
+                                        ) { superHeroItem ->
+                                            println("superHero: ${superHeroItem?.name}")
                                             SuperheroItem(
                                                 superHero = superHeroItem!!,
                                                 onItemClick = onItemClick
                                             )
                                         }
                                     }
+                                }
 
                                 else -> {}
                             }
@@ -315,13 +325,6 @@ fun SuperheroItem(
                         id = R.string.photo_content_description,
                         superHero.name.orEmpty()
                     ),
-                    loading = {
-                        Box(modifier = Modifier.padding(10.dp)) {
-                            CircularProgressIndicator(
-                                color = red_800
-                            )
-                        }
-                    },
                     contentScale = ContentScale.Crop,
                     modifier = Modifier
                         .blur(MaterialTheme.dimens.custom20)
@@ -333,14 +336,14 @@ fun SuperheroItem(
                         id = R.string.photo_content_description,
                         superHero.name.orEmpty()
                     ),
+                    contentScale = ContentScale.Crop,
                     loading = {
-                        Box(modifier = Modifier.padding(10.dp)) {
+                        Box(modifier = Modifier.padding(10.dp), Alignment.Center) {
                             CircularProgressIndicator(
                                 color = red_800
                             )
                         }
                     },
-                    contentScale = ContentScale.Crop,
                     modifier = Modifier
                         .padding(all = MaterialTheme.spacing.xMedium)
                         .clip(CutCornerShape(topStart = MaterialTheme.spacing.extraMedium))

@@ -40,4 +40,9 @@
     <string name="visit_on_wiki">Visit on Wiki</string>
     <string name="no_recent_comics">This superhero does not have any recent comics</string>
 
+    //Common
+    <string name="yes">Yes</string>
+    <string name="no">No</string>
+
+
 </resources>

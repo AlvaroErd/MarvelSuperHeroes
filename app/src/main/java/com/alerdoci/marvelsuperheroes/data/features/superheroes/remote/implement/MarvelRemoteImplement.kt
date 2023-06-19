@@ -19,7 +19,9 @@ open class MarvelRepositoryImplement @Inject constructor(
 ) : MarvelRepository {
 
     override suspend fun getMarvelSuperHeroesPaging(
-        offset: Int, limit: Int,
+        offset: Int,
+        limit: Int,
+        nameSearched: String?,
     ): Flow<List<ModelResult>> = flow {
         val timestamp = System.currentTimeMillis().toString()
         val superheroes = remoteService.getMarvelSuperHeroes(
@@ -28,6 +30,7 @@ open class MarvelRepositoryImplement @Inject constructor(
             BuildConfig.API_KEY_PUBLIC,
             timestamp,
             NetworkModule.getHash(timestamp),
+            nameSearched = null
         )
         if (superheroes.isSuccessful) {
             val results = superheroes.body()?.data?.results
@@ -55,32 +58,6 @@ open class MarvelRepositoryImplement @Inject constructor(
                 offset = offset,
                 limit = limit
             )
-        if (superhero.isSuccessful) {
-            val results = superhero.body()?.data?.results
-            if (!results.isNullOrEmpty()) {
-                emit(results.map { superhero -> superhero.toDomain() })
-            } else {
-                emit(emptyList())
-            }
-        } else {
-            emit(emptyList())
-        }
-    }
-
-    override suspend fun getMarvelSuperHeroSearched(
-        nameSearched: String?,
-        offset: Int,
-        limit: Int,
-    ): Flow<List<ModelResult>> = flow {
-        val timestamp = System.currentTimeMillis().toString()
-        val superhero = remoteService.getMarvelSuperHeroesSearched(
-            offset = offset,
-            limit = limit,
-            BuildConfig.API_KEY_PUBLIC,
-            timestamp,
-            NetworkModule.getHash(timestamp),
-            nameSearched = nameSearched
-        )
         if (superhero.isSuccessful) {
             val results = superhero.body()?.data?.results
             if (!results.isNullOrEmpty()) {

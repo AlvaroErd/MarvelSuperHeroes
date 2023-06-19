@@ -22,6 +22,7 @@ data class Dimens(
     val textSmallBody: TextUnit = 14.sp,
     val textSmallerBody: TextUnit = 12.sp,
     val textTinyBody: TextUnit = 10.sp,
+    val textExtraTiny: TextUnit = 8.sp,
     val textTiny: TextUnit = 6.sp,
 
     // Custom Dimens
@@ -57,6 +58,7 @@ data class Dimens(
     val custom18: Dp = 18.dp,
     val custom16: Dp = 16.dp,
     val custom14: Dp = 14.dp,
+    val custom12: Dp = 12.dp,
     val custom10: Dp = 10.dp,
     val custom8: Dp = 8.dp,
     val custom6: Dp = 6.dp,

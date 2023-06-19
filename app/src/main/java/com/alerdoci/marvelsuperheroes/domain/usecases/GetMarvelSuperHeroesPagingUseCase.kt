@@ -10,7 +10,7 @@ open class GetMarvelSuperHeroesPagingUseCase @Inject constructor(
     private val superHeroPaging: MarvelSuperHeroesPagingSource
 ) {
 
-    open operator fun invoke() = Pager(
+    open operator fun invoke(nameSearched: String?) = Pager(
         config = PagingConfig(
             pageSize = PAGE_SIZE,
         ),

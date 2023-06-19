@@ -12,6 +12,7 @@ open class MarvelSuperHeroesPagingSource @Inject constructor(
     private val repositoryPaging: MarvelRepository,
 ) : PagingSource<Int, ModelResult>() {
     private val limit = PAGE_SIZE
+    private var nameSearched = ""
     override fun getRefreshKey(state: PagingState<Int, ModelResult>): Int? {
         return state.anchorPosition?.let { anchorPosition ->
             state.closestPageToPosition(anchorPosition)?.prevKey?.plus(1)
@@ -24,7 +25,8 @@ open class MarvelSuperHeroesPagingSource @Inject constructor(
             val page = params.key ?: 0
             val response = repositoryPaging.getMarvelSuperHeroesPaging(
                 offset = page,
-                limit = limit
+                limit = limit,
+                nameSearched = nameSearched
             ).first()
 
             LoadResult.Page(
