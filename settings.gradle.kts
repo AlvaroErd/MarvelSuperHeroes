@@ -1,8 +1,9 @@
 pluginManagement {
     repositories {
+        gradlePluginPortal()
         google()
         mavenCentral()
-        gradlePluginPortal()
+        maven ("https://jitpack.io")
     }
 }
 dependencyResolutionManagement {
@@ -10,7 +11,8 @@ dependencyResolutionManagement {
     repositories {
         google()
         mavenCentral()
+        maven ("https://jitpack.io")
     }
 }
 rootProject.name = "MarvelSuperHeroes"
-include ':app'
+include(":app")
