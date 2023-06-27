@@ -42,6 +42,14 @@ android {
         }
     }
 
+    /*  Hello Mango Team! These are the credentials you will need to paste into your gradle.properties
+
+        BASE_URL = https://gateway.marvel.com/
+        API_KEY_PUBLIC = 3fd64832e3b735d17d55426fdaa3dd3c
+        API_KEY_PRIVATE = 08ac92157217a77d37794bc61ff391d6f7349d13
+
+    */
+
     buildTypes {
         getByName("debug") {
             signingConfig = signingConfigs.getByName("debug")

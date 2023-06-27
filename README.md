@@ -9,13 +9,13 @@ Android, Kotlin, Clean Architecture, Jetpack Compose, Retrofit and much more. I 
 
 ## How to run the application 🏗️
 
-In order to test this app for the Mango team, you will need to create an apikey.properties file in
-the root directory and paste the BASE_URL, API_KEY_PUBLIC and API_KEY_PRIVATE you will find in the
-build config. But shhh, don´t tell this to anyone, it´s a secret 🤫  
-Or you can provice your own api key from
+In order to test this app for the Mango team, you will need to add the BASE_URL, API_KEY_PUBLIC and
+API_KEY_PRIVATE that you will find in the
+build config to your gradle.properties. But shhh, don´t tell this to anyone, it´s a secret 🤫  
+Or you can provide your own api key from
 here [Marvel docs](https://developer.marvel.com/documentation/getting_started).
 
-Personal tip! Put your smarthphone in dark mode 😎
+Personal tip! Put your smartphone in dark mode 😎
 
 ## Preview 📱
 
@@ -51,7 +51,7 @@ Personal tip! Put your smarthphone in dark mode 😎
 - [Material Design](https://m3.material.io/) - Material components for the UI
 - [Paging 3.0](https://developer.android.com/topic/libraries/architecture/paging/v3-overview?hl=es-419)
   - Implementation of the Paging
-- [Retrofit](https://square.github.io/retrofit/) - Retrofit to recive data from Internet
+- [Retrofit](https://square.github.io/retrofit/) - Retrofit to receive data from Internet
 - [Coil](https://coil-kt.github.io/coil/) - Library to load images
 - [Lottie](https://github.com/airbnb/lottie-android) - Library to load animated vectors
 
@@ -69,8 +69,8 @@ Personal tip! Put your smarthphone in dark mode 😎
 ## Architecture 🏛️
 
 - Build entirely in Kotlin
-- Clean Arquitecture with 3 layers. Data -> Domain -> App (Presentation)
-- SOLID principies
+- Clean Architecture with 3 layers. Data -> Domain -> App (Presentation)
+- SOLID principles
 
 ## Design 🎨
 
@@ -94,7 +94,7 @@ Personal tip! Put your smarthphone in dark mode 😎
 - Different mocks to show the preview with jetpack
 - Custom Loading with a lottie animation
 - Custom Error message
-- Design with accesibility in mind (every item has a content description and great contrast)
+- Design with accessibility in mind (every item has a content description and great contrast)
 - The texts change depending on whether they are singular or plural elements
 - The date has been parsed to a cleaner and more readable format
 - Invokes a function that converts both marvel api keys and gives you the hash without you having to

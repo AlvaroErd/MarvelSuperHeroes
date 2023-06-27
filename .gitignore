@@ -22,4 +22,4 @@ deploymentTargetDropDown.xml
 render.experimental.xml
 
 #To save apikey in a file that is not upload online
-apikey.properties
+gradle.properties
