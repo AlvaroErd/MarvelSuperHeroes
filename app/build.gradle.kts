@@ -181,10 +181,10 @@ dependencies {
 
     implementation(libs.customtabs)
 
-//    //Room
-//    implementation(libs.androidx.room.compiler)
-//    implementation(libs.androidx.room.ktx)
-//    implementation(libs.androidx.room.runtime)
+    //Room
+    implementation(libs.androidx.room.ktx)
+    implementation(libs.androidx.room.runtime)
+    kapt(libs.room.compiler)
 
 //    //Firebase and GMS
 //    implementation(libs.firebase.auth)

@@ -147,7 +147,7 @@ androidx-navigation-ui-ktx = { module = "androidx.navigation:navigation-ui-ktx",
 androidx-palette = { module = "androidx.palette:palette", version.ref = "androidx-palette" }
 
 #Room Database
-androidx-room-compiler = { module = "androidx.room:room-compiler", version.ref = "room" }
+room-compiler = { group = "androidx.room", name = "room-compiler", version.ref = "room" }
 androidx-room-ktx = { module = "androidx.room:room-ktx", version.ref = "room" }
 androidx-room-runtime = { module = "androidx.room:room-runtime", version.ref = "room" }
 
@@ -199,6 +199,7 @@ okhttp3 = { module = "com.squareup.okhttp3:okhttp", version.ref = "okhttp" }
 
 #Chrome custom tabs
 customtabs = { group = "androidx.browser", name = "browser", version.ref = "customTabs" }
+
 #Shimmer
 shimmer = { group = "com.valentinilk.shimmer", name = "compose-shimmer", version.ref = "shimmerLibrary" }
 
@@ -214,7 +215,6 @@ exoplayer-dash = { group = "com.google.android.exoplayer", name = "exoplayer-das
 exoplayer-smoothstreaming = { group = "com.google.android.exoplayer", name = "exoplayer-smoothstreaming", version.ref = "exoplayer" }
 exoplayer-cast = { group = "com.google.android.exoplayer", name = "exoplayer-cast", version.ref = "exoplayer" }
 exoplayer-extension-mediasession = { group = "com.google.android.exoplayer", name = "extension-mediasession", version.ref = "exoplayer" }
-
 
 #Firebase and GMS
 firebase-auth = { group = "com.google.firebase", name = "firebase-auth-ktx", version.ref = "firebaseAuth" }
