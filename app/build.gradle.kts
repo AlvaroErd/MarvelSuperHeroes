@@ -6,6 +6,7 @@ plugins {
     alias(libs.plugins.hilt)
 }
 
+@Suppress("UnstableApiUsage")
 android {
     compileSdk = libs.versions.compileSdk.get().toInt()
     namespace = "com.alerdoci.marvelsuperheroes"
@@ -179,6 +180,11 @@ dependencies {
     implementation(libs.google.android.material)
 
     implementation(libs.customtabs)
+
+//    //Room
+//    implementation(libs.androidx.room.compiler)
+//    implementation(libs.androidx.room.ktx)
+//    implementation(libs.androidx.room.runtime)
 
 //    //Firebase and GMS
 //    implementation(libs.firebase.auth)

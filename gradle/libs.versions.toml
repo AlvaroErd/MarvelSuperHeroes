@@ -1,14 +1,14 @@
 [versions]
 
 #General, lifecycle and core
-androidGradlePlugin = "7.4.0"
+androidGradlePlugin = "8.0.2"
 kotlin = "1.8.10"
 kotlinx_immutable = "0.3.5"
 ksp = "1.8.0-1.0.9"
 
 compileSdk = "33"
 targetSdk = "33"
-minSdk = "21"
+minSdk = "27"
 
 #Android
 accompanist = "0.30.1"
