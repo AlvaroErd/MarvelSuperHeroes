@@ -6,6 +6,11 @@ plugins {
     alias(libs.plugins.hilt)
 }
 
+val versionMajor = 1
+val versionMinor = 0
+val versionPatch = 1
+val versionBuild = 0
+
 @Suppress("UnstableApiUsage")
 android {
     compileSdk = libs.versions.compileSdk.get().toInt()
@@ -13,17 +18,19 @@ android {
 
     buildFeatures {
         buildConfig = true
+        compose = true
+        viewBinding = true
     }
 
     defaultConfig {
         applicationId = "com.alerdoci.marvelsuperheroes"
         minSdk = libs.versions.minSdk.get().toInt()
         targetSdk = libs.versions.targetSdk.get().toInt()
-        versionCode = 1
-        versionName = "1.0"
+        versionCode =
+            versionMajor * 1000000 + versionMinor * 10000 + versionPatch * 100 + versionBuild
+        versionName = "${versionMajor}.${versionMinor}.${versionPatch}"
 
         vectorDrawables.useSupportLibrary = true
-
 
         testInstrumentationRunner =
             "com.example.android.architecture.blueprints.todoapp.CustomTestRunner"
@@ -84,18 +91,8 @@ android {
         targetCompatibility = JavaVersion.VERSION_17
     }
 
-    buildFeatures {
-        compose = true
-        viewBinding = true
-    }
-
     composeOptions {
         kotlinCompilerExtensionVersion = libs.versions.compose.compiler.get()
-    }
-
-    packagingOptions {
-        excludes += "META-INF/AL2.0"
-        excludes += "META-INF/LGPL2.1"
     }
 
 }
