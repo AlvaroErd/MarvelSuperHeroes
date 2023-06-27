@@ -37,23 +37,31 @@ android {
     buildTypes {
         getByName("debug") {
             signingConfig = signingConfigs.getByName("debug")
-            buildConfigField("String", "BASE_URL", "\"https://gateway.marvel.com/\"")
-            buildConfigField("String", "API_KEY_PUBLIC", "\"3fd64832e3b735d17d55426fdaa3dd3c\"")
+            buildConfigField("String", "BASE_URL", "\"${project.properties["BASE_URL"]}\"")
+            buildConfigField(
+                "String",
+                "API_KEY_PUBLIC",
+                "\"${project.properties["API_KEY_PUBLIC"]}\""
+            )
             buildConfigField(
                 "String",
                 "API_KEY_PRIVATE",
-                "\"08ac92157217a77d37794bc61ff391d6f7349d13\""
+                "\"${project.properties["API_KEY_PRIVATE"]}\""
             )
         }
 
         getByName("release") {
             isMinifyEnabled = true
-            buildConfigField("String", "BASE_URL", "\"https://gateway.marvel.com/\"")
-            buildConfigField("String", "API_KEY_PUBLIC", "\"3fd64832e3b735d17d55426fdaa3dd3c\"")
+            buildConfigField("String", "BASE_URL", "\"${project.properties["BASE_URL"]}\"")
+            buildConfigField(
+                "String",
+                "API_KEY_PUBLIC",
+                "\"${project.properties["API_KEY_PUBLIC"]}\""
+            )
             buildConfigField(
                 "String",
                 "API_KEY_PRIVATE",
-                "\"08ac92157217a77d37794bc61ff391d6f7349d13\""
+                "\"${project.properties["API_KEY_PRIVATE"]}\""
             )
             signingConfig = signingConfigs.getByName("debug")
             proguardFiles(
@@ -141,7 +149,6 @@ dependencies {
     testImplementation(libs.hilt.android.testing)
     kaptTest(libs.hilt.compiler)
 
-
     //Lottie
     implementation(libs.lottieXML)
     implementation(libs.lottieCompose)
@@ -158,12 +165,34 @@ dependencies {
     implementation(libs.fragmentKtx)
     implementation(libs.navigationFragmentKtx)
 
-    //Fragments
+    //Retrofit
     implementation(libs.retrofit)
     implementation(libs.retrofitConverter)
     implementation(libs.retrofitAdapter)
 
+    //Shimmer
+    implementation(libs.shimmer)
+
+    //Material Animations
+    implementation(libs.soup.anims.core)
+    implementation(libs.soup.anims.navigation)
     implementation(libs.google.android.material)
+
+    implementation(libs.customtabs)
+
+//    //Firebase and GMS
+//    implementation(libs.firebase.auth)
+//    implementation(libs.gms.playservices.auth)
+//    implementation(libs.google.services)
+
+//    //Exoplayer
+//    implementation(libs.exoplayer.core)
+//    implementation(libs.exoplayer.ui)
+//    implementation(libs.exoplayer.cast)
+//    implementation(libs.exoplayer.hls)
+//    implementation(libs.exoplayer.dash)
+//    implementation(libs.exoplayer.extension)
+//    implementation(libs.exoplayer.smoothstreaming)
 
     androidTestImplementation(libs.junit)
     androidTestImplementation(libs.androidx.test.core)
@@ -177,8 +206,4 @@ dependencies {
 
     // AndroidX Test - Hilt testing
     androidTestImplementation(libs.hilt.android.testing)
-}
-
-tasks.withType<Test>().configureEach {
-    systemProperties.put("robolectric.logging", "stdout")
 }
