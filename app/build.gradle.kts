@@ -22,6 +22,17 @@ android {
         viewBinding = true
     }
 
+    /* TODO: Pending set keystore signature data
+signingConfigs {
+    release {
+        storeFile file("keystore/MVVMProject.jks")
+        storePassword "password"
+        keyAlias "ProjectSignature"
+        keyPassword "password"
+    }
+}
+*/
+
     defaultConfig {
         applicationId = "com.alerdoci.marvelsuperheroes"
         minSdk = libs.versions.minSdk.get().toInt()
@@ -67,6 +78,47 @@ android {
         }
 
         getByName("release") {
+
+            // Force copy of distributable apk to custom folder dist in root project
+            val archiveBuildTypes = listOf("release", "debug")
+            val distFolder = "../dist/"
+            val apkNameBase = android.defaultConfig.applicationId
+
+            applicationVariants.filter { appVariant -> appVariant.buildType.name in archiveBuildTypes }
+                .map { variant ->
+                    variant.outputs.map { output ->
+
+                        val filename =
+                            "$apkNameBase-${if (variant.versionName.isNotEmpty()) variant.versionName else "no-version"}-${output.baseName}.apk"
+                        val taskSuffix = variant.name.capitalize()
+                        val assembleTaskName = "assemble$taskSuffix"
+                        val taskAssemble = tasks.findByName(assembleTaskName)
+                        if (taskAssemble != null) {
+                            val copyApkFolderTask = tasks.create(
+                                name = "archive$taskSuffix",
+                                type = org.gradle.api.tasks.Copy::class
+                            ) {
+
+                                description = "Archive/copy APK folder to a shared folder."
+                                val sourceFolder =
+                                    "$buildDir/outputs/apk/${output.baseName.replace("-", "/")}"
+                                val destinationFolder =
+                                    "$distFolder${output.baseName.replace("-", "/")}"
+
+                                println("Copying APK folder from: $sourceFolder into $destinationFolder")
+                                from(sourceFolder)
+                                into(destinationFolder)
+                                eachFile {
+                                    path = filename
+                                }
+                                includeEmptyDirs = false
+                            }
+
+                            taskAssemble.finalizedBy(copyApkFolderTask)
+                        }
+                    }
+                }
+
             isMinifyEnabled = true
             buildConfigField("String", "BASE_URL", "\"${project.properties["BASE_URL"]}\"")
             buildConfigField(
@@ -161,7 +213,10 @@ dependencies {
 
     //Coil
     implementation(libs.coil)
+    implementation(libs.coilCompose)
     implementation(libs.coilGif)
+    implementation(libs.coilSvg)
+    implementation(libs.placeholder)
 
     //Paging
     implementation(libs.pagingCompose)

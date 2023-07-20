@@ -1,0 +1,3 @@
+keyStorePassword=XXXXXX
+keyAlias=XXXXXX
+keyPassword=XXXXXX

@@ -1,4 +1,4 @@
-package com.alerdoci.marvelsuperheroes
+package com.alerdoci.marvelsuperheroes.app.application
 
 import android.app.Application
 import dagger.hilt.android.HiltAndroidApp
