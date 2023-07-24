@@ -6,8 +6,8 @@ kotlin = "1.8.10"
 kotlinx_immutable = "0.3.5"
 ksp = "1.8.0-1.0.9"
 
-compileSdk = "33"
-targetSdk = "33"
+compileSdk = "34"
+targetSdk = "34"
 minSdk = "27"
 
 #Android
@@ -33,6 +33,8 @@ androix-test-uiautomator = "2.2.0"
 androix-fragment = "1.5.5"
 navigationFragmentKtx = "2.5.3"
 navTransitions = "0.11.0-alpha"
+androidx-compose-preview = "1.6.0-alpha01"
+accompanist-permissions = "0.31.5-beta"
 
 #Coil
 coil = "2.3.0"
@@ -128,10 +130,12 @@ androidx-compose-ui-test = { module = "androidx.compose.ui:ui-test" }
 androidx-compose-ui-test-junit4 = { module = "androidx.compose.ui:ui-test-junit4" }
 androidx-compose-ui-test-manifest = { module = "androidx.compose.ui:ui-test-manifest" }
 androidx-compose-ui-tooling = { module = "androidx.compose.ui:ui-tooling" }
-androidx-compose-ui-tooling-preview = { module = "androidx.compose.ui:ui-tooling-preview" }
 androidx-compose-ui-util = { module = "androidx.compose.ui:ui-util" }
 androidx-compose-ui-viewbinding = { module = "androidx.compose.ui:ui-viewbinding" }
 androidx-constraintlayout-compose = { module = "androidx.constraintlayout:constraintlayout-compose", version.ref = "androidx-constraintlayout" }
+androidx-compose-ui-tooling-preview-android = { module = "androidx.compose.ui:ui-tooling-preview-android", version.ref = "androidx-compose-preview" }
+accompanist-accompanist-permissions = { module = "com.google.accompanist:accompanist-permissions", version.ref = "accompanist-permissions" }
+
 
 androidx-core-ktx = { module = "androidx.core:core-ktx", version.ref = "androidx-corektx" }
 androidx-glance = { module = "androidx.glance:glance", version.ref = "androidx-glance" }

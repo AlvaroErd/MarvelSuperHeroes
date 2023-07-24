@@ -1,9 +1,12 @@
 package com.alerdoci.marvelsuperheroes.app.screens.home.viewmodel
 
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
 import androidx.paging.PagingData
+import com.alerdoci.marvelsuperheroes.R
 import com.alerdoci.marvelsuperheroes.app.common.states.ResourceState
+import com.alerdoci.marvelsuperheroes.app.common.states.error.AppAction
+import com.alerdoci.marvelsuperheroes.app.common.states.error.AppError
+import com.alerdoci.marvelsuperheroes.app.common.states.error.ErrorBundle
 import com.alerdoci.marvelsuperheroes.domain.models.features.superheroes.ModelComics
 import com.alerdoci.marvelsuperheroes.domain.models.features.superheroes.ModelEvents
 import com.alerdoci.marvelsuperheroes.domain.models.features.superheroes.ModelResult
@@ -13,18 +16,13 @@ import com.alerdoci.marvelsuperheroes.domain.models.features.superheroes.ModelUr
 import com.alerdoci.marvelsuperheroes.domain.usecases.GetMarvelSuperHeroSearchedUseCase
 import com.alerdoci.marvelsuperheroes.domain.usecases.GetMarvelSuperHeroesPagingUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.catch
-import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.onStart
-import kotlinx.coroutines.flow.update
-import kotlinx.coroutines.launch
-import java.io.InvalidObjectException
 import javax.inject.Inject
 
 @HiltViewModel
@@ -33,44 +31,64 @@ class HomeViewModel @Inject constructor(
     private val getMarvelSuperHeroSearchedUseCase: GetMarvelSuperHeroSearchedUseCase,
 ) : ViewModel() {
 
-    private val _superHeroes by lazy { MutableStateFlow<ResourceState<*>>(ResourceState.Idle) }
-    val superHeroes: StateFlow<ResourceState<*>>
+    private val _superHeroes by lazy {
+        MutableStateFlow<ResourceState<PagingData<ModelResult>>>(
+            ResourceState.Idle()
+        )
+    }
+    val superHeroes: StateFlow<ResourceState<PagingData<ModelResult>>>
         get() = _superHeroes
 
-    private val _superHeroSearched by lazy { MutableStateFlow<ResourceState<*>>(ResourceState.Idle) }
-    val superHeroSearched: StateFlow<ResourceState<*>>
+    private val _superHeroSearched by lazy {
+        MutableStateFlow<ResourceState<List<ModelResult>>>(
+            ResourceState.Idle()
+        )
+    }
+    val superHeroSearched: StateFlow<ResourceState<List<ModelResult>>>
         get() = _superHeroSearched
 
     fun getMarvelSuperHeroesPager(): Flow<PagingData<ModelResult>> =
         getMarvelSuperHeroesPagingUseCase()
             .catch { error ->
-                _superHeroes.update { ResourceState.Error(error) }
+                _superHeroes.value = ResourceState.Error(errorBundleFromThrowable(error))
             }
             .onStart {
-                _superHeroes.update { ResourceState.Loading("") }
+                _superHeroes.value = ResourceState.Loading()
             }
             .map { pagingData ->
                 delay(1000)
-                _superHeroes.update { ResourceState.Success("") }
+                _superHeroes.value = ResourceState.Success(pagingData)
                 pagingData
             }
 
-    fun getSuperHeroSearched(nameSearched: String?) {
-        _superHeroSearched.update { ResourceState.Loading("") }
-        viewModelScope.launch(Dispatchers.IO) {
+//    fun getSuperHeroSearched(nameSearched: String?) {
+//        _superHeroSearched.value = ResourceState.Loading()
+//
+//        viewModelScope.launch(Dispatchers.IO) {
+//            try {
+//                val superHero = getMarvelSuperHeroSearchedUseCase(nameSearched = nameSearched)
+//                _superHeroSearched.value = if (superHero.isNotEmpty())
+//                    ResourceState.Success(superHero)
+//                else
+//                    ResourceState.Error(InvalidObjectException("SuperHero not found :("))
+//            } catch (error: Throwable) {
+//                _superHeroSearched.value = ResourceState.Error(errorBundleFromThrowable(error))
+//            }
+//        }
+//    }
 
-            getMarvelSuperHeroSearchedUseCase(nameSearched = nameSearched).collectLatest { superHero ->
-                _superHeroSearched.update {
-                    if (superHero.isNotEmpty())
-                        ResourceState.Success(superHero)
-                    else
-                        ResourceState.Error(InvalidObjectException("SuperHero not found :("))
-                }
-            }
-        }
+    private fun errorBundleFromThrowable(throwable: Throwable): ErrorBundle {
+        // Implement this function to create an ErrorBundle from the Throwable
+        // You can customize the ErrorBundle fields as needed
+        return ErrorBundle(
+            throwable = throwable,
+            stringId = R.string.error, // Provide a default error message resource ID
+            debugMessage = "Error: ${throwable.message}",
+            appAction = AppAction.UNKNOWN,
+            appError = AppError.UNKNOWN
+        )
     }
 }
-
 //Mock
 val marvelSuperHeroMock1 = ModelResult(
     id = 1,

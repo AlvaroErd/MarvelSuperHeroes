@@ -171,12 +171,12 @@ dependencies {
     implementation(libs.androidx.compose.material3)
     implementation(libs.androidx.compose.materialWindow)
     implementation(libs.androidx.compose.runtime.livedata)
-    implementation(libs.androidx.compose.ui.tooling.preview)
     debugImplementation(libs.androidx.compose.ui.test.manifest)
+    debugImplementation(libs.androidx.compose.ui.tooling.preview.android)
     debugImplementation(libs.androidx.compose.ui.tooling)
-
     implementation(libs.accompanist.swiperefresh)
     implementation(libs.accompanist.systemuicontroller)
+    implementation(libs.accompanist.permissions)
 
     implementation(libs.androidx.appcompat)
     implementation(libs.androidx.activity.ktx)
