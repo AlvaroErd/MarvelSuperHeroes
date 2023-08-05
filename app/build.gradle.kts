@@ -63,6 +63,7 @@ signingConfigs {
 
     buildTypes {
         getByName("debug") {
+            isMinifyEnabled = false
             signingConfig = signingConfigs.getByName("debug")
             buildConfigField("String", "BASE_URL", "\"${project.properties["BASE_URL"]}\"")
             buildConfigField(
@@ -75,9 +76,16 @@ signingConfigs {
                 "API_KEY_PRIVATE",
                 "\"${project.properties["API_KEY_PRIVATE"]}\""
             )
+            resValue("string", "app_name", "@string/app_name_debug")
+            resValue("drawable", "ic_launcher", "@mipmap/ic_launcher")
+
         }
 
         getByName("release") {
+            isMinifyEnabled = false
+            signingConfig = signingConfigs.getByName("debug")
+            resValue("string", "app_name", "@string/app_name_release")
+            resValue("drawable", "ic_launcher", "@mipmap/ic_launcher")
 
             // Force copy of distributable apk to custom folder dist in root project
             val archiveBuildTypes = listOf("release", "debug")
@@ -119,7 +127,6 @@ signingConfigs {
                     }
                 }
 
-            isMinifyEnabled = true
             buildConfigField("String", "BASE_URL", "\"${project.properties["BASE_URL"]}\"")
             buildConfigField(
                 "String",
@@ -131,7 +138,7 @@ signingConfigs {
                 "API_KEY_PRIVATE",
                 "\"${project.properties["API_KEY_PRIVATE"]}\""
             )
-            signingConfig = signingConfigs.getByName("debug")
+
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"
@@ -172,7 +179,8 @@ dependencies {
     implementation(libs.androidx.compose.materialWindow)
     implementation(libs.androidx.compose.runtime.livedata)
     debugImplementation(libs.androidx.compose.ui.test.manifest)
-    debugImplementation(libs.androidx.compose.ui.tooling.preview.android)
+//    debugImplementation(libs.androidx.compose.ui.tooling.preview.android)
+    implementation(libs.androidx.ui.tooling.preview)
     debugImplementation(libs.androidx.compose.ui.tooling)
     implementation(libs.accompanist.swiperefresh)
     implementation(libs.accompanist.systemuicontroller)
@@ -230,6 +238,8 @@ dependencies {
     implementation(libs.retrofit)
     implementation(libs.retrofitConverter)
     implementation(libs.retrofitAdapter)
+    implementation(libs.okhttp.logging)
+    implementation(libs.okhttp3)
 
     //Shimmer
     implementation(libs.shimmer)
@@ -244,7 +254,7 @@ dependencies {
     //Room
     implementation(libs.androidx.room.ktx)
     implementation(libs.androidx.room.runtime)
-    kapt(libs.room.compiler)
+    ksp(libs.room.compiler)
 
 //    //Firebase and GMS
 //    implementation(libs.firebase.auth)

@@ -316,7 +316,12 @@ fun SuperheroItem(
                         superHero.name.orEmpty()
                     ),
                     loading = {
-                        Box(modifier = Modifier.padding(10.dp)) {
+                        Box(
+                            modifier = Modifier
+                                .fillMaxSize()
+                                .padding(10.dp),
+                            Alignment.Center
+                        ) {
                             CircularProgressIndicator(
                                 color = red_800
                             )

@@ -10,17 +10,16 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.tooling.preview.PreviewFontScale
-import androidx.compose.ui.tooling.preview.PreviewScreenSizes
 import androidx.compose.ui.unit.dp
 import coil.ImageLoader
 import coil.compose.rememberAsyncImagePainter
 import coil.decode.GifDecoder
 import coil.decode.ImageDecoderDecoder
 
-@PreviewScreenSizes
-@PreviewFontScale
-@Preview(name = "Main")
+//@PreviewScreenSizes
+//@PreviewFontScale
+//@Preview(name = "Main")
+@Preview
 @Composable
 fun LoadGif(img: Int, modifier: Modifier) {
     val imageLoader = ImageLoader.Builder(LocalContext.current)

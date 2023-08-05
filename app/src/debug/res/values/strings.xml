@@ -1,0 +1,4 @@
+<resources>
+    //App name
+    <string name="app_name_debug">DEBUG Marvel SuperHeroes</string>
+</resources>
