@@ -4,7 +4,4 @@ import java.io.Serializable
 
 data class ModelEvents(
     val available: Int?,
-    val collectionURI: String?,
-    val items: List<ModelItem>?,
-    val returned: Int?
 ) : Serializable

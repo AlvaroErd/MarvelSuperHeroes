@@ -315,18 +315,7 @@ fun SuperheroItem(
                         id = R.string.photo_content_description,
                         superHero.name.orEmpty()
                     ),
-                    loading = {
-                        Box(
-                            modifier = Modifier
-                                .fillMaxSize()
-                                .padding(10.dp),
-                            Alignment.Center
-                        ) {
-                            CircularProgressIndicator(
-                                color = red_800
-                            )
-                        }
-                    },
+                    loading = { },
                     contentScale = ContentScale.Crop,
                     modifier = Modifier
                         .blur(MaterialTheme.dimens.custom20)
@@ -339,7 +328,10 @@ fun SuperheroItem(
                         superHero.name.orEmpty()
                     ),
                     loading = {
-                        Box(modifier = Modifier.padding(10.dp)) {
+                        Box(
+                            contentAlignment = Alignment.Center,
+                            modifier = Modifier.fillMaxSize()
+                        ) {
                             CircularProgressIndicator(
                                 color = red_800
                             )

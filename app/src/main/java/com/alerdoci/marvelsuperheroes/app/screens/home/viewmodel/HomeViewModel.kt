@@ -8,8 +8,6 @@ import com.alerdoci.marvelsuperheroes.domain.models.features.superheroes.ModelCo
 import com.alerdoci.marvelsuperheroes.domain.models.features.superheroes.ModelEvents
 import com.alerdoci.marvelsuperheroes.domain.models.features.superheroes.ModelResult
 import com.alerdoci.marvelsuperheroes.domain.models.features.superheroes.ModelSeries
-import com.alerdoci.marvelsuperheroes.domain.models.features.superheroes.ModelStories
-import com.alerdoci.marvelsuperheroes.domain.models.features.superheroes.ModelUrl
 import com.alerdoci.marvelsuperheroes.domain.usecases.GetMarvelSuperHeroSearchedUseCase
 import com.alerdoci.marvelsuperheroes.domain.usecases.GetMarvelSuperHeroesPagingUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -75,16 +73,9 @@ val marvelSuperHeroMock1 = ModelResult(
     id = 1,
     name = "3-D Man",
     description = "Fabulas reformidans viverra invidunt errem vis vitae fastidii. Convenire odio ipsum mutat ligula sociosqu scripserit civibus dicit. Expetenda tortor bibendum instructior maiestatis.",
-    modified = "",
-    resourceURI = "",
-    comics = ModelComics(null, null, emptyList(), null),
-    series = ModelSeries(null, null, emptyList(), null),
-    stories = ModelStories(null, null, emptyList(), null),
-    events = ModelEvents(null, null, emptyList(), null),
-    urls = listOf(
-        ModelUrl("", ""),
-        ModelUrl("", "")
-    ),
+    comics = ModelComics(null),
+    series = ModelSeries(null),
+    events = ModelEvents(null),
     imageFinal = "https://i.annihil.us/u/prod/marvel/i/mg/c/e0/535fecbbb9784.jpg"
 )
 
@@ -92,16 +83,9 @@ val marvelSuperHeroMock2 = ModelResult(
     id = 2,
     name = "A-Bomb (HAS)",
     description = "Te theophrastus idque pro hinc mediocritatem metus definiebas rutrum. Sed affert sapientem delicata vituperata at quaestio molestiae turpis gubergren. Neglegentur deserunt ferri dicam feugiat nisl expetendis dolore iuvaret.",
-    modified = "",
-    resourceURI = "",
-    comics = ModelComics(null, null, emptyList(), null),
-    series = ModelSeries(null, null, emptyList(), null),
-    stories = ModelStories(null, null, emptyList(), null),
-    events = ModelEvents(null, null, emptyList(), null),
-    urls = listOf(
-        ModelUrl("", ""),
-        ModelUrl("", "")
-    ),
+    comics = ModelComics(null),
+    series = ModelSeries(null),
+    events = ModelEvents(null),
     imageFinal = "https://i.annihil.us/u/prod/marvel/i/mg/3/20/5232158de5b16.jpg "
 )
 
@@ -109,16 +93,9 @@ val marvelSuperHeroMock3 = ModelResult(
     id = 3,
     name = "A.I.M.",
     description = "Ante vocent suscipit disputationi persecuti noluisse. Dolorem congue dolores finibus ipsum option. Iusto aliquip ligula omittantur purus comprehensam platonem rhoncus.",
-    modified = "",
-    resourceURI = "",
-    comics = ModelComics(null, null, emptyList(), null),
-    series = ModelSeries(null, null, emptyList(), null),
-    stories = ModelStories(null, null, emptyList(), null),
-    events = ModelEvents(null, null, emptyList(), null),
-    urls = listOf(
-        ModelUrl("", ""),
-        ModelUrl("", "")
-    ),
+    comics = ModelComics(null),
+    series = ModelSeries(null),
+    events = ModelEvents(null),
     imageFinal = "https://i.annihil.us/u/prod/marvel/i/mg/6/20/52602f21f29ec.jpg"
 )
 

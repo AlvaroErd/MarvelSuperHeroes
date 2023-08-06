@@ -5,7 +5,4 @@ import com.google.gson.annotations.SerializedName
 
 data class RemoteSeries(
     @SerializedName("available") val available: Int?,
-    @SerializedName("collectionURI") val collectionURI: String?,
-    @SerializedName("items") val items: List<RemoteItem>?,
-    @SerializedName("returned") val returned: Int?
 )
