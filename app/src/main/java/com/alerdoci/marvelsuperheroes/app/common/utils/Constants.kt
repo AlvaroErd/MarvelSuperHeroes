@@ -1,4 +1,4 @@
-package com.alerdoci.marvelsuperheroes.app.common
+package com.alerdoci.marvelsuperheroes.app.common.utils
 
 object Constants {
     const val LOREM_IPSUM_LONG =

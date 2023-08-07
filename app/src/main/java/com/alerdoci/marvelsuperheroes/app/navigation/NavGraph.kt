@@ -12,17 +12,25 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import com.alerdoci.marvelsuperheroes.app.screens.home.composable.HomeScreen
+import com.alerdoci.marvelsuperheroes.app.screens.onboarding.composables.OnBoardingScreen
 import com.alerdoci.marvelsuperheroes.app.screens.superhero.SuperheroActivity
 
 @OptIn(ExperimentalAnimationApi::class)
 @Composable
 fun SetupNavGraph(
     navController: NavHostController,
+    startDestination: String
 ) {
     NavHost(
         navController = navController,
-        startDestination = Screen.Home.route
+        startDestination = startDestination
     ) {
+
+        // Onboarding
+        composable(route = Screen.Onboarding.route) {
+            OnBoardingScreen(navController = navController)
+        }
+
         // Home
         composable(route = Screen.Home.route) {
             StartAnimation(
