@@ -1,6 +1,5 @@
 package com.alerdoci.marvelsuperheroes.app.screens.onboarding.composables
 
-import android.annotation.SuppressLint
 import androidx.compose.animation.core.*
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.Image
@@ -23,33 +22,26 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
+import androidx.navigation.compose.rememberNavController
 import com.alerdoci.marvelsuperheroes.R
 import com.alerdoci.marvelsuperheroes.app.common.utils.Constants.LOREM_IPSUM_SHORT
 import com.alerdoci.marvelsuperheroes.app.components.DefaultButton
 import com.alerdoci.marvelsuperheroes.app.navigation.Screen
 import com.alerdoci.marvelsuperheroes.app.screens.onboarding.viewmodel.OnboardingViewModel
-import com.google.accompanist.systemuicontroller.rememberSystemUiController
 
 @Composable
 fun OnBoardingScreen(
     navController: NavHostController
 ) {
-    val systemUiControl = rememberSystemUiController()
-
-    systemUiControl.setStatusBarColor(
-        color = MaterialTheme.colorScheme.background,
-        darkIcons = false
-    )
-
     Surface(modifier = Modifier.fillMaxSize()) {
         OnBoardingContent(navController = navController)
     }
 }
 
-@SuppressLint("Range")
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun OnBoardingContent(
@@ -105,10 +97,9 @@ fun OnBoardingContent(
     }
 }
 
-//
-//
-//@Preview(showSystemUi = true)
-//@Composable
-//fun PreviewOnBoardingScreen() {
-//    OnBoardingScreen()
-//}
+@Preview(showSystemUi = true)
+@Composable
+fun PreviewOnBoardingScreen() {
+    val navController = rememberNavController()
+    OnBoardingScreen(navController)
+}
