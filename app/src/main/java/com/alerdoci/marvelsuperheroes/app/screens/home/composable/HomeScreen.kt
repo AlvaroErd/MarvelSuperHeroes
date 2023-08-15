@@ -26,8 +26,8 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Close
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.material3.CircularProgressIndicator
-import androidx.compose.material3.Divider
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
@@ -38,6 +38,7 @@ import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
+import androidx.compose.material3.VerticalDivider
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
@@ -66,6 +67,7 @@ import androidx.navigation.NavHostController
 import androidx.paging.compose.collectAsLazyPagingItems
 import androidx.paging.compose.items
 import coil.compose.SubcomposeAsyncImage
+import coil.request.ImageRequest
 import com.airbnb.lottie.compose.LottieAnimation
 import com.airbnb.lottie.compose.LottieCompositionSpec
 import com.airbnb.lottie.compose.rememberLottieComposition
@@ -82,6 +84,8 @@ import com.alerdoci.marvelsuperheroes.app.theme.orange_A200
 import com.alerdoci.marvelsuperheroes.app.theme.red_800
 import com.alerdoci.marvelsuperheroes.app.theme.spacing
 import com.alerdoci.marvelsuperheroes.domain.models.features.superheroes.ModelResult
+import me.saket.telephoto.zoomable.rememberZoomableState
+import me.saket.telephoto.zoomable.zoomable
 
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @OptIn(ExperimentalMaterial3Api::class)
@@ -322,7 +326,10 @@ fun SuperheroItem(
                         .aspectRatio(1 / 1f),
                 )
                 SubcomposeAsyncImage(
-                    model = superHero.imageFinal,
+                    model = ImageRequest.Builder(LocalContext.current)
+                        .data(superHero.imageFinal)
+                        .crossfade(true)
+                        .build(),
                     contentDescription = stringResource(
                         id = R.string.photo_content_description,
                         superHero.name.orEmpty()
@@ -340,6 +347,7 @@ fun SuperheroItem(
                     contentScale = ContentScale.Crop,
                     modifier = Modifier
                         .padding(all = MaterialTheme.spacing.xMedium)
+                        .zoomable(rememberZoomableState(), onClick = {superHero.id?.let { onItemClick(it) }})
                         .clip(CutCornerShape(topStart = MaterialTheme.spacing.extraMedium))
                         .aspectRatio(1 / 1f),
                 )
@@ -406,13 +414,13 @@ fun SuperheroItem(
                             style = MaterialTheme.typography.bodyMedium,
                         )
                     }
-                    Divider(
+                    VerticalDivider(
                         modifier = Modifier
                             .fillMaxHeight()
                             .padding(vertical = MaterialTheme.dimens.custom30)
-                            .width(MaterialTheme.dimens.custom1)
-                            .background(MaterialTheme.colorScheme.onBackground)
-                            .alpha(0.6f)
+                            .alpha(0.6f),
+                        thickness = MaterialTheme.dimens.custom1,
+                        color = MaterialTheme.colorScheme.onBackground
                     )
                     Column(
                         modifier = Modifier.padding(top = MaterialTheme.spacing.semiSmall),
@@ -436,13 +444,13 @@ fun SuperheroItem(
                             style = MaterialTheme.typography.bodyMedium,
                         )
                     }
-                    Divider(
+                    VerticalDivider(
                         modifier = Modifier
                             .fillMaxHeight()
                             .padding(vertical = MaterialTheme.dimens.custom30)
-                            .width(MaterialTheme.dimens.custom1)
-                            .background(MaterialTheme.colorScheme.onBackground)
-                            .alpha(0.6f)
+                            .alpha(0.6f),
+                        thickness = MaterialTheme.dimens.custom1,
+                        color = MaterialTheme.colorScheme.onBackground
                     )
                     Column(
                         modifier = Modifier.padding(top = MaterialTheme.spacing.semiSmall),
@@ -470,12 +478,12 @@ fun SuperheroItem(
             }
         }
     }
-    Divider(
-        color = grey_500,
-        thickness = MaterialTheme.dimens.custom1,
+    HorizontalDivider(
         modifier = Modifier
             .padding(top = MaterialTheme.spacing.tiny)
-            .alpha(0.3f)
+            .alpha(0.3f),
+        thickness = MaterialTheme.dimens.custom1,
+        color = grey_500
     )
 }
 

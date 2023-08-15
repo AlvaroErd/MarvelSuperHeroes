@@ -225,6 +225,10 @@ dependencies {
     implementation(libs.coilGif)
     implementation(libs.coilSvg)
     implementation(libs.placeholder)
+    implementation(libs.zoomable)
+
+    //XML Zoomable Image
+    implementation(libs.photoview)
 
     //Paging
     implementation(libs.pagingCompose)
