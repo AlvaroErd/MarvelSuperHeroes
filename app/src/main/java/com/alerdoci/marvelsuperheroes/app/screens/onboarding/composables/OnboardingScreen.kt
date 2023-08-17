@@ -8,10 +8,12 @@ import androidx.compose.foundation.basicMarquee
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.MaterialTheme
@@ -39,6 +41,9 @@ import com.alerdoci.marvelsuperheroes.app.common.utils.Constants.LOREM_IPSUM_SHO
 import com.alerdoci.marvelsuperheroes.app.components.DefaultButton
 import com.alerdoci.marvelsuperheroes.app.navigation.Screen
 import com.alerdoci.marvelsuperheroes.app.screens.onboarding.viewmodel.OnboardingViewModel
+import com.alerdoci.marvelsuperheroes.app.theme.red_800
+import com.alerdoci.marvelsuperheroes.app.theme.spacing
+import com.alerdoci.marvelsuperheroes.app.theme.white
 
 @Composable
 fun OnBoardingScreen(
@@ -100,21 +105,40 @@ fun OnBoardingContent(
             val offset = Offset(10.0f, 15.0f)
 
             Text(
-                text = stringResource(R.string.welcome_to_marvel_universe),
+                text = stringResource(R.string.welcome_to),
                 modifier = Modifier.fillMaxWidth(),
-                style = TextStyle(
-                    fontSize = 58.sp,
-                    color = Color.White,
+                style = MaterialTheme.typography.displayLarge.copy(
+                    color = white, fontSize = 36.sp,
                     shadow = Shadow(
                         color = Color.Black, offset = offset, blurRadius = 10f
                     )
                 )
             )
+
+            Text(
+                text = stringResource(R.string.marvel_universe),
+                modifier = Modifier.fillMaxWidth(),
+                maxLines = 1,
+                style = MaterialTheme.typography.displayLarge.copy(
+                    color = white, fontSize = 42.sp,
+                    shadow = Shadow(
+                        color = Color.Black, offset = offset, blurRadius = 10f
+                    )
+                )
+            )
+            Spacer(Modifier.height(MaterialTheme.spacing.large))
             Text(
                 text = LOREM_IPSUM_SHORT,
-                style = MaterialTheme.typography.titleLarge,
-                color = Color.White
-            )
+                style = MaterialTheme.typography.titleLarge.copy(
+                    shadow = Shadow(
+                        color = Color.Black, offset = offset, blurRadius = 10f
+                    )
+                ),
+                color = Color.White,
+
+                )
+            Spacer(Modifier.height(MaterialTheme.spacing.small))
+
             DefaultButton(
                 text = "Get Started",
                 containerColor = Color.White,

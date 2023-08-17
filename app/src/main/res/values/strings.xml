@@ -40,6 +40,7 @@
     <string name="comics_appear">Last appearances in comics:</string>
     <string name="visit_on_wiki">Visit on Wiki</string>
     <string name="no_recent_comics">This superhero does not have any recent comics</string>
-    <string name="welcome_to_marvel_universe">Welcome to \nMarvel Universe</string>
+    <string name="welcome_to">Welcome to</string>
+    <string name="marvel_universe">Marvel Universe</string>
 
 </resources>
