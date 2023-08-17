@@ -201,6 +201,8 @@ dependencies {
     implementation(libs.androidx.lifecycle.viewModelCompose)
     implementation(libs.androidx.lifecycle.runtime.compose)
     implementation(libs.androidx.navigation.compose)
+    implementation(libs.androidx.navigation.runtime)
+    implementation(libs.androidx.navigation.ui.ktx)
     implementation(libs.androidx.window)
 
     //Splash
@@ -236,7 +238,7 @@ dependencies {
 
     //Fragments
     implementation(libs.fragmentKtx)
-    implementation(libs.navigationFragmentKtx)
+    implementation(libs.androidx.navigation.fragment)
 
     //Retrofit
     implementation(libs.retrofit)
@@ -250,7 +252,6 @@ dependencies {
 
     //Material Animations
     implementation(libs.soup.anims.core)
-    implementation(libs.soup.anims.navigation)
     implementation(libs.google.android.material)
 
     implementation(libs.customtabs)
@@ -259,6 +260,9 @@ dependencies {
     implementation(libs.androidx.room.ktx)
     implementation(libs.androidx.room.runtime)
     ksp(libs.room.compiler)
+
+    //Datastore
+    implementation(libs.datastore)
 
 //    //Firebase and GMS
 //    implementation(libs.firebase.auth)

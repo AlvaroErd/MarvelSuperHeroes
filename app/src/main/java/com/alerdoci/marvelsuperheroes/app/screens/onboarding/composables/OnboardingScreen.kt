@@ -12,6 +12,7 @@ import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
@@ -19,11 +20,17 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.blur
+import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.Shadow
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
@@ -55,12 +62,28 @@ fun OnBoardingContent(
     ) {
         Image(
             modifier = Modifier
-                .fillMaxHeight(0.9f)
-                .fillMaxWidth(0.9f)
+                .fillMaxHeight(1f)
+                .fillMaxWidth(1f)
                 .basicMarquee(
                     iterations = Int.MAX_VALUE,
                     delayMillis = 0,
-                    velocity = 20.dp,
+                    velocity = 5.dp,
+                    initialDelayMillis = 0
+                )
+                .blur(3.dp, 3.dp),
+            painter = painterResource(id = R.drawable.bg_planet),
+            contentDescription = "Marvel Superheroes",
+            contentScale = ContentScale.FillBounds
+        )
+        Image(
+            modifier = Modifier
+                .fillMaxHeight(1f)
+                .fillMaxWidth(1f)
+                .offset(0.dp, (-100).dp)
+                .basicMarquee(
+                    iterations = Int.MAX_VALUE,
+                    delayMillis = 0,
+                    velocity = 6.dp,
                     initialDelayMillis = 0
                 ),
             painter = painterResource(id = R.drawable.marvel_superheroes_onboarding),
@@ -74,23 +97,31 @@ fun OnBoardingContent(
                 .aspectRatio(2 / 4f),
             verticalArrangement = Arrangement.Bottom
         ) {
+            val offset = Offset(10.0f, 15.0f)
 
             Text(
-                text = "Wellcome to Marvel Universe",
+                text = stringResource(R.string.welcome_to_marvel_universe),
                 modifier = Modifier.fillMaxWidth(),
-                style = MaterialTheme.typography.displayLarge,
+                style = TextStyle(
+                    fontSize = 58.sp,
+                    color = Color.White,
+                    shadow = Shadow(
+                        color = Color.Black, offset = offset, blurRadius = 10f
+                    )
+                )
             )
             Text(
                 text = LOREM_IPSUM_SHORT,
                 style = MaterialTheme.typography.titleLarge,
-
-                )
+                color = Color.White
+            )
             DefaultButton(
                 text = "Get Started",
                 containerColor = Color.White,
                 contentColor = Color.Black,
             ) {
                 onboardingViewModel.saveOnBoardingState(completed = true)
+                navController.popBackStack()
                 navController.navigate(Screen.Home.route)
             }
         }

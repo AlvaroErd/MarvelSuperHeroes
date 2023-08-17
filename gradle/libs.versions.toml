@@ -23,9 +23,8 @@ androidx-compose-bom = "2023.08.00"
 androidx-constraintlayout = "1.0.1"
 androidx-corektx = "1.10.1"
 androidx-glance = "1.0.0-rc01"
-androidx-lifecycle-compose = "2.6.1"
-androidx-lifecycle-runtime-compose = "2.6.1"
-androidx-navigation = "2.7.0"
+androidx-lifecycle-compose = "2.4.2"
+androidx-lifecycle-runtime-compose = "2.5.3"
 androidx-palette = "1.0.0"
 androidx-test = "1.5.0"
 androidx-test-espresso = "3.5.1"
@@ -34,10 +33,12 @@ androidx-test-ext-truth = "1.5.0"
 androidx-window = "1.2.0-beta01"
 androix-test-uiautomator = "2.2.0"
 androix-fragment = "1.6.1"
-navigationFragmentKtx = "2.7.0"
 navTransitions = "0.11.0-alpha"
 androidx-compose-preview = "1.6.0-alpha03"
 accompanist-permissions = "0.31.5-beta"
+
+#Important! Dont upgrade until onboarding screen doesnt´s show for a second
+androidx-navigation = "2.5.0-alpha02"
 
 #Coil
 coil = "2.4.0"
@@ -76,7 +77,7 @@ customTabs = "1.6.0"
 shimmerLibrary = "1.0.4"
 
 #Exoplayer
-exoplayer = "2.19.0"
+exoplayer = "2.19.1"
 
 #Retrofit & okHttp
 retrofit = "2.9.0"
@@ -84,6 +85,9 @@ okhttp = "4.11.0"
 
 #Room
 room = "2.5.2"
+
+#Datastore
+datastore = '1.0.0'
 
 #Secret api in local.properties
 secrets = "2.0.1"
@@ -115,7 +119,6 @@ androidx-benchmark-macrobenchmark = { module = "androidx.benchmark:benchmark-mac
 androidx-benchmark-macrobenchmark-junit4 = { module = "androidx.benchmark:benchmark-macro-junit4", version.ref = "androidx-benchmark-junit4" }
 
 fragmentKtx = { module = "androidx.fragment:fragment-ktx", version.ref = "androix-fragment" }
-navigationFragmentKtx = { module = "androidx.navigation:navigation-fragment-ktx", version.ref = "navigationFragmentKtx" }
 
 #Compose UI Util
 androidx-compose-animation = { module = "androidx.compose.animation:animation" }
@@ -152,6 +155,7 @@ androidx-lifecycle-viewModelCompose = { module = "androidx.lifecycle:lifecycle-v
 androidx-lifecycle-viewmodel-ktx = { module = "androidx.lifecycle:lifecycle-viewmodel-ktx", version.ref = "androidx-lifecycle-compose" }
 androidx-lifecycle-viewmodel-savedstate = { module = "androidx.lifecycle:lifecycle-viewmodel-savedstate", version.ref = "androidx-lifecycle-compose" }
 androidx-navigation-compose = { module = "androidx.navigation:navigation-compose", version.ref = "androidx-navigation" }
+androidx-navigation-runtime = { module = "androidx.navigation:navigation-runtime", version.ref = "androidx-navigation" }
 androidx-navigation-fragment = { module = "androidx.navigation:navigation-fragment-ktx", version.ref = "androidx-navigation" }
 androidx-navigation-ui-ktx = { module = "androidx.navigation:navigation-ui-ktx", version.ref = "androidx-navigation" }
 androidx-palette = { module = "androidx.palette:palette", version.ref = "androidx-palette" }
@@ -160,6 +164,9 @@ androidx-palette = { module = "androidx.palette:palette", version.ref = "android
 room-compiler = { group = "androidx.room", name = "room-compiler", version.ref = "room" }
 androidx-room-ktx = { module = "androidx.room:room-ktx", version.ref = "room" }
 androidx-room-runtime = { module = "androidx.room:room-runtime", version.ref = "room" }
+
+#Datastore
+datastore = { module = "androidx.datastore:datastore-preferences", version.ref = "datastore" }
 
 androidx-test-core = { module = "androidx.test:core", version.ref = "androidx-test" }
 androidx-test-espresso-core = { module = "androidx.test.espresso:espresso-core", version.ref = "androidx-test-espresso" }
@@ -221,7 +228,6 @@ shimmer = { group = "com.valentinilk.shimmer", name = "compose-shimmer", version
 
 #Material Motion for Jetpack Compose
 soup-anims-core = { group = "io.github.fornewid", name = "material-motion-compose-core", version.ref = "navTransitions" }
-soup-anims-navigation = { group = "io.github.fornewid", name = "material-motion-compose-navigation", version.ref = "navTransitions" }
 
 #ExoPlayer
 exoplayer-core = { group = "com.google.android.exoplayer", name = "exoplayer-core", version.ref = "exoplayer" }
