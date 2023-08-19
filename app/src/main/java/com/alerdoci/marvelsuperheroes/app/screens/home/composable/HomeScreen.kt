@@ -7,6 +7,7 @@ import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.basicMarquee
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.gestures.snapping.rememberSnapFlingBehavior
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -18,8 +19,8 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CutCornerShape
 import androidx.compose.material.icons.Icons
@@ -88,7 +89,7 @@ import me.saket.telephoto.zoomable.rememberZoomableState
 import me.saket.telephoto.zoomable.zoomable
 
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
-@OptIn(ExperimentalMaterial3Api::class)
+@OptIn(ExperimentalMaterial3Api::class, ExperimentalFoundationApi::class)
 @Composable
 fun HomeScreen(
     navController: NavHostController,
@@ -225,6 +226,9 @@ fun HomeScreen(
                                 )
                             }
                             val scrollState = rememberScrollState()
+                            val lazyState = rememberLazyListState()
+                            val snapBehavior =
+                                rememberSnapFlingBehavior(lazyListState = lazyState)
                             when (superHeroListState) {
                                 is ResourceState.Loading -> Column(
                                     modifier = Modifier.fillMaxSize(),
@@ -247,7 +251,8 @@ fun HomeScreen(
                                         modifier = Modifier
                                             .fillMaxWidth()
                                             .zIndex(1f),
-//                                        state = lazyState
+                                        state = lazyState,
+                                        flingBehavior = snapBehavior
                                     ) {
                                         item {
                                             Spacer(modifier = Modifier.height(if (scrollState.isScrollInProgress) MaterialTheme.dimens.custom0 else MaterialTheme.dimens.custom40))
@@ -256,10 +261,13 @@ fun HomeScreen(
                                             superHeroListPagingState,
                                             key = { kSuperHero: ModelResult -> kSuperHero.id!! }) { superHeroItem ->
                                             println("superHeroItem: ${superHeroItem?.name}")
-                                            SuperheroItem(
-                                                superHero = superHeroItem!!,
-                                                onItemClick = onItemClick
-                                            )
+                                            if (superHeroItem != null) {
+                                                SuperheroItem(
+                                                    superHero = superHeroItem,
+                                                    onItemClick = onItemClick,
+                                                    modifier = Modifier.animateItemPlacement(),
+                                                )
+                                            }
                                         }
                                     }
 
@@ -289,6 +297,7 @@ fun HomeScreen(
 @Composable
 fun SuperheroItem(
     superHero: ModelResult,
+    modifier: Modifier,
     onItemClick: (superHeroId: Int) -> Unit
 ) {
     Box(
@@ -347,7 +356,9 @@ fun SuperheroItem(
                     contentScale = ContentScale.Crop,
                     modifier = Modifier
                         .padding(all = MaterialTheme.spacing.xMedium)
-                        .zoomable(rememberZoomableState(), onClick = {superHero.id?.let { onItemClick(it) }})
+                        .zoomable(
+                            rememberZoomableState(),
+                            onClick = { superHero.id?.let { onItemClick(it) } })
                         .clip(CutCornerShape(topStart = MaterialTheme.spacing.extraMedium))
                         .aspectRatio(1 / 1f),
                 )
@@ -491,5 +502,5 @@ fun SuperheroItem(
 @Preview("Dark Theme", uiMode = Configuration.UI_MODE_NIGHT_YES, showBackground = true)
 @Composable
 fun SuperheroItemPreview() {
-    SuperheroItem(superHero = marvelSuperHeroMock1, onItemClick = {})
+    SuperheroItem(superHero = marvelSuperHeroMock1, modifier = Modifier, onItemClick = {})
 }
