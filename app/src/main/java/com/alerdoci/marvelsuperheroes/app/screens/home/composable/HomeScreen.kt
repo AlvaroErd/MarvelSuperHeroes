@@ -18,7 +18,6 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CutCornerShape
@@ -83,7 +82,7 @@ import com.alerdoci.marvelsuperheroes.app.theme.grey_500
 import com.alerdoci.marvelsuperheroes.app.theme.orange_A200
 import com.alerdoci.marvelsuperheroes.app.theme.red_800
 import com.alerdoci.marvelsuperheroes.app.theme.spacing
-import com.alerdoci.marvelsuperheroes.domain.models.features.superheroes.ModelResult
+import com.alerdoci.marvelsuperheroes.model.features.superheroes.SuperHeroesResult
 import me.saket.telephoto.zoomable.rememberZoomableState
 import me.saket.telephoto.zoomable.zoomable
 
@@ -220,7 +219,7 @@ fun HomeScreen(
                         )
                         {
                             var items by rememberSaveable {
-                                mutableStateOf<List<ModelResult>>(
+                                mutableStateOf<List<SuperHeroesResult>>(
                                     emptyList()
                                 )
                             }
@@ -254,7 +253,7 @@ fun HomeScreen(
                                         }
                                         items(
                                             superHeroListPagingState,
-                                            key = { kSuperHero: ModelResult -> kSuperHero.id!! }) { superHeroItem ->
+                                            key = { kSuperHero: SuperHeroesResult -> kSuperHero.id!! }) { superHeroItem ->
                                             println("superHeroItem: ${superHeroItem?.name}")
                                             SuperheroItem(
                                                 superHero = superHeroItem!!,
@@ -288,7 +287,7 @@ fun HomeScreen(
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun SuperheroItem(
-    superHero: ModelResult,
+    superHero: SuperHeroesResult,
     onItemClick: (superHeroId: Int) -> Unit
 ) {
     Box(
@@ -347,7 +346,7 @@ fun SuperheroItem(
                     contentScale = ContentScale.Crop,
                     modifier = Modifier
                         .padding(all = MaterialTheme.spacing.xMedium)
-                        .zoomable(rememberZoomableState(), onClick = {superHero.id?.let { onItemClick(it) }})
+                        .zoomable(rememberZoomableState(), onClick = { superHero.id?.let { onItemClick(it) } })
                         .clip(CutCornerShape(topStart = MaterialTheme.spacing.extraMedium))
                         .aspectRatio(1 / 1f),
                 )

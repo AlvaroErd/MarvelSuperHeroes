@@ -65,7 +65,6 @@ signingConfigs {
         getByName("debug") {
             isMinifyEnabled = false
             signingConfig = signingConfigs.getByName("debug")
-            buildConfigField("String", "BASE_URL", "\"${project.properties["BASE_URL"]}\"")
             buildConfigField(
                 "String",
                 "API_KEY_PUBLIC",
@@ -127,7 +126,6 @@ signingConfigs {
                     }
                 }
 
-            buildConfigField("String", "BASE_URL", "\"${project.properties["BASE_URL"]}\"")
             buildConfigField(
                 "String",
                 "API_KEY_PUBLIC",
@@ -143,6 +141,19 @@ signingConfigs {
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"
             )
+        }
+    }
+
+    // Specifies one flavor dimension.
+    flavorDimensions += "version"
+    productFlavors {
+        create("pre") {
+            dimension = "version"
+            applicationIdSuffix = ".pre"
+            versionNameSuffix = "-pre"
+        }
+        create("pro") {
+            dimension = "version"
         }
     }
 

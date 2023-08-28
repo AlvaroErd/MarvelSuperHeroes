@@ -18,8 +18,8 @@ import com.alerdoci.marvelsuperheroes.app.common.states.ResourceState
 import com.alerdoci.marvelsuperheroes.app.screens.superhero.composable.ComicsList
 import com.alerdoci.marvelsuperheroes.app.screens.superhero.viewmodel.SuperHeroViewModel
 import com.alerdoci.marvelsuperheroes.databinding.FragmentSuperheroBinding
-import com.alerdoci.marvelsuperheroes.domain.models.features.superherocomics.ModelComicsSuperHeroList
-import com.alerdoci.marvelsuperheroes.domain.models.features.superheroes.ModelResult
+import com.alerdoci.marvelsuperheroes.model.features.superherocomic.SuperHeroComic
+import com.alerdoci.marvelsuperheroes.model.features.superheroes.SuperHeroesResult
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.collectLatest
@@ -30,6 +30,7 @@ import kotlinx.coroutines.withContext
 class SuperHeroFragment : Fragment() {
 
     companion object {
+
         fun newInstance(superHeroId: Int) = SuperHeroFragment()
             .apply { this.superHeroId = superHeroId }
     }
@@ -38,8 +39,8 @@ class SuperHeroFragment : Fragment() {
 
     private val viewModel: SuperHeroViewModel by viewModels()
     private var binding: FragmentSuperheroBinding? = null
-    private var currentSuperHero: List<ModelResult> = emptyList()
-    private var currentSuperHeroComic: List<ModelComicsSuperHeroList> = emptyList()
+    private var currentSuperHero: List<SuperHeroesResult> = emptyList()
+    private var currentSuperHeroComic: List<SuperHeroComic> = emptyList()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -65,7 +66,7 @@ class SuperHeroFragment : Fragment() {
                             }
 
                             is ResourceState.Success -> {
-                                currentSuperHero = superHeroState.data as List<ModelResult>
+                                currentSuperHero = superHeroState.data as List<SuperHeroesResult>
                                 withContext(Dispatchers.Main) {
                                     loadSuperHero()
                                 }
@@ -90,7 +91,7 @@ class SuperHeroFragment : Fragment() {
 
                         is ResourceState.Success -> {
                             currentSuperHeroComic =
-                                superHeroComicState.data as List<ModelComicsSuperHeroList>
+                                superHeroComicState.data as List<SuperHeroComic>
                             withContext(Dispatchers.Main) {
                                 loadSuperHeroComics()
                             }

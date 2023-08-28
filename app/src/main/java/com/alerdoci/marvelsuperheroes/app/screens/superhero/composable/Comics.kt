@@ -26,13 +26,13 @@ import com.alerdoci.marvelsuperheroes.app.theme.MarvelSuperHeroesTheme
 import com.alerdoci.marvelsuperheroes.app.theme.black_1000
 import com.alerdoci.marvelsuperheroes.app.theme.red_800
 import com.alerdoci.marvelsuperheroes.app.theme.spacing
-import com.alerdoci.marvelsuperheroes.domain.models.features.superherocomics.ModelComicsSuperHeroList
+import com.alerdoci.marvelsuperheroes.model.features.superherocomic.SuperHeroComic
 import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
 
 @Composable
-fun ComicsList(comicListItems: List<ModelComicsSuperHeroList>) {
+fun ComicsList(comicListItems: List<SuperHeroComic>) {
     MarvelSuperHeroesTheme {
         Column {
             val inputDateFormat = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssZ", Locale.getDefault())
@@ -67,7 +67,7 @@ fun ComicsList(comicListItems: List<ModelComicsSuperHeroList>) {
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun ComicCard(
-    item: ModelComicsSuperHeroList,
+    item: SuperHeroComic,
     comicImage: String,
     comicTitle: String,
     comicDate: String
