@@ -1,7 +1,18 @@
 package com.alerdoci.marvelsuperheroes.app.common.extensions
 
+import android.content.Context
+import android.content.ContextWrapper
+import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.interaction.MutableInteractionSource
+import androidx.compose.runtime.remember
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.composed
+import com.alerdoci.marvelsuperheroes.app.common.extensions.Extensions.formatVoteCount
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
+import java.text.DecimalFormat
 
 object Extensions {
 
@@ -12,5 +23,36 @@ object Extensions {
     suspend fun <T> runIo(
         function: suspend () -> T
     ): T = withContext(Dispatchers.IO) { function() }
+
+    fun String.toToast(context: Context, length: Int = Toast.LENGTH_SHORT) {
+        Toast.makeText(context, this, length).show()
+    }
+
+    fun Context.getActivity(): AppCompatActivity? = when (this) {
+        is AppCompatActivity -> this
+        is ContextWrapper -> baseContext.getActivity()
+        else -> null
+    }
+
+    fun Modifier.noRippleClickable(onClick: () -> Unit): Modifier = composed {
+        clickable(indication = null,
+            interactionSource = remember { MutableInteractionSource() }) {
+            onClick()
+        }
+    }
+
+    fun Int.formatVoteCount(): String {
+        val df = DecimalFormat("#.#")
+        return if (this < 1000) {
+            "$this"
+        } else {
+            val formattedCount = if (this in 1000..999999) {
+                df.format((this / 1000.0)).toString().replace(',', '.')
+            } else {
+                df.format((this / 1000000.0)).toString().replace(',', '.')
+            }
+            "$formattedCount${if (this in 1000..999999) "k" else "M"}"
+        }
+    }
 
 }

@@ -4,6 +4,7 @@ import android.annotation.SuppressLint
 import android.content.res.Configuration
 import android.widget.Toast
 import androidx.compose.foundation.ExperimentalFoundationApi
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.basicMarquee
 import androidx.compose.foundation.clickable
@@ -19,19 +20,23 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CutCornerShape
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Close
 import androidx.compose.material.icons.filled.Search
+import androidx.compose.material.icons.outlined.Info
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.ModalBottomSheet
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.SearchBar
 import androidx.compose.material3.SearchBarDefaults
@@ -40,6 +45,7 @@ import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.VerticalDivider
+import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
@@ -48,6 +54,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
+import androidx.compose.ui.Alignment.Companion.CenterHorizontally
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.draw.blur
@@ -55,11 +62,13 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.drawBehind
 import androidx.compose.ui.draw.rotate
 import androidx.compose.ui.geometry.Offset
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.pluralStringResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.zIndex
@@ -73,18 +82,25 @@ import com.airbnb.lottie.compose.LottieAnimation
 import com.airbnb.lottie.compose.LottieCompositionSpec
 import com.airbnb.lottie.compose.rememberLottieComposition
 import com.alerdoci.marvelsuperheroes.R
+import com.alerdoci.marvelsuperheroes.app.common.extensions.Extensions.noRippleClickable
 import com.alerdoci.marvelsuperheroes.app.common.states.ResourceState
 import com.alerdoci.marvelsuperheroes.app.common.states.error.ErrorScreen
 import com.alerdoci.marvelsuperheroes.app.common.states.loading.LoadingScreen
+import com.alerdoci.marvelsuperheroes.app.common.utils.Constants.LOREM_IPSUM_SHORT
+import com.alerdoci.marvelsuperheroes.app.common.utils.ThemeMode
 import com.alerdoci.marvelsuperheroes.app.components.DiagonalDivider
+import com.alerdoci.marvelsuperheroes.app.components.InfoDialog
 import com.alerdoci.marvelsuperheroes.app.screens.home.viewmodel.HomeViewModel
 import com.alerdoci.marvelsuperheroes.app.screens.home.viewmodel.marvelSuperHeroMock1
+import com.alerdoci.marvelsuperheroes.app.theme.amber_A100
+import com.alerdoci.marvelsuperheroes.app.theme.blue_grey_900
 import com.alerdoci.marvelsuperheroes.app.theme.dimens
 import com.alerdoci.marvelsuperheroes.app.theme.grey_500
 import com.alerdoci.marvelsuperheroes.app.theme.orange_A200
 import com.alerdoci.marvelsuperheroes.app.theme.red_800
 import com.alerdoci.marvelsuperheroes.app.theme.spacing
 import com.alerdoci.marvelsuperheroes.domain.models.features.superheroes.ModelResult
+import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import me.saket.telephoto.zoomable.rememberZoomableState
 import me.saket.telephoto.zoomable.zoomable
 
@@ -96,6 +112,25 @@ fun HomeScreen(
     viewModel: HomeViewModel = hiltViewModel(),
     onItemClick: (superHeroId: Int) -> Unit
 ) {
+    val infoDialog = remember { mutableStateOf(false) }
+
+    var isSheetOpen by rememberSaveable {
+        mutableStateOf(false)
+    }
+    val sheetState = rememberModalBottomSheetState()
+
+    val systemUiController = rememberSystemUiController()
+
+    systemUiController.setStatusBarColor(
+        color = MaterialTheme.colorScheme.background,
+        darkIcons = viewModel.getCurrentTheme() == ThemeMode.Light
+    )
+
+    systemUiController.setNavigationBarColor(
+        color = MaterialTheme.colorScheme.background,
+        darkIcons = viewModel.getCurrentTheme() == ThemeMode.Light
+    )
+
     Surface(
         modifier = Modifier.fillMaxSize(),
         color = MaterialTheme.colorScheme.background,
@@ -112,6 +147,19 @@ fun HomeScreen(
         val context = LocalContext.current
         val snackbarHostState = remember { SnackbarHostState() }
 
+        var clickCount = 0
+
+        val marvelTitle by rememberLottieComposition(LottieCompositionSpec.RawRes(R.raw.lottie_marvel_title))
+        val themeMode = ThemeMode.values()[viewModel.getThemeValue()]
+
+        val iconRes = if (themeMode == ThemeMode.Dark) {
+            R.drawable.ic_sun
+        } else {
+            R.drawable.ic_moon
+        }
+
+        val contentColor = if (themeMode == ThemeMode.Dark) amber_A100 else blue_grey_900
+
         Scaffold(snackbarHost = { SnackbarHost(hostState = snackbarHostState) }
         ) {
             Column(
@@ -120,7 +168,6 @@ fun HomeScreen(
                     .background(MaterialTheme.colorScheme.background),
             )
             {
-                val marvelTitle by rememberLottieComposition(LottieCompositionSpec.RawRes(R.raw.lottie_marvel_title))
                 Column(
                     modifier = Modifier
                         .fillMaxWidth()
@@ -128,16 +175,105 @@ fun HomeScreen(
                         .padding(top = MaterialTheme.spacing.extraMedium),
                     Arrangement.Center
                 ) {
-                    LottieAnimation(
-                        composition = marvelTitle,
+                    Row(
                         modifier = Modifier
-                            .height(MaterialTheme.dimens.custom50)
-                    )
+                            .fillMaxWidth()
+                            .height(50.dp),
+                        verticalAlignment = Alignment.CenterVertically
+                    ) {
+                        IconButton(
+                            onClick = {
+                                infoDialog.value = true
+                            },
+                            modifier = Modifier
+                                .padding(start = 20.dp)
+                                .fillMaxHeight(),
+                        ) {
+                            Icon(
+                                Icons.Outlined.Info,
+                                contentDescription = "App info",
+                                tint = Color.White,
+                                modifier = Modifier
+                                    .size(27.dp),
+                            )
+                        }
+                        LottieAnimation(
+                            composition = marvelTitle,
+                            modifier = Modifier
+                                .noRippleClickable {
+                                    clickCount++
+                                    if (clickCount == 5) {
+                                        clickCount = 0
+                                        isSheetOpen = true
+                                    }
+                                }
+                                .weight(1f)
+                                .padding(horizontal = 80.dp)
+                        )
+                        IconButton(
+                            onClick = {
+                                val newTheme =
+                                    if (themeMode == ThemeMode.Dark) ThemeMode.Light else ThemeMode.Dark
+                                viewModel.setTheme(newTheme)
+                            },
+                            modifier = Modifier
+                                .padding(end = 20.dp)
+                                .fillMaxHeight(),
+                        ) {
+                            Icon(
+                                painterResource(id = iconRes),
+                                contentDescription = "Theme Toggle",
+                                tint = Color.White,
+                                modifier = Modifier
+                                    .size(25.dp),
+                            )
+                        } /*
+                            ImageSwitch(
+                                checkedImage = painterResource(R.drawable.good_night),
+                                unCheckedImage = painterResource(R.drawable.good_morning),
+                                size = 50.dp,
+                                checked = themeMode == ThemeMode.Dark,
+                                onCheckedChange = { isChecked ->
+                                    if (isChecked) {
+                                        viewModel.setTheme(ThemeMode.Dark)
+                                    } else {
+                                        viewModel.setTheme(ThemeMode.Light)
+                                    }
+                                }
+                            )
+                            Switch(
+                                checked = themeMode == ThemeMode.Dark,
+                                onCheckedChange = { isChecked ->
+                                    if (isChecked) {
+                                        viewModel.setTheme(ThemeMode.Dark)
+                                    } else {
+                                        viewModel.setTheme(ThemeMode.Light)
+                                    }
+                                },
+                                thumbContent = {
+                                    Icon(
+                                        modifier = Modifier
+                                            .size(SwitchDefaults.IconSize),
+                                        imageVector = if (themeMode == ThemeMode.Dark) Icons.Rounded.DarkMode else Icons.Rounded.LightMode,
+                                        contentDescription = "Switch Icon"
+                                    )
+                                },
+                                colors = SwitchDefaults.colors(
+                                    //Track = background, Thumb = circle,
+                                    checkedTrackColor = blue_grey_900,
+                                    checkedThumbColor = blue_grey_500,
+                                    uncheckedTrackColor = orange_300,
+                                    uncheckedThumbColor = blue_grey_300,
+                                    uncheckedIconColor = Color.White,
+                                    uncheckedBorderColor = Color.Transparent
+                                ),
+                            ) */
+                    }
                 }
                 Column(
                     modifier = Modifier
                         .fillMaxWidth(),
-                    horizontalAlignment = Alignment.CenterHorizontally,
+                    horizontalAlignment = CenterHorizontally,
                 ) {
                     Box(
                         modifier = Modifier
@@ -232,7 +368,7 @@ fun HomeScreen(
                             when (superHeroListState) {
                                 is ResourceState.Loading -> Column(
                                     modifier = Modifier.fillMaxSize(),
-                                    horizontalAlignment = Alignment.CenterHorizontally,
+                                    horizontalAlignment = CenterHorizontally,
                                     verticalArrangement = Arrangement.Center
                                 ) {
                                     LoadingScreen()
@@ -288,6 +424,71 @@ fun HomeScreen(
                         }
                     }
                 }
+            }
+        }
+    }
+    if (infoDialog.value) {
+        InfoDialog(
+            title = "Hi! I´m Álvaro",
+            desc = LOREM_IPSUM_SHORT,
+            onDismiss = {
+                infoDialog.value = false
+            }
+        )
+    }
+    if (isSheetOpen) {
+        ModalBottomSheet(
+            sheetState = sheetState,
+            onDismissRequest = {
+                isSheetOpen = false
+            },
+        ) {
+            Column(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .padding(horizontal = 15.dp),
+                horizontalAlignment = CenterHorizontally
+            ) {
+                Text(
+                    text = "Awesome!",
+                    textAlign = TextAlign.Center,
+                    modifier = Modifier
+                        .padding(bottom = 15.dp)
+                        .drawBehind {
+                            val verticalOffset = size.height
+                            drawLine(
+                                color = orange_A200,
+                                strokeWidth = 2.dp.toPx(),
+                                start = Offset(0f, verticalOffset),
+                                end = Offset(size.width, verticalOffset)
+                            )
+                        },
+                    style = MaterialTheme.typography.displayLarge
+                )
+                Text(
+                    text = "You have been found the Cheems Easter Egg!",
+                    textAlign = TextAlign.Center,
+                    modifier = Modifier
+                        .padding(bottom = 5.dp)
+                        .fillMaxWidth(),
+                    style = MaterialTheme.typography.bodyLarge,
+                )
+                Text(
+                    text = "I hope you are happy in heaven",
+                    textAlign = TextAlign.Center,
+                    modifier = Modifier
+                        .padding(bottom = 20.dp)
+                        .fillMaxWidth(),
+                    style = MaterialTheme.typography.bodyLarge,
+                )
+                Image(
+                    painter = painterResource(id = R.drawable.cheems),
+                    contentDescription = null,
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(bottom = 20.dp)
+                        .clip(RoundedCornerShape(15.dp))
+                )
             }
         }
     }
@@ -404,7 +605,7 @@ fun SuperheroItem(
                 ) {
                     Column(
                         modifier = Modifier.padding(top = MaterialTheme.spacing.semiSmall),
-                        horizontalAlignment = Alignment.CenterHorizontally,
+                        horizontalAlignment = CenterHorizontally,
                         verticalArrangement = Arrangement.Center
 
                     ) {
@@ -435,7 +636,7 @@ fun SuperheroItem(
                     )
                     Column(
                         modifier = Modifier.padding(top = MaterialTheme.spacing.semiSmall),
-                        horizontalAlignment = Alignment.CenterHorizontally,
+                        horizontalAlignment = CenterHorizontally,
                         verticalArrangement = Arrangement.Center
                     ) {
                         Icon(
@@ -465,7 +666,7 @@ fun SuperheroItem(
                     )
                     Column(
                         modifier = Modifier.padding(top = MaterialTheme.spacing.semiSmall),
-                        horizontalAlignment = Alignment.CenterHorizontally,
+                        horizontalAlignment = CenterHorizontally,
                         verticalArrangement = Arrangement.Center
                     ) {
                         Icon(
@@ -502,5 +703,8 @@ fun SuperheroItem(
 @Preview("Dark Theme", uiMode = Configuration.UI_MODE_NIGHT_YES, showBackground = true)
 @Composable
 fun SuperheroItemPreview() {
-    SuperheroItem(superHero = marvelSuperHeroMock1, modifier = Modifier, onItemClick = {})
+    SuperheroItem(
+        superHero = marvelSuperHeroMock1,
+        modifier = Modifier,
+        onItemClick = {})
 }

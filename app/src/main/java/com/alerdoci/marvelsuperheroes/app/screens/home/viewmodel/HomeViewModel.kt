@@ -1,9 +1,16 @@
 package com.alerdoci.marvelsuperheroes.app.screens.home.viewmodel
 
+import androidx.compose.foundation.isSystemInDarkTheme
+import androidx.compose.runtime.Composable
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.paging.PagingData
+import androidx.paging.cachedIn
 import com.alerdoci.marvelsuperheroes.app.common.states.ResourceState
+import com.alerdoci.marvelsuperheroes.app.common.utils.ThemeMode
+import com.alerdoci.marvelsuperheroes.data.features.onboarding.cache.settings.DataStoreRepository
 import com.alerdoci.marvelsuperheroes.domain.models.features.superheroes.ModelComics
 import com.alerdoci.marvelsuperheroes.domain.models.features.superheroes.ModelEvents
 import com.alerdoci.marvelsuperheroes.domain.models.features.superheroes.ModelResult
@@ -29,6 +36,7 @@ import javax.inject.Inject
 class HomeViewModel @Inject constructor(
     private val getMarvelSuperHeroesPagingUseCase: GetMarvelSuperHeroesPagingUseCase,
     private val getMarvelSuperHeroSearchedUseCase: GetMarvelSuperHeroSearchedUseCase,
+    private val datastore: DataStoreRepository
 ) : ViewModel() {
 
     private val _superHeroes by lazy { MutableStateFlow<ResourceState<*>>(ResourceState.Idle) }
@@ -52,6 +60,7 @@ class HomeViewModel @Inject constructor(
                 _superHeroes.update { ResourceState.Success("") }
                 pagingData
             }
+            .cachedIn(viewModelScope)
 
     fun getSuperHeroSearched(nameSearched: String?) {
         _superHeroSearched.update { ResourceState.Loading("") }
@@ -66,6 +75,26 @@ class HomeViewModel @Inject constructor(
                 }
             }
         }
+    }
+
+    private val _theme = MutableLiveData(ThemeMode.Auto)
+    val theme: LiveData<ThemeMode> = _theme
+
+
+    fun setTheme(newTheme: ThemeMode) {
+        _theme.postValue(newTheme)
+        datastore.putInt(DataStoreRepository.APP_THEME_INT, newTheme.ordinal)
+    }
+
+    fun getThemeValue() = datastore.getInt(
+        DataStoreRepository.APP_THEME_INT, ThemeMode.Auto.ordinal
+    )
+
+    @Composable
+    fun getCurrentTheme(): ThemeMode {
+        return if (theme.value == ThemeMode.Auto) {
+            if (isSystemInDarkTheme()) ThemeMode.Dark else ThemeMode.Light
+        } else theme.value!!
     }
 }
 //Mock

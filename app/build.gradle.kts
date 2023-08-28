@@ -6,9 +6,9 @@ plugins {
     alias(libs.plugins.hilt)
 }
 
-val versionMajor = 1
+val versionMajor = 0
 val versionMinor = 0
-val versionPatch = 1
+val versionPatch = 2
 val versionBuild = 0
 
 @Suppress("UnstableApiUsage")
@@ -23,15 +23,15 @@ android {
     }
 
     /* TODO: Pending set keystore signature data
-signingConfigs {
-    release {
-        storeFile file("keystore/MVVMProject.jks")
-        storePassword "password"
-        keyAlias "ProjectSignature"
-        keyPassword "password"
-    }
-}
-*/
+        signingConfigs {
+            release {
+                storeFile file("keystore/MyProject.jks")
+                storePassword "password"
+                keyAlias "ProjectSignature"
+                keyPassword "password"
+            }
+        }
+    */
 
     defaultConfig {
         applicationId = "com.alerdoci.marvelsuperheroes"
@@ -53,9 +53,8 @@ signingConfigs {
         }
     }
 
-    /*  Hello Mango Team! These are the credentials you will need to paste into your gradle.properties
+    /*  Hello visitor! These are the credentials you will need to paste into your gradle.properties
 
-        BASE_URL = https://gateway.marvel.com/
         API_KEY_PUBLIC = 3fd64832e3b735d17d55426fdaa3dd3c
         API_KEY_PRIVATE = 08ac92157217a77d37794bc61ff391d6f7349d13
 
@@ -204,6 +203,7 @@ dependencies {
     implementation(libs.androidx.navigation.runtime)
     implementation(libs.androidx.navigation.ui.ktx)
     implementation(libs.androidx.window)
+    implementation(libs.androidx.animation.graphics.android)
 
     //Splash
     implementation(libs.splashScreen)
@@ -264,10 +264,20 @@ dependencies {
     //Datastore
     implementation(libs.datastore)
 
-//    //Firebase and GMS
-//    implementation(libs.firebase.auth)
-//    implementation(libs.gms.playservices.auth)
-//    implementation(libs.google.services)
+    //Firebase and GMS
+    implementation(libs.firebase.auth)
+    implementation(libs.gms.playservices.auth)
+    implementation(libs.google.services)
+
+
+    //Error handle screen
+    implementation(libs.error.handle)
+
+    //Switch with double image
+    implementation(libs.switch.image)
+
+    //Google fonts provider
+    implementation(libs.google.fonts)
 
 //    //Exoplayer
 //    implementation(libs.exoplayer.core)
@@ -275,7 +285,7 @@ dependencies {
 //    implementation(libs.exoplayer.cast)
 //    implementation(libs.exoplayer.hls)
 //    implementation(libs.exoplayer.dash)
-//    implementation(libs.exoplayer.extension)
+//    implementation(libs.exoplayer.extension.mediasession)
 //    implementation(libs.exoplayer.smoothstreaming)
 
     androidTestImplementation(libs.junit)

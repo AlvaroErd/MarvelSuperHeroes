@@ -22,7 +22,6 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import coil.compose.SubcomposeAsyncImage
 import com.alerdoci.marvelsuperheroes.R
-import com.alerdoci.marvelsuperheroes.app.theme.MarvelSuperHeroesTheme
 import com.alerdoci.marvelsuperheroes.app.theme.black_1000
 import com.alerdoci.marvelsuperheroes.app.theme.red_800
 import com.alerdoci.marvelsuperheroes.app.theme.spacing
@@ -33,32 +32,31 @@ import java.util.Locale
 
 @Composable
 fun ComicsList(comicListItems: List<ModelComicsSuperHeroList>) {
-    MarvelSuperHeroesTheme {
-        Column {
-            val inputDateFormat = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssZ", Locale.getDefault())
-            val outputDateFormat = SimpleDateFormat("dd-MM-yyyy", Locale.getDefault())
 
-            fun Date.toStringFormatted(): String {
-                return outputDateFormat.format(this)
-            }
-            LazyRow(horizontalArrangement = Arrangement.spacedBy(MaterialTheme.spacing.extraMedium)) {
-                items(comicListItems) { item ->
-                    for (i in 0 until item.data?.results?.size!!) {
-                        val comicImage = item.data.results[i].imageFinal
-                        val comicTitle = item.data.results[i].title
-                        val comicDate =
-                            item.data.results[i].dates?.get(0)?.date.let { inputDateFormat.parse(it) }
-                                ?.toStringFormatted()
+    Column {
+        val inputDateFormat = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssZ", Locale.getDefault())
+        val outputDateFormat = SimpleDateFormat("dd-MM-yyyy", Locale.getDefault())
 
-                        ComicCard(
-                            item = item,
-                            comicImage = comicImage.toString(),
-                            comicTitle = comicTitle.toString(),
-                            comicDate = comicDate.toString()
-                        )
-                    }
+        fun Date.toStringFormatted(): String {
+            return outputDateFormat.format(this)
+        }
+        LazyRow(horizontalArrangement = Arrangement.spacedBy(MaterialTheme.spacing.extraMedium)) {
+            items(comicListItems) { item ->
+                for (i in 0 until item.data?.results?.size!!) {
+                    val comicImage = item.data.results[i].imageFinal
+                    val comicTitle = item.data.results[i].title
+                    val comicDate =
+                        item.data.results[i].dates?.get(0)?.date.let { inputDateFormat.parse(it) }
+                            ?.toStringFormatted()
 
+                    ComicCard(
+                        item = item,
+                        comicImage = comicImage.toString(),
+                        comicTitle = comicTitle.toString(),
+                        comicDate = comicDate.toString()
+                    )
                 }
+
             }
         }
     }

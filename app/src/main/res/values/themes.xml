@@ -7,14 +7,4 @@
         <item name="android:statusBarColor">@android:color/transparent</item>
         <item name="android:navigationBarColor">@android:color/transparent</item>
     </style>
-
-    <style name="Theme.MarvelSuperHeroesSplashScreen" parent="Theme.SplashScreen">
-        <item name="windowSplashScreenBackground">#101010</item>
-        <item name="windowSplashScreenAnimatedIcon">@drawable/splash_marvel</item>
-        <item name="windowSplashScreenAnimationDuration">5000</item>
-        <item name="postSplashScreenTheme">@style/Theme.MarvelSuperHeroes</item>
-        <item name="android:windowSplashScreenBrandingImage" tools:targetApi="s">
-            @drawable/alerdoci_studios
-        </item>
-    </style>
 </resources>
