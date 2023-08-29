@@ -82,22 +82,21 @@ import com.airbnb.lottie.compose.LottieAnimation
 import com.airbnb.lottie.compose.LottieCompositionSpec
 import com.airbnb.lottie.compose.rememberLottieComposition
 import com.alerdoci.marvelsuperheroes.R
-import com.alerdoci.marvelsuperheroes.app.common.extensions.Extensions.noRippleClickable
+import com.alerdoci.marvelsuperheroes.app.common.extensions.ModifierExtensions.noRippleClickable
 import com.alerdoci.marvelsuperheroes.app.common.states.ResourceState
 import com.alerdoci.marvelsuperheroes.app.common.states.error.ErrorScreen
 import com.alerdoci.marvelsuperheroes.app.common.states.loading.LoadingScreen
-import com.alerdoci.marvelsuperheroes.app.common.utils.Constants.LOREM_IPSUM_SHORT
 import com.alerdoci.marvelsuperheroes.app.common.utils.ThemeMode
 import com.alerdoci.marvelsuperheroes.app.components.DiagonalDivider
 import com.alerdoci.marvelsuperheroes.app.components.InfoDialog
 import com.alerdoci.marvelsuperheroes.app.screens.home.viewmodel.HomeViewModel
 import com.alerdoci.marvelsuperheroes.app.screens.home.viewmodel.marvelSuperHeroMock1
-import com.alerdoci.marvelsuperheroes.app.theme.amber_A100
-import com.alerdoci.marvelsuperheroes.app.theme.blue_grey_900
+import com.alerdoci.marvelsuperheroes.app.theme.MarvelColors.amber_A100
+import com.alerdoci.marvelsuperheroes.app.theme.MarvelColors.blue_grey_900
+import com.alerdoci.marvelsuperheroes.app.theme.MarvelColors.grey_500
+import com.alerdoci.marvelsuperheroes.app.theme.MarvelColors.orange_A200
+import com.alerdoci.marvelsuperheroes.app.theme.MarvelColors.red_800
 import com.alerdoci.marvelsuperheroes.app.theme.dimens
-import com.alerdoci.marvelsuperheroes.app.theme.grey_500
-import com.alerdoci.marvelsuperheroes.app.theme.orange_A200
-import com.alerdoci.marvelsuperheroes.app.theme.red_800
 import com.alerdoci.marvelsuperheroes.app.theme.spacing
 import com.alerdoci.marvelsuperheroes.domain.models.features.superheroes.ModelResult
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
@@ -429,8 +428,9 @@ fun HomeScreen(
     }
     if (infoDialog.value) {
         InfoDialog(
-            title = "Hi! I´m Álvaro",
-            desc = LOREM_IPSUM_SHORT,
+            title = stringResource(R.string.dialog_title),
+            desc = stringResource(R.string.dialog_description),
+            buttonText = stringResource(R.string.dialog_button),
             onDismiss = {
                 infoDialog.value = false
             }
@@ -450,7 +450,7 @@ fun HomeScreen(
                 horizontalAlignment = CenterHorizontally
             ) {
                 Text(
-                    text = "Awesome!",
+                    text = stringResource(R.string.modal_title),
                     textAlign = TextAlign.Center,
                     modifier = Modifier
                         .padding(bottom = 15.dp)
@@ -466,7 +466,7 @@ fun HomeScreen(
                     style = MaterialTheme.typography.displayLarge
                 )
                 Text(
-                    text = "You have been found the Cheems Easter Egg!",
+                    text = stringResource(R.string.modal_subtitle),
                     textAlign = TextAlign.Center,
                     modifier = Modifier
                         .padding(bottom = 5.dp)
@@ -474,7 +474,7 @@ fun HomeScreen(
                     style = MaterialTheme.typography.bodyLarge,
                 )
                 Text(
-                    text = "I hope you are happy in heaven",
+                    text = stringResource(R.string.modal_body),
                     textAlign = TextAlign.Center,
                     modifier = Modifier
                         .padding(bottom = 20.dp)

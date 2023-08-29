@@ -45,5 +45,13 @@
 
     <string name="save">Save</string>
     <string name="cancel">Cancel</string>
+    <string name="description_app_onboarding">Watch all the details of the entire collection of Marvel superheroes in history! This app uses the Official Marvel documentation and is constantly updated.</string>
+    <string name="dialog_button">Enjoy the app! 😎</string>
+    <string name="dialog_description">A mobile developer based in Spain. I make this app to develop my skills with Android tech like kotlin, jetpack compose, coroutines, hilt, material 3, room, retrofit and much much more</string>
+    <string name="dialog_title">Hi! I’m @AlvaroErd</string>
+    <string name="modal_title">Awesome!</string>
+    <string name="modal_subtitle">You have been found the Cheems Easter Egg!</string>
+    <string name="modal_body">I hope you are happy in heaven</string>
+    <string name="onboarding_button_start">Get Started</string>
 
 </resources>

@@ -23,7 +23,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.blur
 import androidx.compose.ui.geometry.Offset
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Shadow
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
@@ -35,12 +34,13 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import com.alerdoci.marvelsuperheroes.R
-import com.alerdoci.marvelsuperheroes.app.common.utils.Constants.LOREM_IPSUM_SHORT
 import com.alerdoci.marvelsuperheroes.app.components.DefaultButton
 import com.alerdoci.marvelsuperheroes.app.navigation.Screen
 import com.alerdoci.marvelsuperheroes.app.screens.onboarding.viewmodel.OnboardingViewModel
+import com.alerdoci.marvelsuperheroes.app.theme.MarvelColors
+import com.alerdoci.marvelsuperheroes.app.theme.MarvelColors.black
 import com.alerdoci.marvelsuperheroes.app.theme.spacing
-import com.alerdoci.marvelsuperheroes.app.theme.white
+import com.alerdoci.marvelsuperheroes.app.theme.MarvelColors.white
 import tech.devscion.typist.Typist
 import tech.devscion.typist.TypistSpeed
 
@@ -76,7 +76,7 @@ fun OnBoardingContent(
         Image(
             modifier = Modifier
                 .padding(top = MaterialTheme.spacing.extraLarge)
-                .fillMaxHeight(0.55f)
+                .fillMaxHeight(0.5f)
                 .basicMarquee(
                     iterations = Int.MAX_VALUE,
                     delayMillis = 0,
@@ -95,7 +95,7 @@ fun OnBoardingContent(
                 .padding(bottom = MaterialTheme.spacing.tiny),
             verticalArrangement = Arrangement.Bottom
         ) {
-            val offset = Offset(10.0f, 15.0f)
+            val offset = Offset(10.0f, 10.0f)
 
             Typist(
                 text = stringResource(R.string.welcome_to),
@@ -104,7 +104,7 @@ fun OnBoardingContent(
                 textStyle = MaterialTheme.typography.displayLarge.copy(
                     color = white, fontSize = 36.sp,
                     shadow = Shadow(
-                        color = Color.Black, offset = offset, blurRadius = 10f
+                        color = MarvelColors.grey_950, offset = offset, blurRadius = 1f
                     )
                 ),
                 isBlinkingCursor = true,
@@ -119,7 +119,7 @@ fun OnBoardingContent(
                 textStyle = MaterialTheme.typography.displayLarge.copy(
                     color = white, fontSize = 42.sp,
                     shadow = Shadow(
-                        color = Color.Black, offset = offset, blurRadius = 10f
+                        color = MarvelColors.grey_950, offset = offset, blurRadius = 1f
                     )
                 ),
                 isBlinkingCursor = true,
@@ -130,21 +130,16 @@ fun OnBoardingContent(
             Spacer(Modifier.height(MaterialTheme.spacing.large))
 
             Text(
-                text = LOREM_IPSUM_SHORT,
-                style = MaterialTheme.typography.titleLarge.copy(
-                    shadow = Shadow(
-                        color = Color.Black, offset = offset, blurRadius = 10f
-                    )
-                ),
-                color = Color.White,
-
-                )
-            Spacer(Modifier.height(MaterialTheme.spacing.extraLarge))
+                text = stringResource(R.string.description_app_onboarding),
+                style = MaterialTheme.typography.displaySmall,
+                color = white,
+            )
+            Spacer(Modifier.height(MaterialTheme.spacing.large))
 
             DefaultButton(
-                text = "Get Started",
-                containerColor = Color.White,
-                contentColor = Color.Black,
+                text = stringResource(R.string.onboarding_button_start),
+                containerColor = white,
+                contentColor = black,
             ) {
                 onboardingViewModel.saveOnBoardingState(completed = true)
                 navController.popBackStack()

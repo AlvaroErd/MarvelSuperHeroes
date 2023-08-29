@@ -4,12 +4,6 @@ import android.content.Context
 import android.content.ContextWrapper
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import androidx.compose.foundation.clickable
-import androidx.compose.foundation.interaction.MutableInteractionSource
-import androidx.compose.runtime.remember
-import androidx.compose.ui.Modifier
-import androidx.compose.ui.composed
-import com.alerdoci.marvelsuperheroes.app.common.extensions.Extensions.formatVoteCount
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import java.text.DecimalFormat
@@ -32,13 +26,6 @@ object Extensions {
         is AppCompatActivity -> this
         is ContextWrapper -> baseContext.getActivity()
         else -> null
-    }
-
-    fun Modifier.noRippleClickable(onClick: () -> Unit): Modifier = composed {
-        clickable(indication = null,
-            interactionSource = remember { MutableInteractionSource() }) {
-            onClick()
-        }
     }
 
     fun Int.formatVoteCount(): String {

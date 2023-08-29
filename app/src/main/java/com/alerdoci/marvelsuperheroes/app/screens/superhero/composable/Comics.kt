@@ -22,8 +22,8 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import coil.compose.SubcomposeAsyncImage
 import com.alerdoci.marvelsuperheroes.R
-import com.alerdoci.marvelsuperheroes.app.theme.black_1000
-import com.alerdoci.marvelsuperheroes.app.theme.red_800
+import com.alerdoci.marvelsuperheroes.app.theme.MarvelColors
+import com.alerdoci.marvelsuperheroes.app.theme.MarvelColors.red_800
 import com.alerdoci.marvelsuperheroes.app.theme.spacing
 import com.alerdoci.marvelsuperheroes.domain.models.features.superherocomics.ModelComicsSuperHeroList
 import java.text.SimpleDateFormat
@@ -100,8 +100,8 @@ fun ComicCard(
                         drawContent()
                         drawRect(
                             Brush.verticalGradient(
-                                0.5f to black_1000.copy(alpha = 0F),
-                                1F to black_1000
+                                0.5f to MarvelColors.black.copy(alpha = 0F),
+                                1F to MarvelColors.black
                             )
                         )
                     }

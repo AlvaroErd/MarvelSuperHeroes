@@ -4,7 +4,7 @@ Marvel Superheroes
 
 ## Short description
 
-Android application to to see the details of all the superheroes of the Marvel universe.
+An Android application to to see the details of all the superheroes of the Marvel universe.
 
 ## Full description
 

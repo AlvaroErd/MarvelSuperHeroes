@@ -24,20 +24,20 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.tooling.preview.PreviewLightDark
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Dialog
-import com.alerdoci.marvelsuperheroes.app.common.utils.Constants.LOREM_IPSUM_SHORT
+import com.alerdoci.marvelsuperheroes.R
 import com.alerdoci.marvelsuperheroes.app.theme.dimens
 
 @Composable
 fun InfoDialog(
-    title: String? = "Message",
-    desc: String? = "Your Message",
+    title: String?,
+    desc: String?,
+    buttonText: String?,
     onDismiss: () -> Unit
 ) {
     Dialog(
@@ -87,8 +87,8 @@ fun InfoDialog(
                             modifier = Modifier
                                 .padding(top = 10.dp, bottom = 15.dp, start = 25.dp, end = 25.dp)
                                 .fillMaxWidth(),
-                            style = MaterialTheme.typography.bodyLarge,
-                            color = MaterialTheme.colorScheme.onPrimaryContainer,
+                            style = MaterialTheme.typography.titleSmall,
+                            color = MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.9f),
                         )
 
                         Button(
@@ -100,7 +100,7 @@ fun InfoDialog(
                                 containerColor = MaterialTheme.colorScheme.onSurfaceVariant)
                         ) {
                             Text(
-                                text = "Enjoy the app! \uD83D\uDE0E",
+                                text = buttonText!!,
                                 color = MaterialTheme.colorScheme.background,
                                 style = MaterialTheme.typography.labelMedium.copy(letterSpacing = 1.sp),
                                 )
@@ -126,8 +126,9 @@ fun InfoDialogPreview() {
     val infoDialog = remember { mutableStateOf(false) }
 
     InfoDialog(
-        title = "Hi! I´m Álvaro",
-        desc = LOREM_IPSUM_SHORT,
+        title = stringResource(R.string.dialog_title),
+        desc = stringResource(R.string.dialog_description),
+        buttonText = stringResource(R.string.dialog_button),
         onDismiss = {
             infoDialog.value = false
         }
