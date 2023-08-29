@@ -1,14 +1,14 @@
+//@Suppress("DSL_SCOPE_VIOLATION")
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
-    alias(libs.plugins.kapt)
     alias(libs.plugins.ksp)
     alias(libs.plugins.hilt)
 }
 
-val versionMajor = 1
+val versionMajor = 0
 val versionMinor = 0
-val versionPatch = 1
+val versionPatch = 2
 val versionBuild = 0
 
 @Suppress("UnstableApiUsage")
@@ -23,15 +23,15 @@ android {
     }
 
     /* TODO: Pending set keystore signature data
-signingConfigs {
-    release {
-        storeFile file("keystore/MVVMProject.jks")
-        storePassword "password"
-        keyAlias "ProjectSignature"
-        keyPassword "password"
-    }
-}
-*/
+        signingConfigs {
+            release {
+                storeFile file("keystore/MyProject.jks")
+                storePassword "password"
+                keyAlias "ProjectSignature"
+                keyPassword "password"
+            }
+        }
+    */
 
     defaultConfig {
         applicationId = "com.alerdoci.marvelsuperheroes"
@@ -53,9 +53,8 @@ signingConfigs {
         }
     }
 
-    /*  Hello Mango Team! These are the credentials you will need to paste into your gradle.properties
+    /*  Hello visitor! These are the credentials you will need to paste into your gradle.properties
 
-        BASE_URL = https://gateway.marvel.com/
         API_KEY_PUBLIC = 3fd64832e3b735d17d55426fdaa3dd3c
         API_KEY_PRIVATE = 08ac92157217a77d37794bc61ff391d6f7349d13
 
@@ -201,7 +200,10 @@ dependencies {
     implementation(libs.androidx.lifecycle.viewModelCompose)
     implementation(libs.androidx.lifecycle.runtime.compose)
     implementation(libs.androidx.navigation.compose)
+    implementation(libs.androidx.navigation.runtime)
+    implementation(libs.androidx.navigation.ui.ktx)
     implementation(libs.androidx.window)
+    implementation(libs.androidx.animation.graphics.android)
 
     //Splash
     implementation(libs.splashScreen)
@@ -209,11 +211,11 @@ dependencies {
     // Hilt
     implementation(libs.hilt.android.core)
     implementation(libs.androidx.hilt.navigation.compose)
-    kapt(libs.hilt.compiler)
+    ksp(libs.hilt.compiler)
 
     // JVM tests - Hilt
     testImplementation(libs.hilt.android.testing)
-    kaptTest(libs.hilt.compiler)
+    kspTest(libs.hilt.compiler)
 
     //Lottie
     implementation(libs.lottieXML)
@@ -225,6 +227,10 @@ dependencies {
     implementation(libs.coilGif)
     implementation(libs.coilSvg)
     implementation(libs.placeholder)
+    implementation(libs.zoomable)
+
+    //XML Zoomable Image
+    implementation(libs.photoview)
 
     //Paging
     implementation(libs.pagingCompose)
@@ -232,7 +238,7 @@ dependencies {
 
     //Fragments
     implementation(libs.fragmentKtx)
-    implementation(libs.navigationFragmentKtx)
+    implementation(libs.androidx.navigation.fragment)
 
     //Retrofit
     implementation(libs.retrofit)
@@ -246,7 +252,6 @@ dependencies {
 
     //Material Animations
     implementation(libs.soup.anims.core)
-    implementation(libs.soup.anims.navigation)
     implementation(libs.google.android.material)
 
     implementation(libs.customtabs)
@@ -256,10 +261,26 @@ dependencies {
     implementation(libs.androidx.room.runtime)
     ksp(libs.room.compiler)
 
-//    //Firebase and GMS
-//    implementation(libs.firebase.auth)
-//    implementation(libs.gms.playservices.auth)
-//    implementation(libs.google.services)
+    //Datastore
+    implementation(libs.datastore)
+
+    //Firebase and GMS
+    implementation(libs.firebase.auth)
+    implementation(libs.gms.playservices.auth)
+    implementation(libs.google.services)
+
+
+    //Error handle screen
+    implementation(libs.error.handle)
+
+    //Switch with double image
+    implementation(libs.switch.image)
+
+    //Google fonts provider
+    implementation(libs.google.fonts)
+
+    //Typist - Font animations
+    implementation(libs.typist)
 
 //    //Exoplayer
 //    implementation(libs.exoplayer.core)
@@ -267,7 +288,7 @@ dependencies {
 //    implementation(libs.exoplayer.cast)
 //    implementation(libs.exoplayer.hls)
 //    implementation(libs.exoplayer.dash)
-//    implementation(libs.exoplayer.extension)
+//    implementation(libs.exoplayer.extension.mediasession)
 //    implementation(libs.exoplayer.smoothstreaming)
 
     androidTestImplementation(libs.junit)

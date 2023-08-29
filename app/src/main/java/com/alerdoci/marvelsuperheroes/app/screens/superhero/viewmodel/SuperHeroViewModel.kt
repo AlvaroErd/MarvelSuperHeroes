@@ -1,8 +1,14 @@
 package com.alerdoci.marvelsuperheroes.app.screens.superhero.viewmodel
 
+import androidx.compose.foundation.isSystemInDarkTheme
+import androidx.datastore.preferences.preferencesDataStore
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.alerdoci.marvelsuperheroes.app.common.states.ResourceState
+import com.alerdoci.marvelsuperheroes.app.common.utils.ThemeMode
+import com.alerdoci.marvelsuperheroes.data.features.onboarding.cache.settings.DataStoreRepository
 import com.alerdoci.marvelsuperheroes.domain.usecases.GetMarvelSuperHeroComicsUseCase
 import com.alerdoci.marvelsuperheroes.domain.usecases.GetMarvelSuperHeroUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -18,7 +24,8 @@ import javax.inject.Inject
 @HiltViewModel
 class SuperHeroViewModel @Inject constructor(
     private val getMarvelSuperHeroUseCase: GetMarvelSuperHeroUseCase,
-    private val getMarvelSuperHeroComicsUseCase: GetMarvelSuperHeroComicsUseCase
+    private val getMarvelSuperHeroComicsUseCase: GetMarvelSuperHeroComicsUseCase,
+    val datastore : DataStoreRepository
 ) : ViewModel() {
 
     private val _currentSuperHero by lazy { MutableStateFlow<ResourceState<*>>(ResourceState.Idle) }
@@ -52,4 +59,10 @@ class SuperHeroViewModel @Inject constructor(
             }
         }
     }
+
+    fun calculateCurrentTheme(): ThemeMode {
+        val savedTheme = datastore.getInt(DataStoreRepository.APP_THEME_INT, ThemeMode.Auto.ordinal)
+        return ThemeMode.values()[savedTheme]
+    }
+
 }

@@ -1,28 +1,30 @@
 [versions]
 
 #General, lifecycle and core
-androidGradlePlugin = "8.0.2"
-kotlin = "1.8.10"
+androidGradlePlugin = "8.1.0"
+kotlin = "1.9.0"
 kotlinx_immutable = "0.3.5"
-ksp = "1.8.0-1.0.9"
+ksp = "1.9.0-1.0.12"
 
 compileSdk = "34"
 targetSdk = "34"
 minSdk = "27"
 
 #Android
+compose-compiler = "1.5.0"
+coroutines = "1.7.3"
+
 accompanist = "0.30.1"
-androidx-activity-compose = "1.7.2"
+androidx-activity-compose = "1.8.0-alpha07"
 androidx-appcompat = "1.6.1"
 androidx-benchmark = "1.1.1"
 androidx-benchmark-junit4 = "1.1.1"
-androidx-compose-bom = "2023.06.01"
+androidx-compose-bom = "2023.08.00"
 androidx-constraintlayout = "1.0.1"
 androidx-corektx = "1.10.1"
 androidx-glance = "1.0.0-rc01"
 androidx-lifecycle-compose = "2.6.1"
 androidx-lifecycle-runtime-compose = "2.6.1"
-androidx-navigation = "2.7.0-rc01"
 androidx-palette = "1.0.0"
 androidx-test = "1.5.0"
 androidx-test-espresso = "3.5.1"
@@ -31,20 +33,26 @@ androidx-test-ext-truth = "1.5.0"
 androidx-window = "1.2.0-beta01"
 androix-test-uiautomator = "2.2.0"
 androix-fragment = "1.6.1"
-navigationFragmentKtx = "2.6.0"
 navTransitions = "0.11.0-alpha"
-androidx-compose-preview = "1.6.0-alpha02"
-accompanist-permissions = "0.31.5-beta"
+androidx-compose-preview = "1.6.0-alpha04"
+accompanist-permissions = "0.33.0-alpha"
+
+#Important! Dont upgrade until onboarding screen doesnt´s show for a second
+androidx-navigation = "2.5.0-alpha02"
 
 #Coil
 coil = "2.4.0"
 placeholder = "0.30.1"
+zoomable = "0.5.0"
+
+#XML zoomable
+photoview = "2.3.0"
 
 #Splash
-splashScreen = "1.0.0-beta01"
+splashScreen = "1.0.1"
 
 #Lottie
-lottie = "5.2.0"
+lottie = "6.0.1"
 
 #Paging 3.0 Compose
 pagingCompose = "1.0.0-alpha17"
@@ -55,24 +63,21 @@ hilt = "2.47"
 hiltExt = "1.0.0"
 androidxHiltNavigationCompose = "1.0.0"
 
-compose-compiler = "1.4.3"
-coroutines = "1.7.1"
-
 gradle-versions = "0.46.0"
 jdkDesugar = "2.0.3"
 junit = "4.13.2"
 
 material = "1.9.0"
-material3 = "1.2.0-alpha04"
+material3 = "1.2.0-alpha06"
 
 #Chrome custom tabs
-customTabs = "1.5.0"
+customTabs = "1.6.0"
 
 #Shimmer
 shimmerLibrary = "1.0.4"
 
 #Exoplayer
-exoplayer = "2.19.0"
+exoplayer = "2.19.1"
 
 #Retrofit & okHttp
 retrofit = "2.9.0"
@@ -80,6 +85,9 @@ okhttp = "4.11.0"
 
 #Room
 room = "2.5.2"
+
+#Datastore
+datastore = '1.0.0'
 
 #Secret api in local.properties
 secrets = "2.0.1"
@@ -91,6 +99,14 @@ version-catalog-update = "0.8.0"
 firebaseAuth = "22.1.1"
 gmsPlayServicesAuth = "20.6.0"
 googleServices = "4.3.15"
+
+error = "2.4.0"
+
+switch="1.0.0"
+
+googleFonts="1.5.0"
+
+typist= "1.2.1"
 
 [libraries]
 kotlin-stdlib = { module = "org.jetbrains.kotlin:kotlin-stdlib-jdk8", version.ref = "kotlin" }
@@ -111,7 +127,6 @@ androidx-benchmark-macrobenchmark = { module = "androidx.benchmark:benchmark-mac
 androidx-benchmark-macrobenchmark-junit4 = { module = "androidx.benchmark:benchmark-macro-junit4", version.ref = "androidx-benchmark-junit4" }
 
 fragmentKtx = { module = "androidx.fragment:fragment-ktx", version.ref = "androix-fragment" }
-navigationFragmentKtx = { module = "androidx.navigation:navigation-fragment-ktx", version.ref = "navigationFragmentKtx" }
 
 #Compose UI Util
 androidx-compose-animation = { module = "androidx.compose.animation:animation" }
@@ -119,6 +134,7 @@ androidx-compose-bom = { module = "androidx.compose:compose-bom", version.ref = 
 androidx-compose-foundation = { module = "androidx.compose.foundation:foundation" }
 androidx-compose-foundation-layout = { module = "androidx.compose.foundation:foundation-layout" }
 androidx-compose-material = { module = "androidx.compose.material:material" }
+#Becarefull with material extension, it's a pretty heavy library because it downloads all the icons to have them available
 androidx-compose-material-iconsExtended = { module = "androidx.compose.material:material-icons-extended" }
 androidx-compose-material3 = { module = "androidx.compose.material3:material3", version.ref = "material3" }
 androidx-compose-materialWindow = { module = "androidx.compose.material3:material3-window-size-class" }
@@ -134,6 +150,7 @@ androidx-compose-ui-util = { module = "androidx.compose.ui:ui-util" }
 androidx-compose-ui-viewbinding = { module = "androidx.compose.ui:ui-viewbinding" }
 androidx-constraintlayout-compose = { module = "androidx.constraintlayout:constraintlayout-compose", version.ref = "androidx-constraintlayout" }
 androidx-compose-ui-tooling-preview-android = { module = "androidx.compose.ui:ui-tooling-preview-android", version.ref = "androidx-compose-preview" }
+androidx-animation-graphics-android = { group = "androidx.compose.animation", name = "animation-graphics-android", version = "1.5.0" }
 accompanist-accompanist-permissions = { module = "com.google.accompanist:accompanist-permissions", version.ref = "accompanist-permissions" }
 
 
@@ -148,6 +165,7 @@ androidx-lifecycle-viewModelCompose = { module = "androidx.lifecycle:lifecycle-v
 androidx-lifecycle-viewmodel-ktx = { module = "androidx.lifecycle:lifecycle-viewmodel-ktx", version.ref = "androidx-lifecycle-compose" }
 androidx-lifecycle-viewmodel-savedstate = { module = "androidx.lifecycle:lifecycle-viewmodel-savedstate", version.ref = "androidx-lifecycle-compose" }
 androidx-navigation-compose = { module = "androidx.navigation:navigation-compose", version.ref = "androidx-navigation" }
+androidx-navigation-runtime = { module = "androidx.navigation:navigation-runtime", version.ref = "androidx-navigation" }
 androidx-navigation-fragment = { module = "androidx.navigation:navigation-fragment-ktx", version.ref = "androidx-navigation" }
 androidx-navigation-ui-ktx = { module = "androidx.navigation:navigation-ui-ktx", version.ref = "androidx-navigation" }
 androidx-palette = { module = "androidx.palette:palette", version.ref = "androidx-palette" }
@@ -156,6 +174,9 @@ androidx-palette = { module = "androidx.palette:palette", version.ref = "android
 room-compiler = { group = "androidx.room", name = "room-compiler", version.ref = "room" }
 androidx-room-ktx = { module = "androidx.room:room-ktx", version.ref = "room" }
 androidx-room-runtime = { module = "androidx.room:room-runtime", version.ref = "room" }
+
+#Datastore
+datastore = { module = "androidx.datastore:datastore-preferences", version.ref = "datastore" }
 
 androidx-test-core = { module = "androidx.test:core", version.ref = "androidx-test" }
 androidx-test-espresso-core = { module = "androidx.test.espresso:espresso-core", version.ref = "androidx-test-espresso" }
@@ -185,6 +206,10 @@ coilCompose = { module = "io.coil-kt:coil-compose", version.ref = "coil" }
 coilGif = { module = "io.coil-kt:coil-gif", version.ref = "coil" }
 coilSvg = { module = "io.coil-kt:coil-svg", version.ref = "coil" }
 placeholder = { module = "com.google.accompanist:accompanist-placeholder-material", version.ref = "placeholder" }
+zoomable = { module = "me.saket.telephoto:zoomable", version.ref = "zoomable" }
+
+#XML zoomable
+photoview = { module = "com.github.chrisbanes:PhotoView", version.ref = "photoview" }
 
 #Hilt - Dependencies Injection
 androidx-hilt-navigation-compose = { group = "androidx.hilt", name = "hilt-navigation-compose", version.ref = "androidxHiltNavigationCompose" }
@@ -213,7 +238,6 @@ shimmer = { group = "com.valentinilk.shimmer", name = "compose-shimmer", version
 
 #Material Motion for Jetpack Compose
 soup-anims-core = { group = "io.github.fornewid", name = "material-motion-compose-core", version.ref = "navTransitions" }
-soup-anims-navigation = { group = "io.github.fornewid", name = "material-motion-compose-navigation", version.ref = "navTransitions" }
 
 #ExoPlayer
 exoplayer-core = { group = "com.google.android.exoplayer", name = "exoplayer-core", version.ref = "exoplayer" }
@@ -228,7 +252,15 @@ exoplayer-extension-mediasession = { group = "com.google.android.exoplayer", nam
 firebase-auth = { group = "com.google.firebase", name = "firebase-auth-ktx", version.ref = "firebaseAuth" }
 gms-playservices-auth = { group = "com.google.android.gms", name = "play-services-auth", version.ref = "gmsPlayServicesAuth" }
 google-services = { group = "com.google.gms", name = "google-services", version.ref = "googleServices" }
-androidx-ui-tooling-preview = { group = "androidx.compose.ui", name = "ui-tooling-preview", version = "1.4.3" }
+androidx-ui-tooling-preview = { group = "androidx.compose.ui", name = "ui-tooling-preview", version = "1.5.0" }
+
+error-handle = { module = "cat.ereza:customactivityoncrash", version.ref = "error" }
+
+switch-image = { module = "com.github.razaghimahdi:ImageSwitch", version.ref = "switch" }
+
+google-fonts = { module = "androidx.compose.ui:ui-text-google-fonts", version.ref = "googleFonts" }
+
+typist = { module = "tech.dev-scion:typist", version.ref = "typist" }
 
 [plugins]
 #Kotlin
