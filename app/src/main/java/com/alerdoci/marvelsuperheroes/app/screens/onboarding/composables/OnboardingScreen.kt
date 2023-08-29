@@ -9,7 +9,6 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -29,7 +28,6 @@ import androidx.compose.ui.graphics.Shadow
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -41,9 +39,10 @@ import com.alerdoci.marvelsuperheroes.app.common.utils.Constants.LOREM_IPSUM_SHO
 import com.alerdoci.marvelsuperheroes.app.components.DefaultButton
 import com.alerdoci.marvelsuperheroes.app.navigation.Screen
 import com.alerdoci.marvelsuperheroes.app.screens.onboarding.viewmodel.OnboardingViewModel
-import com.alerdoci.marvelsuperheroes.app.theme.red_800
 import com.alerdoci.marvelsuperheroes.app.theme.spacing
 import com.alerdoci.marvelsuperheroes.app.theme.white
+import tech.devscion.typist.Typist
+import tech.devscion.typist.TypistSpeed
 
 @Composable
 fun OnBoardingScreen(
@@ -69,28 +68,22 @@ fun OnBoardingContent(
             modifier = Modifier
                 .fillMaxHeight(1f)
                 .fillMaxWidth(1f)
-                .basicMarquee(
-                    iterations = Int.MAX_VALUE,
-                    delayMillis = 0,
-                    velocity = 5.dp,
-                    initialDelayMillis = 0
-                )
-                .blur(3.dp, 3.dp),
+                .blur(2.dp, 2.dp),
             painter = painterResource(id = R.drawable.bg_planet),
             contentDescription = "Marvel Superheroes",
-            contentScale = ContentScale.FillBounds
+            contentScale = ContentScale.Crop
         )
         Image(
             modifier = Modifier
-                .fillMaxHeight(1f)
-                .fillMaxWidth(1f)
-                .offset(0.dp, (-100).dp)
+                .padding(top = MaterialTheme.spacing.extraLarge)
+                .fillMaxHeight(0.55f)
                 .basicMarquee(
                     iterations = Int.MAX_VALUE,
                     delayMillis = 0,
-                    velocity = 6.dp,
+                    velocity = 8.dp,
                     initialDelayMillis = 0
-                ),
+                )
+                .offset(50.dp, 0.dp),
             painter = painterResource(id = R.drawable.marvel_superheroes_onboarding),
             contentDescription = "Marvel Superheroes",
             contentScale = ContentScale.Crop
@@ -99,34 +92,43 @@ fun OnBoardingContent(
             modifier = Modifier
                 .fillMaxSize()
                 .padding(horizontal = 24.dp)
-                .aspectRatio(2 / 4f),
+                .padding(bottom = MaterialTheme.spacing.tiny),
             verticalArrangement = Arrangement.Bottom
         ) {
             val offset = Offset(10.0f, 15.0f)
 
-            Text(
+            Typist(
                 text = stringResource(R.string.welcome_to),
                 modifier = Modifier.fillMaxWidth(),
-                style = MaterialTheme.typography.displayLarge.copy(
+                typistSpeed = TypistSpeed.NORMAL,
+                textStyle = MaterialTheme.typography.displayLarge.copy(
                     color = white, fontSize = 36.sp,
                     shadow = Shadow(
                         color = Color.Black, offset = offset, blurRadius = 10f
                     )
-                )
+                ),
+                isBlinkingCursor = true,
+                isInfiniteCursor = false,
+                isCursorVisible = false,
             )
 
-            Text(
+            Typist(
                 text = stringResource(R.string.marvel_universe),
                 modifier = Modifier.fillMaxWidth(),
-                maxLines = 1,
-                style = MaterialTheme.typography.displayLarge.copy(
+                typistSpeed = TypistSpeed.FAST,
+                textStyle = MaterialTheme.typography.displayLarge.copy(
                     color = white, fontSize = 42.sp,
                     shadow = Shadow(
                         color = Color.Black, offset = offset, blurRadius = 10f
                     )
-                )
+                ),
+                isBlinkingCursor = true,
+                isInfiniteCursor = false,
+                isCursorVisible = false,
             )
+
             Spacer(Modifier.height(MaterialTheme.spacing.large))
+
             Text(
                 text = LOREM_IPSUM_SHORT,
                 style = MaterialTheme.typography.titleLarge.copy(
@@ -137,7 +139,7 @@ fun OnBoardingContent(
                 color = Color.White,
 
                 )
-            Spacer(Modifier.height(MaterialTheme.spacing.small))
+            Spacer(Modifier.height(MaterialTheme.spacing.extraLarge))
 
             DefaultButton(
                 text = "Get Started",

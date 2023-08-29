@@ -106,6 +106,8 @@ switch="1.0.0"
 
 googleFonts="1.5.0"
 
+typist= "1.2.1"
+
 [libraries]
 kotlin-stdlib = { module = "org.jetbrains.kotlin:kotlin-stdlib-jdk8", version.ref = "kotlin" }
 kotlinx-collections-immutable = { module = "org.jetbrains.kotlinx:kotlinx-collections-immutable", version.ref = "kotlinx_immutable" }
@@ -148,6 +150,7 @@ androidx-compose-ui-util = { module = "androidx.compose.ui:ui-util" }
 androidx-compose-ui-viewbinding = { module = "androidx.compose.ui:ui-viewbinding" }
 androidx-constraintlayout-compose = { module = "androidx.constraintlayout:constraintlayout-compose", version.ref = "androidx-constraintlayout" }
 androidx-compose-ui-tooling-preview-android = { module = "androidx.compose.ui:ui-tooling-preview-android", version.ref = "androidx-compose-preview" }
+androidx-animation-graphics-android = { group = "androidx.compose.animation", name = "animation-graphics-android", version = "1.5.0" }
 accompanist-accompanist-permissions = { module = "com.google.accompanist:accompanist-permissions", version.ref = "accompanist-permissions" }
 
 
@@ -256,7 +259,8 @@ error-handle = { module = "cat.ereza:customactivityoncrash", version.ref = "erro
 switch-image = { module = "com.github.razaghimahdi:ImageSwitch", version.ref = "switch" }
 
 google-fonts = { module = "androidx.compose.ui:ui-text-google-fonts", version.ref = "googleFonts" }
-androidx-animation-graphics-android = { group = "androidx.compose.animation", name = "animation-graphics-android", version = "1.5.0" }
+
+typist = { module = "tech.dev-scion:typist", version.ref = "typist" }
 
 [plugins]
 #Kotlin

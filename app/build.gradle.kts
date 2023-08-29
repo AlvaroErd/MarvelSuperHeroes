@@ -279,6 +279,9 @@ dependencies {
     //Google fonts provider
     implementation(libs.google.fonts)
 
+    //Typist - Font animations
+    implementation(libs.typist)
+
 //    //Exoplayer
 //    implementation(libs.exoplayer.core)
 //    implementation(libs.exoplayer.ui)
