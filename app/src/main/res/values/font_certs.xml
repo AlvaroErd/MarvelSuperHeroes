@@ -6,12 +6,12 @@
     </array>
     <string-array name="com_google_android_gms_fonts_certs_dev">
         <item>
-            AIzaSyBXt1wZ-kpDXZru0xvMmSbHFRobSZg3eQs
+            XXXXXX
         </item>
     </string-array>
     <string-array name="com_google_android_gms_fonts_certs_prod">
         <item>
-            AIzaSyBXt1wZ-kpDXZru0xvMmSbHFRobSZg3eQs
+            XXXXXX
         </item>
     </string-array>
 </resources>
