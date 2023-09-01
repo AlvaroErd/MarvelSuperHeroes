@@ -22,43 +22,41 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import coil.compose.SubcomposeAsyncImage
 import com.alerdoci.marvelsuperheroes.R
-import com.alerdoci.marvelsuperheroes.app.theme.MarvelSuperHeroesTheme
-import com.alerdoci.marvelsuperheroes.app.theme.black_1000
-import com.alerdoci.marvelsuperheroes.app.theme.red_800
+import com.alerdoci.marvelsuperheroes.app.theme.MarvelColors
+import com.alerdoci.marvelsuperheroes.app.theme.MarvelColors.red_800
 import com.alerdoci.marvelsuperheroes.app.theme.spacing
-import com.alerdoci.marvelsuperheroes.model.features.superherocomic.SuperHeroComic
+import com.alerdoci.marvelsuperheroes.domain.models.features.superherocomics.ModelComicsSuperHeroList
 import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
 
 @Composable
-fun ComicsList(comicListItems: List<SuperHeroComic>) {
-    MarvelSuperHeroesTheme {
-        Column {
-            val inputDateFormat = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssZ", Locale.getDefault())
-            val outputDateFormat = SimpleDateFormat("dd-MM-yyyy", Locale.getDefault())
+fun ComicsList(comicListItems: List<ModelComicsSuperHeroList>) {
 
-            fun Date.toStringFormatted(): String {
-                return outputDateFormat.format(this)
-            }
-            LazyRow(horizontalArrangement = Arrangement.spacedBy(MaterialTheme.spacing.extraMedium)) {
-                items(comicListItems) { item ->
-                    for (i in 0 until item.data?.results?.size!!) {
-                        val comicImage = item.data.results[i].imageFinal
-                        val comicTitle = item.data.results[i].title
-                        val comicDate =
-                            item.data.results[i].dates?.get(0)?.date.let { inputDateFormat.parse(it) }
-                                ?.toStringFormatted()
+    Column {
+        val inputDateFormat = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssZ", Locale.getDefault())
+        val outputDateFormat = SimpleDateFormat("dd-MM-yyyy", Locale.getDefault())
 
-                        ComicCard(
-                            item = item,
-                            comicImage = comicImage.toString(),
-                            comicTitle = comicTitle.toString(),
-                            comicDate = comicDate.toString()
-                        )
-                    }
+        fun Date.toStringFormatted(): String {
+            return outputDateFormat.format(this)
+        }
+        LazyRow(horizontalArrangement = Arrangement.spacedBy(MaterialTheme.spacing.extraMedium)) {
+            items(comicListItems) { item ->
+                for (i in 0 until item.data?.results?.size!!) {
+                    val comicImage = item.data.results[i].imageFinal
+                    val comicTitle = item.data.results[i].title
+                    val comicDate =
+                        item.data.results[i].dates?.get(0)?.date.let { inputDateFormat.parse(it) }
+                            ?.toStringFormatted()
 
+                    ComicCard(
+                        item = item,
+                        comicImage = comicImage.toString(),
+                        comicTitle = comicTitle.toString(),
+                        comicDate = comicDate.toString()
+                    )
                 }
+
             }
         }
     }
@@ -67,7 +65,7 @@ fun ComicsList(comicListItems: List<SuperHeroComic>) {
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun ComicCard(
-    item: SuperHeroComic,
+    item: ModelComicsSuperHeroList,
     comicImage: String,
     comicTitle: String,
     comicDate: String
@@ -102,8 +100,8 @@ fun ComicCard(
                         drawContent()
                         drawRect(
                             Brush.verticalGradient(
-                                0.5f to black_1000.copy(alpha = 0F),
-                                1F to black_1000
+                                0.5f to MarvelColors.black.copy(alpha = 0F),
+                                1F to MarvelColors.black
                             )
                         )
                     }

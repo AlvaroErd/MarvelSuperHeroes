@@ -7,7 +7,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.drawBehind
 import androidx.compose.ui.graphics.Path
 import com.alerdoci.marvelsuperheroes.app.common.annotations.FullPreview
-import com.alerdoci.marvelsuperheroes.app.theme.red_800
+import com.alerdoci.marvelsuperheroes.app.theme.MarvelColors.red_800
 
 @FullPreview
 @Composable

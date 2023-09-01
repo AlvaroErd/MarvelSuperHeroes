@@ -12,6 +12,7 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import com.alerdoci.marvelsuperheroes.app.screens.home.composable.HomeScreen
+import com.alerdoci.marvelsuperheroes.app.screens.home.viewmodel.HomeViewModel
 import com.alerdoci.marvelsuperheroes.app.screens.onboarding.composables.OnBoardingScreen
 import com.alerdoci.marvelsuperheroes.app.screens.superhero.SuperheroActivity
 
@@ -19,7 +20,8 @@ import com.alerdoci.marvelsuperheroes.app.screens.superhero.SuperheroActivity
 @Composable
 fun SetupNavGraph(
     navController: NavHostController,
-    startDestination: String
+    startDestination: String,
+    homeViewModel: HomeViewModel
 ) {
     NavHost(
         navController = navController,
@@ -40,13 +42,14 @@ fun SetupNavGraph(
                 val appContext = LocalContext.current
                 HomeScreen(
                     navController,
+                    viewModel = homeViewModel,
                     onItemClick = { superHeroClickedId ->
                         appContext.startActivity(
                             Intent(appContext, SuperheroActivity::class.java).apply {
                                 putExtra("superHeroId", superHeroClickedId)
                             }
                         )
-                    }
+                    },
                 )
             }
         }

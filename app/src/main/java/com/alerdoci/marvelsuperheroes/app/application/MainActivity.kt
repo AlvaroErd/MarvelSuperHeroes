@@ -15,14 +15,18 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
+import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.compose.rememberNavController
 import com.alerdoci.marvelsuperheroes.app.common.network.ConnectivityObserver
 import com.alerdoci.marvelsuperheroes.app.common.network.NetworkConnectivityObserver
+import com.alerdoci.marvelsuperheroes.app.common.utils.ThemeMode
 import com.alerdoci.marvelsuperheroes.app.navigation.SetupNavGraph
+import com.alerdoci.marvelsuperheroes.app.screens.home.viewmodel.HomeViewModel
 import com.alerdoci.marvelsuperheroes.app.screens.splash.viewmodel.SplashViewModel
 import com.alerdoci.marvelsuperheroes.app.theme.MarvelSuperHeroesTheme
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
+import androidx.activity.enableEdgeToEdge
 
 @ExperimentalAnimationApi
 @AndroidEntryPoint
@@ -31,10 +35,23 @@ class MainActivity : ComponentActivity() {
     @Inject
     lateinit var splashViewModel: SplashViewModel
     private lateinit var connectivityObserver: ConnectivityObserver
+    lateinit var homeViewModel: HomeViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        //With Android activity 1.8.0 systemUiController is deprecated so we have to migrated to enableEdgeToEdge()
+        // Example: https://github.com/android/nowinandroid/pull/817/files
+
         connectivityObserver = NetworkConnectivityObserver(applicationContext)
+
+        homeViewModel = ViewModelProvider(this)[HomeViewModel::class.java]
+
+        when (homeViewModel.getThemeValue()) {
+            ThemeMode.Auto.ordinal -> homeViewModel.setTheme(ThemeMode.Auto)
+            ThemeMode.Dark.ordinal -> homeViewModel.setTheme(ThemeMode.Dark)
+            ThemeMode.Light.ordinal -> homeViewModel.setTheme(ThemeMode.Light)
+        }
 
         installSplashScreen().apply {
             Thread.sleep(2500)
@@ -43,7 +60,7 @@ class MainActivity : ComponentActivity() {
             }
         }
         setContent {
-            MarvelSuperHeroesTheme {
+            MarvelSuperHeroesTheme(homeViewModel = homeViewModel) {
                 val screen by splashViewModel.startDestination
                 val navController = rememberNavController()
 
@@ -63,7 +80,7 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.surface
                 ) {
-                    SetupNavGraph(navController = navController, startDestination = screen)
+                    SetupNavGraph(navController = navController, startDestination = screen, homeViewModel = homeViewModel)
                 }
             }
         }

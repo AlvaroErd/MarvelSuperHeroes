@@ -1,5 +1,5 @@
-<p align="center">    
-    <img alt="Marvel App Logo" src="app/src/main/ic_launcher-playstore.png" width=250px/>    
+<p align="center">
+    <img alt="Marvel App Logo" src="app/src/main/ic_launcher-playstore.png" width=250px/>
 </p>
 
 # MarvelSuperHeroes 🦸‍
@@ -11,7 +11,7 @@ Android, Kotlin, Clean Architecture, Jetpack Compose, Retrofit and much more. I 
 
 In order to test this app for the Mango team, you will need to add the BASE_URL, API_KEY_PUBLIC and
 API_KEY_PRIVATE that you will find in the
-build config to your gradle.properties. But shhh, don´t tell this to anyone, it´s a secret 🤫  
+build config to your gradle.properties. But shhh, don´t tell this to anyone, it´s a secret 🤫
 Or you can provide your own api key from
 here [Marvel docs](https://developer.marvel.com/documentation/getting_started).
 
@@ -122,12 +122,12 @@ Personal tip! Put your smartphone in dark mode 😎
 
 ## License ⚖️
 
-[MIT License](LICENSE.txt)
+[MIT License](License.txt)
 
 ## Author 🧑‍💻
 
-Álvaro Erdociaín Tirado  
-Android Mobile developer  
-E-mail: ajerdociain@hiberus.com  
-[Linkedin](https://www.linkedin.com/in/alvaroerdociain)  
+Álvaro Erdociaín Tirado
+Android Mobile developer
+E-mail: ajerdociain@hiberus.com
+[Linkedin](https://www.linkedin.com/in/alvaroerdociain)
 [Github](https://github.com/AlvaroErd?)
