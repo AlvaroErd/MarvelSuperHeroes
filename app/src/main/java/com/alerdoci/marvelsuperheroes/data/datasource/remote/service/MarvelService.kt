@@ -1,7 +1,7 @@
 package com.alerdoci.marvelsuperheroes.data.datasource.remote.service
 
-import com.alerdoci.marvelsuperheroes.data.datasource.features.superherocomics.remote.models.RemoteSuperHeroComic
-import com.alerdoci.marvelsuperheroes.data.datasource.features.superheroes.remote.models.RemoteSuperHeroes
+import com.alerdoci.marvelsuperheroes.data.datasource.features.superheroes.remote.models.RemoteSuperHeroesList
+import com.alerdoci.marvelsuperheroes.data.features.superherocomics.remote.models.RemoteComicsSuperHeroList
 import retrofit2.Response
 import retrofit2.http.GET
 import retrofit2.http.Path
@@ -16,7 +16,7 @@ interface MarvelService {
         @Query("apikey") apikey: String,
         @Query("ts") ts: String,
         @Query("hash") hash: String,
-    ): Response<RemoteSuperHeroes>
+    ): Response<RemoteSuperHeroesList>
 
     @GET("v1/public/characters")
     suspend fun getMarvelSuperHeroesSearched(
@@ -26,7 +26,7 @@ interface MarvelService {
         @Query("ts") ts: String,
         @Query("hash") hash: String,
         @Query("nameStartsWith") nameSearched: String? = null,
-    ): Response<RemoteSuperHeroes>
+    ): Response<RemoteSuperHeroesList>
 
     @GET("v1/public/characters/{id}")
     suspend fun getMarvelSuperHero(
@@ -36,7 +36,7 @@ interface MarvelService {
         @Query("hash") hash: String,
         @Query("offset") offset: Int,
         @Query("limit") limit: Int
-    ): Response<RemoteSuperHeroes>
+    ): Response<RemoteSuperHeroesList>
 
     @GET("v1/public/characters/{id}/comics")
     suspend fun getMarvelSuperHeroComics(
@@ -46,5 +46,5 @@ interface MarvelService {
         @Query("hash") hash: String,
         @Query("offset") offset: Int,
         @Query("limit") limit: Int
-    ): Response<RemoteSuperHeroComic>
+    ): Response<RemoteComicsSuperHeroList>
 }

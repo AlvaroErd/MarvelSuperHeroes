@@ -1,26 +1,20 @@
 package com.alerdoci.marvelsuperheroes.data.datasource.features.superheroes.mappers
 
-import com.alerdoci.marvelsuperheroes.data.datasource.features.superheroes.cache.entity.CacheSuperHeroes
-import com.alerdoci.marvelsuperheroes.data.datasource.features.superheroes.cache.entity.CacheSuperHeroesData
 import com.alerdoci.marvelsuperheroes.data.datasource.features.superheroes.cache.entity.CacheSuperHeroesResult
 import com.alerdoci.marvelsuperheroes.data.datasource.features.superheroes.cache.entity.CacheSuperHeroesResult.CacheSuperHeroesComics
 import com.alerdoci.marvelsuperheroes.data.datasource.features.superheroes.cache.entity.CacheSuperHeroesResult.CacheSuperHeroesEvents
 import com.alerdoci.marvelsuperheroes.data.datasource.features.superheroes.cache.entity.CacheSuperHeroesResult.CacheSuperHeroesSeries
 import com.alerdoci.marvelsuperheroes.data.datasource.features.superheroes.cache.entity.CacheSuperHeroesResult.CacheSuperHeroesThumbnail
 import com.alerdoci.marvelsuperheroes.data.datasource.features.superheroes.remote.models.RemoteComics
-import com.alerdoci.marvelsuperheroes.data.datasource.features.superheroes.remote.models.RemoteData
 import com.alerdoci.marvelsuperheroes.data.datasource.features.superheroes.remote.models.RemoteEvents
 import com.alerdoci.marvelsuperheroes.data.datasource.features.superheroes.remote.models.RemoteResult
 import com.alerdoci.marvelsuperheroes.data.datasource.features.superheroes.remote.models.RemoteSeries
-import com.alerdoci.marvelsuperheroes.data.datasource.features.superheroes.remote.models.RemoteSuperHeroes
 import com.alerdoci.marvelsuperheroes.data.datasource.features.superheroes.remote.models.RemoteThumbnail
-import com.alerdoci.marvelsuperheroes.model.features.superheroes.SuperHeroes
-import com.alerdoci.marvelsuperheroes.model.features.superheroes.SuperHeroesComics
-import com.alerdoci.marvelsuperheroes.model.features.superheroes.SuperHeroesData
-import com.alerdoci.marvelsuperheroes.model.features.superheroes.SuperHeroesEvents
-import com.alerdoci.marvelsuperheroes.model.features.superheroes.SuperHeroesResult
-import com.alerdoci.marvelsuperheroes.model.features.superheroes.SuperHeroesSeries
-import com.alerdoci.marvelsuperheroes.model.features.superheroes.SuperHeroesThumbnail
+import com.alerdoci.marvelsuperheroes.model.features.superheroes.ModelComics
+import com.alerdoci.marvelsuperheroes.model.features.superheroes.ModelEvents
+import com.alerdoci.marvelsuperheroes.model.features.superheroes.ModelResult
+import com.alerdoci.marvelsuperheroes.model.features.superheroes.ModelSeries
+import com.alerdoci.marvelsuperheroes.model.features.superheroes.ModelThumbnail
 
 /**
 domain <= data
@@ -29,18 +23,7 @@ List [ ] .map { it.toDomain() },
 Array { } .toDomain(),
  */
 
-//region Remote
-fun RemoteSuperHeroes.toDomain(): SuperHeroes = SuperHeroes(
-    data = this.data?.toDomain(),
-)
-
-fun RemoteData.toDomain(): SuperHeroesData = SuperHeroesData(
-    limit = this.limit,
-    offset = this.offset,
-    results = this.results?.map { it.toDomain() },
-)
-
-fun RemoteResult.toDomain(): SuperHeroesResult = SuperHeroesResult(
+fun RemoteResult.toDomain(): ModelResult = ModelResult(
     comics = comics?.toDomain(),
     description = description,
     events = events?.toDomain(),
@@ -54,36 +37,26 @@ fun RemoteResult.toDomain(): SuperHeroesResult = SuperHeroesResult(
 //    thumbnail = thumbnail?.toDomain()
 )
 
-fun RemoteComics.toDomain(): SuperHeroesComics = SuperHeroesComics(
+fun RemoteComics.toDomain(): ModelComics = ModelComics(
     available = this.available,
 )
 
-fun RemoteEvents.toDomain(): SuperHeroesEvents = SuperHeroesEvents(
+fun RemoteEvents.toDomain(): ModelEvents = ModelEvents(
     available = this.available,
 )
 
-fun RemoteSeries.toDomain(): SuperHeroesSeries = SuperHeroesSeries(
+fun RemoteSeries.toDomain(): ModelSeries = ModelSeries(
     available = this.available,
 )
 
-fun RemoteThumbnail.toDomain(): SuperHeroesThumbnail = SuperHeroesThumbnail(
+fun RemoteThumbnail.toDomain(): ModelThumbnail = ModelThumbnail(
     extension = this.extension,
     path = this.path
 )
 //endregion
 
 //region Cache
-fun CacheSuperHeroes.toDomain(): SuperHeroes = SuperHeroes(
-    data = this.data?.toDomain(),
-)
-
-fun CacheSuperHeroesData.toDomain(): SuperHeroesData = SuperHeroesData(
-    limit = this.limit,
-    offset = this.offset,
-    results = this.results?.map { it.toDomain() },
-)
-
-fun CacheSuperHeroesResult.toDomain(): SuperHeroesResult = SuperHeroesResult(
+fun CacheSuperHeroesResult.toDomain(): ModelResult = ModelResult(
     comics = comics?.toDomain(),
     description = description,
     events = events?.toDomain(),
@@ -96,36 +69,26 @@ fun CacheSuperHeroesResult.toDomain(): SuperHeroesResult = SuperHeroesResult(
     )
 )
 
-fun CacheSuperHeroesComics.toDomain(): SuperHeroesComics = SuperHeroesComics(
+fun CacheSuperHeroesComics.toDomain(): ModelComics = ModelComics(
     available = this.available,
 )
 
-fun CacheSuperHeroesEvents.toDomain(): SuperHeroesEvents = SuperHeroesEvents(
+fun CacheSuperHeroesEvents.toDomain(): ModelEvents = ModelEvents(
     available = this.available,
 )
 
-fun CacheSuperHeroesSeries.toDomain(): SuperHeroesSeries = SuperHeroesSeries(
+fun CacheSuperHeroesSeries.toDomain(): ModelSeries = ModelSeries(
     available = this.available,
 )
 
-fun CacheSuperHeroesThumbnail.toDomain(): SuperHeroesThumbnail = SuperHeroesThumbnail(
+fun CacheSuperHeroesThumbnail.toDomain(): ModelThumbnail = ModelThumbnail(
     extension = this.extension,
     path = this.path
 )
 //endregion
 
 //region Source of truth
-fun SuperHeroes.toCache(): CacheSuperHeroes = CacheSuperHeroes(
-    data = this.data?.toDomain(),
-)
-
-fun SuperHeroesData.toDomain(): CacheSuperHeroesData = CacheSuperHeroesData(
-    limit = this.limit,
-    offset = this.offset,
-    results = this.results?.map { it.toDomain() },
-)
-
-fun SuperHeroesResult.toDomain(): CacheSuperHeroesResult = CacheSuperHeroesResult(
+fun ModelResult.toYes(): CacheSuperHeroesResult = CacheSuperHeroesResult(
     comics = comics?.toDomain(),
     description = description,
     events = events?.toDomain(),
@@ -133,22 +96,21 @@ fun SuperHeroesResult.toDomain(): CacheSuperHeroesResult = CacheSuperHeroesResul
     name = name,
     series = series?.toDomain(),
     thumbnail = null,
-    //And Imagefinal????
 )
 
-fun SuperHeroesComics.toDomain(): CacheSuperHeroesComics = CacheSuperHeroesComics(
+fun ModelComics.toDomain(): CacheSuperHeroesComics = CacheSuperHeroesComics(
     available = this.available,
 )
 
-fun SuperHeroesEvents.toDomain(): CacheSuperHeroesEvents = CacheSuperHeroesEvents(
+fun ModelEvents.toDomain(): CacheSuperHeroesEvents = CacheSuperHeroesEvents(
     available = this.available,
 )
 
-fun SuperHeroesSeries.toDomain(): CacheSuperHeroesSeries = CacheSuperHeroesSeries(
+fun ModelSeries.toDomain(): CacheSuperHeroesSeries = CacheSuperHeroesSeries(
     available = this.available,
 )
 
-fun SuperHeroesThumbnail.toDomain(): CacheSuperHeroesThumbnail = CacheSuperHeroesThumbnail(
+fun ModelThumbnail.toDomain(): CacheSuperHeroesThumbnail = CacheSuperHeroesThumbnail(
     extension = this.extension,
     path = this.path
 )

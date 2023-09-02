@@ -98,7 +98,7 @@ import com.alerdoci.marvelsuperheroes.app.theme.MarvelColors.orange_A200
 import com.alerdoci.marvelsuperheroes.app.theme.MarvelColors.red_800
 import com.alerdoci.marvelsuperheroes.app.theme.dimens
 import com.alerdoci.marvelsuperheroes.app.theme.spacing
-import com.alerdoci.marvelsuperheroes.domain.models.features.superheroes.ModelResult
+import com.alerdoci.marvelsuperheroes.model.features.superheroes.ModelResult
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import me.saket.telephoto.zoomable.rememberZoomableState
 import me.saket.telephoto.zoomable.zoomable

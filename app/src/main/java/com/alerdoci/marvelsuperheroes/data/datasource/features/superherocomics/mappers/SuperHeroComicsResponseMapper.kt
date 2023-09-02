@@ -1,29 +1,29 @@
 package com.alerdoci.marvelsuperheroes.data.datasource.features.superherocomics.mappers
 
-import com.alerdoci.marvelsuperheroes.data.datasource.features.superherocomics.remote.models.RemoteSuperHeroComic
-import com.alerdoci.marvelsuperheroes.data.datasource.features.superherocomics.remote.models.RemoteSuperHeroComicData
-import com.alerdoci.marvelsuperheroes.data.datasource.features.superherocomics.remote.models.RemoteSuperHeroComicDate
-import com.alerdoci.marvelsuperheroes.data.datasource.features.superherocomics.remote.models.RemoteSuperHeroComicResult
-import com.alerdoci.marvelsuperheroes.data.datasource.features.superherocomics.remote.models.RemoteSuperHeroComicThumbnail
-import com.alerdoci.marvelsuperheroes.data.datasource.features.superherocomics.remote.models.RemoteSuperHeroComicUrls
-import com.alerdoci.marvelsuperheroes.model.features.superherocomic.SuperHeroComic
-import com.alerdoci.marvelsuperheroes.model.features.superherocomic.SuperHeroComicData
-import com.alerdoci.marvelsuperheroes.model.features.superherocomic.SuperHeroesComicDate
-import com.alerdoci.marvelsuperheroes.model.features.superherocomic.SuperHeroesComicResult
-import com.alerdoci.marvelsuperheroes.model.features.superherocomic.SuperHeroesComicThumbnail
-import com.alerdoci.marvelsuperheroes.model.features.superherocomic.SuperHeroesComicUrls
+import com.alerdoci.marvelsuperheroes.data.features.superherocomics.remote.models.RemoteComicsData
+import com.alerdoci.marvelsuperheroes.data.features.superherocomics.remote.models.RemoteComicsDate
+import com.alerdoci.marvelsuperheroes.data.features.superherocomics.remote.models.RemoteComicsResult
+import com.alerdoci.marvelsuperheroes.data.features.superherocomics.remote.models.RemoteComicsSuperHeroList
+import com.alerdoci.marvelsuperheroes.data.features.superherocomics.remote.models.RemoteComicsThumbnail
+import com.alerdoci.marvelsuperheroes.data.features.superherocomics.remote.models.RemoteComicsUrls
+import com.alerdoci.marvelsuperheroes.model.features.superherocomic.ModelComicsData
+import com.alerdoci.marvelsuperheroes.model.features.superherocomic.ModelComicsDate
+import com.alerdoci.marvelsuperheroes.model.features.superherocomic.ModelComicsResult
+import com.alerdoci.marvelsuperheroes.model.features.superherocomic.ModelComicsSuperHeroList
+import com.alerdoci.marvelsuperheroes.model.features.superherocomic.ModelComicsThumbnail
+import com.alerdoci.marvelsuperheroes.model.features.superherocomic.ModelComicsUrls
 
-//ToDo add cache and general
-fun RemoteSuperHeroComic.toDomain(): SuperHeroComic = SuperHeroComic(
+
+fun RemoteComicsSuperHeroList.toDomain(): ModelComicsSuperHeroList = ModelComicsSuperHeroList(
     attributionText = this.attributionText,
     data = data?.toDomain(),
 )
 
-fun RemoteSuperHeroComicData.toDomain(): SuperHeroComicData = SuperHeroComicData(
+fun RemoteComicsData.toDomain(): ModelComicsData = ModelComicsData(
     results = this.results?.map { it.toDomain() },
 )
 
-fun RemoteSuperHeroComicResult.toDomain(): SuperHeroesComicResult = SuperHeroesComicResult(
+fun RemoteComicsResult.toDomain(): ModelComicsResult = ModelComicsResult(
     title = this.title,
     dates = dates?.map { it.toDomain() },
     thumbnail = thumbnail?.toDomain(),
@@ -34,17 +34,17 @@ fun RemoteSuperHeroComicResult.toDomain(): SuperHeroesComicResult = SuperHeroesC
     urls = urls?.map { it.toDomain() },
 )
 
-fun RemoteSuperHeroComicDate.toDomain(): SuperHeroesComicDate = SuperHeroesComicDate(
+fun RemoteComicsDate.toDomain(): ModelComicsDate = ModelComicsDate(
     type = this.type,
     date = this.date,
 )
 
-fun RemoteSuperHeroComicUrls.toDomain(): SuperHeroesComicUrls = SuperHeroesComicUrls(
+fun RemoteComicsUrls.toDomain(): ModelComicsUrls = ModelComicsUrls(
     type = this.type,
     url = this.url,
 )
 
-fun RemoteSuperHeroComicThumbnail.toDomain(): SuperHeroesComicThumbnail = SuperHeroesComicThumbnail(
+fun RemoteComicsThumbnail.toDomain(): ModelComicsThumbnail = ModelComicsThumbnail(
     extension = this.extension,
     path = this.path
 )

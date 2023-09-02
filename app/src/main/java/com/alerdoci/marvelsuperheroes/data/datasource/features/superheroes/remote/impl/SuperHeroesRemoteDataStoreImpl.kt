@@ -6,8 +6,8 @@ import com.alerdoci.marvelsuperheroes.data.datasource.features.superheroes.mappe
 import com.alerdoci.marvelsuperheroes.data.datasource.remote.service.MarvelService
 import com.alerdoci.marvelsuperheroes.data.datastore.features.superheroes.SuperheroesDataStore
 import com.alerdoci.marvelsuperheroes.di.remote.NetworkModule
-import com.alerdoci.marvelsuperheroes.model.features.superherocomic.SuperHeroComic
-import com.alerdoci.marvelsuperheroes.model.features.superheroes.SuperHeroesResult
+import com.alerdoci.marvelsuperheroes.model.features.superherocomic.ModelComicsResult
+import com.alerdoci.marvelsuperheroes.model.features.superheroes.ModelResult
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import javax.inject.Inject
@@ -18,7 +18,7 @@ open class SuperHeroesRemoteDataStoreImpl @Inject constructor(
 
     override suspend fun getMarvelSuperHeroesPaging(
         offset: Int, limit: Int,
-    ): Flow<List<SuperHeroesResult>> = flow {
+    ): Flow<List<ModelResult>> = flow {
         val timestamp = System.currentTimeMillis().toString()
         val superheroes = remoteService.getMarvelSuperHeroes(
             offset = offset * limit,
@@ -40,7 +40,7 @@ open class SuperHeroesRemoteDataStoreImpl @Inject constructor(
         superHeroId: Int,
         offset: Int,
         limit: Int
-    ): Flow<List<SuperHeroesResult>> = flow {
+    ): Flow<List<ModelResult>> = flow {
         val timestamp = System.currentTimeMillis().toString()
         val superhero = remoteService.getMarvelSuperHero(
             superHeroId = superHeroId,
@@ -66,7 +66,7 @@ open class SuperHeroesRemoteDataStoreImpl @Inject constructor(
         nameSearched: String?,
         offset: Int,
         limit: Int,
-    ): Flow<List<SuperHeroesResult>> = flow {
+    ): Flow<List<ModelResult>> = flow {
         val timestamp = System.currentTimeMillis().toString()
         val superhero = remoteService.getMarvelSuperHeroesSearched(
             offset = offset,
@@ -92,7 +92,7 @@ open class SuperHeroesRemoteDataStoreImpl @Inject constructor(
         superHeroId: Int,
         offset: Int,
         limit: Int
-    ): Flow<List<SuperHeroComic>> = flow {
+    ): Flow<List<ModelComicsResult>> = flow {
         val timestamp = System.currentTimeMillis().toString()
         val superhero = remoteService.getMarvelSuperHeroComics(
             superHeroId = superHeroId,
@@ -104,14 +104,14 @@ open class SuperHeroesRemoteDataStoreImpl @Inject constructor(
         )
         if (superhero.isSuccessful) {
             superhero.body()?.let { superHeroComic ->
-                emit(listOf(superHeroComic.toDomain()))
+//                emit(listOf(superHeroComic.toDomain()))
             }
         } else {
             emit(emptyList())
         }
     }
 
-    override suspend fun insertOrUpdateSuperHeroes(vararg superHeroesList: Array<SuperHeroesResult>) {
+    override suspend fun insertOrUpdateSuperHeroes(vararg superHeroesList: ModelResult) {
         TODO("Not yet implemented")
     }
 }

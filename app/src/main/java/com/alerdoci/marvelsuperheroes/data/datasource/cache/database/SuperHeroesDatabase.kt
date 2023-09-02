@@ -4,25 +4,36 @@ import android.content.Context
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
+import androidx.room.TypeConverters
 import androidx.room.migration.Migration
 import com.alerdoci.marvelsuperheroes.data.datasource.features.superheroes.cache.constants.MarvelConstants.TABLE_NAME
 import com.alerdoci.marvelsuperheroes.data.datasource.features.superheroes.cache.dao.SuperHeroesDao
-import com.alerdoci.marvelsuperheroes.data.datasource.features.superheroes.cache.entity.CacheSuperHeroes
+import com.alerdoci.marvelsuperheroes.data.datasource.features.superheroes.cache.entity.CacheSuperHeroesComicsConverter
+import com.alerdoci.marvelsuperheroes.data.datasource.features.superheroes.cache.entity.CacheSuperHeroesEventsConverter
+import com.alerdoci.marvelsuperheroes.data.datasource.features.superheroes.cache.entity.CacheSuperHeroesResult
+import com.alerdoci.marvelsuperheroes.data.datasource.features.superheroes.cache.entity.CacheSuperHeroesSeriesConverter
+import com.alerdoci.marvelsuperheroes.data.datasource.features.superheroes.cache.entity.CacheSuperHeroesThumbnailConverter
 
 /* Needed by room migrations
 import androidx.room.migration.Migration
 import androidx.sqlite.db.SupportSQLiteDatabase
 */
 
+
 @Database(
     entities = [
-        CacheSuperHeroes::class,
+        CacheSuperHeroesResult::class,
 //    SuperHeroEntity::class
 //    SuperHeroComicEntity::class
     ],
-    version = 1, exportSchema = true
+    version = 1, exportSchema = false
 )
-
+@TypeConverters(
+    CacheSuperHeroesThumbnailConverter::class,
+    CacheSuperHeroesComicsConverter::class,
+    CacheSuperHeroesSeriesConverter::class,
+    CacheSuperHeroesEventsConverter::class
+)
 abstract class SuperHeroesDatabase : RoomDatabase() {
 
     private var INSTANCE: SuperHeroesDatabase? = null

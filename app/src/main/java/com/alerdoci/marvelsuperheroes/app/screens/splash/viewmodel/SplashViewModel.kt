@@ -6,7 +6,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.alerdoci.marvelsuperheroes.app.navigation.Screen
-import com.alerdoci.marvelsuperheroes.data.features.onboarding.cache.settings.DataStoreRepository
+import com.alerdoci.marvelsuperheroes.data.datasource.features.onboarding.cache.settings.DataStoreRepository
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 

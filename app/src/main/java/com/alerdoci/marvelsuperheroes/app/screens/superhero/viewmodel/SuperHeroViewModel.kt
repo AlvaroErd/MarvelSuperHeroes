@@ -8,7 +8,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.alerdoci.marvelsuperheroes.app.common.states.ResourceState
 import com.alerdoci.marvelsuperheroes.app.common.utils.ThemeMode
-import com.alerdoci.marvelsuperheroes.data.features.onboarding.cache.settings.DataStoreRepository
+import com.alerdoci.marvelsuperheroes.data.datasource.features.onboarding.cache.settings.DataStoreRepository
 import com.alerdoci.marvelsuperheroes.domain.usecases.GetMarvelSuperHeroComicsUseCase
 import com.alerdoci.marvelsuperheroes.domain.usecases.GetMarvelSuperHeroUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel

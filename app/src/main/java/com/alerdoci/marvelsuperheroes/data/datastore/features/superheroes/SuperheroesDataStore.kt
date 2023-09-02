@@ -2,8 +2,8 @@ package com.alerdoci.marvelsuperheroes.data.datastore.features.superheroes
 
 import com.alerdoci.marvelsuperheroes.domain.constants.Constants.Companion.OFFSET
 import com.alerdoci.marvelsuperheroes.domain.constants.Constants.Companion.PAGE_SIZE
-import com.alerdoci.marvelsuperheroes.model.features.superherocomic.SuperHeroComic
-import com.alerdoci.marvelsuperheroes.model.features.superheroes.SuperHeroesResult
+import com.alerdoci.marvelsuperheroes.model.features.superherocomic.ModelComicsResult
+import com.alerdoci.marvelsuperheroes.model.features.superheroes.ModelResult
 import kotlinx.coroutines.flow.Flow
 
 interface SuperheroesDataStore {
@@ -11,25 +11,25 @@ interface SuperheroesDataStore {
     suspend fun getMarvelSuperHeroesPaging(
         offset: Int,
         limit: Int,
-    ): Flow<List<SuperHeroesResult>>
+    ): Flow<List<ModelResult>>
 
     suspend fun getMarvelSuperHeroSearched(
         nameSearched: String?,
         offset: Int = OFFSET,
         limit: Int = PAGE_SIZE
-    ): Flow<List<SuperHeroesResult>>
+    ): Flow<List<ModelResult>>
 
     suspend fun getMarvelSuperHero(
         superHeroId: Int,
         offset: Int = OFFSET,
         limit: Int = PAGE_SIZE
-    ): Flow<List<SuperHeroesResult>>
+    ): Flow<List<ModelResult>>
 
     suspend fun getMarvelSuperHeroComics(
         superHeroId: Int,
         offset: Int = OFFSET,
         limit: Int = PAGE_SIZE
-    ): Flow<List<SuperHeroComic>>
+    ): Flow<List<ModelComicsResult>>
 
-    suspend fun insertOrUpdateSuperHeroes(vararg superHeroesList: Array<SuperHeroesResult>)
+    suspend fun insertOrUpdateSuperHeroes(vararg superHeroesList: ModelResult)
 }

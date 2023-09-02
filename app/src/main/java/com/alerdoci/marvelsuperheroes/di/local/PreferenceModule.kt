@@ -1,7 +1,7 @@
 package com.alerdoci.marvelsuperheroes.di.local
 
 import android.content.Context
-import com.alerdoci.marvelsuperheroes.data.features.onboarding.cache.settings.DataStoreRepository
+import com.alerdoci.marvelsuperheroes.data.datasource.features.onboarding.cache.settings.DataStoreRepository
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn

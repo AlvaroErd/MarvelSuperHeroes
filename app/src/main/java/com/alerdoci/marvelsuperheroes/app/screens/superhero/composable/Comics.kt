@@ -25,7 +25,7 @@ import com.alerdoci.marvelsuperheroes.R
 import com.alerdoci.marvelsuperheroes.app.theme.MarvelColors
 import com.alerdoci.marvelsuperheroes.app.theme.MarvelColors.red_800
 import com.alerdoci.marvelsuperheroes.app.theme.spacing
-import com.alerdoci.marvelsuperheroes.domain.models.features.superherocomics.ModelComicsSuperHeroList
+import com.alerdoci.marvelsuperheroes.model.features.superherocomic.ModelComicsSuperHeroList
 import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale

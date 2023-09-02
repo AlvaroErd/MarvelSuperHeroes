@@ -1,7 +1,7 @@
 [versions]
 
 #General, lifecycle and core
-androidGradlePlugin = "8.1.0"
+androidGradlePlugin = "8.1.1"
 kotlin = "1.9.0"
 kotlinx_immutable = "0.3.5"
 ksp = "1.9.0-1.0.12"
@@ -52,7 +52,7 @@ photoview = "2.3.0"
 splashScreen = "1.0.1"
 
 #Lottie
-lottie = "6.0.1"
+lottie = "6.1.0"
 
 #Paging 3.0 Compose
 pagingCompose = "1.0.0-alpha17"
@@ -97,7 +97,7 @@ version-catalog-update = "0.8.0"
 
 #Firebase, GMS...
 firebaseAuth = "22.1.1"
-gmsPlayServicesAuth = "20.6.0"
+gmsPlayServicesAuth = "20.7.0"
 googleServices = "4.3.15"
 
 error = "2.4.0"
@@ -174,6 +174,7 @@ androidx-palette = { module = "androidx.palette:palette", version.ref = "android
 room-compiler = { group = "androidx.room", name = "room-compiler", version.ref = "room" }
 androidx-room-ktx = { module = "androidx.room:room-ktx", version.ref = "room" }
 androidx-room-runtime = { module = "androidx.room:room-runtime", version.ref = "room" }
+androidx-room-paging = { module = "androidx.room:room-paging", version.ref = "room" }
 
 #Datastore
 datastore = { module = "androidx.datastore:datastore-preferences", version.ref = "datastore" }
@@ -261,6 +262,7 @@ switch-image = { module = "com.github.razaghimahdi:ImageSwitch", version.ref = "
 google-fonts = { module = "androidx.compose.ui:ui-text-google-fonts", version.ref = "googleFonts" }
 
 typist = { module = "tech.dev-scion:typist", version.ref = "typist" }
+#androidx-ui-tooling-preview = { group = "androidx.compose.ui", name = "ui-tooling-preview", version = "1.5.0" }
 
 [plugins]
 #Kotlin
