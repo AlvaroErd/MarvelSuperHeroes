@@ -6,10 +6,20 @@
     //Loading control
     <string name="loading">Loading...</string>
 
-    //Error control
+    <!-- region Error -->
     <string name="error">Oops! Something went wrong</string>
     <string name="try_reload">That´s awkward. Please try again</string>
     <string name="unknown_error">Unknown error</string>
+    <string name="error_default_message">Oops, there was an error fetching the data</string>
+    <string name="error_try_again">Try again</string>
+    <string name="error_dialog_title">Error</string>
+    <string name="error_support_code">Support code: %1$s</string>
+    <string name="error_no_connection">There is no Internet connection. Check your Wi-Fi or mobile data connection, please.</string>
+    <string name="error_connection_timeout">We are experiencing some temporary problems. Please, try again in a few moments.</string>
+    <string name="error_get_credentials">Get credentials request has failed.</string>
+    <string name="error_sign_in">Sign in request has failed.</string>
+    <string name="error_sign_out">Sign out request has failed.</string>
+    <!-- endregion -->
 
     //Home screen
     <string name="search_superhero">Search Superhero 🦸‍</string>

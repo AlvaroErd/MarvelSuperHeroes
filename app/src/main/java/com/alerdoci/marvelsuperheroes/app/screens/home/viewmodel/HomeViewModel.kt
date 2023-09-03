@@ -10,9 +10,9 @@ import androidx.paging.PagingData
 import androidx.paging.cachedIn
 import com.alerdoci.marvelsuperheroes.app.common.states.ResourceState
 import com.alerdoci.marvelsuperheroes.app.common.utils.ThemeMode
-import com.alerdoci.marvelsuperheroes.data.datasource.features.onboarding.cache.settings.DataStoreRepository
-import com.alerdoci.marvelsuperheroes.domain.usecases.GetMarvelSuperHeroSearchedUseCase
-import com.alerdoci.marvelsuperheroes.domain.usecases.GetMarvelSuperHeroesPagingUseCase
+import com.alerdoci.marvelsuperheroes.datasource.features.onboarding.cache.settings.DataStoreRepository
+import com.alerdoci.marvelsuperheroes.domain.usecases.app.GetMarvelSuperHeroSearchedUseCase
+import com.alerdoci.marvelsuperheroes.domain.usecases.app.GetMarvelSuperHeroesPagingUseCase
 import com.alerdoci.marvelsuperheroes.model.features.superheroes.ModelComics
 import com.alerdoci.marvelsuperheroes.model.features.superheroes.ModelEvents
 import com.alerdoci.marvelsuperheroes.model.features.superheroes.ModelResult

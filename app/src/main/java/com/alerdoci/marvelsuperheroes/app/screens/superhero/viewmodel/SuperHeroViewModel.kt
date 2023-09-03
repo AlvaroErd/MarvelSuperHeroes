@@ -1,16 +1,12 @@
 package com.alerdoci.marvelsuperheroes.app.screens.superhero.viewmodel
 
-import androidx.compose.foundation.isSystemInDarkTheme
-import androidx.datastore.preferences.preferencesDataStore
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.alerdoci.marvelsuperheroes.app.common.states.ResourceState
 import com.alerdoci.marvelsuperheroes.app.common.utils.ThemeMode
-import com.alerdoci.marvelsuperheroes.data.datasource.features.onboarding.cache.settings.DataStoreRepository
-import com.alerdoci.marvelsuperheroes.domain.usecases.GetMarvelSuperHeroComicsUseCase
-import com.alerdoci.marvelsuperheroes.domain.usecases.GetMarvelSuperHeroUseCase
+import com.alerdoci.marvelsuperheroes.datasource.features.onboarding.cache.settings.DataStoreRepository
+import com.alerdoci.marvelsuperheroes.domain.usecases.app.GetMarvelSuperHeroComicsUseCase
+import com.alerdoci.marvelsuperheroes.domain.usecases.app.GetMarvelSuperHeroUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
