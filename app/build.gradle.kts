@@ -1,9 +1,12 @@
+import java.util.Locale
+
 //@Suppress("DSL_SCOPE_VIOLATION")
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.ksp)
     alias(libs.plugins.hilt)
+    alias(libs.plugins.detekt)
 }
 
 val versionMajor = 0
@@ -96,7 +99,11 @@ android {
 
                         val filename =
                             "$apkNameBase-${if (variant.versionName.isNotEmpty()) variant.versionName else "no-version"}-${output.baseName}.apk"
-                        val taskSuffix = variant.name.capitalize()
+                        val taskSuffix = variant.name.replaceFirstChar {
+                            if (it.isLowerCase()) it.titlecase(
+                                Locale.getDefault()
+                            ) else it.toString()
+                        }
                         val assembleTaskName = "assemble$taskSuffix"
                         val taskAssemble = tasks.findByName(assembleTaskName)
                         if (taskAssemble != null) {
@@ -293,6 +300,17 @@ dependencies {
 
     //Typist - Font animations
     implementation(libs.typist)
+
+    //Toast
+    implementation(libs.motionToast)
+    implementation(libs.mdToast)
+    implementation(libs.toastic)
+    implementation(libs.sToast)
+    implementation(libs.toasty)
+
+    implementation(libs.konfetti)
+
+    implementation(libs.eva)
 
 //    //Exoplayer
 //    implementation(libs.exoplayer.core)

@@ -24,7 +24,10 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.blur
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Shadow
+import androidx.compose.ui.hapticfeedback.HapticFeedbackType
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalHapticFeedback
+import androidx.compose.ui.platform.LocalView
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
@@ -39,8 +42,8 @@ import com.alerdoci.marvelsuperheroes.app.navigation.Screen
 import com.alerdoci.marvelsuperheroes.app.screens.onboarding.viewmodel.OnboardingViewModel
 import com.alerdoci.marvelsuperheroes.app.theme.MarvelColors
 import com.alerdoci.marvelsuperheroes.app.theme.MarvelColors.black
-import com.alerdoci.marvelsuperheroes.app.theme.spacing
 import com.alerdoci.marvelsuperheroes.app.theme.MarvelColors.white
+import com.alerdoci.marvelsuperheroes.app.theme.spacing
 import tech.devscion.typist.Typist
 import tech.devscion.typist.TypistSpeed
 
@@ -59,6 +62,8 @@ fun OnBoardingContent(
     onboardingViewModel: OnboardingViewModel = hiltViewModel(),
     navController: NavHostController,
 ) {
+    val view = LocalView.current
+    val haptic = LocalHapticFeedback.current
     Box(
         modifier = Modifier
             .background(MaterialTheme.colorScheme.background),

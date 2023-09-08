@@ -22,7 +22,11 @@
     <!-- endregion -->
 
     //Home screen
-    <string name="search_superhero">Search Superhero 🦸‍</string>
+    <string name="search_superhero">Search a superhero 🦸‍️️</string>
+    <string name="search_superheroine">Search a superheroine 🧝‍♀️‍️</string>
+    <string name="search_supervillain">Search a supervillain 🦹‍♂️‍️</string>
+    <string name="search_monster">Search a monster 👹️‍</string>
+
     <string name="series_icon">Series Icon</string>
     <string name="comic_icon">Comic Icon</string>
     <plurals name="events">
