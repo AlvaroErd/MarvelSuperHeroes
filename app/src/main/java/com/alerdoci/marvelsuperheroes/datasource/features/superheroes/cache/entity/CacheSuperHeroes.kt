@@ -4,11 +4,11 @@ import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 import androidx.room.TypeConverter
-import com.alerdoci.marvelsuperheroes.datasource.features.superheroes.cache.constants.MarvelConstants.TABLE_NAME
+import com.alerdoci.marvelsuperheroes.datasource.features.superheroes.cache.constants.MarvelConstants.SUPERHEROES_TABLE_NAME
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 
-@Entity(tableName = TABLE_NAME)
+@Entity(tableName = SUPERHEROES_TABLE_NAME)
 data class CacheSuperHeroesResult(
     @PrimaryKey(autoGenerate = false)
     @ColumnInfo(name = "id")

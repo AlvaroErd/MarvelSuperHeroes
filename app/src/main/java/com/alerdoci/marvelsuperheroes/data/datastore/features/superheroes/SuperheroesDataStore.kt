@@ -1,8 +1,9 @@
-package com.alerdoci.marvelsuperheroes.data.features.superheroes
+package com.alerdoci.marvelsuperheroes.data.datastore.features.superheroes
 
 import com.alerdoci.marvelsuperheroes.domain.constants.Constants.Companion.OFFSET
 import com.alerdoci.marvelsuperheroes.domain.constants.Constants.Companion.PAGE_SIZE
 import com.alerdoci.marvelsuperheroes.model.features.superherocomic.ModelComicsResult
+import com.alerdoci.marvelsuperheroes.model.features.superherocomic.ModelComicsSuperHeroList
 import com.alerdoci.marvelsuperheroes.model.features.superheroes.ModelResult
 import kotlinx.coroutines.flow.Flow
 
@@ -32,4 +33,5 @@ interface SuperheroesDataStore {
     ): Flow<List<ModelComicsResult>>
 
     suspend fun insertOrUpdateSuperHeroes(vararg superHeroesList: ModelResult)
+    suspend fun insertOrUpdateSuperHeroesComic(vararg superHeroesComicList: ModelComicsResult)
 }

@@ -7,7 +7,7 @@ import androidx.room.RoomDatabase
 import com.alerdoci.marvelsuperheroes.BuildConfig
 import com.alerdoci.marvelsuperheroes.app.common.serializer.GsonDateDeserializer
 import com.alerdoci.marvelsuperheroes.data.constants.BASE_URL
-import com.alerdoci.marvelsuperheroes.data.features.superheroes.SuperheroesDataStore
+import com.alerdoci.marvelsuperheroes.data.datastore.features.superheroes.SuperheroesDataStore
 import com.alerdoci.marvelsuperheroes.data.repository.factory.features.superheroes.impl.SuperHeroesRemoteImplFactory
 import com.alerdoci.marvelsuperheroes.data.repository.factory.features.superheroes.factory.SuperHeroesDataFactory
 import com.alerdoci.marvelsuperheroes.datasource.cache.database.SuperHeroesDatabase

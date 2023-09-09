@@ -2,6 +2,7 @@ package com.alerdoci.marvelsuperheroes.domain.repository
 
 import com.alerdoci.marvelsuperheroes.domain.constants.Constants.Companion.OFFSET
 import com.alerdoci.marvelsuperheroes.domain.constants.Constants.Companion.PAGE_SIZE
+import com.alerdoci.marvelsuperheroes.model.features.superherocomic.ModelComicsResult
 import com.alerdoci.marvelsuperheroes.model.features.superherocomic.ModelComicsSuperHeroList
 import com.alerdoci.marvelsuperheroes.model.features.superheroes.ModelResult
 import kotlinx.coroutines.flow.Flow
@@ -29,5 +30,5 @@ interface MarvelRepository {
         superHeroId: Int,
         offset: Int = OFFSET,
         limit: Int = PAGE_SIZE
-    ): Flow<List<ModelComicsSuperHeroList>>
+    ): Flow<List<ModelComicsResult>>
 }

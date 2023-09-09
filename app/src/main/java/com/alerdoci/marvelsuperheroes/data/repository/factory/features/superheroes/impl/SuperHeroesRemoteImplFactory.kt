@@ -2,6 +2,7 @@ package com.alerdoci.marvelsuperheroes.data.repository.factory.features.superher
 
 import com.alerdoci.marvelsuperheroes.data.repository.factory.features.superheroes.factory.SuperHeroesDataFactory
 import com.alerdoci.marvelsuperheroes.domain.repository.MarvelRepository
+import com.alerdoci.marvelsuperheroes.model.features.superherocomic.ModelComicsResult
 import com.alerdoci.marvelsuperheroes.model.features.superherocomic.ModelComicsSuperHeroList
 import com.alerdoci.marvelsuperheroes.model.features.superheroes.ModelResult
 import kotlinx.coroutines.flow.Flow
@@ -28,7 +29,7 @@ open class SuperHeroesRemoteImplFactory @Inject constructor(
                             send(remoteSuperHeroesPaging)
                         }
 
-                    } catch (_: Exception) {
+                    } catch (exception: Exception) {
                         send(emptyList())
                     }
                 } else {
@@ -41,23 +42,88 @@ open class SuperHeroesRemoteImplFactory @Inject constructor(
         nameSearched: String?,
         offset: Int,
         limit: Int
-    ): Flow<List<ModelResult>> {
-        TODO("Not yet implemented")
+    ): Flow<List<ModelResult>> = channelFlow {
+        factory.cacheDataStore.getMarvelSuperHeroSearched(
+            offset = offset,
+            limit = limit,
+            nameSearched = nameSearched
+        )
+            .collectLatest { superheroes ->
+                if (superheroes.isEmpty()) {
+                    try {
+                        factory.remoteDataStore.getMarvelSuperHeroSearched(
+                            offset = offset,
+                            limit = limit,
+                            nameSearched = nameSearched
+                        ).collectLatest { remoteSuperHeroesSearched ->
+                            factory.cacheDataStore.insertOrUpdateSuperHeroes(*remoteSuperHeroesSearched.toTypedArray())
+                            send(remoteSuperHeroesSearched)
+                        }
+
+                    } catch (exception: Exception) {
+                        send(emptyList())
+                    }
+                } else {
+                    send(superheroes)
+                }
+            }
     }
 
     override suspend fun getMarvelSuperHero(
         superHeroId: Int,
         offset: Int,
         limit: Int
-    ): Flow<List<ModelResult>> {
-        TODO("Not yet implemented")
+    ): Flow<List<ModelResult>> = channelFlow {
+        factory.cacheDataStore.getMarvelSuperHero(
+            superHeroId = superHeroId
+        )
+            .collectLatest { superheroes ->
+                if (superheroes.isEmpty()) {
+                    try {
+                        factory.remoteDataStore.getMarvelSuperHero(
+                            superHeroId = superHeroId
+                        ).collectLatest { remoteSuperHero ->
+                            factory.cacheDataStore.insertOrUpdateSuperHeroes(*remoteSuperHero.toTypedArray())
+                            send(remoteSuperHero)
+                        }
+
+                    } catch (exception: Exception) {
+                        send(emptyList())
+                    }
+                } else {
+                    send(superheroes)
+                }
+            }
     }
 
     override suspend fun getMarvelSuperHeroComics(
         superHeroId: Int,
         offset: Int,
         limit: Int
-    ): Flow<List<ModelComicsSuperHeroList>> {
-        TODO("Not yet implemented")
+    ): Flow<List<ModelComicsResult>> = channelFlow {
+        factory.cacheDataStore.getMarvelSuperHeroComics(
+            offset = offset,
+            limit = limit,
+            superHeroId = superHeroId
+        )
+            .collectLatest { superheroes ->
+                if (superheroes.isEmpty()) {
+                    try {
+                        factory.remoteDataStore.getMarvelSuperHeroComics(
+                            offset = offset,
+                            limit = limit,
+                            superHeroId = superHeroId
+                        ).collectLatest { remoteSuperHeroComics ->
+                            factory.cacheDataStore.insertOrUpdateSuperHeroesComic(*remoteSuperHeroComics.toTypedArray())
+                            send(remoteSuperHeroComics)
+                        }
+
+                    } catch (exception: Exception) {
+                        send(emptyList())
+                    }
+                } else {
+                    send(superheroes)
+                }
+            }
     }
 }

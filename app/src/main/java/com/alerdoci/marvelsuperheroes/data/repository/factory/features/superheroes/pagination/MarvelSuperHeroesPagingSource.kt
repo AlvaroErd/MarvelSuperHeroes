@@ -19,8 +19,8 @@ open class MarvelSuperHeroesPagingSource @Inject constructor(
         }
     }
 
-    override suspend fun load(params: LoadParams<Int>): LoadResult<Int, ModelResult> {
-        return try {
+    override suspend fun load(params: LoadParams<Int>): LoadResult<Int, ModelResult> =
+        try {
             val page = params.key ?: 0
             val response = repositoryPaging.getMarvelSuperHeroesPaging(
                 offset = page,
@@ -32,8 +32,7 @@ open class MarvelSuperHeroesPagingSource @Inject constructor(
                 prevKey = if (page == 0) null else page.minus(1),
                 nextKey = if (response.isEmpty()) null else page.plus(1)
             )
-        } catch (e: Exception) {
-            LoadResult.Error(e)
+        } catch (exception: Exception) {
+            LoadResult.Error(exception)
         }
     }
-}

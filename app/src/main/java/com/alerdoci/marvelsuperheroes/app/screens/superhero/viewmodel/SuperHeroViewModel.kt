@@ -45,14 +45,14 @@ class SuperHeroViewModel @Inject constructor(
                 }
             }
 
-            getMarvelSuperHeroComicsUseCase(superHeroId = superHeroId).collectLatest { superHeroComics ->
-                _currentSuperHeroComic.update {
-                    if (superHeroComics.isNotEmpty())
-                        ResourceState.Success(superHeroComics)
-                    else
-                        ResourceState.Error(InvalidObjectException("SuperHeroComic not found :("))
-                }
-            }
+//            getMarvelSuperHeroComicsUseCase(superHeroId = superHeroId).collectLatest { superHeroComics ->
+//                _currentSuperHeroComic.update {
+//                    if (superHeroComics.isNotEmpty())
+//                        ResourceState.Success(superHeroComics)
+//                    else
+//                        ResourceState.Error(InvalidObjectException("SuperHeroComic not found :("))
+//                }
+//            }
         }
     }
 

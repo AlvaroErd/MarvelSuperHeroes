@@ -78,7 +78,6 @@ android {
                 "\"${project.properties["API_KEY_PRIVATE"]}\""
             )
             resValue("string", "app_name", "@string/app_name_debug")
-            resValue("drawable", "ic_launcher", "@mipmap/ic_launcher")
 
         }
 
@@ -86,7 +85,6 @@ android {
             isMinifyEnabled = false
             signingConfig = signingConfigs.getByName("debug")
             resValue("string", "app_name", "@string/app_name_release")
-            resValue("drawable", "ic_launcher", "@mipmap/ic_launcher")
 
             // Force copy of distributable apk to custom folder dist in root project
             val archiveBuildTypes = listOf("release", "debug")

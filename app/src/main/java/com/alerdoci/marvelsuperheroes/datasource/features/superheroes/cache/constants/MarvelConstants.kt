@@ -2,8 +2,13 @@ package com.alerdoci.marvelsuperheroes.datasource.features.superheroes.cache.con
 
 object MarvelConstants {
 
-    const val TABLE_NAME = "superheroes_table"
     const val DATABASE_NAME = "marvel_superheroes.db"
-    const val QUERY_MARVEL = "SELECT * FROM $TABLE_NAME"
-    const val DELETE_ALL_MARVEL = "DELETE FROM $TABLE_NAME"
+
+    const val SUPERHEROES_TABLE_NAME = "superheroes_table"
+    const val SUPERHEROES_COMICS_TABLE_NAME = "superheroes_comics_table"
+
+    const val QUERY_SUPERHEROES = "SELECT * FROM $SUPERHEROES_TABLE_NAME"
+    const val QUERY_SUPERHEROES_COMICS = "SELECT * FROM $SUPERHEROES_COMICS_TABLE_NAME"
+
+    const val DELETE_ALL_MARVEL = "DELETE FROM "
 }

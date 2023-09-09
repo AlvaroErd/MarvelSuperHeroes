@@ -1,4 +1,4 @@
-package com.alerdoci.marvelsuperheroes.data.features.superherocomics.remote.models
+package com.alerdoci.marvelsuperheroes.datasource.features.superherocomics.remote.models
 
 
 import com.google.gson.annotations.SerializedName

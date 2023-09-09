@@ -1,11 +1,13 @@
 package com.alerdoci.marvelsuperheroes.datasource.features.superheroes.remote.impl
 
 import com.alerdoci.marvelsuperheroes.BuildConfig
-import com.alerdoci.marvelsuperheroes.data.features.superheroes.SuperheroesDataStore
+import com.alerdoci.marvelsuperheroes.data.datastore.features.superheroes.SuperheroesDataStore
 import com.alerdoci.marvelsuperheroes.datasource.di.remote.NetworkModule
 import com.alerdoci.marvelsuperheroes.datasource.features.superheroes.remote.mappers.toDomain
 import com.alerdoci.marvelsuperheroes.datasource.remote.errorhandling.RemoteExceptionMapper
 import com.alerdoci.marvelsuperheroes.datasource.remote.service.MarvelService
+import com.alerdoci.marvelsuperheroes.domain.constants.Constants.Companion.OFFSET
+import com.alerdoci.marvelsuperheroes.domain.constants.Constants.Companion.PAGE_SIZE
 import com.alerdoci.marvelsuperheroes.model.features.superherocomic.ModelComicsResult
 import com.alerdoci.marvelsuperheroes.model.features.superheroes.ModelResult
 import io.reactivex.rxjava3.core.Completable
@@ -49,8 +51,8 @@ open class SuperHeroesRemoteDataStoreImpl @Inject constructor(
             BuildConfig.API_KEY_PUBLIC,
             timestamp,
             NetworkModule.getHash(timestamp),
-            offset = offset,
-            limit = limit
+            offset = OFFSET,
+            limit = PAGE_SIZE
         )
         if (superhero.isSuccessful) {
             val results = superhero.body()?.data?.results
@@ -71,8 +73,8 @@ open class SuperHeroesRemoteDataStoreImpl @Inject constructor(
     ): Flow<List<ModelResult>> = flow {
         val timestamp = System.currentTimeMillis().toString()
         val superhero = remoteService.getMarvelSuperHeroesSearched(
-            offset = offset,
-            limit = limit,
+            offset = OFFSET,
+            limit = PAGE_SIZE,
             BuildConfig.API_KEY_PUBLIC,
             timestamp,
             NetworkModule.getHash(timestamp),
@@ -101,8 +103,8 @@ open class SuperHeroesRemoteDataStoreImpl @Inject constructor(
             BuildConfig.API_KEY_PUBLIC,
             timestamp,
             NetworkModule.getHash(timestamp),
-            offset = offset,
-            limit = limit
+            offset = OFFSET,
+            limit = PAGE_SIZE
         )
         if (superhero.isSuccessful) {
             superhero.body()?.let { superHeroComic ->
@@ -114,6 +116,10 @@ open class SuperHeroesRemoteDataStoreImpl @Inject constructor(
     }
 
     override suspend fun insertOrUpdateSuperHeroes(vararg superHeroesList: ModelResult) {
+        TODO("Not yet implemented")
+    }
+
+    override suspend fun insertOrUpdateSuperHeroesComic(vararg superHeroesComicList: ModelComicsResult) {
         TODO("Not yet implemented")
     }
 }

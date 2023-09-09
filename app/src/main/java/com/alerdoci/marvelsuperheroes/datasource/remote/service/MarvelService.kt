@@ -1,6 +1,6 @@
 package com.alerdoci.marvelsuperheroes.datasource.remote.service
 
-import com.alerdoci.marvelsuperheroes.data.features.superherocomics.remote.models.RemoteComicsSuperHeroList
+import com.alerdoci.marvelsuperheroes.datasource.features.superherocomics.remote.models.RemoteComicsSuperHeroList
 import com.alerdoci.marvelsuperheroes.datasource.features.superheroes.remote.models.RemoteSuperHeroesList
 import retrofit2.Response
 import retrofit2.http.GET

@@ -23,6 +23,7 @@ List [ ] .map { it.toDomain() },
 Array { } .toDomain(),
  */
 
+// region Remote
 fun RemoteResult.toDomain(): ModelResult = ModelResult(
     comics = comics?.toDomain(),
     description = description,
