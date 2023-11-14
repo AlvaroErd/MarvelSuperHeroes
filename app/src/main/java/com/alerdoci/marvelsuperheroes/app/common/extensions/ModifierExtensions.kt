@@ -9,8 +9,14 @@ import android.os.VibratorManager
 import androidx.annotation.FloatRange
 import androidx.compose.animation.core.Animatable
 import androidx.compose.animation.core.FastOutLinearInEasing
+import androidx.compose.animation.core.LinearEasing
+import androidx.compose.animation.core.RepeatMode
+import androidx.compose.animation.core.animateFloat
+import androidx.compose.animation.core.infiniteRepeatable
 import androidx.compose.animation.core.keyframes
+import androidx.compose.animation.core.rememberInfiniteTransition
 import androidx.compose.animation.core.spring
+import androidx.compose.animation.core.tween
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
@@ -34,10 +40,14 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.composed
+import androidx.compose.ui.draw.clipToBounds
 import androidx.compose.ui.draw.drawBehind
+import androidx.compose.ui.graphics.BlendMode
+import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Paint
 import androidx.compose.ui.graphics.drawscope.drawIntoCanvas
+import androidx.compose.ui.graphics.drawscope.rotate
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.hapticfeedback.HapticFeedbackType
@@ -320,5 +330,34 @@ object ModifierExtensions {
         }
     }
 
-
+    @Composable
+    fun Modifier.animatedBorder(
+        backgroundColor: Color = MaterialTheme.colorScheme.surface,
+        borderWidth: Dp = 2.dp,
+        gradient: Brush = Brush.sweepGradient(listOf(Color.Cyan, Color.Magenta)),
+        animationDuration: Int = 10000,
+    ) = composed {
+        val infiniteTransition = rememberInfiniteTransition(label = "Infinite Color Animation")
+        val degrees by infiniteTransition.animateFloat(
+            initialValue = 0f,
+            targetValue = 360f,
+            animationSpec = infiniteRepeatable(
+                animation = tween(durationMillis = animationDuration, easing = LinearEasing),
+                repeatMode = RepeatMode.Restart
+            ),
+            label = "Infinite Colors"
+        )
+        clipToBounds()
+            .padding(borderWidth)
+            .drawBehind {
+                rotate(degrees = degrees) {
+                    drawCircle(
+                        brush = gradient,
+                        radius = size.width,
+                        blendMode = BlendMode.SrcIn,
+                    )
+                }
+            }
+            .background(backgroundColor)
+    }
 }
