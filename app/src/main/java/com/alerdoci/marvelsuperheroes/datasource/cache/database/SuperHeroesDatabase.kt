@@ -9,29 +9,21 @@ import androidx.room.TypeConverters
 import androidx.room.migration.Migration
 import androidx.sqlite.db.SupportSQLiteDatabase
 import com.alerdoci.marvelsuperheroes.datasource.features.superherocomics.cache.entity.CacheComicsDateListConverter
-import com.alerdoci.marvelsuperheroes.datasource.features.superherocomics.cache.entity.CacheComicsThumbnailConverter
 import com.alerdoci.marvelsuperheroes.datasource.features.superherocomics.cache.entity.CacheComicsUrlsListConverter
 import com.alerdoci.marvelsuperheroes.datasource.features.superheroes.cache.constants.MarvelConstants.DATABASE_NAME
 import com.alerdoci.marvelsuperheroes.datasource.features.superheroes.cache.dao.SuperHeroesDao
-import com.alerdoci.marvelsuperheroes.datasource.features.superheroes.cache.entity.CacheSuperHeroesComicsConverter
-import com.alerdoci.marvelsuperheroes.datasource.features.superheroes.cache.entity.CacheSuperHeroesEventsConverter
 import com.alerdoci.marvelsuperheroes.datasource.features.superheroes.cache.entity.CacheSuperHeroesResult
-import com.alerdoci.marvelsuperheroes.datasource.features.superheroes.cache.entity.CacheSuperHeroesSeriesConverter
-import com.alerdoci.marvelsuperheroes.datasource.features.superheroes.cache.entity.CacheSuperHeroesThumbnailConverter
 import java.util.concurrent.Executors
 
 @Database(
     entities = [
         CacheSuperHeroesResult::class,
-//        CacheComicsResult::class
     ],
     version = 1,
     exportSchema = true
 )
 @TypeConverters(
-    CacheSuperHeroesThumbnailConverter::class, CacheSuperHeroesComicsConverter::class,
-    CacheSuperHeroesSeriesConverter::class, CacheSuperHeroesEventsConverter::class,
-    CacheComicsDateListConverter::class, CacheComicsThumbnailConverter::class,
+    CacheComicsDateListConverter::class,
     CacheComicsUrlsListConverter::class,
 )
 abstract class SuperHeroesDatabase : RoomDatabase() {

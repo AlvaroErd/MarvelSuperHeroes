@@ -41,7 +41,6 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Close
 import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.material.icons.filled.Search
-import androidx.compose.material.ripple.LocalRippleTheme
 import androidx.compose.material.ripple.RippleAlpha
 import androidx.compose.material.ripple.RippleTheme
 import androidx.compose.material3.CircularProgressIndicator
@@ -63,7 +62,6 @@ import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.material3.VerticalDivider
 import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableFloatStateOf
@@ -129,15 +127,9 @@ import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import compose.icons.EvaIcons
 import compose.icons.evaicons.Outline
 import compose.icons.evaicons.outline.Search
-import dev.mortezaom.mdtoast.*
-import dev.mortezaom.mdtoast.MDToast
-import dev.mortezaom.mdtoast.MDToast.Companion.LENGTH_SHORT
-import dev.mortezaom.mdtoast.MDToast.Companion.TYPE_INFO
-import dev.mortezaom.mdtoast.MDToast.Companion.TYPE_WARNING
 import es.dmoral.toasty.Toasty
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.runBlocking
 import me.saket.telephoto.zoomable.rememberZoomableState
 import me.saket.telephoto.zoomable.zoomable
 import nl.dionsegijn.konfetti.compose.KonfettiView
@@ -294,44 +286,44 @@ fun HomeScreen(
                                 .padding(horizontal = 80.dp)
                         )
 //                        CompositionLocalProvider(LocalRippleTheme provides NoRippleTheme) {
-                            IconButton(
-                                modifier = Modifier
-                                    .padding(end = 20.dp)
-                                    .fillMaxHeight(),
-                                onClick = {
-                                    val newTheme =
-                                        if (themeMode == ThemeMode.Dark) ThemeMode.Light else ThemeMode.Dark
-                                    viewModel.setTheme(newTheme)
-                                },
-                            )
-                            {
-                                Crossfade(
-                                    targetState = themeMode,
-                                    label = "",
-                                    animationSpec = tween(450)
-                                ) { currentTheme ->
-                                    when (currentTheme) {
-                                        ThemeMode.Dark ->
-                                            Icon(
-                                                painterResource(id = R.drawable.ic_moon),
-                                                contentDescription = "Theme Toggle",
-                                                tint = Color.White,
-                                                modifier = Modifier
-                                                    .size(25.dp),
-                                            )
+                        IconButton(
+                            modifier = Modifier
+                                .padding(end = 20.dp)
+                                .fillMaxHeight(),
+                            onClick = {
+                                val newTheme =
+                                    if (themeMode == ThemeMode.Dark) ThemeMode.Light else ThemeMode.Dark
+                                viewModel.setTheme(newTheme)
+                            },
+                        )
+                        {
+                            Crossfade(
+                                targetState = themeMode,
+                                label = "",
+                                animationSpec = tween(450)
+                            ) { currentTheme ->
+                                when (currentTheme) {
+                                    ThemeMode.Dark ->
+                                        Icon(
+                                            painterResource(id = R.drawable.ic_moon),
+                                            contentDescription = "Theme Toggle",
+                                            tint = Color.White,
+                                            modifier = Modifier
+                                                .size(25.dp),
+                                        )
 
-                                        ThemeMode.Light ->
-                                            Icon(
-                                                painterResource(id = R.drawable.ic_sun),
-                                                contentDescription = "Theme Toggle",
-                                                tint = Color.White,
-                                                modifier = Modifier
-                                                    .size(25.dp),
-                                            )
+                                    ThemeMode.Light ->
+                                        Icon(
+                                            painterResource(id = R.drawable.ic_sun),
+                                            contentDescription = "Theme Toggle",
+                                            tint = Color.White,
+                                            modifier = Modifier
+                                                .size(25.dp),
+                                        )
 
-                                        else -> {}
-                                    }
+                                    else -> {}
                                 }
+                            }
 //                            }
 //
 //                            PulsatingHeartIcon(infiniteTransition)
@@ -537,7 +529,7 @@ fun HomeScreen(
                                         }
                                         items(
                                             superHeroListPagingState,
-                                            key = { kSuperHero: ModelResult -> kSuperHero.id!! }) { superHeroItem ->
+                                            key = { kSuperHero: ModelResult -> kSuperHero.id }) { superHeroItem ->
                                             println("superHeroItem: ${superHeroItem?.name}")
                                             if (superHeroItem != null) {
                                                 SuperheroItem(
@@ -778,8 +770,8 @@ fun SuperheroItem(
                         Text(
                             text = pluralStringResource(
                                 id = R.plurals.events,
-                                count = superHero.events?.available ?: 1,
-                                superHero.events?.available ?: 1
+                                count = superHero.events ?: 1,
+                                superHero.events ?: 1
                             ),
                             style = MaterialTheme.typography.bodyMedium,
                         )
@@ -808,8 +800,8 @@ fun SuperheroItem(
                         Text(
                             text = pluralStringResource(
                                 id = R.plurals.comics,
-                                count = superHero.comics?.available ?: 1,
-                                superHero.comics?.available ?: 1
+                                count = superHero.comics ?: 1,
+                                superHero.comics ?: 1
                             ),
                             style = MaterialTheme.typography.bodyMedium,
                         )
@@ -838,8 +830,8 @@ fun SuperheroItem(
                         Text(
                             text = pluralStringResource(
                                 id = R.plurals.series,
-                                count = superHero.series?.available ?: 1,
-                                superHero.series?.available ?: 1
+                                count = superHero.series ?: 1,
+                                superHero.series ?: 1
                             ),
                             style = MaterialTheme.typography.bodyMedium,
                         )

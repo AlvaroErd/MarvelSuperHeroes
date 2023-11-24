@@ -82,29 +82,29 @@ class SuperHeroFragment : Fragment() {
                     }
                 }
 
-//                viewModel.currentSuperHeroComic.collectLatest { superHeroComicState ->
-//                    when (superHeroComicState) {
-//                        is ResourceState.Loading -> {
-//                            binding?.progressBar?.visibility = View.VISIBLE
-//                        }
-//
-//                        is ResourceState.Success -> {
-//                            currentSuperHeroComic =
-//                                superHeroComicState.data as List<ModelComicsSuperHeroList>
-//                            withContext(Dispatchers.Main) {
-//                                loadSuperHeroComics()
-//                            }
-//                            binding?.progressBar?.visibility = View.GONE
-//                        }
-//
-//                        is ResourceState.Error -> {
+                viewModel.currentSuperHeroComic.collectLatest { superHeroComicState ->
+                    when (superHeroComicState) {
+                        is ResourceState.Loading -> {
+                            binding?.progressBar?.visibility = View.VISIBLE
+                        }
+
+                        is ResourceState.Success -> {
+                            currentSuperHeroComic =
+                                superHeroComicState.data as List<ModelComicsSuperHeroList>
+                            withContext(Dispatchers.Main) {
+                                loadSuperHeroComics()
+                            }
+                            binding?.progressBar?.visibility = View.GONE
+                        }
+
+                        is ResourceState.Error -> {
 //                            binding?.ivError?.visibility = View.VISIBLE
 //                            binding?.tvError?.visibility = View.VISIBLE
-//                        }
-//
-//                        else -> {}
-//                    }
-//                }
+                        }
+
+                        else -> {}
+                    }
+                }
             }
         }
     }
@@ -130,21 +130,21 @@ class SuperHeroFragment : Fragment() {
         }
     }
 
-//    private fun loadSuperHeroComics() {
-//        this.binding?.apply {
-//            val comics = binding!!.compviewComics
-//            comics.setContent {
-//                ComicsList(currentSuperHeroComic)
-//            }
+    private fun loadSuperHeroComics() {
+        this.binding?.apply {
+            val comics = binding!!.compviewComics
+            comics.setContent {
+                ComicsList(currentSuperHeroComic)
+            }
 //            this.tvMarvelAttribution.text = currentSuperHeroComic[0].attributionText
-//
-//            if (currentSuperHeroComic[0].data?.results?.size == 0) {
-//                tvNoRecentComics.visibility = View.VISIBLE
-//            } else {
-//                tvNoRecentComics.visibility = View.GONE
-//            }
-//        }
-//    }
+
+            if (currentSuperHeroComic[0].data?.results?.size == 0) {
+                tvNoRecentComics.visibility = View.VISIBLE
+            } else {
+                tvNoRecentComics.visibility = View.GONE
+            }
+        }
+    }
 
     override fun onDestroy() {
         super.onDestroy()

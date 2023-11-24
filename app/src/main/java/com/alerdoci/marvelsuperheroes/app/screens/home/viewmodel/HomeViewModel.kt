@@ -13,10 +13,7 @@ import com.alerdoci.marvelsuperheroes.app.common.utils.ThemeMode
 import com.alerdoci.marvelsuperheroes.datasource.features.onboarding.cache.settings.DataStoreRepository
 import com.alerdoci.marvelsuperheroes.domain.usecases.app.GetMarvelSuperHeroSearchedUseCase
 import com.alerdoci.marvelsuperheroes.domain.usecases.app.GetMarvelSuperHeroesPagingUseCase
-import com.alerdoci.marvelsuperheroes.model.features.superheroes.ModelComics
-import com.alerdoci.marvelsuperheroes.model.features.superheroes.ModelEvents
 import com.alerdoci.marvelsuperheroes.model.features.superheroes.ModelResult
-import com.alerdoci.marvelsuperheroes.model.features.superheroes.ModelSeries
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
@@ -97,14 +94,15 @@ class HomeViewModel @Inject constructor(
         } else theme.value!!
     }
 }
+
 //Mock
 val marvelSuperHeroMock1 = ModelResult(
     id = 1,
     name = "3-D Man",
     description = "Fabulas reformidans viverra invidunt errem vis vitae fastidii. Convenire odio ipsum mutat ligula sociosqu scripserit civibus dicit. Expetenda tortor bibendum instructior maiestatis.",
-    comics = ModelComics(55),
-    series = ModelSeries(42),
-    events = ModelEvents(6),
+    comics = 55,
+    series = 42,
+    events = 6,
     imageFinal = "https://i.annihil.us/u/prod/marvel/i/mg/c/e0/535fecbbb9784.jpg"
 )
 
@@ -112,9 +110,9 @@ val marvelSuperHeroMock2 = ModelResult(
     id = 2,
     name = "A-Bomb (HAS)",
     description = "Te theophrastus idque pro hinc mediocritatem metus definiebas rutrum. Sed affert sapientem delicata vituperata at quaestio molestiae turpis gubergren. Neglegentur deserunt ferri dicam feugiat nisl expetendis dolore iuvaret.",
-    comics = ModelComics(0),
-    series = ModelSeries(1),
-    events = ModelEvents(8),
+    comics = 0,
+    series = 1,
+    events = 8,
     imageFinal = "https://i.annihil.us/u/prod/marvel/i/mg/3/20/5232158de5b16.jpg "
 )
 
@@ -122,9 +120,9 @@ val marvelSuperHeroMock3 = ModelResult(
     id = 3,
     name = "A.I.M.",
     description = "Ante vocent suscipit disputationi persecuti noluisse. Dolorem congue dolores finibus ipsum option. Iusto aliquip ligula omittantur purus comprehensam platonem rhoncus.",
-    comics = ModelComics(347),
-    series = ModelSeries(157),
-    events = ModelEvents(445),
+    comics = 347,
+    series = 157,
+    events = 445,
     imageFinal = "https://i.annihil.us/u/prod/marvel/i/mg/6/20/52602f21f29ec.jpg"
 )
 

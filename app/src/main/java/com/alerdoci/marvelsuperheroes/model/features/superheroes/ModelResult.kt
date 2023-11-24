@@ -1,11 +1,11 @@
 package com.alerdoci.marvelsuperheroes.model.features.superheroes
 
 data class ModelResult(
-    val comics: ModelComics?,
+    val comics: Int?,
     val description: String?,
-    val events: ModelEvents?,
+    val events: Int?,
     val id: Int,
     val name: String?,
-    val series: ModelSeries?,
+    val series: Int?,
     val imageFinal: String?
 )

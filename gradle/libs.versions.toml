@@ -1,7 +1,7 @@
 [versions]
 
 #General, lifecycle and core
-androidGradlePlugin = "8.1.1"
+androidGradlePlugin = "8.1.4"
 kotlin = "1.9.10"
 kotlinx_immutable = "0.3.5"
 ksp = "1.9.0-1.0.13"

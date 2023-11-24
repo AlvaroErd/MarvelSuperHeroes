@@ -17,16 +17,10 @@ data class CacheComicsResult(
     val dates: List<CacheComicsDate>?,
     @ColumnInfo(name = "title")
     val title: String?,
-
-    @ColumnInfo(name = "thumbnailPath")
-    val thumbnailPath: String?,
-    @ColumnInfo(name = "thumbnailExtension")
-    val thumbnailExtension: String?,
-
     @ColumnInfo(name = "urls")
     val urls: List<CacheComicsUrls>?,
     @ColumnInfo(name = "imageFinal")
-    val imageFinal: String,
+    val imageFinal: String?,
 )
 
 data class CacheComicsDate(
@@ -34,13 +28,6 @@ data class CacheComicsDate(
     val type: String?,
     @ColumnInfo(name = "date")
     val date: String?
-)
-
-data class CacheComicsThumbnail(
-    @ColumnInfo(name = "path")
-    val path: String?,
-    @ColumnInfo(name = "extension")
-    val extension: String?,
 )
 
 data class CacheComicsUrls(
@@ -81,17 +68,3 @@ class CacheComicsUrlsListConverter {
         return gson.fromJson(urlsString, type)
     }
 }
-class CacheComicsThumbnailConverter {
-
-    @TypeConverter
-    fun fromCacheComicsThumbnail(thumbnail: CacheComicsThumbnail?): String {
-        return Gson().toJson(thumbnail)
-    }
-
-    @TypeConverter
-    fun toCacheComicsThumbnail(thumbnailString: String): CacheComicsThumbnail? {
-        val type = object : TypeToken<CacheComicsThumbnail>() {}.type
-        return Gson().fromJson(thumbnailString, type)
-    }
-}
-
