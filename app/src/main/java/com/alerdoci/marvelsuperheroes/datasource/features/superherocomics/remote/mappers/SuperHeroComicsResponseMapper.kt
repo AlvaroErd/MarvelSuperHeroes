@@ -27,17 +27,17 @@ fun RemoteComicsResult.toDomain(): ModelComicsResult = ModelComicsResult(
         "http",
         "https"
     ),
-    urls = urls?.map { it.toDomain() },
+    urls = urls?.map { it.toDomain() }
 )
 
 fun RemoteComicsDate.toDomain(): ModelComicsDate = ModelComicsDate(
     type = this.type,
-    date = this.date,
+    date = this.date
 )
 
 fun RemoteComicsUrls.toDomain(): ModelComicsUrls = ModelComicsUrls(
     type = this.type,
-    url = this.url,
+    url = this.url
 )
 
 fun RemoteComicsThumbnail.toDomain(): ModelComicsThumbnail = ModelComicsThumbnail(
@@ -52,8 +52,8 @@ fun CacheComicsResult.toDomain(): ModelComicsResult = ModelComicsResult(
     id = id,
     title = title,
     dates = dates?.map { it.toDomain() },
-    thumbnail = thumbnail?.toDomain(),
-    imageFinal = (this.thumbnail?.path + "/standard_fantastic" + "." + this.thumbnail?.extension).replace(
+    thumbnail = ModelComicsThumbnail(path = thumbnailPath, extension = thumbnailExtension),
+    imageFinal = (this.thumbnailPath + "/standard_fantastic" + "." + this.thumbnailExtension).replace(
         "http",
         "https"
     ),
@@ -73,7 +73,7 @@ fun CacheComicsThumbnail.toDomain(): ModelComicsThumbnail = ModelComicsThumbnail
 
 fun CacheComicsUrls.toDomain(): ModelComicsUrls = ModelComicsUrls(
     type = this.type,
-    url = this.url,
+    url = this.url
 )
 
 //region Source of truth

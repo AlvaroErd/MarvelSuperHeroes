@@ -17,8 +17,12 @@ data class CacheComicsResult(
     val dates: List<CacheComicsDate>?,
     @ColumnInfo(name = "title")
     val title: String?,
-    @ColumnInfo(name = "thumbnail")
-    val thumbnail: CacheComicsThumbnail?,
+
+    @ColumnInfo(name = "thumbnailPath")
+    val thumbnailPath: String?,
+    @ColumnInfo(name = "thumbnailExtension")
+    val thumbnailExtension: String?,
+
     @ColumnInfo(name = "urls")
     val urls: List<CacheComicsUrls>?,
     @ColumnInfo(name = "imageFinal")

@@ -321,6 +321,7 @@ hilt = { id = "com.google.dagger.hilt.android", version.ref = "hilt" }
 
 #Detekt
 detekt = { id = "io.gitlab.arturbosch.detekt", version.ref = "detekt" } # ./gradlew detekt
+detekt-formating = { id = "io.gitlab.arturbosch.detekt-formatting", version.ref = "detekt" } # ./gradlew detekt
 
 
 #Plugin for update version catalog

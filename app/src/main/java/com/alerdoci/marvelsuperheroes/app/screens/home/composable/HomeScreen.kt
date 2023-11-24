@@ -32,6 +32,7 @@ import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CutCornerShape
@@ -225,6 +226,13 @@ fun HomeScreen(
 
         var scaleState by remember { mutableFloatStateOf(1f) }
         val scale by animateFloatAsState(scaleState, label = "")
+
+        val scrollState = rememberScrollState()
+        val lazyState = rememberLazyListState()
+        val savedList = rememberSaveable(saver = LazyListState.Saver) {
+            lazyState
+        }
+        val snapBehavior = rememberSnapFlingBehavior(lazyListState = lazyState)
 
         Scaffold(snackbarHost = { SnackbarHost(hostState = snackbarHostState) }
         ) {
@@ -499,10 +507,6 @@ fun HomeScreen(
                                     emptyList()
                                 )
                             }
-                            val scrollState = rememberScrollState()
-                            val lazyState = rememberLazyListState()
-                            val snapBehavior =
-                                rememberSnapFlingBehavior(lazyListState = lazyState)
                             when (superHeroListState) {
                                 is ResourceState.Loading -> Column(
                                     modifier = Modifier.fillMaxSize(),
@@ -525,7 +529,7 @@ fun HomeScreen(
                                         modifier = Modifier
                                             .fillMaxWidth()
                                             .zIndex(1f),
-                                        state = lazyState,
+                                        state = savedList,
                                         flingBehavior = snapBehavior
                                     ) {
                                         item {
