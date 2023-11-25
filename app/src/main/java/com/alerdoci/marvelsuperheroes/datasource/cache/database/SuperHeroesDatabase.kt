@@ -5,11 +5,9 @@ import android.util.Log
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
-import androidx.room.TypeConverters
 import androidx.room.migration.Migration
 import androidx.sqlite.db.SupportSQLiteDatabase
-import com.alerdoci.marvelsuperheroes.datasource.features.superherocomics.cache.entity.CacheComicsDateListConverter
-import com.alerdoci.marvelsuperheroes.datasource.features.superherocomics.cache.entity.CacheComicsUrlsListConverter
+import com.alerdoci.marvelsuperheroes.datasource.features.superherocomics.cache.entity.CacheComicsResult
 import com.alerdoci.marvelsuperheroes.datasource.features.superheroes.cache.constants.MarvelConstants.DATABASE_NAME
 import com.alerdoci.marvelsuperheroes.datasource.features.superheroes.cache.dao.SuperHeroesDao
 import com.alerdoci.marvelsuperheroes.datasource.features.superheroes.cache.entity.CacheSuperHeroesResult
@@ -18,14 +16,12 @@ import java.util.concurrent.Executors
 @Database(
     entities = [
         CacheSuperHeroesResult::class,
+        CacheComicsResult::class,
     ],
     version = 1,
     exportSchema = true
 )
-@TypeConverters(
-    CacheComicsDateListConverter::class,
-    CacheComicsUrlsListConverter::class,
-)
+
 abstract class SuperHeroesDatabase : RoomDatabase() {
 
     private var INSTANCE: SuperHeroesDatabase? = null

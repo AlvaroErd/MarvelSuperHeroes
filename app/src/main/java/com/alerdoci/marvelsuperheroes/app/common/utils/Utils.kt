@@ -21,6 +21,7 @@ import androidx.core.content.ContextCompat.startActivity
 import kotlinx.coroutines.delay
 import java.text.SimpleDateFormat
 import java.util.Calendar
+import java.util.Date
 import java.util.Locale
 
 fun getWeekDaysCalender(): List<Calendar> {
@@ -67,6 +68,11 @@ fun getWeekDaysCalender(): List<Calendar> {
 fun yyyyMMddToMillis(date: String): Long {
     val formatYYYY_MM_DD = SimpleDateFormat("yyyy-MM-dd", Locale.ENGLISH)
     return formatYYYY_MM_DD.parse(date)?.time ?: 0
+}
+
+fun Date.toStringFormatted(): String {
+    val outputDateFormat = SimpleDateFormat("dd-MM-yyyy", Locale.getDefault())
+    return outputDateFormat.format(this)
 }
 
 fun hhMM24toAmPm(

@@ -674,7 +674,7 @@ fun SuperheroItem(
                 modifier = Modifier.fillMaxHeight()
             ) {
                 SubcomposeAsyncImage(
-                    model = superHero.imageFinal,
+                    model = superHero.image,
                     contentDescription = stringResource(
                         id = R.string.photo_content_description,
                         superHero.name.orEmpty()
@@ -687,7 +687,7 @@ fun SuperheroItem(
                 )
                 SubcomposeAsyncImage(
                     model = ImageRequest.Builder(LocalContext.current)
-                        .data(superHero.imageFinal)
+                        .data(superHero.image)
                         .crossfade(true)
                         .build(),
                     contentDescription = stringResource(

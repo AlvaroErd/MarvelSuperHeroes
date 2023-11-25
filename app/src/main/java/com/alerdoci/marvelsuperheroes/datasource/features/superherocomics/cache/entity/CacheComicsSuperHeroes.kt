@@ -13,58 +13,10 @@ data class CacheComicsResult(
     @PrimaryKey(autoGenerate = false)
     @ColumnInfo(name = "id")
     val id: Int,
-    @ColumnInfo(name = "dates")
-    val dates: List<CacheComicsDate>?,
+    @ColumnInfo(name = "onSaleDate")
+    val onSaleDate: String?,
     @ColumnInfo(name = "title")
     val title: String?,
-    @ColumnInfo(name = "urls")
-    val urls: List<CacheComicsUrls>?,
-    @ColumnInfo(name = "imageFinal")
-    val imageFinal: String?,
+    @ColumnInfo(name = "image")
+    val image: String?,
 )
-
-data class CacheComicsDate(
-    @ColumnInfo(name = "type")
-    val type: String?,
-    @ColumnInfo(name = "date")
-    val date: String?
-)
-
-data class CacheComicsUrls(
-    @ColumnInfo(name = "type")
-    val type: String?,
-    @ColumnInfo(name = "url")
-    val url: String?,
-)
-
-class CacheComicsDateListConverter {
-
-    private val gson = Gson()
-
-    @TypeConverter
-    fun fromCacheComicsDateList(dates: List<CacheComicsDate>?): String {
-        return gson.toJson(dates)
-    }
-
-    @TypeConverter
-    fun toCacheComicsDateList(datesString: String): List<CacheComicsDate>? {
-        val type = object : TypeToken<List<CacheComicsDate>>() {}.type
-        return gson.fromJson(datesString, type)
-    }
-}
-
-class CacheComicsUrlsListConverter {
-
-    private val gson = Gson()
-
-    @TypeConverter
-    fun fromCacheComicsUrlsList(urls: List<CacheComicsUrls>?): String {
-        return gson.toJson(urls)
-    }
-
-    @TypeConverter
-    fun toCacheComicsUrlsList(urlsString: String): List<CacheComicsUrls>? {
-        val type = object : TypeToken<List<CacheComicsUrls>>() {}.type
-        return gson.fromJson(urlsString, type)
-    }
-}

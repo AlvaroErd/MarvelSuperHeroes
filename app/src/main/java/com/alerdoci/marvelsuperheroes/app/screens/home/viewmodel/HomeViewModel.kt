@@ -103,7 +103,7 @@ val marvelSuperHeroMock1 = ModelResult(
     comics = 55,
     series = 42,
     events = 6,
-    imageFinal = "https://i.annihil.us/u/prod/marvel/i/mg/c/e0/535fecbbb9784.jpg"
+    image = "https://i.annihil.us/u/prod/marvel/i/mg/c/e0/535fecbbb9784.jpg"
 )
 
 val marvelSuperHeroMock2 = ModelResult(
@@ -113,7 +113,7 @@ val marvelSuperHeroMock2 = ModelResult(
     comics = 0,
     series = 1,
     events = 8,
-    imageFinal = "https://i.annihil.us/u/prod/marvel/i/mg/3/20/5232158de5b16.jpg "
+    image = "https://i.annihil.us/u/prod/marvel/i/mg/3/20/5232158de5b16.jpg "
 )
 
 val marvelSuperHeroMock3 = ModelResult(
@@ -123,7 +123,7 @@ val marvelSuperHeroMock3 = ModelResult(
     comics = 347,
     series = 157,
     events = 445,
-    imageFinal = "https://i.annihil.us/u/prod/marvel/i/mg/6/20/52602f21f29ec.jpg"
+    image = "https://i.annihil.us/u/prod/marvel/i/mg/6/20/52602f21f29ec.jpg"
 )
 
 var marvelSuperHeroesMock = listOf(

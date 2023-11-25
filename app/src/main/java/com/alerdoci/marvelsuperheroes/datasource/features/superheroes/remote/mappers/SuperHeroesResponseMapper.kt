@@ -19,7 +19,7 @@ fun RemoteResult.toDomain(): ModelResult = ModelResult(
     id = id,
     name = name,
     series = series?.available,
-    imageFinal = (thumbnail?.path + "/standard_fantastic" + "." + thumbnail?.extension).replace(
+    image = (thumbnail?.path + "/standard_fantastic" + "." + thumbnail?.extension).replace(
         "http",
         "https"
     )
@@ -34,7 +34,7 @@ fun CacheSuperHeroesResult.toDomain(): ModelResult = ModelResult(
     id = id,
     name = name,
     series = series,
-    imageFinal = imageFinal
+    image = image
 )
 
 //endregion
@@ -47,7 +47,7 @@ fun ModelResult.toDomain(): CacheSuperHeroesResult = CacheSuperHeroesResult(
     id = id,
     name = name,
     series = series,
-    imageFinal = imageFinal
+    image = image
 )
 
 //endregion

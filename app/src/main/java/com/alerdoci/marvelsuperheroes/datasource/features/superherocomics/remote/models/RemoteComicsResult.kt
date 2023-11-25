@@ -12,6 +12,4 @@ data class RemoteComicsResult(
     val dates: List<RemoteComicsDate>?,
     @SerializedName("thumbnail")
     val thumbnail: RemoteComicsThumbnail?,
-    @SerializedName("urls")
-    val urls: List<RemoteComicsUrls>?,
 )

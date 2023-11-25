@@ -20,6 +20,6 @@ data class CacheSuperHeroesResult(
     val series: Int?,
     @ColumnInfo(name = "events")
     val events: Int?,
-    @ColumnInfo(name = "imageFinal")
-    val imageFinal: String?,
+    @ColumnInfo(name = "image")
+    val image: String?,
 )

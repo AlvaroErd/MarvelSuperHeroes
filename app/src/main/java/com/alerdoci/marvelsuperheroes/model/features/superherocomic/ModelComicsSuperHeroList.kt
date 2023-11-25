@@ -4,6 +4,5 @@ import com.alerdoci.marvelsuperheroes.model.features.superherocomic.ModelComicsD
 import java.io.Serializable
 
 data class ModelComicsSuperHeroList(
-    val attributionText: String?,
     val data: ModelComicsData?
 ) : Serializable

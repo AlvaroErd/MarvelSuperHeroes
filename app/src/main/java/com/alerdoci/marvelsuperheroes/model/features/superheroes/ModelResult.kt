@@ -7,5 +7,5 @@ data class ModelResult(
     val id: Int,
     val name: String?,
     val series: Int?,
-    val imageFinal: String?
+    val image: String?
 )

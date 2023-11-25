@@ -43,17 +43,17 @@ fun ComicsList(comicListItems: List<ModelComicsSuperHeroList>) {
         LazyRow(horizontalArrangement = Arrangement.spacedBy(MaterialTheme.spacing.extraMedium)) {
             items(comicListItems) { item ->
                 for (i in 0 until item.data?.results?.size!!) {
-                    val comicImage = item.data.results[i].imageFinal
+                    val comicImage = item.data.results[i].image
                     val comicTitle = item.data.results[i].title
-                    val comicDate =
-                        item.data.results[i].dates?.get(0)?.date.let { inputDateFormat.parse(it) }
-                            ?.toStringFormatted()
+//                    val comicDate =
+//                        item.data.results[i].dates?.get(0)?.date.let { inputDateFormat.parse(it) }
+//                            ?.toStringFormatted()
 
                     ComicCard(
                         item = item,
                         comicImage = comicImage.toString(),
                         comicTitle = comicTitle.toString(),
-                        comicDate = comicDate.toString()
+                        comicDate = ""
                     )
                 }
 

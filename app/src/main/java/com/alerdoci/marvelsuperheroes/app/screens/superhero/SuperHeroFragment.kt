@@ -113,17 +113,11 @@ class SuperHeroFragment : Fragment() {
         this.binding?.apply {
 
             this.tvCharacterName.text = currentSuperHero[0].name
-            this.ivCharacterImage.load(currentSuperHero[0].imageFinal)
+            this.ivCharacterImage.load(currentSuperHero[0].image)
             if (currentSuperHero[0].description?.isEmpty() == true) {
                 tvCharacterDescription.text = getString(R.string.description_not_available)
             } else {
                 tvCharacterDescription.text = currentSuperHero[0].description
-            }
-            this.btWiki.setOnClickListener {
-                val url = currentSuperHeroComic[0].data?.results?.get(0)?.urls?.get(1)?.url
-                val intent = Intent(Intent.ACTION_VIEW)
-                intent.data = Uri.parse(url)
-                startActivity(intent)
             }
             val colorInt: Int? = context?.getColor(R.color.amber_500)
             this.btWiki.strokeColor = colorInt?.let { ColorStateList.valueOf(it) }

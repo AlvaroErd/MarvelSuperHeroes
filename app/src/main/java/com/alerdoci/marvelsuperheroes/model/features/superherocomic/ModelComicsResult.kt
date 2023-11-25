@@ -5,7 +5,6 @@ import java.io.Serializable
 data class ModelComicsResult(
     val id: Int,
     val title: String?,
-    val dates: List<ModelComicsDate>?,
-    val urls: List<ModelComicsUrls>?,
-    val imageFinal: String?
+    val onSaleDate: String?,
+    val image: String?
 ) : Serializable
