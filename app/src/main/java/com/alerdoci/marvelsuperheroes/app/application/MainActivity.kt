@@ -26,7 +26,7 @@ import com.alerdoci.marvelsuperheroes.app.screens.splash.viewmodel.SplashViewMod
 import com.alerdoci.marvelsuperheroes.app.theme.MarvelSuperHeroesTheme
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
-import androidx.activity.enableEdgeToEdge
+import com.alerdoci.marvelsuperheroes.app.screens.superhero.viewmodel.SuperHeroViewModel
 
 @ExperimentalAnimationApi
 @AndroidEntryPoint
@@ -36,6 +36,7 @@ class MainActivity : ComponentActivity() {
     lateinit var splashViewModel: SplashViewModel
     private lateinit var connectivityObserver: ConnectivityObserver
     lateinit var homeViewModel: HomeViewModel
+    lateinit var superHeroViewModel: SuperHeroViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -46,6 +47,7 @@ class MainActivity : ComponentActivity() {
         connectivityObserver = NetworkConnectivityObserver(applicationContext)
 
         homeViewModel = ViewModelProvider(this)[HomeViewModel::class.java]
+        superHeroViewModel = ViewModelProvider(this)[SuperHeroViewModel::class.java]
 
         when (homeViewModel.getThemeValue()) {
             ThemeMode.Auto.ordinal -> homeViewModel.setTheme(ThemeMode.Auto)
@@ -80,7 +82,12 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.surface
                 ) {
-                    SetupNavGraph(navController = navController, startDestination = screen, homeViewModel = homeViewModel)
+                    SetupNavGraph(
+                        navController = navController,
+                        startDestination = screen,
+                        homeViewModel = homeViewModel,
+                        superHeroViewModel = superHeroViewModel
+                    )
                 }
             }
         }

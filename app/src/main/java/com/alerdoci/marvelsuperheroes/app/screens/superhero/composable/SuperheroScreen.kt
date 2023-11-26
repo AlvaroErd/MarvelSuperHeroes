@@ -2,14 +2,20 @@ package com.alerdoci.marvelsuperheroes.app.screens.superhero.composable
 
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.basicMarquee
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.CutCornerShape
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
-import androidx.compose.runtime.*
+import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -20,8 +26,10 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
 import coil.compose.SubcomposeAsyncImage
 import com.alerdoci.marvelsuperheroes.R
+import com.alerdoci.marvelsuperheroes.app.screens.superhero.viewmodel.SuperHeroViewModel
 import com.alerdoci.marvelsuperheroes.app.theme.MarvelColors
 import com.alerdoci.marvelsuperheroes.app.theme.MarvelColors.red_800
 import com.alerdoci.marvelsuperheroes.app.theme.spacing
@@ -29,6 +37,15 @@ import com.alerdoci.marvelsuperheroes.model.features.superherocomic.ModelComicsS
 import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
+
+
+@Composable
+fun SuperheroScreen(
+    viewModel: SuperHeroViewModel = hiltViewModel(),
+    superheroId: Int
+) {
+    Text(text = "superhero id = $superheroId")
+}
 
 @Composable
 fun ComicsList(comicListItems: List<ModelComicsSuperHeroList>) {

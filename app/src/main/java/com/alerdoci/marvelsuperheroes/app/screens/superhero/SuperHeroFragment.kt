@@ -28,121 +28,121 @@ import kotlinx.coroutines.withContext
 
 @AndroidEntryPoint
 class SuperHeroFragment : Fragment() {
-
-    companion object {
-
-        fun newInstance(superHeroId: Int) = SuperHeroFragment()
-            .apply { this.superHeroId = superHeroId }
-    }
-
-    var superHeroId: Int = 0
-
-    private val viewModel: SuperHeroViewModel by viewModels()
-    private var binding: FragmentSuperheroBinding? = null
-    private var currentSuperHero: List<ModelResult> = emptyList()
-    private var currentSuperHeroComic: List<ModelComicsSuperHeroList> = emptyList()
-
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View {
-        this.binding = FragmentSuperheroBinding.inflate(inflater)
-        viewModel.loadSuperHero(superHeroId)
-        return this.binding!!.root
-    }
-
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-
-        viewLifecycleOwner.lifecycleScope.launch {
-            repeatOnLifecycle(Lifecycle.State.RESUMED) {
-                launch(Dispatchers.IO) {
-                    viewModel.currentSuperHero.collectLatest { superHeroState ->
-                        when (superHeroState) {
-                            is ResourceState.Loading -> {
-                                binding?.progressBar?.visibility = View.VISIBLE
-                            }
-
-                            is ResourceState.Success -> {
-                                currentSuperHero = superHeroState.data as List<ModelResult>
-                                withContext(Dispatchers.Main) {
-                                    loadSuperHero()
-                                }
-                                binding?.progressBar?.visibility = View.GONE
-                            }
-
-                            is ResourceState.Error -> {
-//                                binding?.ivError?.visibility = View.VISIBLE
-//                                binding?.tvError?.visibility = View.VISIBLE
-                            }
-
-                            else -> {}
-                        }
-                    }
-                }
-
-                viewModel.currentSuperHeroComic.collectLatest { superHeroComicState ->
-                    when (superHeroComicState) {
-                        is ResourceState.Loading -> {
-                            binding?.progressBar?.visibility = View.VISIBLE
-                        }
-
-                        is ResourceState.Success -> {
-                            currentSuperHeroComic =
-                                superHeroComicState.data as List<ModelComicsSuperHeroList>
-                            withContext(Dispatchers.Main) {
-                                loadSuperHeroComics()
-                            }
-                            binding?.progressBar?.visibility = View.GONE
-                        }
-
-                        is ResourceState.Error -> {
-//                            binding?.ivError?.visibility = View.VISIBLE
-//                            binding?.tvError?.visibility = View.VISIBLE
-                        }
-
-                        else -> {}
-                    }
-                }
-            }
-        }
-    }
-
-    private fun loadSuperHero() {
-        this.binding?.apply {
-
-            this.tvCharacterName.text = currentSuperHero[0].name
-            this.ivCharacterImage.load(currentSuperHero[0].image)
-            if (currentSuperHero[0].description?.isEmpty() == true) {
-                tvCharacterDescription.text = getString(R.string.description_not_available)
-            } else {
-                tvCharacterDescription.text = currentSuperHero[0].description
-            }
-            val colorInt: Int? = context?.getColor(R.color.amber_500)
-            this.btWiki.strokeColor = colorInt?.let { ColorStateList.valueOf(it) }
-        }
-    }
-
-    private fun loadSuperHeroComics() {
-        this.binding?.apply {
-            val comics = binding!!.compviewComics
-            comics.setContent {
-                ComicsList(currentSuperHeroComic)
-            }
-//            this.tvMarvelAttribution.text = currentSuperHeroComic[0].attributionText
-
-            if (currentSuperHeroComic[0].data?.results?.size == 0) {
-                tvNoRecentComics.visibility = View.VISIBLE
-            } else {
-                tvNoRecentComics.visibility = View.GONE
-            }
-        }
-    }
-
-    override fun onDestroy() {
-        super.onDestroy()
-        this.binding = null
-        this.currentSuperHero = emptyList()
-    }
+//
+//    companion object {
+//
+//        fun newInstance(superHeroId: Int) = SuperHeroFragment()
+//            .apply { this.superHeroId = superHeroId }
+//    }
+//
+//    var superHeroId: Int = 0
+//
+//    private val viewModel: SuperHeroViewModel by viewModels()
+//    private var binding: FragmentSuperheroBinding? = null
+//    private var currentSuperHero: List<ModelResult> = emptyList()
+//    private var currentSuperHeroComic: List<ModelComicsSuperHeroList> = emptyList()
+//
+//    override fun onCreateView(
+//        inflater: LayoutInflater,
+//        container: ViewGroup?,
+//        savedInstanceState: Bundle?
+//    ): View {
+//        this.binding = FragmentSuperheroBinding.inflate(inflater)
+//        viewModel.loadSuperHero(superHeroId)
+//        return this.binding!!.root
+//    }
+//
+//    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+//        super.onViewCreated(view, savedInstanceState)
+//
+//        viewLifecycleOwner.lifecycleScope.launch {
+//            repeatOnLifecycle(Lifecycle.State.RESUMED) {
+//                launch(Dispatchers.IO) {
+//                    viewModel.currentSuperHero.collectLatest { superHeroState ->
+//                        when (superHeroState) {
+//                            is ResourceState.Loading -> {
+//                                binding?.progressBar?.visibility = View.VISIBLE
+//                            }
+//
+//                            is ResourceState.Success -> {
+//                                currentSuperHero = superHeroState.data as List<ModelResult>
+//                                withContext(Dispatchers.Main) {
+//                                    loadSuperHero()
+//                                }
+//                                binding?.progressBar?.visibility = View.GONE
+//                            }
+//
+//                            is ResourceState.Error -> {
+////                                binding?.ivError?.visibility = View.VISIBLE
+////                                binding?.tvError?.visibility = View.VISIBLE
+//                            }
+//
+//                            else -> {}
+//                        }
+//                    }
+//                }
+//
+//                viewModel.currentSuperHeroComic.collectLatest { superHeroComicState ->
+//                    when (superHeroComicState) {
+//                        is ResourceState.Loading -> {
+//                            binding?.progressBar?.visibility = View.VISIBLE
+//                        }
+//
+//                        is ResourceState.Success -> {
+//                            currentSuperHeroComic =
+//                                superHeroComicState.data as List<ModelComicsSuperHeroList>
+//                            withContext(Dispatchers.Main) {
+//                                loadSuperHeroComics()
+//                            }
+//                            binding?.progressBar?.visibility = View.GONE
+//                        }
+//
+//                        is ResourceState.Error -> {
+////                            binding?.ivError?.visibility = View.VISIBLE
+////                            binding?.tvError?.visibility = View.VISIBLE
+//                        }
+//
+//                        else -> {}
+//                    }
+//                }
+//            }
+//        }
+//    }
+//
+//    private fun loadSuperHero() {
+//        this.binding?.apply {
+//
+//            this.tvCharacterName.text = currentSuperHero[0].name
+//            this.ivCharacterImage.load(currentSuperHero[0].image)
+//            if (currentSuperHero[0].description?.isEmpty() == true) {
+//                tvCharacterDescription.text = getString(R.string.description_not_available)
+//            } else {
+//                tvCharacterDescription.text = currentSuperHero[0].description
+//            }
+//            val colorInt: Int? = context?.getColor(R.color.amber_500)
+//            this.btWiki.strokeColor = colorInt?.let { ColorStateList.valueOf(it) }
+//        }
+//    }
+//
+//    private fun loadSuperHeroComics() {
+//        this.binding?.apply {
+//            val comics = binding!!.compviewComics
+//            comics.setContent {
+//                ComicsList(currentSuperHeroComic)
+//            }
+////            this.tvMarvelAttribution.text = currentSuperHeroComic[0].attributionText
+//
+//            if (currentSuperHeroComic[0].data?.results?.size == 0) {
+//                tvNoRecentComics.visibility = View.VISIBLE
+//            } else {
+//                tvNoRecentComics.visibility = View.GONE
+//            }
+//        }
+//    }
+//
+//    override fun onDestroy() {
+//        super.onDestroy()
+//        this.binding = null
+//        this.currentSuperHero = emptyList()
+//    }
 }

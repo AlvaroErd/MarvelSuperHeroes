@@ -43,6 +43,7 @@ import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.material.ripple.RippleAlpha
 import androidx.compose.material.ripple.RippleTheme
+import androidx.compose.material3.Card
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.HorizontalDivider
@@ -113,6 +114,7 @@ import com.alerdoci.marvelsuperheroes.app.common.utils.ToastHostState
 import com.alerdoci.marvelsuperheroes.app.components.AnimatedPlaceholder
 import com.alerdoci.marvelsuperheroes.app.components.DiagonalDivider
 import com.alerdoci.marvelsuperheroes.app.components.InfoDialog
+import com.alerdoci.marvelsuperheroes.app.navigation.Screen
 import com.alerdoci.marvelsuperheroes.app.screens.home.viewmodel.HomeViewModel
 import com.alerdoci.marvelsuperheroes.app.screens.home.viewmodel.marvelSuperHeroMock1
 import com.alerdoci.marvelsuperheroes.app.theme.MarvelColors.amber_A100
@@ -149,7 +151,6 @@ import java.util.concurrent.TimeUnit
 fun HomeScreen(
     navController: NavHostController,
     viewModel: HomeViewModel = hiltViewModel(),
-    onItemClick: (superHeroId: Int) -> Unit
 ) {
     val infoDialog = remember { mutableStateOf(false) }
     var showConfetti by remember { mutableStateOf(false) }
@@ -534,9 +535,14 @@ fun HomeScreen(
                                             if (superHeroItem != null) {
                                                 SuperheroItem(
                                                     superHero = superHeroItem,
-                                                    onItemClick = onItemClick,
                                                     modifier = Modifier.animateItemPlacement(),
-                                                )
+                                                ) {
+                                                    navController.navigate(
+                                                        route = Screen.Superhero.navigateWithId(
+                                                            superHeroItem.id
+                                                        )
+                                                    )
+                                                }
                                             }
                                         }
                                     }
@@ -644,15 +650,15 @@ fun HomeScreen(
 
 }
 
-@OptIn(ExperimentalFoundationApi::class)
+@OptIn(ExperimentalFoundationApi::class, ExperimentalMaterial3Api::class)
 @Composable
 fun SuperheroItem(
     superHero: ModelResult,
     modifier: Modifier,
-    onItemClick: (superHeroId: Int) -> Unit
+    onClick: () -> Unit
 ) {
-    Box(
-        modifier = Modifier
+    Card(
+        modifier = modifier
             .fillMaxWidth()
             .height(MaterialTheme.dimens.custom150)
             .clip(
@@ -661,10 +667,8 @@ fun SuperheroItem(
                     bottomEnd = MaterialTheme.dimens.custom20
                 )
             )
-            .background(MaterialTheme.colorScheme.surfaceVariant)
-            .clickable {
-                superHero.id?.let { onItemClick(it) }
-            },
+            .background(MaterialTheme.colorScheme.surfaceVariant),
+        onClick = onClick
     ) {
         Row(
             modifier = Modifier
@@ -709,7 +713,7 @@ fun SuperheroItem(
                         .padding(all = MaterialTheme.spacing.xMedium)
                         .zoomable(
                             rememberZoomableState(),
-                            onClick = { superHero.id?.let { onItemClick(it) } })
+                            onClick = { onClick() })
                         .clip(CutCornerShape(topStart = MaterialTheme.spacing.extraMedium))
                         .aspectRatio(1 / 1f),
                 )
@@ -933,7 +937,8 @@ fun SuperheroItemPreview() {
     SuperheroItem(
         superHero = marvelSuperHeroMock1,
         modifier = Modifier,
-        onItemClick = {})
+        onClick = { }
+    )
 }
 
 @Composable

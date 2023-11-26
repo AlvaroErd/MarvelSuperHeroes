@@ -1,27 +1,29 @@
 package com.alerdoci.marvelsuperheroes.app.navigation
 
-import android.content.Intent
 import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
 import androidx.compose.animation.slideInHorizontally
 import androidx.compose.animation.slideOutHorizontally
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.platform.LocalContext
 import androidx.navigation.NavHostController
+import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
+import androidx.navigation.navArgument
 import com.alerdoci.marvelsuperheroes.app.screens.home.composable.HomeScreen
 import com.alerdoci.marvelsuperheroes.app.screens.home.viewmodel.HomeViewModel
 import com.alerdoci.marvelsuperheroes.app.screens.onboarding.composables.OnBoardingScreen
-import com.alerdoci.marvelsuperheroes.app.screens.superhero.SuperheroActivity
+import com.alerdoci.marvelsuperheroes.app.screens.superhero.composable.SuperheroScreen
+import com.alerdoci.marvelsuperheroes.app.screens.superhero.viewmodel.SuperHeroViewModel
 
 @OptIn(ExperimentalAnimationApi::class)
 @Composable
 fun SetupNavGraph(
     navController: NavHostController,
     startDestination: String,
-    homeViewModel: HomeViewModel
+    homeViewModel: HomeViewModel,
+    superHeroViewModel: SuperHeroViewModel
 ) {
     NavHost(
         navController = navController,
@@ -39,20 +41,30 @@ fun SetupNavGraph(
                 enterTransition = slideInHorizontally() + fadeIn(),
                 exitTransition = slideOutHorizontally() + fadeOut()
             ) {
-                val appContext = LocalContext.current
                 HomeScreen(
                     navController,
                     viewModel = homeViewModel,
-                    onItemClick = { superHeroClickedId ->
-                        appContext.startActivity(
-                            Intent(appContext, SuperheroActivity::class.java).apply {
-                                putExtra("superHeroId", superHeroClickedId)
-                            }
-                        )
-                    },
+                )
+            }
+        }
+
+        // SuperHero detail
+        composable(
+            route = Screen.Superhero.route,
+            arguments = listOf(navArgument(SUPERHERO_ID_KEY) {
+                type = NavType.IntType
+            })
+        ) { backStackEntry ->
+            StartAnimation(
+                enterTransition = slideInHorizontally() + fadeIn(),
+                exitTransition = slideOutHorizontally() + fadeOut()
+            ) {
+                val superheroId = backStackEntry.arguments!!.getInt(SUPERHERO_ID_KEY)
+                SuperheroScreen(
+                    viewModel = superHeroViewModel,
+                    superheroId = superheroId
                 )
             }
         }
     }
 }
-

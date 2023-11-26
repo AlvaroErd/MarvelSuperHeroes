@@ -7,6 +7,7 @@ plugins {
     alias(libs.plugins.ksp) apply false
     alias(libs.plugins.spotless) apply false
     alias(libs.plugins.detekt) apply false
+    alias(libs.plugins.kotlin.parcelize) apply false
 }
 
 // Remove Plugin "Gradle Libs Error Suppressor" when Gradle 8.1 arrive

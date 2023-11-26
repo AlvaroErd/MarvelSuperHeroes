@@ -1,13 +1,13 @@
 import java.util.Locale
 
-//@Suppress("DSL_SCOPE_VIOLATION")
+@Suppress("DSL_SCOPE_VIOLATION")
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.ksp)
     alias(libs.plugins.hilt)
     alias(libs.plugins.detekt)
-//    alias(libs.plugins.detekt-formating)
+    alias(libs.plugins.kotlin.parcelize)
 }
 
 val versionMajor = 0
@@ -286,6 +286,8 @@ dependencies {
     implementation(libs.firebase.auth)
     implementation(libs.gms.playservices.auth)
     implementation(libs.google.services)
+
+    detektPlugins(libs.detekt.formatting)
 
 
     //Error handle screen
