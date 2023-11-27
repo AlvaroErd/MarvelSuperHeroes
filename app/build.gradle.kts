@@ -198,6 +198,7 @@ dependencies {
 //    debugImplementation(libs.androidx.compose.ui.tooling.preview.android)
     implementation(libs.androidx.ui.tooling.preview)
     debugImplementation(libs.androidx.compose.ui.tooling)
+    implementation(libs.androidx.constraintlayout.compose)
     implementation(libs.accompanist.swiperefresh)
     implementation(libs.accompanist.systemuicontroller)
     implementation(libs.accompanist.permissions)

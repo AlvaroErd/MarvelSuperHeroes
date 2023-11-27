@@ -17,8 +17,8 @@ open class SuperHeroesCacheDataStoreImpl @Inject constructor(
 ) : SuperheroesDataStore {
 
     override suspend fun getMarvelSuperHeroesPaging(
-        limit: Int,
-        offset: Int
+        offset: Int,
+        limit: Int
     ): Flow<List<ModelResult>> =
         superHeroesDatabase.superHeroesDao().getAllSuperHeroes(limit = limit, offset = offset)
             .map { cacheSuperHeroes ->
@@ -50,9 +50,9 @@ open class SuperHeroesCacheDataStoreImpl @Inject constructor(
 //            }
 
     override suspend fun getMarvelSuperHero(
+        superHeroId: Int,
         offset: Int,
-        limit: Int,
-        superHeroId: Int
+        limit: Int
     ): Flow<List<ModelResult>> =
         superHeroesDatabase.superHeroesDao().getSuperHeroDetail(superheroId = superHeroId)
             .map { cacheSuperHeroes ->

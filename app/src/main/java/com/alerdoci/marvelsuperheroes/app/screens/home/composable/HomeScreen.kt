@@ -17,7 +17,6 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.basicMarquee
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.gestures.detectTapGestures
-import androidx.compose.foundation.gestures.snapping.rememberSnapFlingBehavior
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -63,6 +62,7 @@ import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.material3.VerticalDivider
 import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableFloatStateOf
@@ -96,8 +96,11 @@ import androidx.compose.ui.zIndex
 import androidx.core.graphics.ColorUtils
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
+import androidx.navigation.compose.currentBackStackEntryAsState
+import androidx.paging.LoadState
+import androidx.paging.compose.LazyPagingItems
 import androidx.paging.compose.collectAsLazyPagingItems
-import androidx.paging.compose.items
+import androidx.paging.compose.itemKey
 import coil.compose.SubcomposeAsyncImage
 import coil.request.ImageRequest
 import com.airbnb.lottie.compose.LottieAnimation
@@ -105,7 +108,6 @@ import com.airbnb.lottie.compose.LottieCompositionSpec
 import com.airbnb.lottie.compose.rememberLottieComposition
 import com.alerdoci.marvelsuperheroes.R
 import com.alerdoci.marvelsuperheroes.app.common.extensions.ModifierExtensions.noRippleClickable
-import com.alerdoci.marvelsuperheroes.app.common.states.ResourceState
 import com.alerdoci.marvelsuperheroes.app.common.states.error.ErrorScreen
 import com.alerdoci.marvelsuperheroes.app.common.states.loading.LoadingScreen
 import com.alerdoci.marvelsuperheroes.app.common.utils.ThemeMode
@@ -151,6 +153,7 @@ import java.util.concurrent.TimeUnit
 fun HomeScreen(
     navController: NavHostController,
     viewModel: HomeViewModel = hiltViewModel(),
+    searchQuery: String?,
 ) {
     val infoDialog = remember { mutableStateOf(false) }
     var showConfetti by remember { mutableStateOf(false) }
@@ -188,8 +191,16 @@ fun HomeScreen(
             .apply(); // required
 
         val superHeroListState by viewModel.superHeroes.collectAsState()
-        val superHeroListPagingState =
-            viewModel.getMarvelSuperHeroesPager().collectAsLazyPagingItems()
+//        val superHeroListPagingState = viewModel.getMarvelSuperHeroesPager().collectAsLazyPagingItems()
+        val superHeroListPagingState: LazyPagingItems<ModelResult> = viewModel.allCharacters.collectAsLazyPagingItems()
+
+//        var searchQuery by remember { mutableStateOf<String?>(null) }
+
+        LaunchedEffect(searchQuery != "") {
+            if (searchQuery != null) {
+                viewModel.searchCharacters(searchQuery)
+            }
+        }
 
         val superHeroSearchedState by viewModel.superHeroSearched.collectAsState()
         var superHeroSearchedText: String = ""
@@ -225,7 +236,7 @@ fun HomeScreen(
         val savedList = rememberSaveable(saver = LazyListState.Saver) {
             lazyState
         }
-        val snapBehavior = rememberSnapFlingBehavior(lazyListState = lazyState)
+//        val snapBehavior = rememberSnapFlingBehavior(lazyListState = lazyState)
 
         Scaffold(snackbarHost = { SnackbarHost(hostState = snackbarHostState) }
         ) {
@@ -495,59 +506,70 @@ fun HomeScreen(
                                 .padding(horizontal = MaterialTheme.spacing.xMedium)
                         )
                         {
-                            var items by rememberSaveable {
-                                mutableStateOf<List<ModelResult>>(
-                                    emptyList()
-                                )
-                            }
-                            when (superHeroListState) {
-                                is ResourceState.Loading -> Column(
-                                    modifier = Modifier.fillMaxSize(),
-                                    horizontalAlignment = CenterHorizontally,
-                                    verticalArrangement = Arrangement.Center
-                                ) {
+//                            var items by rememberSaveable {
+//                                mutableStateOf<List<ModelResult>>(
+//                                    emptyList()
+//                                )
+//                            }
+//                            when (superHeroListState) {
+//                                is ResourceState.Loading -> Column(
+//                                    modifier = Modifier.fillMaxSize(),
+//                                    horizontalAlignment = CenterHorizontally,
+//                                    verticalArrangement = Arrangement.Center
+//                                ) {
+//                                    LoadingScreen()
+//                                }
+//
+//                                is ResourceState.Error -> Box(
+//                                    contentAlignment = Alignment.Center,
+//                                    modifier = Modifier.fillMaxSize()
+//                                ) {
+//                                    ErrorScreen()
+//                                }
+//
+//                                is ResourceState.Success ->
+                            when (superHeroListPagingState.loadState.refresh) {
+                                is LoadState.Loading -> {
                                     LoadingScreen()
                                 }
 
-                                is ResourceState.Error -> Box(
-                                    contentAlignment = Alignment.Center,
-                                    modifier = Modifier.fillMaxSize()
-                                ) {
-                                    ErrorScreen()
-                                }
-
-                                is ResourceState.Success ->
+                                is LoadState.NotLoading -> {
                                     LazyColumn(
                                         verticalArrangement = Arrangement.spacedBy(MaterialTheme.spacing.tiny),
                                         modifier = Modifier
                                             .fillMaxWidth()
                                             .zIndex(1f),
                                         state = savedList,
-                                        flingBehavior = snapBehavior
+//                                        flingBehavior = snapBehavior
                                     ) {
                                         item {
                                             Spacer(modifier = Modifier.height(if (scrollState.isScrollInProgress) MaterialTheme.dimens.custom0 else MaterialTheme.dimens.custom40))
                                         }
                                         items(
-                                            superHeroListPagingState,
-                                            key = { kSuperHero: ModelResult -> kSuperHero.id }) { superHeroItem ->
-                                            println("superHeroItem: ${superHeroItem?.name}")
-                                            if (superHeroItem != null) {
+                                            count = superHeroListPagingState.itemCount,
+                                            key = superHeroListPagingState.itemKey { superhero -> superhero.id }
+                                        ) { superHeroItem ->
+                                            superHeroListPagingState[superHeroItem]?.let { item ->
+                                                println("superHeroItem: ${item.name}")
                                                 SuperheroItem(
-                                                    superHero = superHeroItem,
+                                                    superHero = item,
                                                     modifier = Modifier.animateItemPlacement(),
                                                 ) {
                                                     navController.navigate(
                                                         route = Screen.Superhero.navigateWithId(
-                                                            superHeroItem.id
+                                                            item.id
                                                         )
                                                     )
                                                 }
                                             }
                                         }
                                     }
+                                }
 
-                                else -> {}
+//                                else -> {}
+                                    is LoadState.Error -> {
+                                        ErrorScreen()
+                                    }
                             }
                         }
                         Column(

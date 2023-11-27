@@ -36,14 +36,18 @@ fun SetupNavGraph(
         }
 
         // Home
-        composable(route = Screen.Home.route) {
+        composable(route = Screen.Home.route) { backStackEntry ->
             StartAnimation(
                 enterTransition = slideInHorizontally() + fadeIn(),
                 exitTransition = slideOutHorizontally() + fadeOut()
             ) {
+                val searchQuery: String = ""
+//                val searchQuery = backStackEntry.arguments!!.getInt(SUPERHERO_QUERY_KEY)
+
                 HomeScreen(
                     navController,
                     viewModel = homeViewModel,
+                    searchQuery = searchQuery.toString()
                 )
             }
         }

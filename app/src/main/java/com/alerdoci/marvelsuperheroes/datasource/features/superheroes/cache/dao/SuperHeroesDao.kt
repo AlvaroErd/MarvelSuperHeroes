@@ -6,9 +6,8 @@ import androidx.room.Insert
 import androidx.room.OnConflictStrategy.Companion.REPLACE
 import androidx.room.Query
 import androidx.room.Transaction
-import com.alerdoci.marvelsuperheroes.datasource.features.superherocomics.cache.entity.CacheComicsResult
 import com.alerdoci.marvelsuperheroes.datasource.features.superheroes.cache.constants.MarvelConstants.QUERY_SUPERHEROES
-import com.alerdoci.marvelsuperheroes.datasource.features.superheroes.cache.constants.MarvelConstants.QUERY_SUPERHEROES_COMICS
+import com.alerdoci.marvelsuperheroes.datasource.features.superheroes.cache.constants.MarvelConstants.QUERY_SUPERHEROES_ORDER_BY_NAME
 import com.alerdoci.marvelsuperheroes.datasource.features.superheroes.cache.entity.CacheSuperHeroesResult
 import kotlinx.coroutines.flow.Flow
 
@@ -17,7 +16,7 @@ interface SuperHeroesDao {
 
     // region SuperHeroes and SuperHero Detail
     @Transaction
-    @Query("$QUERY_SUPERHEROES LIMIT :limit OFFSET :limit * :offset")
+    @Query("$QUERY_SUPERHEROES_ORDER_BY_NAME LIMIT :limit OFFSET :offset")
     fun getAllSuperHeroes(limit: Int, offset: Int): Flow<List<CacheSuperHeroesResult>>
 
     @Insert(onConflict = REPLACE)

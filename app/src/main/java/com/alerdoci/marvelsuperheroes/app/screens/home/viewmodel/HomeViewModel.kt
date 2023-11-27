@@ -1,5 +1,6 @@
 package com.alerdoci.marvelsuperheroes.app.screens.home.viewmodel
 
+import android.util.Log
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.runtime.Composable
 import androidx.lifecycle.LiveData
@@ -19,11 +20,14 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.onStart
+import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import java.io.InvalidObjectException
@@ -43,6 +47,20 @@ class HomeViewModel @Inject constructor(
     private val _superHeroSearched by lazy { MutableStateFlow<ResourceState<*>>(ResourceState.Idle) }
     val superHeroSearched: StateFlow<ResourceState<*>>
         get() = _superHeroSearched
+
+    val searchQuery = MutableStateFlow("")
+
+    val allCharacters: StateFlow<PagingData<ModelResult>> =
+        searchQuery.flatMapLatest { query ->
+            getMarvelSuperHeroesPagingUseCase().cachedIn(viewModelScope)
+        }.stateIn(viewModelScope, SharingStarted.Lazily, PagingData.empty())
+
+    fun searchCharacters(query: String) {
+        Log.d("Search", "Query: $query")
+        if (searchQuery.value != query) {
+            searchQuery.value = query
+        }
+    }
 
     fun getMarvelSuperHeroesPager(): Flow<PagingData<ModelResult>> =
         getMarvelSuperHeroesPagingUseCase()

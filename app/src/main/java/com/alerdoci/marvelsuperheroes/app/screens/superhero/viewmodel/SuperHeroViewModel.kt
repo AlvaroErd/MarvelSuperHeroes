@@ -21,7 +21,6 @@ import javax.inject.Inject
 class SuperHeroViewModel @Inject constructor(
     private val getMarvelSuperHeroUseCase: GetMarvelSuperHeroUseCase,
     private val getMarvelSuperHeroComicsUseCase: GetMarvelSuperHeroComicsUseCase,
-    val datastore : DataStoreRepository
 ) : ViewModel() {
 
     private val _currentSuperHero by lazy { MutableStateFlow<ResourceState<*>>(ResourceState.Idle) }
