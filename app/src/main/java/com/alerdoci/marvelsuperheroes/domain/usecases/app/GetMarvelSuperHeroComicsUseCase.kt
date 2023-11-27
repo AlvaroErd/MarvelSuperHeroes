@@ -9,6 +9,7 @@ class GetMarvelSuperHeroComicsUseCase @Inject constructor(
     private val repository: MarvelRepository
 ) {
 
-    suspend operator fun invoke(superHeroId: Int): Flow<List<ModelComicsResult>> =
-        repository.getMarvelSuperHeroComics(superHeroId)
+    suspend operator fun invoke(superHeroId: Int): Flow<List<ModelComicsResult>> {
+        return repository.getMarvelSuperHeroComics(superHeroId)
+    }
 }

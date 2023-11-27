@@ -20,7 +20,6 @@
         <activity
             android:name=".app.application.MainActivity"
             android:exported="true"
-            android:label="@string/app_name"
             android:screenOrientation="portrait"
             android:theme="@style/Theme.MarvelSuperHeroesSplashScreen"
             tools:ignore="LockedOrientationActivity">
@@ -31,10 +30,5 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity
-            android:name=".app.screens.superhero.SuperheroActivity"
-            android:theme="@style/Theme.MarvelSuperHeroes"
-            android:configChanges="orientation|screenSize"
-            android:exported="false" />
     </application>
 </manifest>

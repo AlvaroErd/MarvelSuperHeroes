@@ -10,6 +10,7 @@ import kotlinx.coroutines.flow.Flow
 interface MarvelRepository {
 
     suspend fun getMarvelSuperHeroesPaging(
+        nameSearched: String?,
         offset: Int,
         limit: Int,
     ): Flow<List<ModelResult>>

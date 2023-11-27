@@ -10,6 +10,8 @@ import javax.inject.Inject
 
 open class MarvelSuperHeroesPagingSource @Inject constructor(
     private val repositoryPaging: MarvelRepository,
+//    private val query: String?
+
 ) : PagingSource<Int, ModelResult>() {
     private val limit = PAGE_SIZE
     override fun getRefreshKey(state: PagingState<Int, ModelResult>): Int? {
@@ -23,6 +25,7 @@ open class MarvelSuperHeroesPagingSource @Inject constructor(
         try {
             val page = params.key ?: 0
             val response = repositoryPaging.getMarvelSuperHeroesPaging(
+                nameSearched = "",
                 offset = page,
                 limit = limit
             ).first()
@@ -35,4 +38,4 @@ open class MarvelSuperHeroesPagingSource @Inject constructor(
         } catch (exception: Exception) {
             LoadResult.Error(exception)
         }
-    }
+}

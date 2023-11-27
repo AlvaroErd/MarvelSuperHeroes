@@ -24,10 +24,6 @@ open class SuperHeroesCacheDataStoreImpl @Inject constructor(
             .map { cacheSuperHeroes ->
                 cacheSuperHeroes.map { cacheSuperHero -> cacheSuperHero.toDomain() }
             }
-//            .onErrorResumeNext { throwable ->
-//                // If remote request fails, use remote exception mapper to transform Retrofit exception to an app exception
-//                Single.error(RemoteExceptionMapper.getException(throwable))
-//            }
 
 
     override suspend fun insertOrUpdateSuperHeroes(vararg superHeroesList: ModelResult) {
@@ -44,10 +40,6 @@ open class SuperHeroesCacheDataStoreImpl @Inject constructor(
     ): Flow<List<ModelResult>> {
         TODO("Not yet implemented")
     }
-//        superHeroesDatabase.superHeroesDao().getAllSuperHeroes(limit = limit, offset = offset)
-//            .map { cacheSuperHeroes ->
-//                cacheSuperHeroes.map { cacheSuperHero -> cacheSuperHero.toDomain() }
-//            }
 
     override suspend fun getMarvelSuperHero(
         superHeroId: Int,
@@ -59,24 +51,18 @@ open class SuperHeroesCacheDataStoreImpl @Inject constructor(
                 cacheSuperHeroes.map { cacheSuperHero -> cacheSuperHero.toDomain() }
             }
 
-
     override suspend fun getMarvelSuperHeroComics(
         superHeroId: Int,
-        offset: Int,
-        limit: Int
-        ): Flow<List<ModelComicsResult>> = flow {
-//        superHeroesDatabase.superHeroesDao().getAllComicsCharacter(superheroId = superHeroId)
-//            .map { cacheSuperHeroes ->
-//                cacheSuperHeroes.map { cacheSuperHero -> cacheSuperHero.toDomain() }
-//            }
-
-    }
-
+        ): Flow<List<ModelComicsResult>> =
+        superHeroesDatabase.superHeroesDao().getAllComicsCharacter(superheroId = superHeroId)
+        .map { cacheSuperHeroes ->
+            cacheSuperHeroes.map { cacheSuperHero -> cacheSuperHero.toDomain() }
+        }
 
     override suspend fun insertOrUpdateSuperHeroesComic(vararg superHeroesComicList: ModelComicsResult) {
-//        superHeroesDatabase.superHeroesDao().insertOrUpdateComicsSuperheroes(
-//            *superHeroesComicList.map { domainSuperHeroesList -> domainSuperHeroesList.toDomain() }
-//                .toTypedArray()
-//        )
+        superHeroesDatabase.superHeroesDao().insertOrUpdateComicsSuperheroes(
+            *superHeroesComicList.map { domainSuperHeroesList -> domainSuperHeroesList.toDomain() }
+                .toTypedArray()
+        )
     }
 }

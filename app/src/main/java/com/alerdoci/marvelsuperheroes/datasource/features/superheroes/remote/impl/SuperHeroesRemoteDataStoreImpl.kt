@@ -3,14 +3,13 @@ package com.alerdoci.marvelsuperheroes.datasource.features.superheroes.remote.im
 import com.alerdoci.marvelsuperheroes.BuildConfig
 import com.alerdoci.marvelsuperheroes.data.datastore.features.superheroes.SuperheroesDataStore
 import com.alerdoci.marvelsuperheroes.datasource.di.remote.NetworkModule
+import com.alerdoci.marvelsuperheroes.datasource.features.superherocomics.remote.mappers.toDomain
 import com.alerdoci.marvelsuperheroes.datasource.features.superheroes.remote.mappers.toDomain
-import com.alerdoci.marvelsuperheroes.datasource.remote.errorhandling.RemoteExceptionMapper
 import com.alerdoci.marvelsuperheroes.datasource.remote.service.MarvelService
 import com.alerdoci.marvelsuperheroes.domain.constants.Constants.Companion.OFFSET
 import com.alerdoci.marvelsuperheroes.domain.constants.Constants.Companion.PAGE_SIZE
 import com.alerdoci.marvelsuperheroes.model.features.superherocomic.ModelComicsResult
 import com.alerdoci.marvelsuperheroes.model.features.superheroes.ModelResult
-import io.reactivex.rxjava3.core.Completable
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import javax.inject.Inject
@@ -94,8 +93,6 @@ open class SuperHeroesRemoteDataStoreImpl @Inject constructor(
 
     override suspend fun getMarvelSuperHeroComics(
         superHeroId: Int,
-        offset: Int,
-        limit: Int
     ): Flow<List<ModelComicsResult>> = flow {
         val timestamp = System.currentTimeMillis().toString()
         val superhero = remoteService.getMarvelSuperHeroComics(
@@ -103,13 +100,10 @@ open class SuperHeroesRemoteDataStoreImpl @Inject constructor(
             BuildConfig.API_KEY_PUBLIC,
             timestamp,
             NetworkModule.getHash(timestamp),
-            offset = OFFSET,
-            limit = PAGE_SIZE
         )
         if (superhero.isSuccessful) {
-            superhero.body()?.let { superHeroComic ->
-//                emit(listOf(superHeroComic.toDomain()))
-            }
+            val results = superhero.body()?.data?.results
+            emit(results?.map { superheroComic -> superheroComic.toDomain() } ?: emptyList())
         } else {
             emit(emptyList())
         }

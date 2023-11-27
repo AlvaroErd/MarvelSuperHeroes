@@ -28,8 +28,6 @@ interface SuperheroesDataStore {
 
     suspend fun getMarvelSuperHeroComics(
         superHeroId: Int,
-        offset: Int = OFFSET,
-        limit: Int = PAGE_SIZE
     ): Flow<List<ModelComicsResult>>
 
     suspend fun insertOrUpdateSuperHeroes(vararg superHeroesList: ModelResult)

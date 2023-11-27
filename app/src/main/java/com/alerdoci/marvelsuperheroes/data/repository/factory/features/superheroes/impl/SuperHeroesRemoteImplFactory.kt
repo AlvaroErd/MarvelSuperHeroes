@@ -3,7 +3,6 @@ package com.alerdoci.marvelsuperheroes.data.repository.factory.features.superher
 import com.alerdoci.marvelsuperheroes.data.repository.factory.features.superheroes.factory.SuperHeroesDataFactory
 import com.alerdoci.marvelsuperheroes.domain.repository.MarvelRepository
 import com.alerdoci.marvelsuperheroes.model.features.superherocomic.ModelComicsResult
-import com.alerdoci.marvelsuperheroes.model.features.superherocomic.ModelComicsSuperHeroList
 import com.alerdoci.marvelsuperheroes.model.features.superheroes.ModelResult
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.channelFlow
@@ -14,6 +13,7 @@ open class SuperHeroesRemoteImplFactory @Inject constructor(
     private val factory: SuperHeroesDataFactory
 ) : MarvelRepository {
     override suspend fun getMarvelSuperHeroesPaging(
+        nameSearched: String?,
         offset: Int,
         limit: Int
     ): Flow<List<ModelResult>> = channelFlow {
@@ -102,16 +102,12 @@ open class SuperHeroesRemoteImplFactory @Inject constructor(
         limit: Int
     ): Flow<List<ModelComicsResult>> = channelFlow {
         factory.cacheDataStore.getMarvelSuperHeroComics(
-            offset = offset,
-            limit = limit,
             superHeroId = superHeroId
         )
             .collectLatest { superheroes ->
                 if (superheroes.isEmpty()) {
                     try {
                         factory.remoteDataStore.getMarvelSuperHeroComics(
-                            offset = offset,
-                            limit = limit,
                             superHeroId = superHeroId
                         ).collectLatest { remoteSuperHeroComics ->
                             factory.cacheDataStore.insertOrUpdateSuperHeroesComic(*remoteSuperHeroComics.toTypedArray())

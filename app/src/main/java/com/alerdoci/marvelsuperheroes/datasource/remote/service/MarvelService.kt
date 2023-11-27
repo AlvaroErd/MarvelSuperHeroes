@@ -44,7 +44,5 @@ interface MarvelService {
         @Query("apikey") apikey: String,
         @Query("ts") ts: String,
         @Query("hash") hash: String,
-        @Query("offset") offset: Int,
-        @Query("limit") limit: Int
     ): Response<RemoteComicsSuperHeroList>
 }

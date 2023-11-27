@@ -96,7 +96,6 @@ import androidx.compose.ui.zIndex
 import androidx.core.graphics.ColorUtils
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
-import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.paging.LoadState
 import androidx.paging.compose.LazyPagingItems
 import androidx.paging.compose.collectAsLazyPagingItems
@@ -118,7 +117,6 @@ import com.alerdoci.marvelsuperheroes.app.components.DiagonalDivider
 import com.alerdoci.marvelsuperheroes.app.components.InfoDialog
 import com.alerdoci.marvelsuperheroes.app.navigation.Screen
 import com.alerdoci.marvelsuperheroes.app.screens.home.viewmodel.HomeViewModel
-import com.alerdoci.marvelsuperheroes.app.screens.home.viewmodel.marvelSuperHeroMock1
 import com.alerdoci.marvelsuperheroes.app.theme.MarvelColors.amber_A100
 import com.alerdoci.marvelsuperheroes.app.theme.MarvelColors.blue_grey_900
 import com.alerdoci.marvelsuperheroes.app.theme.MarvelColors.grey_500
@@ -127,6 +125,7 @@ import com.alerdoci.marvelsuperheroes.app.theme.MarvelColors.red_800
 import com.alerdoci.marvelsuperheroes.app.theme.dimens
 import com.alerdoci.marvelsuperheroes.app.theme.spacing
 import com.alerdoci.marvelsuperheroes.model.features.superheroes.ModelResult
+import com.alerdoci.marvelsuperheroes.model.features.superheroes.mock.marvelSuperHeroMock1
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import compose.icons.EvaIcons
 import compose.icons.evaicons.Outline

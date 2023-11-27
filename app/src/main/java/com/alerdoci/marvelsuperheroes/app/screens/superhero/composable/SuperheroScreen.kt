@@ -8,14 +8,13 @@ import androidx.compose.foundation.basicMarquee
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.paddingFromBaseline
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
@@ -35,35 +34,37 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.draw.drawBehind
 import androidx.compose.ui.draw.drawWithCache
+import androidx.compose.ui.draw.rotate
+import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.zIndex
 import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.hilt.navigation.compose.hiltViewModel
 import coil.compose.SubcomposeAsyncImage
-import coil.request.ImageRequest
 import com.alerdoci.marvelsuperheroes.R
 import com.alerdoci.marvelsuperheroes.app.common.states.ResourceState
 import com.alerdoci.marvelsuperheroes.app.common.states.error.ErrorScreen
 import com.alerdoci.marvelsuperheroes.app.common.states.loading.LoadingScreen
+import com.alerdoci.marvelsuperheroes.app.components.DiagonalDivider
 import com.alerdoci.marvelsuperheroes.app.screens.superhero.viewmodel.SuperHeroViewModel
 import com.alerdoci.marvelsuperheroes.app.theme.MarvelColors
+import com.alerdoci.marvelsuperheroes.app.theme.MarvelColors.orange_A200
 import com.alerdoci.marvelsuperheroes.app.theme.MarvelColors.red_800
 import com.alerdoci.marvelsuperheroes.app.theme.spacing
-import com.alerdoci.marvelsuperheroes.model.features.superherocomic.ModelComicsSuperHeroList
+import com.alerdoci.marvelsuperheroes.model.features.superherocomic.ModelComicsResult
+import com.alerdoci.marvelsuperheroes.model.features.superherocomic.mock.marvelSuperHeroComicMock1
 import com.alerdoci.marvelsuperheroes.model.features.superheroes.ModelResult
 import me.saket.telephoto.zoomable.rememberZoomableState
 import me.saket.telephoto.zoomable.zoomable
-import java.text.SimpleDateFormat
-import java.util.Date
-import java.util.Locale
 
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @Composable
@@ -80,7 +81,9 @@ fun SuperheroScreen(
     }
 
     Scaffold(snackbarHost = { SnackbarHost(hostState = snackbarHostState) }) {
-        when (val state = superHeroState) {
+        val state = superHeroState
+        val comic = superHeroComicState
+        when (state) {
             is ResourceState.Loading -> Column(
                 modifier = Modifier.fillMaxSize(),
                 horizontalAlignment = Alignment.CenterHorizontally,
@@ -99,29 +102,27 @@ fun SuperheroScreen(
             is ResourceState.Success ->
                 Box(
                     contentAlignment = Alignment.Center,
-                    modifier = Modifier.fillMaxSize()
+                    modifier = Modifier
+                        .fillMaxSize()
                 ) {
-                    val superHeroes = state.data as? List<ModelResult>
-                    if (!superHeroes.isNullOrEmpty()) {
-                        val superHero = superHeroes[0]
-                        val name = superHero.name
-                        val description = superHero.description
-                        LazyColumn(
-                            modifier = Modifier.fillMaxSize(),
-                            verticalArrangement = Arrangement.spacedBy(8.dp)
-                        ) {
-                            item {
-                                HeaderSection(title = name!!, image = superHero.image!!)
-                            }
-                            item {
-                                CharacterInfoSection(description = description!!)
-                            }
-                            item {
-//                                ComicsSection(currentSuperHeroComic)
-                            }
-                            item {
-                                MarvelAttribution()
-                            }
+                    val superHeroes = state.data as List<ModelResult>
+                    val superHero = superHeroes[0]
+
+                    LazyColumn(
+                        modifier = Modifier
+                            .fillMaxSize(),
+                        verticalArrangement = Arrangement.spacedBy(8.dp)
+                    ) {
+                        item {
+                            HeaderSection(
+                                title = superHero.name!!,
+                                image = superHero.image!!
+                            )
+                        }
+                        item {
+                            CharacterInfoSection(
+                                description = superHero.description!!
+                            )
                         }
                     }
                 }
@@ -129,6 +130,45 @@ fun SuperheroScreen(
             ResourceState.Idle -> {
                 ErrorScreen()
             }
+        }
+
+        when (comic) {
+            is ResourceState.Loading -> Column(
+                modifier = Modifier.fillMaxSize(),
+                horizontalAlignment = Alignment.CenterHorizontally,
+                verticalArrangement = Arrangement.Center
+            ) {
+                LoadingScreen()
+            }
+
+            is ResourceState.Error -> Box(
+                contentAlignment = Alignment.Center,
+                modifier = Modifier.fillMaxSize()
+            ) {
+                ErrorScreen()
+            }
+
+            is ResourceState.Success ->
+                Box(
+                    contentAlignment = Alignment.Center,
+                    modifier = Modifier
+                        .fillMaxSize()
+                ) {
+                    val superHeroComic = comic.data as List<ModelComicsResult>
+                    ComicsSection(superHeroComic)
+                }
+
+            ResourceState.Idle -> {
+                ErrorScreen()
+            }
+        }
+
+        Column(
+            modifier = Modifier
+                .fillMaxSize(),
+            Arrangement.Bottom,
+        ) {
+            MarvelAttribution()
         }
     }
 }
@@ -140,53 +180,105 @@ fun HeaderSection(
 ) {
     Box(
         modifier = Modifier
-            .height(250.dp)
+            .height(400.dp)
             .fillMaxWidth()
     ) {
-        // Replace with your actual character image
-        SubcomposeAsyncImage(
-            model = ImageRequest.Builder(LocalContext.current)
-                .data(image)
-                .crossfade(true)
-                .build(),
-            contentDescription = "",
-            loading = {
-                Box(
-                    contentAlignment = Alignment.Center,
-                    modifier = Modifier.fillMaxSize()
-                ) {
-                    CircularProgressIndicator(
-                        color = red_800
-                    )
-                }
-            },
-            contentScale = ContentScale.Crop,
+
+        ConstraintLayout(
             modifier = Modifier
-                .fillMaxSize()
-                .zoomable(
-                    rememberZoomableState()
-                )
-                .clip(CutCornerShape(topStart = MaterialTheme.spacing.extraMedium))
-                .aspectRatio(1 / 1f),
-        )
-    }
-    Column(
-        modifier = Modifier
-            .fillMaxSize()
-            .padding(16.dp),
-        verticalArrangement = Arrangement.Bottom
-    ) {
-        Text(
-            text = title, // Replace with character name
-            style = MaterialTheme.typography.displayMedium,
-            color = Color.White,
-            fontWeight = FontWeight.Bold
-        )
-        Spacer(modifier = Modifier.height(8.dp))
-        // You can add additional information or UI elements here
+                .fillMaxWidth()
+                .wrapContentHeight()
+        ) {
+            val (diagonalDivider, boxBackgroundImage, characterImage, characterName) = createRefs()
+
+            // Box
+            Box(
+                modifier = Modifier
+                    .constrainAs(boxBackgroundImage) {
+                        bottom.linkTo(characterImage.bottom)
+                        start to parent.start
+                        end to parent.end
+                    }
+                    .fillMaxWidth()
+                    .height(150.dp)
+                    .background(red_800)
+            )
+            // Triangle
+            DiagonalDivider(
+                modifier = Modifier
+                    .constrainAs(diagonalDivider) {
+                        bottom.linkTo(boxBackgroundImage.top)
+                        start to parent.start
+                        end to parent.end
+                    }
+                    .height(60.dp)
+                    .zIndex(1f)
+                    .rotate(180f)
+
+            )
+
+            SubcomposeAsyncImage(
+                model = image,
+                contentDescription =
+                stringResource(
+                    id = R.string.photo_content_description,
+                    title
+                ),
+                loading = {
+                    Box(modifier = Modifier.padding(MaterialTheme.spacing.extraHuge)) {
+                        CircularProgressIndicator(
+                            color = red_800
+                        )
+                    }
+                },
+                contentScale = ContentScale.Crop,
+                modifier = Modifier
+                    .constrainAs(characterImage) {
+                        top to parent.top
+                        start to parent.start
+                        end to parent.end
+                    }
+                    .zIndex(1f)
+                    .padding(12.dp)
+                    .clip(
+                        CutCornerShape(
+                            topStart = MaterialTheme.spacing.extraMedium,
+                            topEnd = MaterialTheme.spacing.extraMedium
+                        )
+                    )
+                    .fillMaxSize()
+                    .zoomable(
+                        rememberZoomableState()
+                    )
+                    .drawWithCache {
+                        onDrawWithContent {
+                            drawContent()
+                            drawRect(
+                                Brush.verticalGradient(
+                                    0.5f to MarvelColors.black.copy(alpha = 0F),
+                                    1F to MarvelColors.black
+                                )
+                            )
+                        }
+                    },
+            )
+            // Character Name
+            Text(
+                text = title,
+                style = MaterialTheme.typography.displayMedium,
+                color = Color.White,
+                modifier = Modifier
+                    .zIndex(1f)
+                    .constrainAs(characterName) {
+                        bottom.linkTo(characterImage.bottom)
+                        start.linkTo(characterImage.start)
+                        end.linkTo(characterImage.end)
+                    }
+                    .paddingFromBaseline(bottom = 40.dp)
+            )
+        }
     }
 }
-
 
 @Composable
 fun CharacterInfoSection(
@@ -200,15 +292,35 @@ fun CharacterInfoSection(
         val (descriptionTitle, descriptionText, wikiButton) = createRefs()
 
         Text(
-            text = description,
-            style = MaterialTheme.typography.titleSmall,
+            text = stringResource(id = R.string.description),
+            style = MaterialTheme.typography.titleMedium,
             fontWeight = FontWeight.Bold,
             modifier = Modifier
                 .constrainAs(descriptionTitle) {
                     top.linkTo(parent.top)
                     start.linkTo(parent.start)
                 }
-                .paddingFromBaseline(top = 32.dp)
+                .drawBehind {
+                    val verticalOffset = size.height
+                    drawLine(
+                        color = orange_A200,
+                        strokeWidth = 1.dp.toPx(),
+                        start = Offset(0f, verticalOffset),
+                        end = Offset(size.width, verticalOffset)
+                    )
+                }
+        )
+
+        Text(
+            text = description,
+            style = MaterialTheme.typography.titleSmall,
+            fontWeight = FontWeight.Bold,
+            modifier = Modifier
+                .constrainAs(descriptionText) {
+                    top.linkTo(parent.bottom)
+                    start.linkTo(parent.start)
+                }
+                .paddingFromBaseline(top = 20.dp)
         )
 
         Button(
@@ -227,7 +339,7 @@ fun CharacterInfoSection(
 }
 
 @Composable
-fun ComicsSection(comicListItems: List<ModelComicsSuperHeroList>) {
+fun ComicsSection(comicListItems: List<ModelComicsResult>) {
     Column(
         modifier = Modifier
             .fillMaxWidth()
@@ -264,32 +376,11 @@ fun MarvelAttribution() {
 }
 
 @Composable
-fun ComicsList(comicListItems: List<ModelComicsSuperHeroList>) {
-
+fun ComicsList(comicListItems: List<ModelComicsResult>) {
     Column {
-        val inputDateFormat = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssZ", Locale.getDefault())
-        val outputDateFormat = SimpleDateFormat("dd-MM-yyyy", Locale.getDefault())
-
-        fun Date.toStringFormatted(): String {
-            return outputDateFormat.format(this)
-        }
         LazyRow(horizontalArrangement = Arrangement.spacedBy(MaterialTheme.spacing.extraMedium)) {
             items(comicListItems) { item ->
-                for (i in 0 until item.data?.results?.size!!) {
-                    val comicImage = item.data.results[i].image
-                    val comicTitle = item.data.results[i].title
-//                    val comicDate =
-//                        item.data.results[i].dates?.get(0)?.date.let { inputDateFormat.parse(it) }
-//                            ?.toStringFormatted()
-
-                    ComicCard(
-                        item = item,
-                        comicImage = comicImage.toString(),
-                        comicTitle = comicTitle.toString(),
-                        comicDate = ""
-                    )
-                }
-
+                ComicCard(item = item)
             }
         }
     }
@@ -298,10 +389,7 @@ fun ComicsList(comicListItems: List<ModelComicsSuperHeroList>) {
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun ComicCard(
-    item: ModelComicsSuperHeroList,
-    comicImage: String,
-    comicTitle: String,
-    comicDate: String
+    item: ModelComicsResult
 ) {
     Box(
         modifier = Modifier
@@ -311,11 +399,11 @@ fun ComicCard(
         contentAlignment = Alignment.Center
     ) {
         SubcomposeAsyncImage(
-            model = comicImage,
+            model = item.image,
             contentDescription =
             stringResource(
                 id = R.string.photo_content_description,
-                comicTitle
+                item.title!!
             ),
             loading = {
                 Box(modifier = Modifier.padding(MaterialTheme.spacing.extraHuge)) {
@@ -342,7 +430,7 @@ fun ComicCard(
         )
 
         Text(
-            text = comicTitle,
+            text = item.title,
             modifier = Modifier
                 .padding(
                     start = MaterialTheme.spacing.small,
@@ -361,7 +449,7 @@ fun ComicCard(
             color = Color.White
         )
         Text(
-            text = comicDate,
+            text = item.onSaleDate!!,
             modifier = Modifier
                 .padding(
                     start = MaterialTheme.spacing.small,
@@ -381,6 +469,15 @@ fun ComicCard(
         )
     }
 }
+
+
+@Preview("Light Theme", showBackground = true)
+@Preview("Dark Theme", uiMode = Configuration.UI_MODE_NIGHT_YES, showBackground = true)
+@Composable
+fun ComicCardPreview() {
+    ComicCard(marvelSuperHeroComicMock1)
+}
+
 
 @Preview("Light Theme", showBackground = true)
 @Preview("Dark Theme", uiMode = Configuration.UI_MODE_NIGHT_YES, showBackground = true)

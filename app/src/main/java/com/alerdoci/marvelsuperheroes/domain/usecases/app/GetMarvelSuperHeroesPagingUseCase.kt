@@ -7,10 +7,9 @@ import com.alerdoci.marvelsuperheroes.domain.constants.Constants.Companion.PAGE_
 import javax.inject.Inject
 
 open class GetMarvelSuperHeroesPagingUseCase @Inject constructor(
-    private val superHeroPaging: MarvelSuperHeroesPagingSource
+    private val superHeroPaging: MarvelSuperHeroesPagingSource,
 ) {
-
-    open operator fun invoke() = Pager(
+    operator fun invoke(query: String? = null) = Pager(
         config = PagingConfig(
             pageSize = PAGE_SIZE,
             enablePlaceholders = true,

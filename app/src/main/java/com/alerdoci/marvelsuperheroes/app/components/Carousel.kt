@@ -48,8 +48,6 @@ import androidx.compose.ui.unit.sp
 import androidx.compose.ui.zIndex
 import com.alerdoci.marvelsuperheroes.R
 import com.alerdoci.marvelsuperheroes.app.screens.home.composable.SuperheroItem
-import com.alerdoci.marvelsuperheroes.app.screens.home.viewmodel.marvelSuperHeroMock1
-import com.alerdoci.marvelsuperheroes.app.screens.home.viewmodel.marvelSuperHeroesMock
 import com.alerdoci.marvelsuperheroes.model.features.superheroes.ModelResult
 import kotlin.math.abs
 import kotlin.math.roundToInt
