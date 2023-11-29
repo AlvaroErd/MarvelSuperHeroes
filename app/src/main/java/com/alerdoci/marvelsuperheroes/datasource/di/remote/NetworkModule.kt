@@ -2,20 +2,16 @@ package com.alerdoci.marvelsuperheroes.datasource.di.remote
 
 import android.content.Context
 import android.util.Log
-import androidx.paging.Pager
-import androidx.paging.PagingConfig
 import androidx.room.Room
 import androidx.room.RoomDatabase
 import com.alerdoci.marvelsuperheroes.BuildConfig
 import com.alerdoci.marvelsuperheroes.app.common.serializer.GsonDateDeserializer
 import com.alerdoci.marvelsuperheroes.data.constants.BASE_URL
 import com.alerdoci.marvelsuperheroes.data.datastore.features.superheroes.SuperheroesDataStore
-import com.alerdoci.marvelsuperheroes.data.repository.factory.features.superheroes.impl.SuperHeroesRemoteImplFactory
 import com.alerdoci.marvelsuperheroes.data.repository.factory.features.superheroes.factory.SuperHeroesDataFactory
-import com.alerdoci.marvelsuperheroes.data.repository.factory.features.superheroes.pagination.MarvelSuperHeroesPagingSource
+import com.alerdoci.marvelsuperheroes.data.repository.factory.features.superheroes.impl.SuperHeroesRemoteImplFactory
 import com.alerdoci.marvelsuperheroes.datasource.cache.database.SuperHeroesDatabase
 import com.alerdoci.marvelsuperheroes.datasource.features.superheroes.cache.constants.MarvelConstants
-import com.alerdoci.marvelsuperheroes.datasource.features.superheroes.cache.entity.CacheSuperHeroesResult
 import com.alerdoci.marvelsuperheroes.datasource.features.superheroes.cache.impl.SuperHeroesCacheDataStoreImpl
 import com.alerdoci.marvelsuperheroes.datasource.features.superheroes.remote.impl.SuperHeroesRemoteDataStoreImpl
 import com.alerdoci.marvelsuperheroes.datasource.remote.service.MarvelService
@@ -123,18 +119,4 @@ object NetworkModule {
             //endregion
             .build()
 
-//    @Provides
-//    @Singleton
-//    fun providePager(superHeroesDatabase: SuperHeroesDatabase, marvelService: MarvelService): Pager<Int, CacheSuperHeroesResult> {
-//        return Pager(
-//            config = PagingConfig(pageSize = 20),
-//            remoteMediator = MarvelSuperHeroesPagingSource(
-//                 = superHeroesDatabase,
-//                beerApi = marvelService
-//            ),
-//            pagingSourceFactory = {
-//                superHeroesDatabase.dao.pagingSource()
-//            }
-//        )
-//    }
 }

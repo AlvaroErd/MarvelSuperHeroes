@@ -41,6 +41,8 @@ interface MarvelService {
     @GET("v1/public/characters/{id}/comics")
     suspend fun getMarvelSuperHeroComics(
         @Path("id") superHeroId: Int,
+        @Query("offset") offset: Int,
+        @Query("limit") limit: Int,
         @Query("apikey") apikey: String,
         @Query("ts") ts: String,
         @Query("hash") hash: String,

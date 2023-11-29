@@ -8,12 +8,10 @@ import android.os.Vibrator
 import android.os.VibratorManager
 import androidx.annotation.FloatRange
 import androidx.compose.animation.core.Animatable
-import androidx.compose.animation.core.FastOutLinearInEasing
 import androidx.compose.animation.core.LinearEasing
 import androidx.compose.animation.core.RepeatMode
 import androidx.compose.animation.core.animateFloat
 import androidx.compose.animation.core.infiniteRepeatable
-import androidx.compose.animation.core.keyframes
 import androidx.compose.animation.core.rememberInfiniteTransition
 import androidx.compose.animation.core.spring
 import androidx.compose.animation.core.tween
@@ -26,17 +24,16 @@ import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.ripple.RippleAlpha
+import androidx.compose.material.ripple.RippleTheme
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.composed
@@ -56,8 +53,6 @@ import androidx.compose.ui.platform.LocalHapticFeedback
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.alerdoci.marvelsuperheroes.app.theme.MarvelColors
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.launch
 
 object ModifierExtensions {
 
@@ -100,7 +95,7 @@ object ModifierExtensions {
             val shake = remember { Animatable(0f) }
 
             LaunchedEffect(shakerController.config) {
-                for(i in 0 until config.iterations) {
+                for (i in 0 until config.iterations) {
                     shake.animateTo(1f, spring(stiffness = config.intensity))
                     shake.animateTo(-1f, spring(stiffness = config.intensity))
                 }
@@ -120,6 +115,7 @@ object ModifierExtensions {
             }
         } ?: this
     }
+
     @Composable
     fun rememberShakerState(): ShakerController {
         return remember { ShakerController() }
@@ -361,3 +357,12 @@ object ModifierExtensions {
             .background(backgroundColor)
     }
 }
+
+private object NoRippleTheme : RippleTheme {
+    @Composable
+    override fun defaultColor() = Color.Unspecified
+
+    @Composable
+    override fun rippleAlpha(): RippleAlpha = RippleAlpha(0.0f, 0.0f, 0.0f, 0.0f)
+}
+

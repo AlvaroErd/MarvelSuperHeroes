@@ -2,13 +2,8 @@ package com.alerdoci.marvelsuperheroes.app.screens.home.composable
 
 import android.annotation.SuppressLint
 import android.content.res.Configuration
-import androidx.annotation.FloatRange
 import androidx.compose.animation.Crossfade
-import androidx.compose.animation.core.InfiniteTransition
-import androidx.compose.animation.core.RepeatMode
-import androidx.compose.animation.core.animateFloat
 import androidx.compose.animation.core.animateFloatAsState
-import androidx.compose.animation.core.infiniteRepeatable
 import androidx.compose.animation.core.rememberInfiniteTransition
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.ExperimentalFoundationApi
@@ -27,7 +22,6 @@ import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
@@ -38,10 +32,7 @@ import androidx.compose.foundation.shape.CutCornerShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Close
-import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.material.icons.filled.Search
-import androidx.compose.material.ripple.RippleAlpha
-import androidx.compose.material.ripple.RippleTheme
 import androidx.compose.material3.Card
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -57,13 +48,10 @@ import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
-import androidx.compose.material3.TextFieldColors
-import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.material3.VerticalDivider
 import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableFloatStateOf
 import androidx.compose.runtime.mutableStateOf
@@ -82,7 +70,6 @@ import androidx.compose.ui.draw.rotate
 import androidx.compose.ui.draw.scale
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
@@ -93,7 +80,6 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.zIndex
-import androidx.core.graphics.ColorUtils
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import androidx.paging.LoadState
@@ -115,6 +101,7 @@ import com.alerdoci.marvelsuperheroes.app.common.utils.ToastHostState
 import com.alerdoci.marvelsuperheroes.app.components.AnimatedPlaceholder
 import com.alerdoci.marvelsuperheroes.app.components.DiagonalDivider
 import com.alerdoci.marvelsuperheroes.app.components.InfoDialog
+import com.alerdoci.marvelsuperheroes.app.components.particles
 import com.alerdoci.marvelsuperheroes.app.navigation.Screen
 import com.alerdoci.marvelsuperheroes.app.screens.home.viewmodel.HomeViewModel
 import com.alerdoci.marvelsuperheroes.app.theme.MarvelColors.amber_A100
@@ -130,21 +117,13 @@ import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import compose.icons.EvaIcons
 import compose.icons.evaicons.Outline
 import compose.icons.evaicons.outline.Search
-import es.dmoral.toasty.Toasty
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import me.saket.telephoto.zoomable.rememberZoomableState
 import me.saket.telephoto.zoomable.zoomable
 import nl.dionsegijn.konfetti.compose.KonfettiView
 import nl.dionsegijn.konfetti.compose.OnParticleSystemUpdateListener
-import nl.dionsegijn.konfetti.core.Angle
-import nl.dionsegijn.konfetti.core.Party
 import nl.dionsegijn.konfetti.core.PartySystem
-import nl.dionsegijn.konfetti.core.Position
-import nl.dionsegijn.konfetti.core.Spread
-import nl.dionsegijn.konfetti.core.emitter.Emitter
-import java.util.concurrent.TimeUnit
-
 
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @OptIn(ExperimentalMaterial3Api::class, ExperimentalFoundationApi::class)
@@ -178,22 +157,8 @@ fun HomeScreen(
         modifier = Modifier.fillMaxSize(),
         color = MaterialTheme.colorScheme.background,
     ) {
-
-        Toasty.Config.getInstance()
-            .tintIcon(true) // optional (apply textColor also to the icon)
-//            .setToastTypeface(Typeface.DEFAULT) // optional
-//            .setTextSize(28) // optional
-            .allowQueue(false) // optional (prevents several Toastys from queuing)
-//            .setGravity(int gravity, int xOffset, int yOffset) // optional (set toast gravity, offsets are optional)
-            .supportDarkTheme(true) // optional (whether to support dark theme or not)
-            .setRTL(false) // optional (icon is on the right)
-            .apply(); // required
-
-        val superHeroListState by viewModel.superHeroes.collectAsState()
-//        val superHeroListPagingState = viewModel.getMarvelSuperHeroesPager().collectAsLazyPagingItems()
-        val superHeroListPagingState: LazyPagingItems<ModelResult> = viewModel.allCharacters.collectAsLazyPagingItems()
-
-//        var searchQuery by remember { mutableStateOf<String?>(null) }
+        val superHeroListPagingState: LazyPagingItems<ModelResult> =
+            viewModel.allCharacters.collectAsLazyPagingItems()
 
         LaunchedEffect(searchQuery != "") {
             if (searchQuery != null) {
@@ -201,13 +166,9 @@ fun HomeScreen(
             }
         }
 
-        val superHeroSearchedState by viewModel.superHeroSearched.collectAsState()
-        var superHeroSearchedText: String = ""
-
         var textSearched by remember { mutableStateOf("") }
         var textActive by remember { mutableStateOf(false) }
         val context = LocalContext.current
-        val applicationContext = context.applicationContext
         val snackbarHostState = remember { SnackbarHostState() }
 
         var clickCount = 0
@@ -235,7 +196,6 @@ fun HomeScreen(
         val savedList = rememberSaveable(saver = LazyListState.Saver) {
             lazyState
         }
-//        val snapBehavior = rememberSnapFlingBehavior(lazyListState = lazyState)
 
         Scaffold(snackbarHost = { SnackbarHost(hostState = snackbarHostState) }
         ) {
@@ -296,7 +256,6 @@ fun HomeScreen(
                                 .weight(1f)
                                 .padding(horizontal = 80.dp)
                         )
-//                        CompositionLocalProvider(LocalRippleTheme provides NoRippleTheme) {
                         IconButton(
                             modifier = Modifier
                                 .padding(end = 20.dp)
@@ -429,7 +388,6 @@ fun HomeScreen(
                             onActiveChange = {
                                 textActive = it
                             },
-//                            placeholder = { Text(text = stringResource(R.string.search_superhero)) },
                             placeholder = {
                                 val hints = listOf(
                                     stringResource(id = R.string.search_superhero),
@@ -470,11 +428,6 @@ fun HomeScreen(
                         )
                         {
 
-                            //Not implemented yet
-//                            if (textSearched.isNotEmpty()) {
-//                            launch getSuperHeroSearched(textSearched)
-//                            else
-//                            launch getMarvelSuperHeroesPager()
                         }
                     }
                     Box(
@@ -505,28 +458,6 @@ fun HomeScreen(
                                 .padding(horizontal = MaterialTheme.spacing.xMedium)
                         )
                         {
-//                            var items by rememberSaveable {
-//                                mutableStateOf<List<ModelResult>>(
-//                                    emptyList()
-//                                )
-//                            }
-//                            when (superHeroListState) {
-//                                is ResourceState.Loading -> Column(
-//                                    modifier = Modifier.fillMaxSize(),
-//                                    horizontalAlignment = CenterHorizontally,
-//                                    verticalArrangement = Arrangement.Center
-//                                ) {
-//                                    LoadingScreen()
-//                                }
-//
-//                                is ResourceState.Error -> Box(
-//                                    contentAlignment = Alignment.Center,
-//                                    modifier = Modifier.fillMaxSize()
-//                                ) {
-//                                    ErrorScreen()
-//                                }
-//
-//                                is ResourceState.Success ->
                             when (superHeroListPagingState.loadState.refresh) {
                                 is LoadState.Loading -> {
                                     LoadingScreen()
@@ -539,7 +470,6 @@ fun HomeScreen(
                                             .fillMaxWidth()
                                             .zIndex(1f),
                                         state = savedList,
-//                                        flingBehavior = snapBehavior
                                     ) {
                                         item {
                                             Spacer(modifier = Modifier.height(if (scrollState.isScrollInProgress) MaterialTheme.dimens.custom0 else MaterialTheme.dimens.custom40))
@@ -565,10 +495,9 @@ fun HomeScreen(
                                     }
                                 }
 
-//                                else -> {}
-                                    is LoadState.Error -> {
-                                        ErrorScreen()
-                                    }
+                                is LoadState.Error -> {
+                                    ErrorScreen()
+                                }
                             }
                         }
                         Column(
@@ -874,83 +803,6 @@ fun SuperheroItem(
     )
 }
 
-
-private fun particles(primary: Color) = listOf(
-    Party(
-        speed = 0f,
-        maxSpeed = 15f,
-        damping = 0.9f,
-        angle = Angle.BOTTOM,
-        spread = Spread.ROUND,
-        colors = listOf(0xfce18a, 0xff726d, 0xf4306d, 0xb48def).map {
-            it.blend(
-                primary
-            )
-        },
-        emitter = Emitter(duration = 2, TimeUnit.SECONDS).perSecond(100),
-        position = Position.Relative(0.0, 0.0).between(Position.Relative(1.0, 0.0))
-    ),
-    Party(
-        speed = 10f,
-        maxSpeed = 30f,
-        damping = 0.9f,
-        angle = Angle.RIGHT - 45,
-        spread = Spread.SMALL,
-        colors = listOf(0xfce18a, 0xff726d, 0xf4306d, 0xb48def).map {
-            it.blend(
-                primary
-            )
-        },
-        emitter = Emitter(duration = 2, TimeUnit.SECONDS).perSecond(30),
-        position = Position.Relative(0.0, 1.0)
-    ),
-    Party(
-        speed = 10f,
-        maxSpeed = 30f,
-        damping = 0.9f,
-        angle = Angle.RIGHT - 135,
-        spread = Spread.SMALL,
-        colors = listOf(0xfce18a, 0xff726d, 0xf4306d, 0xb48def).map {
-            it.blend(
-                primary
-            )
-        },
-        emitter = Emitter(duration = 2, TimeUnit.SECONDS).perSecond(30),
-        position = Position.Relative(1.0, 1.0)
-    )
-)
-
-
-@OptIn(ExperimentalMaterial3Api::class)
-@Composable
-fun RoundedTextFieldColors(isError: Boolean): TextFieldColors =
-    MaterialTheme.colorScheme.run {
-        TextFieldDefaults.textFieldColors(
-            unfocusedIndicatorColor = Color.Transparent,
-            focusedIndicatorColor = Color.Transparent,
-            cursorColor = if (isError) error else primary,
-            focusedLabelColor = if (isError) error else primary,
-            focusedLeadingIconColor = if (isError) error else onSurfaceVariant,
-            unfocusedLeadingIconColor = if (isError) error else onSurfaceVariant,
-            focusedTrailingIconColor = if (isError) error else onSurfaceVariant,
-            unfocusedTrailingIconColor = if (isError) error else onSurfaceVariant,
-            unfocusedLabelColor = if (isError) error else onSurfaceVariant,
-            containerColor = if (isError) surfaceVariant.blend(error, 0.2f) else surfaceVariant,
-        )
-    }
-
-fun Color.blend(
-    color: Color,
-    @FloatRange(from = 0.0, to = 1.0) fraction: Float = 0.2f
-): Color = Color(ColorUtils.blendARGB(this.toArgb(), color.toArgb(), fraction))
-
-
-fun Int.blend(
-    color: Color,
-    @FloatRange(from = 0.0, to = 1.0) fraction: Float = 0.2f
-): Int = ColorUtils.blendARGB(this, color.toArgb(), fraction)
-
-
 @Preview("Light Theme", showBackground = true)
 @Preview("Dark Theme", uiMode = Configuration.UI_MODE_NIGHT_YES, showBackground = true)
 @Composable
@@ -961,33 +813,3 @@ fun SuperheroItemPreview() {
         onClick = { }
     )
 }
-
-@Composable
-private fun PulsatingHeartIcon(infiniteTransition: InfiniteTransition) {
-//1
-    val pulsate by infiniteTransition.animateFloat(
-        initialValue = 10f,
-        targetValue = 60f,
-        animationSpec = infiniteRepeatable(tween(1200), RepeatMode.Reverse), label = ""
-    )
-//2
-    Icon(
-        imageVector = Icons.Default.Favorite,
-        contentDescription = "",
-        modifier = Modifier
-            .size(pulsate.dp)
-            .offset(
-                x = 10.dp, y = 10.dp
-            )
-    )
-
-}
-
-private object NoRippleTheme : RippleTheme {
-    @Composable
-    override fun defaultColor() = Color.Unspecified
-
-    @Composable
-    override fun rippleAlpha(): RippleAlpha = RippleAlpha(0.0f, 0.0f, 0.0f, 0.0f)
-}
-

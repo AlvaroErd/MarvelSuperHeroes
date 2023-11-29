@@ -19,7 +19,8 @@ open class SuperHeroesRemoteDataStoreImpl @Inject constructor(
 ) : SuperheroesDataStore {
 
     override suspend fun getMarvelSuperHeroesPaging(
-        offset: Int, limit: Int,
+        offset: Int,
+        limit: Int,
     ): Flow<List<ModelResult>> = flow {
         val timestamp = System.currentTimeMillis().toString()
         val superheroes = remoteService.getMarvelSuperHeroes(
@@ -65,38 +66,16 @@ open class SuperHeroesRemoteDataStoreImpl @Inject constructor(
         }
     }
 
-    override suspend fun getMarvelSuperHeroSearched(
-        nameSearched: String?,
+    override suspend fun getMarvelSuperHeroComics(
         offset: Int,
         limit: Int,
-    ): Flow<List<ModelResult>> = flow {
-        val timestamp = System.currentTimeMillis().toString()
-        val superhero = remoteService.getMarvelSuperHeroesSearched(
-            offset = OFFSET,
-            limit = PAGE_SIZE,
-            BuildConfig.API_KEY_PUBLIC,
-            timestamp,
-            NetworkModule.getHash(timestamp),
-            nameSearched = nameSearched
-        )
-        if (superhero.isSuccessful) {
-            val results = superhero.body()?.data?.results
-            if (!results.isNullOrEmpty()) {
-                emit(results.map { superhero -> superhero.toDomain() })
-            } else {
-                emit(emptyList())
-            }
-        } else {
-            emit(emptyList())
-        }
-    }
-
-    override suspend fun getMarvelSuperHeroComics(
         superHeroId: Int,
     ): Flow<List<ModelComicsResult>> = flow {
         val timestamp = System.currentTimeMillis().toString()
         val superhero = remoteService.getMarvelSuperHeroComics(
             superHeroId = superHeroId,
+            offset = offset * limit,
+            limit = limit,
             BuildConfig.API_KEY_PUBLIC,
             timestamp,
             NetworkModule.getHash(timestamp),

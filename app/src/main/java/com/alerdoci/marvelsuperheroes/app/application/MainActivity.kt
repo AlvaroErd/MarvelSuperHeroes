@@ -35,8 +35,8 @@ class MainActivity : ComponentActivity() {
     @Inject
     lateinit var splashViewModel: SplashViewModel
     private lateinit var connectivityObserver: ConnectivityObserver
-    lateinit var homeViewModel: HomeViewModel
-    lateinit var superHeroViewModel: SuperHeroViewModel
+    private lateinit var homeViewModel: HomeViewModel
+    private lateinit var superHeroViewModel: SuperHeroViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -85,8 +85,6 @@ class MainActivity : ComponentActivity() {
                     SetupNavGraph(
                         navController = navController,
                         startDestination = screen,
-                        homeViewModel = homeViewModel,
-                        superHeroViewModel = superHeroViewModel
                     )
                 }
             }

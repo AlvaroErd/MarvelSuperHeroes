@@ -22,8 +22,6 @@ import com.alerdoci.marvelsuperheroes.app.screens.superhero.viewmodel.SuperHeroV
 fun SetupNavGraph(
     navController: NavHostController,
     startDestination: String,
-    homeViewModel: HomeViewModel,
-    superHeroViewModel: SuperHeroViewModel
 ) {
     NavHost(
         navController = navController,
@@ -42,12 +40,10 @@ fun SetupNavGraph(
                 exitTransition = slideOutHorizontally() + fadeOut()
             ) {
                 val searchQuery: String = ""
-//                val searchQuery = backStackEntry.arguments!!.getInt(SUPERHERO_QUERY_KEY)
 
                 HomeScreen(
                     navController,
-                    viewModel = homeViewModel,
-                    searchQuery = searchQuery.toString()
+                    searchQuery = searchQuery
                 )
             }
         }
@@ -64,8 +60,10 @@ fun SetupNavGraph(
                 exitTransition = slideOutHorizontally() + fadeOut()
             ) {
                 val superheroId = backStackEntry.arguments!!.getInt(SUPERHERO_ID_KEY)
+                val superheroScreenSavedStateHandle = backStackEntry.savedStateHandle
+                superheroScreenSavedStateHandle.set(SUPERHERO_ID_KEY, superheroId)
+
                 SuperheroScreen(
-                    viewModel = superHeroViewModel,
                     superheroId = superheroId
                 )
             }

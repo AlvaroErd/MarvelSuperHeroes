@@ -4,8 +4,5 @@ package com.alerdoci.marvelsuperheroes.datasource.features.superherocomics.remot
 import com.google.gson.annotations.SerializedName
 
 data class RemoteComicsSuperHeroList(
-    @SerializedName("attributionText")
-    val attributionText: String?,
-    @SerializedName("data")
-    val data: RemoteComicsData?
+    @SerializedName("data") val data: RemoteComicsData?
 )

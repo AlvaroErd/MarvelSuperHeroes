@@ -3,9 +3,7 @@ package com.alerdoci.marvelsuperheroes.datasource.features.superherocomics.remot
 import com.alerdoci.marvelsuperheroes.app.common.utils.toStringFormatted
 import com.alerdoci.marvelsuperheroes.datasource.features.superherocomics.cache.entity.CacheComicsResult
 import com.alerdoci.marvelsuperheroes.datasource.features.superherocomics.remote.models.RemoteComicsResult
-import com.alerdoci.marvelsuperheroes.datasource.features.superheroes.remote.models.RemoteResult
 import com.alerdoci.marvelsuperheroes.model.features.superherocomic.ModelComicsResult
-import com.alerdoci.marvelsuperheroes.model.features.superheroes.ModelResult
 import java.text.SimpleDateFormat
 import java.util.Locale
 

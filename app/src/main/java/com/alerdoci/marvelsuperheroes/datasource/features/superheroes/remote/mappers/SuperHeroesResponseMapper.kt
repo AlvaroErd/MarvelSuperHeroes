@@ -19,7 +19,7 @@ fun RemoteResult.toDomain(): ModelResult = ModelResult(
     id = id,
     name = name,
     series = series?.available,
-    image = (thumbnail?.path + "/standard_fantastic" + "." + thumbnail?.extension).replace(
+    image = (thumbnail?.path + "." + thumbnail?.extension).replace(
         "http",
         "https"
     )

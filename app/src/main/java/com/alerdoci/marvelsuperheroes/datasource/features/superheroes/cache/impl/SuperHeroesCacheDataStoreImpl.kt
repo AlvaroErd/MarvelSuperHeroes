@@ -7,7 +7,6 @@ import com.alerdoci.marvelsuperheroes.datasource.features.superheroes.remote.map
 import com.alerdoci.marvelsuperheroes.model.features.superherocomic.ModelComicsResult
 import com.alerdoci.marvelsuperheroes.model.features.superheroes.ModelResult
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.map
 import javax.inject.Inject
 
@@ -25,20 +24,11 @@ open class SuperHeroesCacheDataStoreImpl @Inject constructor(
                 cacheSuperHeroes.map { cacheSuperHero -> cacheSuperHero.toDomain() }
             }
 
-
     override suspend fun insertOrUpdateSuperHeroes(vararg superHeroesList: ModelResult) {
         superHeroesDatabase.superHeroesDao().insertOrUpdateSuperHeroes(
             *superHeroesList.map { domainSuperHeroesList -> domainSuperHeroesList.toDomain() }
                 .toTypedArray()
         )
-    }
-
-    override suspend fun getMarvelSuperHeroSearched(
-        nameSearched: String?,
-        offset: Int,
-        limit: Int
-    ): Flow<List<ModelResult>> {
-        TODO("Not yet implemented")
     }
 
     override suspend fun getMarvelSuperHero(
@@ -52,16 +42,19 @@ open class SuperHeroesCacheDataStoreImpl @Inject constructor(
             }
 
     override suspend fun getMarvelSuperHeroComics(
+        offset: Int,
+        limit: Int,
         superHeroId: Int,
-        ): Flow<List<ModelComicsResult>> =
-        superHeroesDatabase.superHeroesDao().getAllComicsCharacter(superheroId = superHeroId)
-        .map { cacheSuperHeroes ->
-            cacheSuperHeroes.map { cacheSuperHero -> cacheSuperHero.toDomain() }
-        }
+    ): Flow<List<ModelComicsResult>> =
+        superHeroesDatabase.superHeroesDao()
+            .getAllComicsCharacter(limit = limit, offset = offset, superheroId = superHeroId)
+            .map { cacheSuperHeroes ->
+                cacheSuperHeroes.map { cacheSuperHero -> cacheSuperHero.toDomain() }
+            }
 
     override suspend fun insertOrUpdateSuperHeroesComic(vararg superHeroesComicList: ModelComicsResult) {
         superHeroesDatabase.superHeroesDao().insertOrUpdateComicsSuperheroes(
-            *superHeroesComicList.map { domainSuperHeroesList -> domainSuperHeroesList.toDomain() }
+            *superHeroesComicList.map { domainSuperHeroesComicList -> domainSuperHeroesComicList.toDomain() }
                 .toTypedArray()
         )
     }
