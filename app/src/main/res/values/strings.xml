@@ -43,7 +43,10 @@
     </plurals>
     <string name="photo_content_description">Photo of %s</string>
     <string name="description_not_available">Description not available</string>
+    <string name="description_not_available_description">Unfortunately Marvel doesn´t have any description for this superhero.</string>
     <string name="events_icon">Events Icon</string>
+    <string name="theme_dialog_title">Change Theme</string>
+    <string name="theme_dialog_apply_button">Apply</string>
 
     //SuperHero screen
     <string name="description">Description:</string>
@@ -53,7 +56,7 @@
     </plurals>
     <string name="comics_appear">Last appearances in comics:</string>
     <string name="visit_on_wiki">Visit on Wiki</string>
-    <string name="no_recent_comics">This superhero does not have any recent comics</string>
+    <string name="no_recent_comics">This superhero does not have any recent comics 😢</string>
     <string name="welcome_to">Welcome to</string>
     <string name="marvel_universe">Marvel Universe</string>
 
@@ -68,4 +71,5 @@
     <string name="modal_body">I hope you are happy in heaven</string>
     <string name="onboarding_button_start">Get Started</string>
     <string name="copyright_marvel">Data provided by Marvel. © %1$s MARVEL</string>
+    <string name="zoom_in">Try to zoom in!</string>
 </resources>

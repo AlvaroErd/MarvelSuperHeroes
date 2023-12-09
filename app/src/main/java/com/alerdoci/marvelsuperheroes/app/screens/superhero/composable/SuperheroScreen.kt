@@ -18,13 +18,11 @@ import androidx.compose.foundation.layout.paddingFromBaseline
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.wrapContentHeight
-import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.foundation.lazy.LazyRow
-import androidx.compose.foundation.lazy.items
-import androidx.compose.foundation.lazy.rememberLazyListState
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CutCornerShape
 import androidx.compose.foundation.text.selection.SelectionContainer
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Close
 import androidx.compose.material.icons.filled.ZoomOutMap
@@ -45,7 +43,6 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -73,7 +70,6 @@ import androidx.paging.compose.LazyPagingItems
 import androidx.paging.compose.collectAsLazyPagingItems
 import androidx.paging.compose.itemKey
 import coil.compose.SubcomposeAsyncImage
-import coil.compose.rememberAsyncImagePainter
 import com.alerdoci.marvelsuperheroes.R
 import com.alerdoci.marvelsuperheroes.app.common.states.ResourceState
 import com.alerdoci.marvelsuperheroes.app.common.states.error.ErrorScreen
@@ -88,6 +84,7 @@ import com.alerdoci.marvelsuperheroes.app.theme.MarvelColors.transparent
 import com.alerdoci.marvelsuperheroes.app.theme.MarvelColors.white
 import com.alerdoci.marvelsuperheroes.app.theme.dimens
 import com.alerdoci.marvelsuperheroes.app.theme.spacing
+import com.alerdoci.marvelsuperheroes.domain.constants.Constants.Companion.IMAGE_NOT_FOUND
 import com.alerdoci.marvelsuperheroes.model.features.superherocomic.ModelComicsResult
 import com.alerdoci.marvelsuperheroes.model.features.superherocomic.mock.marvelSuperHeroComicMock1
 import com.alerdoci.marvelsuperheroes.model.features.superheroes.ModelResult
@@ -105,11 +102,9 @@ fun SuperheroScreen(
     val snackbarHostState = remember { SnackbarHostState() }
     val superHeroState by superHeroViewModel.currentSuperHero.collectAsState()
     var showDialog by remember { mutableStateOf(false) }
-    val superHeroComicListPagingState: LazyPagingItems<ModelComicsResult> = superHeroViewModel.loadSuperHeroComic.collectAsLazyPagingItems()
-//    val lazyState = rememberLazyListState()
-//    val savedList = rememberSaveable(saver = LazyListState.Saver) {
-//        lazyState
-//    }
+    val superHeroComicListPagingState: LazyPagingItems<ModelComicsResult> =
+        superHeroViewModel.loadSuperHeroComic.collectAsLazyPagingItems()
+
     LaunchedEffect(Unit) {
         superHeroViewModel.loadSuperHero(superheroId)
     }
@@ -120,147 +115,253 @@ fun SuperheroScreen(
     ) {
         val superHeroDetail = superHeroState
         val superHeroComic = superHeroComicListPagingState
-        when (superHeroDetail) {
-            is ResourceState.Loading -> Column(
-                modifier = Modifier.fillMaxSize(),
-                horizontalAlignment = Alignment.CenterHorizontally,
-                verticalArrangement = Arrangement.Center
-            ) {
-                LoadingScreen()
-            }
-
-            is ResourceState.Error -> Box(
-                contentAlignment = Alignment.Center,
-                modifier = Modifier.fillMaxSize()
-            ) {
-                ErrorScreen()
-            }
-
-            is ResourceState.Success ->
-                Box(
-                    contentAlignment = Alignment.Center,
-                    modifier = Modifier
-                        .fillMaxSize()
+        Column(
+            modifier = Modifier
+                .fillMaxSize()
+                .verticalScroll(rememberScrollState())
+        ) {
+            when (superHeroDetail) {
+                is ResourceState.Loading -> Column(
+                    modifier = Modifier.fillMaxSize(),
+                    horizontalAlignment = Alignment.CenterHorizontally,
+                    verticalArrangement = Arrangement.Center
                 ) {
-                    val superHeroes = superHeroDetail.data as List<ModelResult>
-                    val superHero = superHeroes[0]
+                    LoadingScreen()
+                }
 
-                    LazyColumn(
+                is ResourceState.Error -> Box(
+                    contentAlignment = Alignment.Center,
+                    modifier = Modifier.fillMaxSize()
+                ) {
+                    ErrorScreen()
+                }
+
+                is ResourceState.Success ->
+                    Column(
                         modifier = Modifier
-                            .fillMaxSize(),
-                        verticalArrangement = Arrangement.spacedBy(20.dp)
+                            .fillMaxSize()
                     ) {
-                        item {
-                            HeaderSection(
-                                title = superHero.name!!,
-                                image = superHero.image!!
-                            )
-                        }
-                        item {
-                            CharacterInfoSection(
-                                description = superHero.description!!,
-                                showDialog = {
-                                    showDialog = true
-                                }
-                            )
-                        }
-                        item {
-                            when (superHeroComic.loadState.refresh) {
-                                is LoadState.Loading -> {
-                                    Box(modifier = Modifier.height(300.dp)) {
-                                        LoadingScreen()
+                        val superHeroes = superHeroDetail.data as List<ModelResult>
+                        val superHero = superHeroes[0]
+                        HeaderSection(
+                            modifier = Modifier,
+                            title = superHero.name!!,
+                            image = superHero.image!!
+                        )
+                        Column {
+                            Column(
+                                modifier = Modifier
+                                    .fillMaxWidth()
+                                    .padding(horizontal = 16.dp, vertical = 16.dp)
+                            ) {
+
+                                Text(
+                                    text = stringResource(id = R.string.description),
+                                    style = MaterialTheme.typography.titleMedium,
+                                    fontWeight = FontWeight.Bold,
+                                    modifier = Modifier
+                                        .drawBehind {
+                                            val verticalOffset = size.height
+                                            drawLine(
+                                                color = orange_A200,
+                                                strokeWidth = 1.dp.toPx(),
+                                                start = Offset(0f, verticalOffset),
+                                                end = Offset(size.width, verticalOffset)
+                                            )
+                                        }
+                                )
+
+                                if (superHero.description!!.isEmpty()) {
+                                    Text(
+                                        text = stringResource(id = R.string.description_not_available_description),
+                                        style = MaterialTheme.typography.bodyLarge,
+                                        modifier = Modifier
+                                            .paddingFromBaseline(top = 20.dp)
+                                    )
+                                } else {
+                                    SelectionContainer(
+                                        modifier = Modifier
+                                            .paddingFromBaseline(top = 20.dp)
+                                    ) {
+                                        Text(
+                                            text = superHero.description,
+                                            style = MaterialTheme.typography.bodyLarge,
+                                        )
                                     }
                                 }
-
-                                is LoadState.NotLoading -> {
-                                    Box(
-                                        contentAlignment = Alignment.Center,
+                                if (superHero.image != IMAGE_NOT_FOUND) {
+                                    OutlinedButton(
+                                        onClick = { showDialog = true },
                                         modifier = Modifier
-                                            .fillMaxSize()
+                                            .padding(horizontal = 30.dp)
+                                            .fillMaxWidth()
+                                            .padding(horizontal = 16.dp)
+                                            .padding(top = 16.dp),
+                                        colors = ButtonDefaults.buttonColors(
+                                            containerColor = transparent,
+                                            contentColor = amber_400
+                                        ),
+                                        border = BorderStroke(2.dp, amber_400),
+                                        shape = CutCornerShape(
+                                            topStart = MaterialTheme.dimens.custom20,
+                                            bottomEnd = MaterialTheme.dimens.custom20
+                                        ),
                                     ) {
-                                        Column {
-                                            LazyRow(
-                                                horizontalArrangement = Arrangement.spacedBy(
-                                                    MaterialTheme.spacing.extraMedium
-                                                ),
-//                                                state = savedList,
-                                            ) {
-                                                items(
-                                                    count = superHeroComic.itemCount,
-                                                    key = superHeroComic.itemKey { superhero -> superhero.id }
-                                                ) { superHeroItem ->
-                                                    superHeroComic[superHeroItem]?.let { item ->
-                                                        ComicCard(
-                                                            item = item
+                                        Icon(
+                                            imageVector = Icons.Filled.ZoomOutMap,
+                                            contentDescription = ""
+                                        )
+                                        Spacer(modifier = Modifier.size(ButtonDefaults.IconSpacing))
+                                        Text(text = "See full image")
+                                    }
+                                }
+                            }
+                        }
+                        Column(
+                            modifier = Modifier
+                                .padding(horizontal = MaterialTheme.spacing.medium)
+                        ) {
+                            Column {
+                                when (superHeroComic.loadState.refresh) {
+                                    is LoadState.Loading -> {
+                                        Box(modifier = Modifier.height(300.dp)) {
+                                            LoadingScreen()
+                                        }
+                                    }
+
+                                    is LoadState.NotLoading -> {
+                                        if (superHero.comics != 0) {
+                                            Text(
+                                                text = stringResource(id = R.string.comics_appear),
+                                                style = MaterialTheme.typography.titleMedium,
+                                                fontWeight = FontWeight.Bold,
+                                                modifier = Modifier
+                                                    .drawBehind {
+                                                        val verticalOffset = size.height
+                                                        drawLine(
+                                                            color = orange_A200,
+                                                            strokeWidth = 1.dp.toPx(),
+                                                            start = Offset(0f, verticalOffset),
+                                                            end = Offset(size.width, verticalOffset)
                                                         )
+                                                    }
+                                            )
+                                        }
+                                        else {
+                                            Text(
+                                                text = stringResource(id = R.string.comics_appear),
+                                                style = MaterialTheme.typography.titleMedium,
+                                                fontWeight = FontWeight.Bold,
+                                                modifier = Modifier
+                                                    .drawBehind {
+                                                        val verticalOffset = size.height
+                                                        drawLine(
+                                                            color = orange_A200,
+                                                            strokeWidth = 1.dp.toPx(),
+                                                            start = Offset(0f, verticalOffset),
+                                                            end = Offset(size.width, verticalOffset)
+                                                        )
+                                                    }
+                                            )
+                                            Text(
+                                                text = stringResource(id = R.string.no_recent_comics),
+                                                style = MaterialTheme.typography.bodyLarge,
+                                                modifier = Modifier
+                                                    .paddingFromBaseline(top = 20.dp)
+                                            )
+                                        }
+                                        Box(
+                                            contentAlignment = Alignment.Center,
+                                            modifier = Modifier
+                                                .fillMaxSize()
+                                                .padding(top = 16.dp)
+                                        ) {
+                                            Column {
+                                                LazyRow(
+                                                    horizontalArrangement = Arrangement.spacedBy(
+                                                        MaterialTheme.spacing.tiny
+                                                    ),
+                                                ) {
+                                                    items(
+                                                        count = superHeroComic.itemCount,
+                                                        key = superHeroComic.itemKey { superhero -> superhero.id }
+                                                    ) { superHeroItem ->
+                                                        superHeroComic[superHeroItem]?.let { item ->
+                                                            ComicCard(
+                                                                item = item
+                                                            )
+                                                        }
                                                     }
                                                 }
                                             }
                                         }
+                                        Spacer(modifier = Modifier.height(40.dp))
+                                    }
+
+                                    is LoadState.Error -> {
+                                        ErrorScreen()
                                     }
                                 }
-
-                                is LoadState.Error -> {
-                                    ErrorScreen()
-                                }
                             }
+
                         }
-                    }
-                    if (showDialog) {
-                        AlertDialog(
-                            onDismissRequest = { showDialog = false },
 
-                            content = {
-                                (LocalView.current.parent as DialogWindowProvider).window.setDimAmount(
-                                    .7f
-                                )
-                                Column(
-                                    horizontalAlignment = Alignment.CenterHorizontally,
-                                    modifier = Modifier.padding(vertical = 40.dp)
-                                ) {
-                                    Text(
-                                        text = "Try to zoom in!",
-                                        textAlign = TextAlign.Center,
-                                        style = MaterialTheme.typography.displaySmall,
-                                        color = white,
-                                    )
-                                    SubcomposeAsyncImage(
-                                        model = superHero.image!!,
-                                        contentDescription = "",
-                                        contentScale = ContentScale.FillWidth,
-                                        modifier = Modifier
-                                            .weight(1f)
-                                            .padding(vertical = 10.dp)
-                                            .zoomable(
-                                                rememberZoomableState()
-                                            )
-                                    )
-                                    OutlinedButton(
-                                        onClick = { showDialog = false },
-                                        colors = ButtonDefaults.buttonColors(
-                                            containerColor = MaterialTheme.colorScheme.background,
-                                        ),
-                                        border = BorderStroke(
-                                            2.dp,
-                                            MaterialTheme.colorScheme.onBackground
-                                        )
+                        if (showDialog) {
+                            AlertDialog(
+                                onDismissRequest = { showDialog = false },
+
+                                content = {
+                                    (LocalView.current.parent as DialogWindowProvider)
+                                        .window.setDimAmount(.7f)
+                                    Column(
+                                        horizontalAlignment = Alignment.CenterHorizontally,
+                                        modifier = Modifier.padding(vertical = 40.dp)
                                     ) {
-                                        Icon(
-                                            imageVector = Icons.Filled.Close,
-                                            contentDescription = "",
-                                            tint = MaterialTheme.colorScheme.onBackground,
-                                            modifier = Modifier.size(30.dp)
+                                        Text(
+                                            text = stringResource(R.string.zoom_in),
+                                            textAlign = TextAlign.Center,
+                                            style = MaterialTheme.typography.displaySmall,
+                                            color = white,
                                         )
+                                        SubcomposeAsyncImage(
+                                            model = superHero.image,
+                                            contentDescription = "",
+                                            contentScale = ContentScale.FillWidth,
+                                            modifier = Modifier
+                                                .weight(1f)
+                                                .padding(vertical = 10.dp)
+                                                .zoomable(
+                                                    rememberZoomableState()
+                                                )
+                                        )
+                                            OutlinedButton(
+                                                onClick = { showDialog = false },
+                                                colors = ButtonDefaults.buttonColors(
+                                                    containerColor = MaterialTheme.colorScheme.background,
+                                                ),
+                                                border = BorderStroke(
+                                                    2.dp,
+                                                    MaterialTheme.colorScheme.onBackground
+                                                )
+                                            ) {
+                                                Icon(
+                                                    imageVector = Icons.Filled.Close,
+                                                    contentDescription = "",
+                                                    tint = MaterialTheme.colorScheme.onBackground,
+                                                    modifier = Modifier.size(30.dp)
+                                                )
+                                            }
                                     }
+
                                 }
-
-                            }
-                        )
+                            )
+                        }
+//                    }
                     }
-                }
 
-            ResourceState.Idle -> {
-                ErrorScreen()
+                ResourceState.Idle -> {
+                    ErrorScreen()
+                }
             }
         }
 
@@ -277,7 +378,8 @@ fun SuperheroScreen(
 @Composable
 fun HeaderSection(
     title: String,
-    image: String
+    image: String,
+    modifier: Modifier
 ) {
     Box(
         modifier = Modifier
@@ -383,111 +485,6 @@ fun HeaderSection(
 }
 
 @Composable
-fun CharacterInfoSection(
-    description: String,
-    showDialog: (Boolean) -> Unit
-) {
-    ConstraintLayout(
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(horizontal = 16.dp)
-    ) {
-        val (descriptionTitle, descriptionText, wikiButton) = createRefs()
-
-        Text(
-            text = stringResource(id = R.string.description),
-            style = MaterialTheme.typography.titleMedium,
-            fontWeight = FontWeight.Bold,
-            modifier = Modifier
-                .constrainAs(descriptionTitle) {
-                    top.linkTo(parent.top)
-                    start.linkTo(parent.start)
-                }
-                .drawBehind {
-                    val verticalOffset = size.height
-                    drawLine(
-                        color = orange_A200,
-                        strokeWidth = 1.dp.toPx(),
-                        start = Offset(0f, verticalOffset),
-                        end = Offset(size.width, verticalOffset)
-                    )
-                }
-        )
-
-        if (description.isEmpty()) {
-            Text(
-                text = stringResource(id = R.string.description_not_available),
-                style = MaterialTheme.typography.titleSmall,
-                fontWeight = FontWeight.Bold,
-                modifier = Modifier
-                    .constrainAs(descriptionText) {
-                        top.linkTo(parent.bottom)
-                        start.linkTo(parent.start)
-                    }
-                    .paddingFromBaseline(top = 20.dp)
-            )
-        } else {
-            SelectionContainer(
-                modifier = Modifier
-                    .constrainAs(descriptionText) {
-                        top.linkTo(parent.bottom)
-                        start.linkTo(parent.start)
-                    }
-                    .paddingFromBaseline(top = 20.dp)) {
-                Text(
-                    text = description,
-                    style = MaterialTheme.typography.bodyLarge,
-                )
-            }
-        }
-
-        OutlinedButton(
-            onClick = { showDialog(true) },
-            modifier = Modifier
-                .padding(horizontal = 30.dp)
-                .fillMaxWidth()
-                .constrainAs(wikiButton) {
-                    top.linkTo(descriptionText.bottom, margin = 16.dp)
-                    start.linkTo(parent.start)
-                    end.linkTo(parent.end)
-                }
-                .padding(horizontal = 16.dp),
-            colors = ButtonDefaults.buttonColors(
-                containerColor = transparent,
-                contentColor = amber_400
-            ),
-            border = BorderStroke(2.dp, amber_400),
-            shape = CutCornerShape(
-                topStart = MaterialTheme.dimens.custom20,
-                bottomEnd = MaterialTheme.dimens.custom20
-            ),
-        ) {
-            Icon(imageVector = Icons.Filled.ZoomOutMap, contentDescription = "")
-            Spacer(modifier = Modifier.size(ButtonDefaults.IconSpacing))
-            Text(text = "See full image")
-        }
-    }
-}
-
-@Composable
-fun ComicsSection(comicListItems: List<ModelComicsResult>) {
-    Column(
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(horizontal = 16.dp)
-    ) {
-        Text(
-            text = "Comics",
-            style = MaterialTheme.typography.titleMedium,
-            fontWeight = FontWeight.Bold,
-            modifier = Modifier.paddingFromBaseline(top = 32.dp)
-        )
-
-        ComicsList(comicListItems = comicListItems)
-    }
-}
-
-@Composable
 fun MarvelAttribution() {
     val currentYear = Calendar.getInstance().get(Calendar.YEAR)
 
@@ -508,17 +505,6 @@ fun MarvelAttribution() {
     }
 }
 
-@Composable
-fun ComicsList(comicListItems: List<ModelComicsResult>) {
-    Column {
-        LazyRow(horizontalArrangement = Arrangement.spacedBy(MaterialTheme.spacing.extraMedium)) {
-            items(comicListItems) { item ->
-                ComicCard(item = item)
-            }
-        }
-    }
-}
-
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun ComicCard(
@@ -527,8 +513,7 @@ fun ComicCard(
     Box(
         modifier = Modifier
             .height(220.dp)
-            .width(170.dp)
-            .padding(end = 14.dp),
+            .width(170.dp),
         contentAlignment = Alignment.Center
     ) {
         SubcomposeAsyncImage(
@@ -549,11 +534,6 @@ fun ComicCard(
             modifier = Modifier
                 .clip(CutCornerShape(topStart = MaterialTheme.spacing.extraMedium))
                 .fillMaxSize()
-//                .placeholder(
-//                    visible =  true,
-//                    color = Color.Red,
-//                    highlight = PlaceholderHighlight.shimmer(Color.Red),
-//                )
                 .drawWithCache {
                     onDrawWithContent {
                         drawContent()
@@ -613,17 +593,5 @@ fun ComicCard(
 @Preview("Dark Theme", uiMode = Configuration.UI_MODE_NIGHT_YES, showBackground = true)
 @Composable
 fun ComicCardPreview() {
-    val painter = rememberAsyncImagePainter("https://example.com/image.jpg")
     ComicCard(marvelSuperHeroComicMock1)
 }
-
-
-//@Preview("Light Theme", showBackground = true)
-//@Preview("Dark Theme", uiMode = Configuration.UI_MODE_NIGHT_YES, showBackground = true)
-//@Composable
-//fun SuperheroScreenPreview() {
-//    SuperheroScreen(
-////        superHeroViewModel = mockViewModel,
-//        superheroId = 1011334
-//    )
-//}
