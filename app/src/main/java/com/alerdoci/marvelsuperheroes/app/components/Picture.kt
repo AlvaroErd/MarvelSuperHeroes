@@ -563,3 +563,23 @@ fun Modifier.shimmer(
     )
 )
 
+
+//Picture(
+//model = "https://avatars.githubusercontent.com/u/52178347?v=4",
+//modifier = Modifier.size(100.dp),
+//)
+////Usage example
+//val toastHostState = remember { ToastHostState() }
+//val scope = rememberCoroutineScope()
+//
+////    Button(
+////        onClick = {
+////            scope.launch {
+////                toastHostState.showToast(R.drawable.alerdoci_studios)
+////            }
+////        }
+////    ) {
+////        Text("Show Toast")
+////    }
+////
+////    ToastHost(hostState = toastHostState)

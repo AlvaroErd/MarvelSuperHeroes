@@ -1,40 +1,40 @@
 [versions]
 
 #General, lifecycle and core
-androidGradlePlugin = "8.1.0"
-kotlin = "1.9.0"
+androidGradlePlugin = "8.2.0"
+kotlin = "1.9.20"
 kotlinx_immutable = "0.3.5"
-ksp = "1.9.0-1.0.12"
+ksp = "1.9.20-1.0.14"
 
 compileSdk = "34"
 targetSdk = "34"
 minSdk = "27"
 
 #Android
-compose-compiler = "1.5.0"
+compose-compiler = "1.5.4"
 coroutines = "1.7.3"
 
-accompanist = "0.30.1"
-androidx-activity-compose = "1.8.0-alpha07"
+accompanist = "0.32.0"
+androidx-activity-compose = "1.8.1"
 androidx-appcompat = "1.6.1"
-androidx-benchmark = "1.1.1"
-androidx-benchmark-junit4 = "1.1.1"
-androidx-compose-bom = "2023.08.00"
+androidx-benchmark = "1.2.2"
+androidx-benchmark-junit4 = "1.2.2"
+androidx-compose-bom = "2023.10.01"
 androidx-constraintlayout = "1.0.1"
-androidx-corektx = "1.10.1"
-androidx-glance = "1.0.0-rc01"
-androidx-lifecycle-compose = "2.6.1"
-androidx-lifecycle-runtime-compose = "2.6.1"
+androidx-corektx = "1.12.0"
+androidx-glance = "1.0.0"
+androidx-lifecycle-compose = "2.6.2"
+androidx-lifecycle-runtime-compose = "2.6.2"
 androidx-palette = "1.0.0"
 androidx-test = "1.5.0"
 androidx-test-espresso = "3.5.1"
 androidx-test-ext-junit = "1.1.5"
 androidx-test-ext-truth = "1.5.0"
-androidx-window = "1.2.0-beta01"
+androidx-window = "1.2.0"
 androix-test-uiautomator = "2.2.0"
-androix-fragment = "1.6.1"
-navTransitions = "0.11.0-alpha"
-androidx-compose-preview = "1.6.0-alpha04"
+androix-fragment = "1.6.2"
+navTransitions = "1.0.6"
+androidx-compose-preview = "1.6.0-beta02"
 accompanist-permissions = "0.33.0-alpha"
 
 #Important! Dont upgrade until onboarding screen doesnt´s show for a second
@@ -52,39 +52,39 @@ photoview = "2.3.0"
 splashScreen = "1.0.1"
 
 #Lottie
-lottie = "6.0.1"
+lottie = "6.1.0"
 
 #Paging 3.0 Compose
-pagingCompose = "1.0.0-alpha17"
-pagingRuntime = "3.1.1"
+pagingCompose = "3.2.1"
+pagingRuntime = "3.2.1"
 
 #Hilt - Dependencies Injection
-hilt = "2.47"
+hilt = "2.48.1"
 hiltExt = "1.0.0"
 androidxHiltNavigationCompose = "1.0.0"
 
 gradle-versions = "0.46.0"
-jdkDesugar = "2.0.3"
+jdkDesugar = "2.0.4"
 junit = "4.13.2"
 
 material = "1.9.0"
 material3 = "1.2.0-alpha06"
 
 #Chrome custom tabs
-customTabs = "1.6.0"
+customTabs = "1.7.0"
 
 #Shimmer
-shimmerLibrary = "1.0.4"
+shimmerLibrary = "1.0.5"
 
 #Exoplayer
 exoplayer = "2.19.1"
 
 #Retrofit & okHttp
 retrofit = "2.9.0"
-okhttp = "4.11.0"
+okhttp = "4.12.0"
 
 #Room
-room = "2.5.2"
+room = "2.6.1"
 
 #Datastore
 datastore = '1.0.0'
@@ -97,16 +97,37 @@ version-catalog-update = "0.8.0"
 
 #Firebase, GMS...
 firebaseAuth = "22.1.1"
-gmsPlayServicesAuth = "20.6.0"
+gmsPlayServicesAuth = "20.7.0"
 googleServices = "4.3.15"
 
 error = "2.4.0"
 
 switch="1.0.0"
 
-googleFonts="1.5.0"
+googleFonts="1.5.4"
 
-typist= "1.2.1"
+typist= "1.3.0"
+
+spotless = "6.19.0"
+
+#Toast zone
+motionToast = "1.4"
+mdToast = "1.0.0"
+toastic = "1.0.1"
+sToast = "2.5"
+toasty = "1.5.2"
+
+#Konfetti
+konfetti = "2.0.3"
+
+#Blueprint
+blueprint = "1.0.0-alpha01"
+
+#Detekt
+detekt = "1.23.0"
+
+# Eva icons
+eva = "1.0.0"
 
 [libraries]
 kotlin-stdlib = { module = "org.jetbrains.kotlin:kotlin-stdlib-jdk8", version.ref = "kotlin" }
@@ -159,9 +180,10 @@ androidx-glance = { module = "androidx.glance:glance", version.ref = "androidx-g
 androidx-glance-appwidget = { module = "androidx.glance:glance-appwidget", version.ref = "androidx-glance" }
 androidx-glance-material3 = { module = "androidx.glance:glance-material3", version.ref = "androidx-glance" }
 androidx-lifecycle-livedata-ktx = { module = "androidx.lifecycle:lifecycle-viewmodel-ktx", version.ref = "androidx-lifecycle-compose" }
-androidx-lifecycle-runtime = "androidx.lifecycle:lifecycle-runtime-ktx:2.7.0-alpha01"
+androidx-lifecycle-runtime = "androidx.lifecycle:lifecycle-runtime-ktx:2.6.1"
+
 androidx-lifecycle-runtime-compose = { module = "androidx.lifecycle:lifecycle-runtime-compose", version.ref = "androidx-lifecycle-runtime-compose" }
-androidx-lifecycle-viewModelCompose = { module = "androidx.lifecycle:lifecycle-viewmodel-compose", version.ref = "androidx-lifecycle-compose" }
+androidx-lifecycle-viewModelCompose = { module = "androidx.lifecycle:lifecycle-viewmodel-compose", version = "2.4.1" }
 androidx-lifecycle-viewmodel-ktx = { module = "androidx.lifecycle:lifecycle-viewmodel-ktx", version.ref = "androidx-lifecycle-compose" }
 androidx-lifecycle-viewmodel-savedstate = { module = "androidx.lifecycle:lifecycle-viewmodel-savedstate", version.ref = "androidx-lifecycle-compose" }
 androidx-navigation-compose = { module = "androidx.navigation:navigation-compose", version.ref = "androidx-navigation" }
@@ -174,6 +196,7 @@ androidx-palette = { module = "androidx.palette:palette", version.ref = "android
 room-compiler = { group = "androidx.room", name = "room-compiler", version.ref = "room" }
 androidx-room-ktx = { module = "androidx.room:room-ktx", version.ref = "room" }
 androidx-room-runtime = { module = "androidx.room:room-runtime", version.ref = "room" }
+androidx-room-paging = { module = "androidx.room:room-paging", version.ref = "room" }
 
 #Datastore
 datastore = { module = "androidx.datastore:datastore-preferences", version.ref = "datastore" }
@@ -221,7 +244,7 @@ hilt-ext-work = { group = "androidx.hilt", name = "hilt-work", version.ref = "hi
 
 #Paging 3.0 Compose
 pagingCompose = { module = "androidx.paging:paging-compose", version.ref = "pagingCompose" }
-pagingRuntime = { module = "androidx.paging:paging-runtime", version.ref = "pagingRuntime" }
+pagingRuntime = { module = "androidx.paging:paging-runtime-ktx", version.ref = "pagingRuntime" }
 
 #Retrofit & okHttp
 retrofit = { module = "com.squareup.retrofit2:retrofit", version.ref = "retrofit" }
@@ -261,13 +284,30 @@ switch-image = { module = "com.github.razaghimahdi:ImageSwitch", version.ref = "
 google-fonts = { module = "androidx.compose.ui:ui-text-google-fonts", version.ref = "googleFonts" }
 
 typist = { module = "tech.dev-scion:typist", version.ref = "typist" }
+#androidx-ui-tooling-preview = { group = "androidx.compose.ui", name = "ui-tooling-preview", version = "1.5.0" }
+
+#Toast
+
+motionToast = { module = "com.github.Spikeysanju:MotionToast", version.ref = "motionToast" }
+mdToast = { module = "com.github.mortezaom:MDToast", version.ref = "mdToast" }
+toastic = { module = "com.github.yagmurerdogan:Toastic", version.ref = "toastic" }
+sToast = { module = "com.github.smith8h:SToast", version.ref = "sToast" }
+
+konfetti = { module = "nl.dionsegijn:konfetti-compose", version.ref = "konfetti" }
+
+blueprint = { module = "com.github.popovanton0:blueprint", version.ref = "blueprint" }
+
+eva = { module = "br.com.devsrsouza.compose.icons.android:eva-icons", version.ref = "eva" }
+toasty = { module = "com.github.GrenderG:Toasty", version.ref = "toasty" }
+
+detekt-formatting = { module = "io.gitlab.arturbosch.detekt:detekt-formatting", version.ref = "detekt" }
 
 [plugins]
 #Kotlin
 kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
 kotlin-parcelize = { id = "org.jetbrains.kotlin.plugin.parcelize", version.ref = "kotlin" }
-kapt = { id = "org.jetbrains.kotlin.kapt", version.ref = "kotlin" }
 ksp = { id = "com.google.devtools.ksp", version.ref = "ksp" }
+spotless = { id = "com.diffplug.spotless", version.ref = "spotless" }
 
 #Android
 android-library = { id = "com.android.library", version.ref = "androidGradlePlugin" }
@@ -279,6 +319,10 @@ gradle-versions = { id = "com.github.ben-manes.versions", version.ref = "gradle-
 
 #Hilt
 hilt = { id = "com.google.dagger.hilt.android", version.ref = "hilt" }
+
+#Detekt
+detekt = { id = "io.gitlab.arturbosch.detekt", version.ref = "detekt" } # ./gradlew detekt
+
 
 #Plugin for update version catalog
 version-catalog-update = { id = "nl.littlerobots.version-catalog-update", version.ref = "version-catalog-update" }

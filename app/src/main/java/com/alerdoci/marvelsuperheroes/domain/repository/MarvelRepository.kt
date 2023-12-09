@@ -2,21 +2,16 @@ package com.alerdoci.marvelsuperheroes.domain.repository
 
 import com.alerdoci.marvelsuperheroes.domain.constants.Constants.Companion.OFFSET
 import com.alerdoci.marvelsuperheroes.domain.constants.Constants.Companion.PAGE_SIZE
-import com.alerdoci.marvelsuperheroes.domain.models.features.superherocomics.ModelComicsSuperHeroList
-import com.alerdoci.marvelsuperheroes.domain.models.features.superheroes.ModelResult
+import com.alerdoci.marvelsuperheroes.model.features.superherocomic.ModelComicsResult
+import com.alerdoci.marvelsuperheroes.model.features.superheroes.ModelResult
 import kotlinx.coroutines.flow.Flow
 
 interface MarvelRepository {
 
     suspend fun getMarvelSuperHeroesPaging(
+        nameSearched: String?,
         offset: Int,
         limit: Int,
-    ): Flow<List<ModelResult>>
-
-    suspend fun getMarvelSuperHeroSearched(
-        nameSearched: String?,
-        offset: Int = OFFSET,
-        limit: Int = PAGE_SIZE
     ): Flow<List<ModelResult>>
 
     suspend fun getMarvelSuperHero(
@@ -26,8 +21,8 @@ interface MarvelRepository {
     ): Flow<List<ModelResult>>
 
     suspend fun getMarvelSuperHeroComics(
+        offset: Int,
+        limit: Int,
         superHeroId: Int,
-        offset: Int = OFFSET,
-        limit: Int = PAGE_SIZE
-    ): Flow<List<ModelComicsSuperHeroList>>
+    ): Flow<List<ModelComicsResult>>
 }

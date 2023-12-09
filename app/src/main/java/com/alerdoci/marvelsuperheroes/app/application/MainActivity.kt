@@ -22,11 +22,12 @@ import com.alerdoci.marvelsuperheroes.app.common.network.NetworkConnectivityObse
 import com.alerdoci.marvelsuperheroes.app.common.utils.ThemeMode
 import com.alerdoci.marvelsuperheroes.app.navigation.SetupNavGraph
 import com.alerdoci.marvelsuperheroes.app.screens.home.viewmodel.HomeViewModel
+import com.alerdoci.marvelsuperheroes.app.screens.home.viewmodel.SettingsViewModel
 import com.alerdoci.marvelsuperheroes.app.screens.splash.viewmodel.SplashViewModel
 import com.alerdoci.marvelsuperheroes.app.theme.MarvelSuperHeroesTheme
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
-import androidx.activity.enableEdgeToEdge
+import com.alerdoci.marvelsuperheroes.app.screens.superhero.viewmodel.SuperHeroViewModel
 
 @ExperimentalAnimationApi
 @AndroidEntryPoint
@@ -35,7 +36,9 @@ class MainActivity : ComponentActivity() {
     @Inject
     lateinit var splashViewModel: SplashViewModel
     private lateinit var connectivityObserver: ConnectivityObserver
-    lateinit var homeViewModel: HomeViewModel
+    private lateinit var homeViewModel: HomeViewModel
+    private lateinit var superHeroViewModel: SuperHeroViewModel
+    lateinit var settingsViewModel: SettingsViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -46,12 +49,11 @@ class MainActivity : ComponentActivity() {
         connectivityObserver = NetworkConnectivityObserver(applicationContext)
 
         homeViewModel = ViewModelProvider(this)[HomeViewModel::class.java]
+        superHeroViewModel = ViewModelProvider(this)[SuperHeroViewModel::class.java]
+        settingsViewModel = ViewModelProvider(this)[SettingsViewModel::class.java]
 
-        when (homeViewModel.getThemeValue()) {
-            ThemeMode.Auto.ordinal -> homeViewModel.setTheme(ThemeMode.Auto)
-            ThemeMode.Dark.ordinal -> homeViewModel.setTheme(ThemeMode.Dark)
-            ThemeMode.Light.ordinal -> homeViewModel.setTheme(ThemeMode.Light)
-        }
+        ThemeMode.entries.find { it.ordinal == settingsViewModel.getThemeValue()}
+            ?.let { settingsViewModel.setTheme(it) }
 
         installSplashScreen().apply {
             Thread.sleep(2500)
@@ -59,8 +61,10 @@ class MainActivity : ComponentActivity() {
                 !splashViewModel.isLoading.value
             }
         }
+
         setContent {
-            MarvelSuperHeroesTheme(homeViewModel = homeViewModel) {
+            MarvelSuperHeroesTheme(
+                settingsViewModel = settingsViewModel) {
                 val screen by splashViewModel.startDestination
                 val navController = rememberNavController()
 
@@ -80,7 +84,11 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.surface
                 ) {
-                    SetupNavGraph(navController = navController, startDestination = screen, homeViewModel = homeViewModel)
+                    SetupNavGraph(
+                        navController = navController,
+                        startDestination = screen,
+                        settingsViewModel = settingsViewModel
+                    )
                 }
             }
         }

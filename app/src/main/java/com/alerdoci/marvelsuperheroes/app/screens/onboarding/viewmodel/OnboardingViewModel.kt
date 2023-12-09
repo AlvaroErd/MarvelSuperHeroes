@@ -2,7 +2,7 @@ package com.alerdoci.marvelsuperheroes.app.screens.onboarding.viewmodel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.alerdoci.marvelsuperheroes.data.features.onboarding.cache.settings.DataStoreRepository
+import com.alerdoci.marvelsuperheroes.datasource.features.onboarding.cache.settings.DataStoreRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch

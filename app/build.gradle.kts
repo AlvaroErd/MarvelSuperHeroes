@@ -1,9 +1,13 @@
-//@Suppress("DSL_SCOPE_VIOLATION")
+import java.util.Locale
+
+@Suppress("DSL_SCOPE_VIOLATION")
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.ksp)
     alias(libs.plugins.hilt)
+    alias(libs.plugins.detekt)
+    alias(libs.plugins.kotlin.parcelize)
 }
 
 val versionMajor = 0
@@ -64,7 +68,6 @@ android {
         getByName("debug") {
             isMinifyEnabled = false
             signingConfig = signingConfigs.getByName("debug")
-            buildConfigField("String", "BASE_URL", "\"${project.properties["BASE_URL"]}\"")
             buildConfigField(
                 "String",
                 "API_KEY_PUBLIC",
@@ -76,7 +79,6 @@ android {
                 "\"${project.properties["API_KEY_PRIVATE"]}\""
             )
             resValue("string", "app_name", "@string/app_name_debug")
-            resValue("drawable", "ic_launcher", "@mipmap/ic_launcher")
 
         }
 
@@ -84,7 +86,6 @@ android {
             isMinifyEnabled = false
             signingConfig = signingConfigs.getByName("debug")
             resValue("string", "app_name", "@string/app_name_release")
-            resValue("drawable", "ic_launcher", "@mipmap/ic_launcher")
 
             // Force copy of distributable apk to custom folder dist in root project
             val archiveBuildTypes = listOf("release", "debug")
@@ -97,7 +98,11 @@ android {
 
                         val filename =
                             "$apkNameBase-${if (variant.versionName.isNotEmpty()) variant.versionName else "no-version"}-${output.baseName}.apk"
-                        val taskSuffix = variant.name.capitalize()
+                        val taskSuffix = variant.name.replaceFirstChar {
+                            if (it.isLowerCase()) it.titlecase(
+                                Locale.getDefault()
+                            ) else it.toString()
+                        }
                         val assembleTaskName = "assemble$taskSuffix"
                         val taskAssemble = tasks.findByName(assembleTaskName)
                         if (taskAssemble != null) {
@@ -126,7 +131,6 @@ android {
                     }
                 }
 
-            buildConfigField("String", "BASE_URL", "\"${project.properties["BASE_URL"]}\"")
             buildConfigField(
                 "String",
                 "API_KEY_PUBLIC",
@@ -142,6 +146,19 @@ android {
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"
             )
+        }
+    }
+
+    // Specifies one flavor dimension.
+    flavorDimensions += "version"
+    productFlavors {
+        create("pre") {
+            dimension = "version"
+            applicationIdSuffix = ".pre"
+            versionNameSuffix = "-pre"
+        }
+        create("pro") {
+            dimension = "version"
         }
     }
 
@@ -181,6 +198,7 @@ dependencies {
 //    debugImplementation(libs.androidx.compose.ui.tooling.preview.android)
     implementation(libs.androidx.ui.tooling.preview)
     debugImplementation(libs.androidx.compose.ui.tooling)
+    implementation(libs.androidx.constraintlayout.compose)
     implementation(libs.accompanist.swiperefresh)
     implementation(libs.accompanist.systemuicontroller)
     implementation(libs.accompanist.permissions)
@@ -259,6 +277,7 @@ dependencies {
     //Room
     implementation(libs.androidx.room.ktx)
     implementation(libs.androidx.room.runtime)
+//    implementation(libs.androidx.room.paging)
     ksp(libs.room.compiler)
 
     //Datastore
@@ -268,6 +287,8 @@ dependencies {
     implementation(libs.firebase.auth)
     implementation(libs.gms.playservices.auth)
     implementation(libs.google.services)
+
+    detektPlugins(libs.detekt.formatting)
 
 
     //Error handle screen
@@ -281,6 +302,17 @@ dependencies {
 
     //Typist - Font animations
     implementation(libs.typist)
+
+    //Toast
+    implementation(libs.motionToast)
+    implementation(libs.mdToast)
+    implementation(libs.toastic)
+    implementation(libs.sToast)
+    implementation(libs.toasty)
+
+    implementation(libs.konfetti)
+
+    implementation(libs.eva)
 
 //    //Exoplayer
 //    implementation(libs.exoplayer.core)

@@ -2,13 +2,13 @@ package com.alerdoci.marvelsuperheroes.app.screens.home.composable
 
 import android.annotation.SuppressLint
 import android.content.res.Configuration
-import android.widget.Toast
+import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.basicMarquee
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.gestures.snapping.rememberSnapFlingBehavior
+import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -22,14 +22,18 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.selection.selectable
+import androidx.compose.foundation.selection.selectableGroup
 import androidx.compose.foundation.shape.CutCornerShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Close
 import androidx.compose.material.icons.filled.Search
-import androidx.compose.material.icons.outlined.Info
+import androidx.compose.material3.AlertDialog
+import androidx.compose.material3.Card
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.HorizontalDivider
@@ -37,6 +41,8 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.ModalBottomSheet
+import androidx.compose.material3.RadioButton
+import androidx.compose.material3.RadioButtonDefaults
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.SearchBar
 import androidx.compose.material3.SearchBarDefaults
@@ -44,13 +50,16 @@ import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
 import androidx.compose.material3.VerticalDivider
 import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableFloatStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
@@ -61,21 +70,26 @@ import androidx.compose.ui.draw.blur
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.drawBehind
 import androidx.compose.ui.draw.rotate
+import androidx.compose.ui.draw.scale
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.pluralStringResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.zIndex
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
+import androidx.paging.LoadState
+import androidx.paging.compose.LazyPagingItems
 import androidx.paging.compose.collectAsLazyPagingItems
-import androidx.paging.compose.items
+import androidx.paging.compose.itemKey
 import coil.compose.SubcomposeAsyncImage
 import coil.request.ImageRequest
 import com.airbnb.lottie.compose.LottieAnimation
@@ -83,35 +97,52 @@ import com.airbnb.lottie.compose.LottieCompositionSpec
 import com.airbnb.lottie.compose.rememberLottieComposition
 import com.alerdoci.marvelsuperheroes.R
 import com.alerdoci.marvelsuperheroes.app.common.extensions.ModifierExtensions.noRippleClickable
-import com.alerdoci.marvelsuperheroes.app.common.states.ResourceState
 import com.alerdoci.marvelsuperheroes.app.common.states.error.ErrorScreen
 import com.alerdoci.marvelsuperheroes.app.common.states.loading.LoadingScreen
 import com.alerdoci.marvelsuperheroes.app.common.utils.ThemeMode
+import com.alerdoci.marvelsuperheroes.app.common.utils.ToastDuration
+import com.alerdoci.marvelsuperheroes.app.common.utils.ToastHostState
+import com.alerdoci.marvelsuperheroes.app.components.AnimatedPlaceholder
 import com.alerdoci.marvelsuperheroes.app.components.DiagonalDivider
 import com.alerdoci.marvelsuperheroes.app.components.InfoDialog
+import com.alerdoci.marvelsuperheroes.app.components.particles
+import com.alerdoci.marvelsuperheroes.app.navigation.Screen
 import com.alerdoci.marvelsuperheroes.app.screens.home.viewmodel.HomeViewModel
-import com.alerdoci.marvelsuperheroes.app.screens.home.viewmodel.marvelSuperHeroMock1
-import com.alerdoci.marvelsuperheroes.app.theme.MarvelColors.amber_A100
-import com.alerdoci.marvelsuperheroes.app.theme.MarvelColors.blue_grey_900
+import com.alerdoci.marvelsuperheroes.app.screens.home.viewmodel.SettingsViewModel
 import com.alerdoci.marvelsuperheroes.app.theme.MarvelColors.grey_500
 import com.alerdoci.marvelsuperheroes.app.theme.MarvelColors.orange_A200
 import com.alerdoci.marvelsuperheroes.app.theme.MarvelColors.red_800
+import com.alerdoci.marvelsuperheroes.app.theme.MarvelColors.white
 import com.alerdoci.marvelsuperheroes.app.theme.dimens
 import com.alerdoci.marvelsuperheroes.app.theme.spacing
-import com.alerdoci.marvelsuperheroes.domain.models.features.superheroes.ModelResult
+import com.alerdoci.marvelsuperheroes.model.features.superheroes.ModelResult
+import com.alerdoci.marvelsuperheroes.model.features.superheroes.mock.marvelSuperHeroMock1
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
+import compose.icons.EvaIcons
+import compose.icons.evaicons.Outline
+import compose.icons.evaicons.outline.Search
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 import me.saket.telephoto.zoomable.rememberZoomableState
 import me.saket.telephoto.zoomable.zoomable
+import nl.dionsegijn.konfetti.compose.KonfettiView
+import nl.dionsegijn.konfetti.compose.OnParticleSystemUpdateListener
+import nl.dionsegijn.konfetti.core.PartySystem
 
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
-@OptIn(ExperimentalMaterial3Api::class, ExperimentalFoundationApi::class)
+@OptIn(
+    ExperimentalMaterial3Api::class,
+    ExperimentalFoundationApi::class,
+)
 @Composable
 fun HomeScreen(
     navController: NavHostController,
     viewModel: HomeViewModel = hiltViewModel(),
-    onItemClick: (superHeroId: Int) -> Unit
+    settingsViewModel: SettingsViewModel,
+    searchQuery: String?,
 ) {
     val infoDialog = remember { mutableStateOf(false) }
+    var showConfetti by remember { mutableStateOf(false) }
 
     var isSheetOpen by rememberSaveable {
         mutableStateOf(false)
@@ -122,42 +153,58 @@ fun HomeScreen(
 
     systemUiController.setStatusBarColor(
         color = MaterialTheme.colorScheme.background,
-        darkIcons = viewModel.getCurrentTheme() == ThemeMode.Light
+        darkIcons = settingsViewModel.getCurrentTheme() == ThemeMode.Light
     )
 
     systemUiController.setNavigationBarColor(
         color = MaterialTheme.colorScheme.background,
-        darkIcons = viewModel.getCurrentTheme() == ThemeMode.Light
+        darkIcons = settingsViewModel.getCurrentTheme() == ThemeMode.Light
     )
+
+    val coroutineScope = rememberCoroutineScope()
+
+    val displayDialog = remember { mutableStateOf(false) }
+    val radioOptions = listOf("Light", "Dark", "System")
+    val displayValue =
+        when (settingsViewModel.getThemeValue()) {
+            ThemeMode.Light.ordinal -> "Light"
+            ThemeMode.Dark.ordinal -> "Dark"
+            else -> "System"
+        }
+    val (selectedOption, onOptionSelected) = remember { mutableStateOf(displayValue) }
 
     Surface(
         modifier = Modifier.fillMaxSize(),
         color = MaterialTheme.colorScheme.background,
     ) {
-        val superHeroListState by viewModel.superHeroes.collectAsState()
-        val superHeroListPagingState =
-            viewModel.getMarvelSuperHeroesPager().collectAsLazyPagingItems()
+        val superHeroListPagingState: LazyPagingItems<ModelResult> =
+            viewModel.allCharacters.collectAsLazyPagingItems()
 
-        val superHeroSearchedState by viewModel.superHeroSearched.collectAsState()
-        var superHeroSearchedText: String = ""
+        LaunchedEffect(searchQuery != "") {
+            if (searchQuery != null) {
+                viewModel.searchCharacters(searchQuery)
+            }
+        }
 
         var textSearched by remember { mutableStateOf("") }
         var textActive by remember { mutableStateOf(false) }
-        val context = LocalContext.current
         val snackbarHostState = remember { SnackbarHostState() }
 
         var clickCount = 0
 
         val marvelTitle by rememberLottieComposition(LottieCompositionSpec.RawRes(R.raw.lottie_marvel_title))
-        val themeMode = ThemeMode.values()[viewModel.getThemeValue()]
 
-        val iconRes = if (themeMode == ThemeMode.Dark) {
-            R.drawable.ic_sun
-        } else {
-            R.drawable.ic_moon
+        val toastHostState = remember { ToastHostState() }
+
+        var scaleState by remember { mutableFloatStateOf(1f) }
+        val scale by animateFloatAsState(scaleState, label = "")
+
+        val scrollState = rememberScrollState()
+        val lazyState = rememberLazyListState()
+        val savedList = rememberSaveable(saver = LazyListState.Saver) {
+            lazyState
         }
 
-        val contentColor = if (themeMode == ThemeMode.Dark) amber_A100 else blue_grey_900
 
         Scaffold(snackbarHost = { SnackbarHost(hostState = snackbarHostState) }
         ) {
@@ -180,25 +227,35 @@ fun HomeScreen(
                             .height(50.dp),
                         verticalAlignment = Alignment.CenterVertically
                     ) {
-                        IconButton(
-                            onClick = {
-                                infoDialog.value = true
-                            },
-                            modifier = Modifier
-                                .padding(start = 20.dp)
-                                .fillMaxHeight(),
+                        Box(
+                            Modifier
+                                .padding(start = 30.dp)
+                                .scale(scale)
+                                .pointerInput(Unit) {
+                                    detectTapGestures(
+                                        onPress = {
+                                            scaleState = 1.3f
+                                            delay(200)
+                                            tryAwaitRelease()
+                                            infoDialog.value = true
+                                            scaleState = 0.8f
+                                            delay(200)
+                                            scaleState = 1f
+                                        }
+                                    )
+                                }
                         ) {
                             Icon(
-                                Icons.Outlined.Info,
-                                contentDescription = "App info",
-                                tint = Color.White,
-                                modifier = Modifier
-                                    .size(27.dp),
+                                modifier = Modifier.size(27.dp),
+                                painter = painterResource(id = R.drawable.ic_info),
+                                contentDescription = "",
+                                tint = white
                             )
                         }
                         LottieAnimation(
                             composition = marvelTitle,
                             modifier = Modifier
+                                .padding(start = 15.dp)
                                 .noRippleClickable {
                                     clickCount++
                                     if (clickCount == 5) {
@@ -210,63 +267,21 @@ fun HomeScreen(
                                 .padding(horizontal = 80.dp)
                         )
                         IconButton(
-                            onClick = {
-                                val newTheme =
-                                    if (themeMode == ThemeMode.Dark) ThemeMode.Light else ThemeMode.Dark
-                                viewModel.setTheme(newTheme)
-                            },
                             modifier = Modifier
                                 .padding(end = 20.dp)
                                 .fillMaxHeight(),
-                        ) {
+                            onClick = {
+                                displayDialog.value = true
+                            },
+                        )
+                        {
                             Icon(
-                                painterResource(id = iconRes),
-                                contentDescription = "Theme Toggle",
-                                tint = Color.White,
-                                modifier = Modifier
-                                    .size(25.dp),
+                                painter = painterResource(id = R.drawable.ic_change_theme),
+                                contentDescription = "",
+                                modifier = Modifier.size(30.dp),
+                                tint = white
                             )
-                        } /*
-                            ImageSwitch(
-                                checkedImage = painterResource(R.drawable.good_night),
-                                unCheckedImage = painterResource(R.drawable.good_morning),
-                                size = 50.dp,
-                                checked = themeMode == ThemeMode.Dark,
-                                onCheckedChange = { isChecked ->
-                                    if (isChecked) {
-                                        viewModel.setTheme(ThemeMode.Dark)
-                                    } else {
-                                        viewModel.setTheme(ThemeMode.Light)
-                                    }
-                                }
-                            )
-                            Switch(
-                                checked = themeMode == ThemeMode.Dark,
-                                onCheckedChange = { isChecked ->
-                                    if (isChecked) {
-                                        viewModel.setTheme(ThemeMode.Dark)
-                                    } else {
-                                        viewModel.setTheme(ThemeMode.Light)
-                                    }
-                                },
-                                thumbContent = {
-                                    Icon(
-                                        modifier = Modifier
-                                            .size(SwitchDefaults.IconSize),
-                                        imageVector = if (themeMode == ThemeMode.Dark) Icons.Rounded.DarkMode else Icons.Rounded.LightMode,
-                                        contentDescription = "Switch Icon"
-                                    )
-                                },
-                                colors = SwitchDefaults.colors(
-                                    //Track = background, Thumb = circle,
-                                    checkedTrackColor = blue_grey_900,
-                                    checkedThumbColor = blue_grey_500,
-                                    uncheckedTrackColor = orange_300,
-                                    uncheckedThumbColor = blue_grey_300,
-                                    uncheckedIconColor = Color.White,
-                                    uncheckedBorderColor = Color.Transparent
-                                ),
-                            ) */
+                        }
                     }
                 }
                 Column(
@@ -283,6 +298,7 @@ fun HomeScreen(
                             ),
                         Alignment.Center
                     ) {
+
                         SearchBar(
                             query = textSearched,
                             onQueryChange = { newTextSearched ->
@@ -291,19 +307,22 @@ fun HomeScreen(
                             },
                             onSearch = {
                                 textActive = false
-//                                textSearched = ""
-                                Toast.makeText(
-                                    context,
-                                    "Search Bar not implemented yet :( \n Item searched: $textSearched",
-                                    Toast.LENGTH_LONG
-                                )
-                                    .show()
                             },
                             active = textActive,
                             onActiveChange = {
                                 textActive = it
                             },
-                            placeholder = { Text(text = stringResource(R.string.search_superhero)) },
+                            placeholder = {
+                                val hints = listOf(
+                                    stringResource(id = R.string.search_superhero),
+                                    stringResource(id = R.string.search_superheroine),
+                                    stringResource(id = R.string.search_supervillain),
+                                    stringResource(id = R.string.search_monster)
+                                )
+                                AnimatedPlaceholder(
+                                    hints = hints,
+                                )
+                            },
                             leadingIcon = {
                                 Icon(
                                     imageVector = Icons.Default.Search,
@@ -332,22 +351,29 @@ fun HomeScreen(
                             )
                         )
                         {
-                            //Not implemented yet
-//                            if (textSearched.isNotEmpty()) {
-//                            launch getSuperHeroSearched(textSearched)
-//                            else
-//                            launch getMarvelSuperHeroesPager()
+
                         }
                     }
                     Box(
                         modifier = Modifier
                             .fillMaxSize()
+                            .clickable {
+                                coroutineScope.launch {
+                                    toastHostState.showToast(
+                                        "Search Bar not implemented yet :(",
+                                        "Item searched",
+                                        EvaIcons.Outline.Search,
+                                        ToastDuration.Infinite,
+                                    )
+                                }
+                            }
                     )
                     {
                         DiagonalDivider(
                             modifier = Modifier
                                 .height(40.dp)
                                 .zIndex(1f)
+
                         )
                         Column(
                             modifier = Modifier
@@ -355,58 +381,46 @@ fun HomeScreen(
                                 .padding(horizontal = MaterialTheme.spacing.xMedium)
                         )
                         {
-                            var items by rememberSaveable {
-                                mutableStateOf<List<ModelResult>>(
-                                    emptyList()
-                                )
-                            }
-                            val scrollState = rememberScrollState()
-                            val lazyState = rememberLazyListState()
-                            val snapBehavior =
-                                rememberSnapFlingBehavior(lazyListState = lazyState)
-                            when (superHeroListState) {
-                                is ResourceState.Loading -> Column(
-                                    modifier = Modifier.fillMaxSize(),
-                                    horizontalAlignment = CenterHorizontally,
-                                    verticalArrangement = Arrangement.Center
-                                ) {
+                            when (superHeroListPagingState.loadState.refresh) {
+                                is LoadState.Loading -> {
                                     LoadingScreen()
                                 }
 
-                                is ResourceState.Error -> Box(
-                                    contentAlignment = Alignment.Center,
-                                    modifier = Modifier.fillMaxSize()
-                                ) {
-                                    ErrorScreen()
-                                }
-
-                                is ResourceState.Success ->
+                                is LoadState.NotLoading -> {
                                     LazyColumn(
                                         verticalArrangement = Arrangement.spacedBy(MaterialTheme.spacing.tiny),
                                         modifier = Modifier
                                             .fillMaxWidth()
                                             .zIndex(1f),
-                                        state = lazyState,
-                                        flingBehavior = snapBehavior
+                                        state = savedList,
                                     ) {
                                         item {
                                             Spacer(modifier = Modifier.height(if (scrollState.isScrollInProgress) MaterialTheme.dimens.custom0 else MaterialTheme.dimens.custom40))
                                         }
                                         items(
-                                            superHeroListPagingState,
-                                            key = { kSuperHero: ModelResult -> kSuperHero.id!! }) { superHeroItem ->
-                                            println("superHeroItem: ${superHeroItem?.name}")
-                                            if (superHeroItem != null) {
+                                            count = superHeroListPagingState.itemCount,
+                                            key = superHeroListPagingState.itemKey { superhero -> superhero.id }
+                                        ) { superHeroItem ->
+                                            superHeroListPagingState[superHeroItem]?.let { item ->
+                                                println("superHeroItem: ${item.name}")
                                                 SuperheroItem(
-                                                    superHero = superHeroItem,
-                                                    onItemClick = onItemClick,
+                                                    superHero = item,
                                                     modifier = Modifier.animateItemPlacement(),
-                                                )
+                                                ) {
+                                                    navController.navigate(
+                                                        route = Screen.Superhero.navigateWithId(
+                                                            item.id
+                                                        )
+                                                    )
+                                                }
                                             }
                                         }
                                     }
+                                }
 
-                                else -> {}
+                                is LoadState.Error -> {
+                                    ErrorScreen()
+                                }
                             }
                         }
                         Column(
@@ -436,7 +450,21 @@ fun HomeScreen(
             }
         )
     }
+    if (showConfetti) {
+        val primary = MaterialTheme.colorScheme.primary
+        KonfettiView(
+            modifier = Modifier.fillMaxSize(),
+            parties = remember { particles(primary) },
+            updateListener = object : OnParticleSystemUpdateListener {
+                override fun onParticleSystemEnded(system: PartySystem, activeSystems: Int) {
+                    if (activeSystems == 0) showConfetti = false
+                }
+            }
+        )
+    }
+
     if (isSheetOpen) {
+        showConfetti = true
         ModalBottomSheet(
             sheetState = sheetState,
             onDismissRequest = {
@@ -492,17 +520,106 @@ fun HomeScreen(
             }
         }
     }
+
+    if (displayDialog.value) {
+        AlertDialog(
+            shape = CutCornerShape(topStart = 24.dp, bottomEnd = 24.dp),
+            onDismissRequest = {
+                displayDialog.value = false
+            }, title = {
+                Text(
+                    text = stringResource(id = R.string.theme_dialog_title),
+                    textAlign = TextAlign.Center,
+                    modifier = Modifier
+                        .padding(top = 10.dp)
+                        .fillMaxWidth(),
+                    style = MaterialTheme.typography.displayLarge,
+                    color = MaterialTheme.colorScheme.onPrimaryContainer,
+
+                    )
+            }, text = {
+                Column(
+                    modifier = Modifier.selectableGroup(),
+                    verticalArrangement = Arrangement.Center,
+                ) {
+                    radioOptions.forEach { text ->
+                        Row(
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .height(46.dp)
+                                .selectable(
+                                    selected = (text == selectedOption),
+                                    onClick = { onOptionSelected(text) },
+                                    role = Role.RadioButton,
+                                ),
+                            verticalAlignment = Alignment.CenterVertically,
+                        ) {
+                            RadioButton(
+                                selected = (text == selectedOption),
+                                onClick = null,
+                                colors = RadioButtonDefaults.colors(
+                                    selectedColor = MaterialTheme.colorScheme.primary,
+                                    unselectedColor = MaterialTheme.colorScheme.inversePrimary,
+                                    disabledSelectedColor = Color.Black,
+                                    disabledUnselectedColor = Color.Black
+                                ),
+                            )
+                            Text(
+                                text = text,
+                                modifier = Modifier.padding(start = 16.dp),
+                                style = MaterialTheme.typography.titleSmall,
+                                color = MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.9f),
+                            )
+                        }
+                    }
+                }
+            }, confirmButton = {
+                TextButton(onClick = {
+                    displayDialog.value = false
+
+                    when (selectedOption) {
+                        "Light" -> {
+                            settingsViewModel.setTheme(
+                                ThemeMode.Light
+                            )
+                        }
+
+                        "Dark" -> {
+                            settingsViewModel.setTheme(
+                                ThemeMode.Dark
+                            )
+                        }
+
+                        "System" -> {
+                            settingsViewModel.setTheme(
+                                ThemeMode.Auto
+                            )
+                        }
+                    }
+                }) {
+                    Text(stringResource(id = R.string.theme_dialog_apply_button))
+                }
+            }, dismissButton = {
+                TextButton(onClick = {
+                    displayDialog.value = false
+                }) {
+                    Text(stringResource(id = R.string.cancel))
+                }
+            }
+        )
+    }
+
 }
 
-@OptIn(ExperimentalFoundationApi::class)
+@OptIn(ExperimentalFoundationApi::class, ExperimentalMaterial3Api::class)
 @Composable
 fun SuperheroItem(
     superHero: ModelResult,
     modifier: Modifier,
-    onItemClick: (superHeroId: Int) -> Unit
+    onClick: () -> Unit
 ) {
-    Box(
-        modifier = Modifier
+    Card(
+        modifier = modifier
             .fillMaxWidth()
             .height(MaterialTheme.dimens.custom150)
             .clip(
@@ -511,10 +628,8 @@ fun SuperheroItem(
                     bottomEnd = MaterialTheme.dimens.custom20
                 )
             )
-            .background(MaterialTheme.colorScheme.surfaceVariant)
-            .clickable {
-                superHero.id?.let { onItemClick(it) }
-            },
+            .background(MaterialTheme.colorScheme.surfaceVariant),
+        onClick = onClick
     ) {
         Row(
             modifier = Modifier
@@ -524,7 +639,7 @@ fun SuperheroItem(
                 modifier = Modifier.fillMaxHeight()
             ) {
                 SubcomposeAsyncImage(
-                    model = superHero.imageFinal,
+                    model = superHero.image,
                     contentDescription = stringResource(
                         id = R.string.photo_content_description,
                         superHero.name.orEmpty()
@@ -537,7 +652,7 @@ fun SuperheroItem(
                 )
                 SubcomposeAsyncImage(
                     model = ImageRequest.Builder(LocalContext.current)
-                        .data(superHero.imageFinal)
+                        .data(superHero.image)
                         .crossfade(true)
                         .build(),
                     contentDescription = stringResource(
@@ -559,7 +674,7 @@ fun SuperheroItem(
                         .padding(all = MaterialTheme.spacing.xMedium)
                         .zoomable(
                             rememberZoomableState(),
-                            onClick = { superHero.id?.let { onItemClick(it) } })
+                            onClick = { onClick() })
                         .clip(CutCornerShape(topStart = MaterialTheme.spacing.extraMedium))
                         .aspectRatio(1 / 1f),
                 )
@@ -620,8 +735,8 @@ fun SuperheroItem(
                         Text(
                             text = pluralStringResource(
                                 id = R.plurals.events,
-                                count = superHero.events?.available ?: 1,
-                                superHero.events?.available ?: 1
+                                count = superHero.events ?: 1,
+                                superHero.events ?: 1
                             ),
                             style = MaterialTheme.typography.bodyMedium,
                         )
@@ -650,8 +765,8 @@ fun SuperheroItem(
                         Text(
                             text = pluralStringResource(
                                 id = R.plurals.comics,
-                                count = superHero.comics?.available ?: 1,
-                                superHero.comics?.available ?: 1
+                                count = superHero.comics ?: 1,
+                                superHero.comics ?: 1
                             ),
                             style = MaterialTheme.typography.bodyMedium,
                         )
@@ -680,8 +795,8 @@ fun SuperheroItem(
                         Text(
                             text = pluralStringResource(
                                 id = R.plurals.series,
-                                count = superHero.series?.available ?: 1,
-                                superHero.series?.available ?: 1
+                                count = superHero.series ?: 1,
+                                superHero.series ?: 1
                             ),
                             style = MaterialTheme.typography.bodyMedium,
                         )
@@ -706,5 +821,6 @@ fun SuperheroItemPreview() {
     SuperheroItem(
         superHero = marvelSuperHeroMock1,
         modifier = Modifier,
-        onItemClick = {})
+        onClick = { }
+    )
 }

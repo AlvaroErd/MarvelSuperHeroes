@@ -281,7 +281,7 @@ private fun SwitchImpl(
   }
 }
 
-private class CircularRevealShape(
+class CircularRevealShape(
   @FloatRange(from = 0.0, to = 1.0) private val progress: Float,
   private val offset: Float
 ) : Shape {
