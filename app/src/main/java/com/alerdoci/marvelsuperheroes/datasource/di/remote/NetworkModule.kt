@@ -40,6 +40,8 @@ import javax.inject.Singleton
 @InstallIn(SingletonComponent::class)
 object NetworkModule {
 
+    private const val TIMER = 120L
+
     @Provides
     fun provideMarvelRepository(factory: SuperHeroesDataFactory): MarvelRepository =
         SuperHeroesRemoteImplFactory(factory)
@@ -59,8 +61,8 @@ object NetworkModule {
     fun provideOkHttpClient(): OkHttpClient {
         return OkHttpClient.Builder()
             .addInterceptor(logginInterceptorCreate())
-            .connectTimeout(120, TimeUnit.SECONDS)
-            .readTimeout(120, TimeUnit.SECONDS)
+            .connectTimeout(TIMER, TimeUnit.SECONDS)
+            .readTimeout(TIMER, TimeUnit.SECONDS)
             .build()
     }
 

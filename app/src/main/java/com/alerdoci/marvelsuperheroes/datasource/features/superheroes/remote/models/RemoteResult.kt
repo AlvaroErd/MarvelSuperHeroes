@@ -1,8 +1,13 @@
 package com.alerdoci.marvelsuperheroes.datasource.features.superheroes.remote.models
 
 
+import android.os.Parcelable
+import androidx.annotation.Keep
 import com.google.gson.annotations.SerializedName
+import kotlinx.parcelize.Parcelize
 
+@Keep
+@Parcelize
 data class RemoteResult(
     @SerializedName("comics")
     val comics: RemoteComics?,
@@ -18,4 +23,4 @@ data class RemoteResult(
     val series: RemoteSeries?,
     @SerializedName("thumbnail")
     val thumbnail: RemoteThumbnail?,
-)
+) : Parcelable
