@@ -356,7 +356,6 @@ fun SuperheroScreen(
                                 }
                             )
                         }
-//                    }
                     }
 
                 ResourceState.Idle -> {

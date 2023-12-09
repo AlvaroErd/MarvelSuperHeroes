@@ -188,7 +188,6 @@ fun HomeScreen(
             }
         }
 
-//        var textSearched by remember { mutableStateOf("") }
         val searchQuery by viewModel.searchQuery.collectAsState()
         var textActive by remember { mutableStateOf(false) }
         val snackbarHostState = remember { SnackbarHostState() }
@@ -336,20 +335,6 @@ fun HomeScreen(
                             },
                             colors = SearchBarDefaults.colors(dividerColor = red_800),
                             trailingIcon = {
-//                                if (textActive) {
-//                                    IconButton(onClick = {
-//                                        if (textSearched.isNotEmpty()) {
-//                                            textSearched = ""
-//                                        } else {
-//                                            textActive = false
-//                                        }
-//                                    }) {
-//                                        Icon(
-//                                            imageVector = Icons.Default.Close,
-//                                            contentDescription = "Close icon",
-//                                        )
-//                                    }
-//                                }
                                 if (searchQuery.isNotEmpty()){
                                     IconButton(onClick = {
                                         viewModel.searchCharacters("")
