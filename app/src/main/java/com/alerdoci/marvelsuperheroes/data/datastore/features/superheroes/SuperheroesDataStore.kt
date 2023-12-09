@@ -11,6 +11,13 @@ interface SuperheroesDataStore {
     suspend fun getMarvelSuperHeroesPaging(
         offset: Int,
         limit: Int,
+        name: String?
+    ): Flow<List<ModelResult>>
+
+    suspend fun getMarvelSuperHeroesByName(
+        offset: Int,
+        limit: Int,
+        name: String?
     ): Flow<List<ModelResult>>
 
     suspend fun getMarvelSuperHero(

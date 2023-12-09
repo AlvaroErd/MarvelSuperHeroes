@@ -1,10 +1,6 @@
 package com.alerdoci.marvelsuperheroes.app.screens.home.viewmodel
 
 import android.util.Log
-import androidx.compose.foundation.isSystemInDarkTheme
-import androidx.compose.runtime.Composable
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.paging.PagingData
@@ -28,7 +24,7 @@ class HomeViewModel @Inject constructor(
 
     val allCharacters: StateFlow<PagingData<ModelResult>> =
         searchQuery.flatMapLatest { query ->
-            getMarvelSuperHeroesPagingUseCase().cachedIn(viewModelScope)
+            getMarvelSuperHeroesPagingUseCase(query).cachedIn(viewModelScope)
         }.stateIn(viewModelScope, SharingStarted.Lazily, PagingData.empty())
 
     fun searchCharacters(query: String) {

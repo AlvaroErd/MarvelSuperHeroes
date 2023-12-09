@@ -55,6 +55,7 @@ import androidx.compose.material3.VerticalDivider
 import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableFloatStateOf
 import androidx.compose.runtime.mutableStateOf
@@ -140,6 +141,7 @@ fun HomeScreen(
     viewModel: HomeViewModel = hiltViewModel(),
     settingsViewModel: SettingsViewModel,
     searchQuery: String?,
+    onSearchComplete: (String) -> Unit
 ) {
     val infoDialog = remember { mutableStateOf(false) }
     var showConfetti by remember { mutableStateOf(false) }
@@ -186,7 +188,8 @@ fun HomeScreen(
             }
         }
 
-        var textSearched by remember { mutableStateOf("") }
+//        var textSearched by remember { mutableStateOf("") }
+        val searchQuery by viewModel.searchQuery.collectAsState()
         var textActive by remember { mutableStateOf(false) }
         val snackbarHostState = remember { SnackbarHostState() }
 
@@ -300,13 +303,15 @@ fun HomeScreen(
                     ) {
 
                         SearchBar(
-                            query = textSearched,
+                            query = searchQuery,
                             onQueryChange = { newTextSearched ->
-                                textSearched =
-                                    newTextSearched
+                                viewModel.searchCharacters(newTextSearched)
                             },
                             onSearch = {
                                 textActive = false
+                                superHeroListPagingState.refresh()
+                                viewModel.searchCharacters(searchQuery)
+                                onSearchComplete(searchQuery)
                             },
                             active = textActive,
                             onActiveChange = {
@@ -331,13 +336,23 @@ fun HomeScreen(
                             },
                             colors = SearchBarDefaults.colors(dividerColor = red_800),
                             trailingIcon = {
-                                if (textActive) {
+//                                if (textActive) {
+//                                    IconButton(onClick = {
+//                                        if (textSearched.isNotEmpty()) {
+//                                            textSearched = ""
+//                                        } else {
+//                                            textActive = false
+//                                        }
+//                                    }) {
+//                                        Icon(
+//                                            imageVector = Icons.Default.Close,
+//                                            contentDescription = "Close icon",
+//                                        )
+//                                    }
+//                                }
+                                if (searchQuery.isNotEmpty()){
                                     IconButton(onClick = {
-                                        if (textSearched.isNotEmpty()) {
-                                            textSearched = ""
-                                        } else {
-                                            textActive = false
-                                        }
+                                        viewModel.searchCharacters("")
                                     }) {
                                         Icon(
                                             imageVector = Icons.Default.Close,
@@ -353,6 +368,7 @@ fun HomeScreen(
                         {
 
                         }
+
                     }
                     Box(
                         modifier = Modifier

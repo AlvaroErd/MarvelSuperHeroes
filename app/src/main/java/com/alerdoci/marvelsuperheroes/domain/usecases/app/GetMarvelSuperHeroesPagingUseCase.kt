@@ -18,6 +18,6 @@ open class GetMarvelSuperHeroesPagingUseCase @Inject constructor(
             prefetchDistance = 5,
             initialLoadSize = 40,
         ),
-        pagingSourceFactory = { MarvelSuperHeroesPagingSource(repository) }
+        pagingSourceFactory = { MarvelSuperHeroesPagingSource(repository, query) }
     ).flow
 }

@@ -16,17 +16,23 @@ import kotlinx.coroutines.flow.Flow
 @Dao
 interface SuperHeroesDao {
 
-    // region SuperHeroes and SuperHero Detail
+    // region SuperHeroes
     @Transaction
     @Query("$QUERY_SUPERHEROES_ORDER_BY_NAME LIMIT :limit OFFSET :offset * :limit")
     fun getAllSuperHeroes(limit: Int, offset: Int): Flow<List<CacheSuperHeroesResult>>
+
+    @Transaction
+    @Query("SELECT * FROM superheroes_table WHERE name LIKE '%' || :name || '%' ORDER BY name ASC LIMIT :limit OFFSET :offset * :limit")
+    fun getSuperHeroesByName(limit: Int, offset: Int, name: String?): Flow<List<CacheSuperHeroesResult>>
 
     @Insert(onConflict = REPLACE)
     suspend fun insertOrUpdateSuperHeroes(vararg cacheSuperHeroes: CacheSuperHeroesResult)
 
     @Delete
     suspend fun deleteAllSuperHeroes(vararg cacheSuperHeroes: CacheSuperHeroesResult)
+    //endregion
 
+    // region SuperHero Detail
     @Transaction
     @Query("$QUERY_SUPERHEROES WHERE id = :superheroId")
     fun getSuperHeroDetail(superheroId: Int): Flow<List<CacheSuperHeroesResult>>

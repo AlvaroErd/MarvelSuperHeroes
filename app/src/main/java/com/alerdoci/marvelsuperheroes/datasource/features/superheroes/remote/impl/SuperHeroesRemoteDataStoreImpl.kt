@@ -21,6 +21,7 @@ open class SuperHeroesRemoteDataStoreImpl @Inject constructor(
     override suspend fun getMarvelSuperHeroesPaging(
         offset: Int,
         limit: Int,
+        name: String?
     ): Flow<List<ModelResult>> = flow {
         val timestamp = System.currentTimeMillis().toString()
         val superheroes = remoteService.getMarvelSuperHeroes(
@@ -29,6 +30,7 @@ open class SuperHeroesRemoteDataStoreImpl @Inject constructor(
             BuildConfig.API_KEY_PUBLIC,
             timestamp,
             NetworkModule.getHash(timestamp),
+            name = name
         )
         if (superheroes.isSuccessful) {
             val results = superheroes.body()?.data?.results
@@ -37,6 +39,27 @@ open class SuperHeroesRemoteDataStoreImpl @Inject constructor(
             //ToDo Show error message
             emit(emptyList())
 //            Completable.error(RemoteExceptionMapper.getException(superheroes.message))
+        }
+    }
+    override suspend fun getMarvelSuperHeroesByName(
+        offset: Int,
+        limit: Int,
+        name: String?
+    ): Flow<List<ModelResult>> = flow {
+        val timestamp = System.currentTimeMillis().toString()
+        val superheroes = remoteService.getMarvelSuperHeroes(
+            offset = offset * limit,
+            limit = limit,
+            BuildConfig.API_KEY_PUBLIC,
+            timestamp,
+            hash = NetworkModule.getHash(timestamp),
+            name = name
+        )
+        if (superheroes.isSuccessful) {
+            val results = superheroes.body()?.data?.results
+            emit(results?.map { superhero -> superhero.toDomain() } ?: emptyList())
+        } else {
+            emit(emptyList())
         }
     }
 

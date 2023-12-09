@@ -6,6 +6,10 @@ import androidx.compose.animation.fadeOut
 import androidx.compose.animation.slideInHorizontally
 import androidx.compose.animation.slideOutHorizontally
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.navigation.NavHostController
 import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
@@ -39,12 +43,15 @@ fun SetupNavGraph(
                 enterTransition = slideInHorizontally() + fadeIn(),
                 exitTransition = slideOutHorizontally() + fadeOut()
             ) {
-                val searchQuery: String = ""
+                var searchQuery by remember { mutableStateOf<String?>(null) }
 
                 HomeScreen(
                     navController,
                     searchQuery = searchQuery,
-                    settingsViewModel = settingsViewModel
+                    settingsViewModel = settingsViewModel,
+                    onSearchComplete = { query ->
+                        searchQuery = query
+                    }
                 )
             }
         }
