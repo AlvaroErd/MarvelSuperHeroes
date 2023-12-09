@@ -32,9 +32,6 @@ class DataStoreRepository(context: Context) {
     companion object {
         private const val PREFS_NAME = "marvel_superheroes"
 
-        // Preference keys
-        const val APP_THEME_INT = "theme_settings"
-
     }
 
     private var prefs: SharedPreferences

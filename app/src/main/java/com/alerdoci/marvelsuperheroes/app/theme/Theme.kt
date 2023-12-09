@@ -1,5 +1,6 @@
 package com.alerdoci.marvelsuperheroes.app.theme
 
+import android.os.Build
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.darkColorScheme
@@ -11,7 +12,7 @@ import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.platform.LocalContext
 import com.alerdoci.marvelsuperheroes.app.common.utils.ThemeMode
-import com.alerdoci.marvelsuperheroes.app.screens.home.viewmodel.HomeViewModel
+import com.alerdoci.marvelsuperheroes.app.screens.home.viewmodel.SettingsViewModel
 
 private val LightColorScheme = lightColorScheme(
     primary = md_theme_light_primary,
@@ -80,21 +81,28 @@ private val DarkColorScheme = darkColorScheme(
 
 @Composable
 fun MarvelSuperHeroesTheme(
-    homeViewModel: HomeViewModel,
     darkTheme: Boolean = isSystemInDarkTheme(),
+    settingsViewModel: SettingsViewModel,
     content: @Composable () -> Unit
 ) {
-
-    val themeState = homeViewModel.theme.observeAsState(initial = ThemeMode.Auto)
     val context = LocalContext.current
+    val themeState = settingsViewModel.theme.observeAsState(initial = ThemeMode.Auto)
 
     val colorScheme = when (themeState.value) {
-        ThemeMode.Light -> dynamicLightColorScheme(context)
+        ThemeMode.Light -> if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) dynamicLightColorScheme(
+            context
+        ) else LightColorScheme
 
-        ThemeMode.Dark ->  dynamicDarkColorScheme(context)
+        ThemeMode.Dark -> if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) dynamicDarkColorScheme(
+            context
+        ) else DarkColorScheme
 
-        ThemeMode.Auto -> if (darkTheme) dynamicDarkColorScheme(context) else dynamicLightColorScheme(context)
+        ThemeMode.Auto -> if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+            if (darkTheme) dynamicDarkColorScheme(context) else dynamicLightColorScheme(context)
+        } else {
+            if (darkTheme) DarkColorScheme else LightColorScheme
         }
+    }
 
     CompositionLocalProvider(LocalDimens provides Dimens()) {
         MaterialTheme(

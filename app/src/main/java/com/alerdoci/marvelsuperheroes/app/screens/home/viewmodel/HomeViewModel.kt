@@ -9,8 +9,6 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.paging.PagingData
 import androidx.paging.cachedIn
-import com.alerdoci.marvelsuperheroes.app.common.utils.ThemeMode
-import com.alerdoci.marvelsuperheroes.datasource.features.onboarding.cache.settings.DataStoreRepository
 import com.alerdoci.marvelsuperheroes.domain.usecases.app.GetMarvelSuperHeroesPagingUseCase
 import com.alerdoci.marvelsuperheroes.model.features.superheroes.ModelResult
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -24,7 +22,6 @@ import javax.inject.Inject
 @HiltViewModel
 class HomeViewModel @Inject constructor(
     private val getMarvelSuperHeroesPagingUseCase: GetMarvelSuperHeroesPagingUseCase,
-    private val datastore: DataStoreRepository
 ) : ViewModel() {
 
     val searchQuery = MutableStateFlow("")
@@ -41,23 +38,4 @@ class HomeViewModel @Inject constructor(
         }
     }
 
-    private val _theme = MutableLiveData(ThemeMode.Auto)
-    val theme: LiveData<ThemeMode> = _theme
-
-
-    fun setTheme(newTheme: ThemeMode) {
-        _theme.postValue(newTheme)
-        datastore.putInt(DataStoreRepository.APP_THEME_INT, newTheme.ordinal)
-    }
-
-    fun getThemeValue() = datastore.getInt(
-        DataStoreRepository.APP_THEME_INT, ThemeMode.Auto.ordinal
-    )
-
-    @Composable
-    fun getCurrentTheme(): ThemeMode {
-        return if (theme.value == ThemeMode.Auto) {
-            if (isSystemInDarkTheme()) ThemeMode.Dark else ThemeMode.Light
-        } else theme.value!!
-    }
 }

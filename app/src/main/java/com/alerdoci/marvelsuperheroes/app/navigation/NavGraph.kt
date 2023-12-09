@@ -12,16 +12,16 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
 import com.alerdoci.marvelsuperheroes.app.screens.home.composable.HomeScreen
-import com.alerdoci.marvelsuperheroes.app.screens.home.viewmodel.HomeViewModel
+import com.alerdoci.marvelsuperheroes.app.screens.home.viewmodel.SettingsViewModel
 import com.alerdoci.marvelsuperheroes.app.screens.onboarding.composables.OnBoardingScreen
 import com.alerdoci.marvelsuperheroes.app.screens.superhero.composable.SuperheroScreen
-import com.alerdoci.marvelsuperheroes.app.screens.superhero.viewmodel.SuperHeroViewModel
 
 @OptIn(ExperimentalAnimationApi::class)
 @Composable
 fun SetupNavGraph(
     navController: NavHostController,
     startDestination: String,
+    settingsViewModel: SettingsViewModel
 ) {
     NavHost(
         navController = navController,
@@ -34,7 +34,7 @@ fun SetupNavGraph(
         }
 
         // Home
-        composable(route = Screen.Home.route) { backStackEntry ->
+        composable(route = Screen.Home.route) {
             StartAnimation(
                 enterTransition = slideInHorizontally() + fadeIn(),
                 exitTransition = slideOutHorizontally() + fadeOut()
@@ -43,7 +43,8 @@ fun SetupNavGraph(
 
                 HomeScreen(
                     navController,
-                    searchQuery = searchQuery
+                    searchQuery = searchQuery,
+                    settingsViewModel = settingsViewModel
                 )
             }
         }

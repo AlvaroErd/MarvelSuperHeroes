@@ -2,10 +2,7 @@ package com.alerdoci.marvelsuperheroes.app.screens.home.composable
 
 import android.annotation.SuppressLint
 import android.content.res.Configuration
-import androidx.compose.animation.Crossfade
 import androidx.compose.animation.core.animateFloatAsState
-import androidx.compose.animation.core.rememberInfiniteTransition
-import androidx.compose.animation.core.tween
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -28,11 +25,14 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.selection.selectable
+import androidx.compose.foundation.selection.selectableGroup
 import androidx.compose.foundation.shape.CutCornerShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Close
 import androidx.compose.material.icons.filled.Search
+import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Card
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -41,6 +41,8 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.ModalBottomSheet
+import androidx.compose.material3.RadioButton
+import androidx.compose.material3.RadioButtonDefaults
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.SearchBar
 import androidx.compose.material3.SearchBarDefaults
@@ -48,6 +50,7 @@ import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
 import androidx.compose.material3.VerticalDivider
 import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
@@ -76,6 +79,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.pluralStringResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -104,11 +108,11 @@ import com.alerdoci.marvelsuperheroes.app.components.InfoDialog
 import com.alerdoci.marvelsuperheroes.app.components.particles
 import com.alerdoci.marvelsuperheroes.app.navigation.Screen
 import com.alerdoci.marvelsuperheroes.app.screens.home.viewmodel.HomeViewModel
-import com.alerdoci.marvelsuperheroes.app.theme.MarvelColors.amber_A100
-import com.alerdoci.marvelsuperheroes.app.theme.MarvelColors.blue_grey_900
+import com.alerdoci.marvelsuperheroes.app.screens.home.viewmodel.SettingsViewModel
 import com.alerdoci.marvelsuperheroes.app.theme.MarvelColors.grey_500
 import com.alerdoci.marvelsuperheroes.app.theme.MarvelColors.orange_A200
 import com.alerdoci.marvelsuperheroes.app.theme.MarvelColors.red_800
+import com.alerdoci.marvelsuperheroes.app.theme.MarvelColors.white
 import com.alerdoci.marvelsuperheroes.app.theme.dimens
 import com.alerdoci.marvelsuperheroes.app.theme.spacing
 import com.alerdoci.marvelsuperheroes.model.features.superheroes.ModelResult
@@ -126,11 +130,15 @@ import nl.dionsegijn.konfetti.compose.OnParticleSystemUpdateListener
 import nl.dionsegijn.konfetti.core.PartySystem
 
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
-@OptIn(ExperimentalMaterial3Api::class, ExperimentalFoundationApi::class)
+@OptIn(
+    ExperimentalMaterial3Api::class,
+    ExperimentalFoundationApi::class,
+)
 @Composable
 fun HomeScreen(
     navController: NavHostController,
     viewModel: HomeViewModel = hiltViewModel(),
+    settingsViewModel: SettingsViewModel,
     searchQuery: String?,
 ) {
     val infoDialog = remember { mutableStateOf(false) }
@@ -142,16 +150,28 @@ fun HomeScreen(
     val sheetState = rememberModalBottomSheetState()
 
     val systemUiController = rememberSystemUiController()
-    val infiniteTransition = rememberInfiniteTransition(label = "")
+
     systemUiController.setStatusBarColor(
         color = MaterialTheme.colorScheme.background,
-        darkIcons = viewModel.getCurrentTheme() == ThemeMode.Light
+        darkIcons = settingsViewModel.getCurrentTheme() == ThemeMode.Light
     )
 
     systemUiController.setNavigationBarColor(
         color = MaterialTheme.colorScheme.background,
-        darkIcons = viewModel.getCurrentTheme() == ThemeMode.Light
+        darkIcons = settingsViewModel.getCurrentTheme() == ThemeMode.Light
     )
+
+    val coroutineScope = rememberCoroutineScope()
+
+    val displayDialog = remember { mutableStateOf(false) }
+    val radioOptions = listOf("Light", "Dark", "System")
+    val displayValue =
+        when (settingsViewModel.getThemeValue()) {
+            ThemeMode.Light.ordinal -> "Light"
+            ThemeMode.Dark.ordinal -> "Dark"
+            else -> "System"
+        }
+    val (selectedOption, onOptionSelected) = remember { mutableStateOf(displayValue) }
 
     Surface(
         modifier = Modifier.fillMaxSize(),
@@ -168,25 +188,13 @@ fun HomeScreen(
 
         var textSearched by remember { mutableStateOf("") }
         var textActive by remember { mutableStateOf(false) }
-        val context = LocalContext.current
         val snackbarHostState = remember { SnackbarHostState() }
 
         var clickCount = 0
 
         val marvelTitle by rememberLottieComposition(LottieCompositionSpec.RawRes(R.raw.lottie_marvel_title))
-        val themeMode = ThemeMode.values()[viewModel.getThemeValue()]
 
-        val iconRes = if (themeMode == ThemeMode.Dark) {
-            R.drawable.ic_sun
-        } else {
-            R.drawable.ic_moon
-        }
-
-        var successToast by remember { mutableStateOf(false) }
-        val scope = rememberCoroutineScope()
         val toastHostState = remember { ToastHostState() }
-
-        val contentColor = if (themeMode == ThemeMode.Dark) amber_A100 else blue_grey_900
 
         var scaleState by remember { mutableFloatStateOf(1f) }
         val scale by animateFloatAsState(scaleState, label = "")
@@ -196,6 +204,7 @@ fun HomeScreen(
         val savedList = rememberSaveable(saver = LazyListState.Saver) {
             lazyState
         }
+
 
         Scaffold(snackbarHost = { SnackbarHost(hostState = snackbarHostState) }
         ) {
@@ -236,10 +245,11 @@ fun HomeScreen(
                                     )
                                 }
                         ) {
-                            Image(
+                            Icon(
                                 modifier = Modifier.size(27.dp),
                                 painter = painterResource(id = R.drawable.ic_info),
-                                contentDescription = ""
+                                contentDescription = "",
+                                tint = white
                             )
                         }
                         LottieAnimation(
@@ -261,83 +271,17 @@ fun HomeScreen(
                                 .padding(end = 20.dp)
                                 .fillMaxHeight(),
                             onClick = {
-                                val newTheme =
-                                    if (themeMode == ThemeMode.Dark) ThemeMode.Light else ThemeMode.Dark
-                                viewModel.setTheme(newTheme)
+                                displayDialog.value = true
                             },
                         )
                         {
-                            Crossfade(
-                                targetState = themeMode,
-                                label = "",
-                                animationSpec = tween(450)
-                            ) { currentTheme ->
-                                when (currentTheme) {
-                                    ThemeMode.Dark ->
-                                        Icon(
-                                            painterResource(id = R.drawable.ic_moon),
-                                            contentDescription = "Theme Toggle",
-                                            tint = Color.White,
-                                            modifier = Modifier
-                                                .size(25.dp),
-                                        )
-
-                                    ThemeMode.Light ->
-                                        Icon(
-                                            painterResource(id = R.drawable.ic_sun),
-                                            contentDescription = "Theme Toggle",
-                                            tint = Color.White,
-                                            modifier = Modifier
-                                                .size(25.dp),
-                                        )
-
-                                    else -> {}
-                                }
-                            }
-//                            }
-//
-//                            PulsatingHeartIcon(infiniteTransition)
-                        } /*
-                            ImageSwitch(
-                                checkedImage = painterResource(R.drawable.good_night),
-                                unCheckedImage = painterResource(R.drawable.good_morning),
-                                size = 50.dp,
-                                checked = themeMode == ThemeMode.Dark,
-                                onCheckedChange = { isChecked ->
-                                    if (isChecked) {
-                                        viewModel.setTheme(ThemeMode.Dark)
-                                    } else {
-                                        viewModel.setTheme(ThemeMode.Light)
-                                    }
-                                }
+                            Icon(
+                                painter = painterResource(id = R.drawable.ic_change_theme),
+                                contentDescription = "",
+                                modifier = Modifier.size(30.dp),
+                                tint = white
                             )
-                            Switch(
-                                checked = themeMode == ThemeMode.Dark,
-                                onCheckedChange = { isChecked ->
-                                    if (isChecked) {
-                                        viewModel.setTheme(ThemeMode.Dark)
-                                    } else {
-                                        viewModel.setTheme(ThemeMode.Light)
-                                    }
-                                },
-                                thumbContent = {
-                                    Icon(
-                                        modifier = Modifier
-                                            .size(SwitchDefaults.IconSize),
-                                        imageVector = if (themeMode == ThemeMode.Dark) Icons.Rounded.DarkMode else Icons.Rounded.LightMode,
-                                        contentDescription = "Switch Icon"
-                                    )
-                                },
-                                colors = SwitchDefaults.colors(
-                                    //Track = background, Thumb = circle,
-                                    checkedTrackColor = blue_grey_900,
-                                    checkedThumbColor = blue_grey_500,
-                                    uncheckedTrackColor = orange_300,
-                                    uncheckedThumbColor = blue_grey_300,
-                                    uncheckedIconColor = Color.White,
-                                    uncheckedBorderColor = Color.Transparent
-                                ),
-                            ) */
+                        }
                     }
                 }
                 Column(
@@ -362,27 +306,7 @@ fun HomeScreen(
                                     newTextSearched
                             },
                             onSearch = {
-//                                textSearched = ""
                                 textActive = false
-
-//                                context.customMDToast(
-//                                    message = "Search Bar not implemented yet :( \n Item searched: $textSearched",
-//                                    duration = LENGTH_SHORT,
-//                                    type = TYPE_WARNING,
-//                                    bgColor = null,
-//                                    icon = ,
-//                                    borderRadius = null,
-//                                    elevation = null,
-//                                )
-//                                Toasty.custom(
-//                                    context,
-//                                    "This is a Custom toast.",
-//                                    R.drawable.ic_sun,
-//                                    R.color.red_500,
-//                                    3000,
-//                                    true,
-//                                    true
-//                                ).show()
                             },
                             active = textActive,
                             onActiveChange = {
@@ -434,13 +358,12 @@ fun HomeScreen(
                         modifier = Modifier
                             .fillMaxSize()
                             .clickable {
-                                scope.launch {
+                                coroutineScope.launch {
                                     toastHostState.showToast(
                                         "Search Bar not implemented yet :(",
                                         "Item searched",
                                         EvaIcons.Outline.Search,
                                         ToastDuration.Infinite,
-//                                        false
                                     )
                                 }
                             }
@@ -596,6 +519,94 @@ fun HomeScreen(
                 )
             }
         }
+    }
+
+    if (displayDialog.value) {
+        AlertDialog(
+            shape = CutCornerShape(topStart = 24.dp, bottomEnd = 24.dp),
+            onDismissRequest = {
+                displayDialog.value = false
+            }, title = {
+                Text(
+                    text = stringResource(id = R.string.theme_dialog_title),
+                    textAlign = TextAlign.Center,
+                    modifier = Modifier
+                        .padding(top = 10.dp)
+                        .fillMaxWidth(),
+                    style = MaterialTheme.typography.displayLarge,
+                    color = MaterialTheme.colorScheme.onPrimaryContainer,
+
+                    )
+            }, text = {
+                Column(
+                    modifier = Modifier.selectableGroup(),
+                    verticalArrangement = Arrangement.Center,
+                ) {
+                    radioOptions.forEach { text ->
+                        Row(
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .height(46.dp)
+                                .selectable(
+                                    selected = (text == selectedOption),
+                                    onClick = { onOptionSelected(text) },
+                                    role = Role.RadioButton,
+                                ),
+                            verticalAlignment = Alignment.CenterVertically,
+                        ) {
+                            RadioButton(
+                                selected = (text == selectedOption),
+                                onClick = null,
+                                colors = RadioButtonDefaults.colors(
+                                    selectedColor = MaterialTheme.colorScheme.primary,
+                                    unselectedColor = MaterialTheme.colorScheme.inversePrimary,
+                                    disabledSelectedColor = Color.Black,
+                                    disabledUnselectedColor = Color.Black
+                                ),
+                            )
+                            Text(
+                                text = text,
+                                modifier = Modifier.padding(start = 16.dp),
+                                style = MaterialTheme.typography.titleSmall,
+                                color = MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.9f),
+                            )
+                        }
+                    }
+                }
+            }, confirmButton = {
+                TextButton(onClick = {
+                    displayDialog.value = false
+
+                    when (selectedOption) {
+                        "Light" -> {
+                            settingsViewModel.setTheme(
+                                ThemeMode.Light
+                            )
+                        }
+
+                        "Dark" -> {
+                            settingsViewModel.setTheme(
+                                ThemeMode.Dark
+                            )
+                        }
+
+                        "System" -> {
+                            settingsViewModel.setTheme(
+                                ThemeMode.Auto
+                            )
+                        }
+                    }
+                }) {
+                    Text(stringResource(id = R.string.theme_dialog_apply_button))
+                }
+            }, dismissButton = {
+                TextButton(onClick = {
+                    displayDialog.value = false
+                }) {
+                    Text(stringResource(id = R.string.cancel))
+                }
+            }
+        )
     }
 
 }
