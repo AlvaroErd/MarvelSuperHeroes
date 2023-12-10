@@ -639,46 +639,76 @@ fun SuperheroItem(
             Box(
                 modifier = Modifier.fillMaxHeight()
             ) {
-                SubcomposeAsyncImage(
-                    model = superHero.image,
-                    contentDescription = stringResource(
-                        id = R.string.photo_content_description,
-                        superHero.name.orEmpty()
-                    ),
-                    loading = { },
-                    contentScale = ContentScale.Crop,
-                    modifier = Modifier
-                        .blur(MaterialTheme.dimens.custom20)
-                        .aspectRatio(1 / 1f),
-                )
-                SubcomposeAsyncImage(
-                    model = ImageRequest.Builder(LocalContext.current)
-                        .data(superHero.image)
-                        .crossfade(true)
-                        .build(),
-                    contentDescription = stringResource(
-                        id = R.string.photo_content_description,
-                        superHero.name.orEmpty()
-                    ),
-                    loading = {
-                        Box(
-                            contentAlignment = Alignment.Center,
-                            modifier = Modifier.fillMaxSize()
-                        ) {
-                            CircularProgressIndicator(
-                                color = red_800
-                            )
-                        }
-                    },
-                    contentScale = ContentScale.Crop,
-                    modifier = Modifier
-                        .padding(all = MaterialTheme.spacing.xMedium)
-                        .zoomable(
-                            rememberZoomableState(),
-                            onClick = { onClick() })
-                        .clip(CutCornerShape(topStart = MaterialTheme.spacing.extraMedium))
-                        .aspectRatio(1 / 1f),
-                )
+                if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.S) {
+                    SubcomposeAsyncImage(
+                        model = superHero.image,
+                        contentDescription = stringResource(
+                            id = R.string.photo_content_description,
+                            superHero.name.orEmpty()
+                        ),
+                        loading = { },
+                        contentScale = ContentScale.Crop,
+                        modifier = Modifier
+                            .blur(MaterialTheme.dimens.custom20)
+                            .aspectRatio(1 / 1f),
+                    )
+                    SubcomposeAsyncImage(
+                        model = ImageRequest.Builder(LocalContext.current)
+                            .data(superHero.image)
+                            .crossfade(true)
+                            .build(),
+                        contentDescription = stringResource(
+                            id = R.string.photo_content_description,
+                            superHero.name.orEmpty()
+                        ),
+                        loading = {
+                            Box(
+                                contentAlignment = Alignment.Center,
+                                modifier = Modifier.fillMaxSize()
+                            ) {
+                                CircularProgressIndicator(
+                                    color = red_800
+                                )
+                            }
+                        },
+                        contentScale = ContentScale.Crop,
+                        modifier = Modifier
+                            .padding(all = MaterialTheme.spacing.xMedium)
+                            .zoomable(
+                                rememberZoomableState(),
+                                onClick = { onClick() })
+                            .clip(CutCornerShape(topStart = MaterialTheme.spacing.extraMedium))
+                            .aspectRatio(1 / 1f),
+                    )
+                }
+                else{
+                    SubcomposeAsyncImage(
+                        model = ImageRequest.Builder(LocalContext.current)
+                            .data(superHero.image)
+                            .crossfade(true)
+                            .build(),
+                        contentDescription = stringResource(
+                            id = R.string.photo_content_description,
+                            superHero.name.orEmpty()
+                        ),
+                        loading = {
+                            Box(
+                                contentAlignment = Alignment.Center,
+                                modifier = Modifier.fillMaxSize()
+                            ) {
+                                CircularProgressIndicator(
+                                    color = red_800
+                                )
+                            }
+                        },
+                        contentScale = ContentScale.Crop,
+                        modifier = Modifier
+                            .zoomable(
+                                rememberZoomableState(),
+                                onClick = { onClick() })
+                            .aspectRatio(1 / 1f),
+                    )
+                }
             }
             Column(
                 modifier = Modifier
