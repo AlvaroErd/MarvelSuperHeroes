@@ -307,7 +307,9 @@ fun HomeScreen(
                         SearchBar(
                             query = searchQuery,
                             onQueryChange = { newTextSearched ->
-                                viewModel.searchCharacters(newTextSearched)
+                                if (textActive) {
+                                    viewModel.searchCharacters(newTextSearched)
+                                }
                             },
                             onSearch = {
                                 textActive = false
@@ -358,26 +360,12 @@ fun HomeScreen(
                         }
 
                     }
-                    Box(
-                        modifier = Modifier
-                            .fillMaxSize()
-                            .clickable {
-                                coroutineScope.launch {
-                                    toastHostState.showToast(
-                                        "Search Bar not implemented yet :(",
-                                        "Item searched",
-                                        EvaIcons.Outline.Search,
-                                        ToastDuration.Infinite,
-                                    )
-                                }
-                            }
-                    )
+                    Box()
                     {
                         DiagonalDivider(
                             modifier = Modifier
                                 .height(40.dp)
                                 .zIndex(1f)
-
                         )
                         Column(
                             modifier = Modifier

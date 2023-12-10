@@ -19,14 +19,31 @@ open class SuperHeroesRemoteImplFactory @Inject constructor(
         limit: Int,
         name: String?,
     ): Flow<List<ModelResult>> = channelFlow {
-        if (name != "") {
-            getSuperHeroesByName(offset, limit, name)
-        } else {
-            getSuperHeroesPaging(offset, limit)
+        try {
+            val localData = if (!name.isNullOrEmpty()) {
+                factory.cacheDataStore.getMarvelSuperHeroesByName(offset, limit, name)
+            } else {
+                factory.cacheDataStore.getMarvelSuperHeroesPaging(offset, limit, null)
+            }
+
+            localData.collect { superheroes ->
+                if (superheroes.isEmpty()) {
+                    if (!name.isNullOrEmpty()) {
+                        getSuperHeroesByName(this, offset, limit, name)
+                    } else {
+                        getSuperHeroesPaging(this, offset, limit)
+                    }
+                } else {
+                    send(superheroes)
+                }
+            }
+        } catch (exception: Exception) {
+            send(emptyList())
         }
     }
 
-    private suspend fun SendChannel<List<ModelResult>>.getSuperHeroesByName(
+    private suspend fun getSuperHeroesByName(
+        channel: SendChannel<List<ModelResult>>,
         offset: Int,
         limit: Int,
         name: String?
@@ -39,14 +56,15 @@ open class SuperHeroesRemoteImplFactory @Inject constructor(
             )
             remoteResultSearch.collectLatest { remoteSuperHeroSearched ->
                 factory.cacheDataStore.insertOrUpdateSuperHeroes(*remoteSuperHeroSearched.toTypedArray())
-                send(remoteSuperHeroSearched)
+                channel.send(remoteSuperHeroSearched)
             }
         } catch (exception: Exception) {
-            send(emptyList())
+            channel.send(emptyList())
         }
     }
 
-    private suspend fun SendChannel<List<ModelResult>>.getSuperHeroesPaging(
+    private suspend fun getSuperHeroesPaging(
+        channel: SendChannel<List<ModelResult>>,
         offset: Int,
         limit: Int
     ) {
@@ -58,10 +76,10 @@ open class SuperHeroesRemoteImplFactory @Inject constructor(
             )
             remoteResult.collectLatest { remoteSuperHeroesPaging ->
                 factory.cacheDataStore.insertOrUpdateSuperHeroes(*remoteSuperHeroesPaging.toTypedArray())
-                send(remoteSuperHeroesPaging)
+                channel.send(remoteSuperHeroesPaging)
             }
         } catch (exception: Exception) {
-            send(emptyList())
+            channel.send(emptyList())
         }
     }
 
@@ -92,35 +110,72 @@ open class SuperHeroesRemoteImplFactory @Inject constructor(
             }
     }
 
+//    override suspend fun getMarvelSuperHeroComics(
+//        offset: Int,
+//        limit: Int,
+//        superHeroId: Int
+//    ): Flow<List<ModelComicsResult>> = channelFlow {
+//        factory.cacheDataStore.getMarvelSuperHeroComics(
+//            offset = offset,
+//            limit = limit,
+//            superHeroId = superHeroId
+//        ).collectLatest { superheroComic ->
+//            if (superheroComic.isEmpty()) {
+//                try {
+//                    factory.remoteDataStore.getMarvelSuperHeroComics(
+//                        offset = offset,
+//                        limit = limit,
+//                        superHeroId = superHeroId,
+//                    ).collectLatest { remoteSuperHeroComics ->
+//                        factory.cacheDataStore.insertOrUpdateSuperHeroesComic(*remoteSuperHeroComics.toTypedArray())
+//                        send(remoteSuperHeroComics)
+//                    }
+//
+//                } catch (exception: Exception) {
+//                    send(emptyList())
+//                }
+//            } else {
+//                send(superheroComic)
+//            }
+//        }
+//    }
+
     override suspend fun getMarvelSuperHeroComics(
         offset: Int,
         limit: Int,
         superHeroId: Int
     ): Flow<List<ModelComicsResult>> = channelFlow {
-        factory.cacheDataStore.getMarvelSuperHeroComics(
-            offset = offset,
-            limit = limit,
-            superHeroId = superHeroId
-        ).collectLatest { superheroComic ->
-            if (superheroComic.isEmpty()) {
-                try {
-                    factory.remoteDataStore.getMarvelSuperHeroComics(
-                        offset = offset,
-                        limit = limit,
-                        superHeroId = superHeroId,
-                    ).collectLatest { remoteSuperHeroComics ->
-                        factory.cacheDataStore.insertOrUpdateSuperHeroesComic(*remoteSuperHeroComics.toTypedArray())
-                        send(remoteSuperHeroComics)
-                    }
+        try {
+            val localData = factory.cacheDataStore.getMarvelSuperHeroComics(
+                offset = offset,
+                limit = limit,
+                superHeroId = superHeroId
+            )
 
-                } catch (exception: Exception) {
-                    send(emptyList())
+            localData.collect { superheroComic ->
+                if (superheroComic.isEmpty()) {
+                    try {
+                        val remoteResult = factory.remoteDataStore.getMarvelSuperHeroComics(
+                            offset = offset,
+                            limit = limit,
+                            superHeroId = superHeroId,
+                        )
+                        remoteResult.collectLatest { remoteSuperHeroComics ->
+                            factory.cacheDataStore.insertOrUpdateSuperHeroesComic(*remoteSuperHeroComics.toTypedArray())
+                            send(remoteSuperHeroComics)
+                        }
+                    } catch (exception: Exception) {
+                        send(emptyList())
+                    }
+                } else {
+                    send(superheroComic)
                 }
-            } else {
-                send(superheroComic)
             }
+        } catch (exception: Exception) {
+            send(emptyList())
         }
     }
+
 }
 
 //    override suspend fun getMarvelSuperHeroesPaging(
