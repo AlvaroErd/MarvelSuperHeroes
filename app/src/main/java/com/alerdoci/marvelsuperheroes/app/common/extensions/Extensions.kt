@@ -191,4 +191,73 @@ object Extensions {
         }
     }
 
+    /*
+        val currentTime = System.currentTimeMillis()
+        val fakeNumberInSeconds = "2023-11-01"
+
+        val newsTime = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssXXX").parse(fakeNumberInSeconds)?.time
+
+        val diff = currentTime - newsTime!!
+
+        if (diff < 60000) { // Less than 1 minute
+            holder.subtitle.text = holder.itemView.context.getString(R.string.time_ago_seconds)
+        } else if (diff < 3600000) { // Less than 1 hour
+            val minutes = diff / 60000
+            holder.subtitle.text = holder.itemView.context.getString(R.string.time_ago_minutes, minutes)
+        } else if (diff < 86400000) { // Less than 1 day
+            val hours = diff / 3600000
+            if (hours == 1L) {
+                holder.subtitle.text = holder.itemView.context.getString(R.string.time_ago_hour)
+            } else {
+                val date = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssXXX").parse(lastNewsList.attributes.emision.date)
+                val yesterday = Calendar.getInstance().apply {
+                    add(Calendar.DATE, -1)
+                }.time
+                val isYesterday = date?.after(yesterday) ?: false
+                if (isYesterday) {
+                    val dateFormat = SimpleDateFormat("HH:mm")
+                    val formattedDate = holder.itemView.context.getString(R.string.time_yesterday) + dateFormat.format(date!!)
+                    holder.subtitle.text = formattedDate
+                } else {
+                    holder.subtitle.text = holder.itemView.context.getString(R.string.time_ago_hours, hours)
+                }
+            }
+        } else if (diff < 172800000) { // Less than 2 days
+            val dateFormat = SimpleDateFormat("HH:mm")
+            val date = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssXXX").parse(lastNewsList.attributes.emision.date)
+            val calendar = Calendar.getInstance().apply { timeInMillis = newsTime }
+            val today = Calendar.getInstance()
+            val formattedDate = if (calendar.get(Calendar.DAY_OF_YEAR) == today.get(Calendar.DAY_OF_YEAR) - 1
+                && calendar.get(Calendar.YEAR) == today.get(Calendar.YEAR)) {
+                holder.itemView.context.getString(R.string.time_yesterday) + dateFormat.format(date!!)
+            } else {
+                holder.itemView.context.getString(R.string.the_day_before_yesterday) + dateFormat.format(date!!)
+            }
+            holder.subtitle.text = formattedDate
+        } else if (diff < 259200000) { // Less than 3 days
+            val dateFormat = SimpleDateFormat("HH:mm")
+            val date = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssXXX").parse(lastNewsList.attributes.emision.date)
+            val yesterday = Calendar.getInstance()
+            yesterday.add(Calendar.DAY_OF_MONTH, -1)
+            if (date!!.before(yesterday.time)) {
+                val dateFormatEee = SimpleDateFormat("EEEE, HH:mm")
+                val formattedDate = dateFormatEee.format(date!!)
+                holder.subtitle.text = formattedDate.replaceFirstChar { it.uppercase() }
+            } else {
+                val formattedDate = holder.itemView.context.getString(R.string.time_yesterday) + dateFormat.format(date)
+                holder.subtitle.text = formattedDate
+            }
+        } else { // More than 3 days
+            val dateFormat = SimpleDateFormat("EEEE, HH:mm")
+            val date = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssXXX").parse(lastNewsList.attributes.emision.date)
+            val formattedDate = dateFormat.format(date!!)
+            holder.subtitle.text = formattedDate.replaceFirstChar { it.uppercase() }
+        }
+
+        <string name="time_ago_seconds">Hace unos segundos</string>
+        <string name="time_ago_minutes">Hace %1$d minutos</string>
+        <string name="time_ago_hour">Hace 1 hora</string>
+        <string name="time_ago_hours">Hace %1$d horas</string>
+        <string name="time_yesterday">"Ayer, "</string>
+        <string name="the_day_before_yesterday">"Anteayer, "</string>*/
 }
