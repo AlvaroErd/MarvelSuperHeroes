@@ -1,0 +1,12 @@
+package com.alerdoci.marvelsuperheroes.model.features.superherocomic
+
+import android.os.Parcelable
+import kotlinx.parcelize.Parcelize
+
+@Parcelize
+data class ModelComicsResult(
+    val id: Int,
+    val title: String?,
+    val onSaleDate: String?,
+    val image: String?
+) : Parcelable

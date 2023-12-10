@@ -1,34 +1,52 @@
 <resources>
     //App name
-    <string name="app_name">Marvel SuperHeroes</string>
+    <string name="app_name" translatable="false">Marvel SuperHeroes</string>
+    <string name="app_name_release" translatable="false">Marvel SuperHeroes</string>
 
     //Loading control
     <string name="loading">Loading...</string>
 
-    //Error control
+    <!-- region Error -->
     <string name="error">Oops! Something went wrong</string>
     <string name="try_reload">That´s awkward. Please try again</string>
     <string name="unknown_error">Unknown error</string>
+    <string name="error_default_message">Oops, there was an error fetching the data</string>
+    <string name="error_try_again">Try again</string>
+    <string name="error_dialog_title">Error</string>
+    <string name="error_support_code">Support code: %1$s</string>
+    <string name="error_no_connection">There is no Internet connection. Check your Wi-Fi or mobile data connection, please.</string>
+    <string name="error_connection_timeout">We are experiencing some temporary problems. Please, try again in a few moments.</string>
+    <string name="error_get_credentials">Get credentials request has failed.</string>
+    <string name="error_sign_in">Sign in request has failed.</string>
+    <string name="error_sign_out">Sign out request has failed.</string>
+    <!-- endregion -->
 
     //Home screen
-    <string name="search_superhero">Search Superhero 🦸‍</string>
+    <string name="search_superhero">Search a superhero 🦸‍️️</string>
+    <string name="search_superheroine">Search a superheroine 🧝‍♀️‍️</string>
+    <string name="search_supervillain">Search a supervillain 🦹‍♂️‍️</string>
+    <string name="search_monster">Search a monster 👹️‍</string>
+
     <string name="series_icon">Series Icon</string>
     <string name="comic_icon">Comic Icon</string>
     <plurals name="events">
-        <item quantity="one">%d Event</item>
-        <item quantity="other">%d Events</item>
+        <item quantity="one">" Event"</item>
+        <item quantity="other">" Events"</item>
     </plurals>
     <plurals name="comics">
-        <item quantity="one">%d Comic</item>
-        <item quantity="other">%d Comics</item>
+        <item quantity="one">" Comic"</item>
+        <item quantity="other">" Comics"</item>
     </plurals>
     <plurals name="series">
-        <item quantity="one">%d Serie</item>
-        <item quantity="other">%d Series</item>
+        <item quantity="one">" Serie"</item>
+        <item quantity="other">" Series"</item>
     </plurals>
     <string name="photo_content_description">Photo of %s</string>
     <string name="description_not_available">Description not available</string>
+    <string name="description_not_available_description">Unfortunately Marvel doesn´t have any description for this superhero.</string>
     <string name="events_icon">Events Icon</string>
+    <string name="theme_dialog_title">Change Theme</string>
+    <string name="theme_dialog_apply_button">Apply</string>
 
     //SuperHero screen
     <string name="description">Description:</string>
@@ -38,6 +56,20 @@
     </plurals>
     <string name="comics_appear">Last appearances in comics:</string>
     <string name="visit_on_wiki">Visit on Wiki</string>
-    <string name="no_recent_comics">This superhero does not have any recent comics</string>
+    <string name="no_recent_comics">This superhero does not have any recent comics 😢</string>
+    <string name="welcome_to">Welcome to</string>
+    <string name="marvel_universe">Marvel Universe</string>
 
+    <string name="save">Save</string>
+    <string name="cancel">Cancel</string>
+    <string name="description_app_onboarding">Watch all the details of the entire collection of Marvel superheroes in history! This app uses the Official Marvel documentation and is constantly updated.</string>
+    <string name="dialog_button">Enjoy the app! 😎</string>
+    <string name="dialog_description">A mobile developer based in Spain. I make this app to develop my skills with Android tech like kotlin, jetpack compose, coroutines, hilt, material 3, room, retrofit and much much more</string>
+    <string name="dialog_title">Hi! I’m @AlvaroErd</string>
+    <string name="modal_title">Awesome!</string>
+    <string name="modal_subtitle">You have been found the Cheems Easter Egg!</string>
+    <string name="modal_body">I hope you are happy in heaven</string>
+    <string name="onboarding_button_start">Get Started</string>
+    <string name="copyright_marvel">Data provided by Marvel. © %1$s MARVEL</string>
+    <string name="zoom_in">Try to zoom in!</string>
 </resources>

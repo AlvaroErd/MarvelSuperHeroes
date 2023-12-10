@@ -18,6 +18,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import com.alerdoci.marvelsuperheroes.R
+import com.alerdoci.marvelsuperheroes.app.common.annotations.FullPreview
 import com.alerdoci.marvelsuperheroes.app.components.LoadGif
 import com.alerdoci.marvelsuperheroes.app.theme.dimens
 import com.alerdoci.marvelsuperheroes.app.theme.spacing
@@ -61,6 +62,7 @@ fun ErrorScreen() {
     }
 }
 
+@FullPreview
 @Preview("Light Theme", showBackground = true)
 @Preview("Dark Theme", uiMode = Configuration.UI_MODE_NIGHT_YES, showBackground = true)
 @Composable

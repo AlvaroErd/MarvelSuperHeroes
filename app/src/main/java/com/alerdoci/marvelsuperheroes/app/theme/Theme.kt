@@ -9,8 +9,10 @@ import androidx.compose.material3.dynamicLightColorScheme
 import androidx.compose.material3.lightColorScheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
+import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.platform.LocalContext
-
+import com.alerdoci.marvelsuperheroes.app.common.utils.ThemeMode
+import com.alerdoci.marvelsuperheroes.app.screens.home.viewmodel.SettingsViewModel
 
 private val LightColorScheme = lightColorScheme(
     primary = md_theme_light_primary,
@@ -80,19 +82,28 @@ private val DarkColorScheme = darkColorScheme(
 @Composable
 fun MarvelSuperHeroesTheme(
     darkTheme: Boolean = isSystemInDarkTheme(),
-    // Dynamic color is available on Android 12+
-    dynamicColor: Boolean = true,
+    settingsViewModel: SettingsViewModel,
     content: @Composable () -> Unit
 ) {
-    val colorScheme = when {
-        dynamicColor && Build.VERSION.SDK_INT >= Build.VERSION_CODES.S -> {
-            val context = LocalContext.current
-            if (darkTheme) dynamicDarkColorScheme(context) else dynamicLightColorScheme(context)
-        }
+    val context = LocalContext.current
+    val themeState = settingsViewModel.theme.observeAsState(initial = ThemeMode.Auto)
 
-        darkTheme -> DarkColorScheme
-        else -> LightColorScheme
+    val colorScheme = when (themeState.value) {
+        ThemeMode.Light -> if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) dynamicLightColorScheme(
+            context
+        ) else LightColorScheme
+
+        ThemeMode.Dark -> if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) dynamicDarkColorScheme(
+            context
+        ) else DarkColorScheme
+
+        ThemeMode.Auto -> if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+            if (darkTheme) dynamicDarkColorScheme(context) else dynamicLightColorScheme(context)
+        } else {
+            if (darkTheme) DarkColorScheme else LightColorScheme
+        }
     }
+
     CompositionLocalProvider(LocalDimens provides Dimens()) {
         MaterialTheme(
             colorScheme = colorScheme,
