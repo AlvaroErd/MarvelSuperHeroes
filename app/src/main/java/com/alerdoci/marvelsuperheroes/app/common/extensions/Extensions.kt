@@ -174,4 +174,21 @@ object Extensions {
 
 
     fun Instant.getFirstDayOfMonth(): Instant = this.atZone(ZoneOffset.UTC).withDayOfMonth(1).toInstant()
+
+    fun formatNumber(number: Int): String {
+        return when {
+            number < 1000 -> number.toString()
+            number < 1000000 -> {
+                val decimalValue = number / 100 % 10
+                val formatted = DecimalFormat("#.0").format(number.toFloat() / 1000)
+                if (decimalValue == 0) {
+                    (number / 1000).toString() + "k"
+                } else {
+                    formatted + "k"
+                }
+            }
+            else -> "${number / 1000000}M"
+        }
+    }
+
 }

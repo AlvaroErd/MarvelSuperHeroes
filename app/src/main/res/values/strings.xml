@@ -30,16 +30,16 @@
     <string name="series_icon">Series Icon</string>
     <string name="comic_icon">Comic Icon</string>
     <plurals name="events">
-        <item quantity="one">%d Event</item>
-        <item quantity="other">%d Events</item>
+        <item quantity="one">" Event"</item>
+        <item quantity="other">" Events"</item>
     </plurals>
     <plurals name="comics">
-        <item quantity="one">%d Comic</item>
-        <item quantity="other">%d Comics</item>
+        <item quantity="one">" Comic"</item>
+        <item quantity="other">" Comics"</item>
     </plurals>
     <plurals name="series">
-        <item quantity="one">%d Serie</item>
-        <item quantity="other">%d Series</item>
+        <item quantity="one">" Serie"</item>
+        <item quantity="other">" Series"</item>
     </plurals>
     <string name="photo_content_description">Photo of %s</string>
     <string name="description_not_available">Description not available</string>

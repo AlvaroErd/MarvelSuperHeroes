@@ -97,6 +97,7 @@ import com.airbnb.lottie.compose.LottieAnimation
 import com.airbnb.lottie.compose.LottieCompositionSpec
 import com.airbnb.lottie.compose.rememberLottieComposition
 import com.alerdoci.marvelsuperheroes.R
+import com.alerdoci.marvelsuperheroes.app.common.extensions.Extensions.formatNumber
 import com.alerdoci.marvelsuperheroes.app.common.extensions.ModifierExtensions.noRippleClickable
 import com.alerdoci.marvelsuperheroes.app.common.states.error.ErrorScreen
 import com.alerdoci.marvelsuperheroes.app.common.states.loading.LoadingScreen
@@ -123,12 +124,14 @@ import compose.icons.EvaIcons
 import compose.icons.evaicons.Outline
 import compose.icons.evaicons.outline.Search
 import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.launch
 import me.saket.telephoto.zoomable.rememberZoomableState
 import me.saket.telephoto.zoomable.zoomable
 import nl.dionsegijn.konfetti.compose.KonfettiView
 import nl.dionsegijn.konfetti.compose.OnParticleSystemUpdateListener
 import nl.dionsegijn.konfetti.core.PartySystem
+import java.text.DecimalFormat
 
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @OptIn(
@@ -612,6 +615,7 @@ fun HomeScreen(
 
 }
 
+@SuppressLint("StateFlowValueCalledInComposition")
 @OptIn(ExperimentalFoundationApi::class, ExperimentalMaterial3Api::class)
 @Composable
 fun SuperheroItem(
@@ -763,14 +767,20 @@ fun SuperheroItem(
                                 .height(MaterialTheme.dimens.custom36)
                                 .padding(vertical = MaterialTheme.spacing.semiSmall)
                         )
-                        Text(
-                            text = pluralStringResource(
-                                id = R.plurals.events,
-                                count = superHero.events ?: 1,
-                                superHero.events ?: 1
-                            ),
-                            style = MaterialTheme.typography.bodyMedium,
-                        )
+                        Row {
+                            Text(
+                                text = formatNumber(superHero.events ?: 1),
+                                style = MaterialTheme.typography.bodyMedium,
+                            )
+                            Text(
+                                text = pluralStringResource(
+                                    id = R.plurals.events,
+                                    count = superHero.events ?: 1,
+                                    superHero.events ?: 1
+                                ),
+                                style = MaterialTheme.typography.bodyMedium,
+                            )
+                        }
                     }
                     VerticalDivider(
                         modifier = Modifier
@@ -793,14 +803,20 @@ fun SuperheroItem(
                                 .height(MaterialTheme.dimens.custom36)
                                 .padding(vertical = MaterialTheme.spacing.semiSmall)
                         )
-                        Text(
-                            text = pluralStringResource(
-                                id = R.plurals.comics,
-                                count = superHero.comics ?: 1,
-                                superHero.comics ?: 1
-                            ),
-                            style = MaterialTheme.typography.bodyMedium,
-                        )
+                        Row {
+                            Text(
+                                text = formatNumber(superHero.comics ?: 1),
+                                style = MaterialTheme.typography.bodyMedium,
+                            )
+                            Text(
+                                text = pluralStringResource(
+                                    id = R.plurals.comics,
+                                    count = superHero.comics ?: 1,
+                                    superHero.comics ?: 1
+                                ),
+                                style = MaterialTheme.typography.bodyMedium,
+                            )
+                        }
                     }
                     VerticalDivider(
                         modifier = Modifier
@@ -823,14 +839,20 @@ fun SuperheroItem(
                                 .height(MaterialTheme.dimens.custom36)
                                 .padding(vertical = MaterialTheme.spacing.semiSmall)
                         )
-                        Text(
-                            text = pluralStringResource(
-                                id = R.plurals.series,
-                                count = superHero.series ?: 1,
-                                superHero.series ?: 1
-                            ),
-                            style = MaterialTheme.typography.bodyMedium,
-                        )
+                        Row {
+                            Text(
+                                text = formatNumber(superHero.series ?: 1),
+                                style = MaterialTheme.typography.bodyMedium,
+                            )
+                            Text(
+                                text = pluralStringResource(
+                                    id = R.plurals.series,
+                                    count = superHero.series ?: 1,
+                                    superHero.series ?: 1
+                                ),
+                                style = MaterialTheme.typography.bodyMedium,
+                            )
+                        }
                     }
                 }
             }
@@ -855,3 +877,4 @@ fun SuperheroItemPreview() {
         onClick = { }
     )
 }
+
