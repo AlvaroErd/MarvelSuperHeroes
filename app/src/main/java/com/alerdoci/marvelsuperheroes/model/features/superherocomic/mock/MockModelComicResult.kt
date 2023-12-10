@@ -20,7 +20,7 @@ val marvelSuperHeroComicMock2 = ModelComicsResult(
 val marvelSuperHeroComicMock3 = ModelComicsResult(
     id= 1,
     title= "Cap 3",
-    onSaleDate= "3-3-3",
+    onSaleDate= "3-3-4",
     image = "https://i.annihil.us/u/prod/marvel/i/mg/3/20/5232158de5b16.jpg"
 )
 
