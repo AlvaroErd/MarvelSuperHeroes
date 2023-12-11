@@ -1,6 +1,5 @@
 import java.util.Locale
 
-@Suppress("DSL_SCOPE_VIOLATION")
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
@@ -10,12 +9,11 @@ plugins {
     alias(libs.plugins.kotlin.parcelize)
 }
 
-val versionMajor = 0
+val versionMajor = 1
 val versionMinor = 0
-val versionPatch = 3
+val versionPatch = 0
 val versionBuild = 0
 
-@Suppress("UnstableApiUsage")
 android {
     compileSdk = libs.versions.compileSdk.get().toInt()
     namespace = "com.alerdoci.marvelsuperheroes"
@@ -56,13 +54,6 @@ android {
             }
         }
     }
-
-    /*  Hello visitor! These are the credentials you will need to paste into your gradle.properties
-
-        API_KEY_PUBLIC = 3fd64832e3b735d17d55426fdaa3dd3c
-        API_KEY_PRIVATE = 08ac92157217a77d37794bc61ff391d6f7349d13
-
-    */
 
     buildTypes {
         getByName("debug") {
@@ -288,8 +279,8 @@ dependencies {
     implementation(libs.gms.playservices.auth)
     implementation(libs.google.services)
 
+    //Detekt
     detektPlugins(libs.detekt.formatting)
-
 
     //Error handle screen
     implementation(libs.error.handle)

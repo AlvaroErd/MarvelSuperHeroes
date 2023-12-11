@@ -1,22 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    ******
-    * *
-    * *
-    **********
-
     <style name="MyTopCornersCuttedShape">
         <item name="cornerSizeTopLeft">30dp</item>
         <item name="cornerFamilyTopLeft">cut</item>
         <item name="cornerSizeTopRight">30dp</item>
         <item name="cornerFamilyTopRight">cut</item>
     </style>
-
-    **********
-    * *
-    * *
-    **********
 
     <style name="MyTiltedButton" parent="Widget.Material3.Button.IconButton.Outlined">
         <item name="shapeAppearanceOverlay">@style/SpecificCornerCutButton</item>
@@ -28,11 +18,6 @@
         <item name="cornerSizeBottomRight">15dp</item>
         <item name="cornerFamilyBottomRight">cut</item>
     </style>
-
-    **********
-    * *
-    * *
-    **********
 
     <style name="MySquaredButton" parent="Widget.Material3.Button.IconButton.Outlined">
         <item name="shapeAppearanceOverlay">@style/SquaredButton</item>
