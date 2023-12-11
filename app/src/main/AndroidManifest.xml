@@ -18,8 +18,7 @@
             android:name=".app.application.MainActivity"
             android:exported="true"
             android:screenOrientation="portrait"
-            android:theme="@style/Theme.MarvelSuperHeroesSplashScreen"
-            tools:ignore="LockedOrientationActivity">
+            android:theme="@style/Theme.MarvelSuperHeroesSplashScreen">
 
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

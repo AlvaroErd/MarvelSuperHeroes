@@ -1,7 +1,7 @@
 package com.alerdoci.marvelsuperheroes.app.navigation
 
 const val SUPERHERO_ID_KEY = "superHeroId"
-const val SUPERHERO_QUERY_KEY = "superHeroIdSearched"
+
 sealed class Screen(val route: String) {
     object Onboarding : Screen(route = "onboarding_screen")
     object Home : Screen(route = "home_screen")

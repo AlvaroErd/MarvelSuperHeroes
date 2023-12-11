@@ -4,18 +4,21 @@
 
 # MarvelSuperHeroes 🦸‍
 
-This repository contains the technical test to put into practice the knowledge acquired about
-Android, Kotlin, Clean Architecture, Jetpack Compose, Retrofit and much more. I hope you enjoy it!
+This repository contains the technical test to put into practice the knowledge acquired about Android, Kotlin, Clean Architecture, Jetpack Compose, Retrofit and much more. I hope you enjoy it!
 
 ## How to run the application 🏗️
 
-In order to test this app for the Mango team, you will need to add the BASE_URL, API_KEY_PUBLIC and
-API_KEY_PRIVATE that you will find in the
-build config to your gradle.properties. But shhh, don´t tell this to anyone, it´s a secret 🤫
-Or you can provide your own api key from
+As long as this application is kept with moderate use, I have added my own apikey and private apikey in the gradle.properties file.
+
+If you don't find it added, you can put your own api key and private api key with the following format:
+
+API_KEY_PUBLIC=11111111111
+API_KEY_PRIVATE=222222222222222
+
+You can provide your own api key from
 here [Marvel docs](https://developer.marvel.com/documentation/getting_started).
 
-Personal tip! Put your smartphone in dark mode 😎
+Personal tip! Check the app in dark mode 😎
 
 ## Preview 📱
 
@@ -44,37 +47,33 @@ Personal tip! Put your smartphone in dark mode 😎
   Jetpack compose kit to build the UI
 - [Navigation compose](https://developer.android.com/jetpack/compose/navigation?hl=es-419) -
   NavGraph for navigation
-- [Android XML](https://developer.android.com/develop/ui/views/layout/declaring-layout) - XML
-  Classic views to build the UI
-- [View Binding](https://developer.android.com/topic/libraries/view-binding?hl=es-419) - Tool that
-  makes it easier to write code that interacts with views
 - [Material Design](https://m3.material.io/) - Material components for the UI
-- [Paging 3.0](https://developer.android.com/topic/libraries/architecture/paging/v3-overview?hl=es-419)
-  - Implementation of the Paging
+- [Room](Desarrolladores de Android &nbsp;|&nbsp; Android Developers](https://developer.android.com/jetpack/androidx/releases/room) - A persistence library that provides an abstraction layer over SQLite
+- [Paging 3.0](https://developer.android.com/topic/libraries/architecture/paging/v3-overview?hl=es-419) - Implementation of the Paging
 - [Retrofit](https://square.github.io/retrofit/) - Retrofit to receive data from Internet
 - [Coil](https://coil-kt.github.io/coil/) - Library to load images
 - [Lottie](https://github.com/airbnb/lottie-android) - Library to load animated vectors
 
 ## Features 🧩
 
-- Search Bar to filter superheroes by name (Work in Progress)
+- An onboarding page describing the purpose of the app
+- Search Bar to filter superheroes by name
 - Infinite scroll of the 1000+ marvel superheroes
-- The home screen cards show a lot of information about the superhero without having to go into
-  detail
+- The home screen cards show a lot of information about the superhero without having to go into detail
 - A striking interface with colors, fonts and shapes closely related to the Marvel universe
-- A character detail screen with a lot of information where you can see his full description, a link
-  to his database on the Marvel website and a carousel of images where you can see the comics in
-  which he/she/it has appeared
+- A character detail screen with a lot of information where you can see his full description, a button to see the image in full screen an a carousel of images where you can see the comics in which he/she/it has appeared
+- The app can storage the data in his own database so you can use it without internet
+- There is an easter egg. Try to find it! Hint: "The magic number is 5: five clicks lead to glory in the world of superheroes."
 
 ## Architecture 🏛️
 
 - Build entirely in Kotlin
-- Clean Architecture with 3 layers. Data -> Domain -> App (Presentation)
+- Clean Architecture with 5 layers. Datasource -> Data -> Domain <- App ( Presentation) and Model. There are no modules but each layer is intended to depend only on the corresponding one.
 - SOLID principles
 
 ## Design 🎨
 
-- Support dark and light theme
+- Support dark, light and auto theme with a dedicated button
 - Designed with components from Material 3 but manually modified to follow the Marvel style
 - Custom Android icon
 - Custom Splash Screen
@@ -83,42 +82,39 @@ Personal tip! Put your smartphone in dark mode 😎
 - Custom theme with colors, spacing, shapes, etc to match with the Marvel universe
 - Custom dimens, shapes, spacings and colors related to Material Theme
 - Entry and exit animations of each view and some components
-- Long texts have a displacement animation so that they can be read in full without having to go
-  into detail
+- Long texts have a displacement animation so that they can be read in full without having to go into detail
+- A library to show the error capture in logcat inside the app, only for develop pourposes
+- A bunch of composables as a private repository
 
 ## Others 👾
 
-- Not relevant to the user but the home screen is built with Jetpack Compose and the detail screen
-  with classic XML view and some components with Jetpack Compose
-- Custom mappers between Data and Domain
+- Fully build in jetpack compose
+- Custom mappers between RemoteModel, CacheModel and DomainModel
 - Different mocks to show the preview with jetpack
 - Custom Loading with a lottie animation
 - Custom Error message
 - Design with accessibility in mind (every item has a content description and great contrast)
 - The texts change depending on whether they are singular or plural elements
 - The date has been parsed to a cleaner and more readable format
-- Invokes a function that converts both marvel api keys and gives you the hash without you having to
-  calculate it
+- Invokes a function that converts both marvel api keys and gives you the hash without you having to calculate it
 - Follow the Gitflow methodology to create branches, push, merge, etc.
+- The app has differents names and icons depend on the build variant. (Debug = DEBUG Marvel SuperHeroes with the logo in orange and Release = Marvel SuperHeroes with the logo in red)
+- The app shows when you lost internet and when you recover it.
+- The models are parcelable
 
 ## Known bugs to fix 😅
 
-- The api call makes too many requests and exceeds the set limit
-- No message is displayed when that limit is exceeded
-- The splash screen is only compatible with android 12 onwards
-- Gaussian blur of the background image in the main view is only supported on android 12 onwards
-- The searchbar does not filter by name
-- Not checked layout on very small screen sizes
-- Maybe when there are more than 999 elements in the icons of the main view it will cut
-- There is too slow a reload between Loading and UI display in the home screen
-- Every time you travel back from the detail view, the view is reloaded. (Problem with Paging 3 and
-  rememberSaveables)
-- No text is selectable and could be interesting for the user
-- Detail view comics are not an infinite list
-- You can't zoom in on the images
-- The link to the wiki of each superhero in most cases takes you to a url where the character does
-  not exist since they have not created a record for it
-- Does not support horizontal orientation
+- ~~The api call makes too many requests and exceeds the set limit~~ (Fixed)
+- ~~The splash screen is only compatible with android 12 onwards~~ (Fixed)
+- ~~Gaussian blur of the background image in the main view is only supported on android 12 onwards~~ (Fixed)
+- ~~The searchbar does not filter by name~~ (Fixed)
+- ~~Maybe when there are more than 999 elements in the icons of the main view it will cut~~ (Fixed)
+- ~~There is too slow a reload between Loading and UI display in the home screen~~ (Fixed)
+- ~~Every time you travel back from the detail view, the view is reloaded. (Problem with Paging 3 andrememberSaveables)~~ (Fixed)
+- ~~No text is selectable and could be interesting for the user~~ (Fixed)
+- ~~Detail view comics are not an infinite list~~ (Fixed)
+- ~~You can't zoom in on the images~~ (Fixed)
+- Does not support horizontal orientation (In consideration)
 
 ## License ⚖️
 
