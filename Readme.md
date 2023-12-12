@@ -22,13 +22,10 @@ Personal tip! Check the app in dark mode 😎
 
 ## Preview 📱
 
-<p align="center">
-<img width="200" src="https://github.com/AlvaroErd/MarvelSuperHeroes/assets/108676373/c5c9b471-23ca-44e8-acd3-035cbd78b88b"> <img width="200" src="https://github.com/AlvaroErd/MarvelSuperHeroes/assets/108676373/e43cc4e0-b9db-43eb-aa47-8e9d2d33a9ce"> <img width="200" src="https://github.com/AlvaroErd/MarvelSuperHeroes/assets/108676373/6441eee0-3ecd-426c-8a3a-72b65b2df24a"> <img width="200" src="https://github.com/AlvaroErd/MarvelSuperHeroes/assets/108676373/bbc9b453-313c-4985-bfbb-026cc797adfc">
-</p>
-
-<p align="center">
-<img width="200" src="https://github.com/AlvaroErd/MarvelSuperHeroes/assets/108676373/81a0e9a4-5bee-4d80-8104-00dbe129467f"> <img width="200" src="https://github.com/AlvaroErd/MarvelSuperHeroes/assets/108676373/6c8b1727-ae3f-4642-b527-733f5a4f1ad6"> <img width="200" src="https://github.com/AlvaroErd/MarvelSuperHeroes/assets/108676373/47bbdc0a-647a-4c25-957b-3deae8bb2bc5"> <img width="200" src="https://github.com/AlvaroErd/MarvelSuperHeroes/assets/108676373/e0c23f9a-ea1c-435e-8780-afcda86717e8">
-</p>
+![Marvel Superheroes App presentation](https://gist.github.com/assets/108676373/1686f9a7-e792-4b8c-90ed-8c299adef94f)
+![Marvel Superheroes App functions](https://gist.github.com/assets/108676373/74a3f1f9-d168-40ae-8082-b404acc72d1d)
+![Marvel Superheroes App theme modes](https://gist.github.com/assets/108676373/0eb3859a-36e6-48e9-81f2-fe161d41c0b1)
+![Marvel Superheroes App Build Variants](https://gist.github.com/assets/108676373/3e21b4ba-3923-4f8d-bcd2-739afb05746d) ![Marvel Superheroes App Splash Screen](https://gist.github.com/assets/108676373/bce8eb22-3697-4691-af90-3caed3ad42c6) ![Marvel Superheroes App Loading data](https://gist.github.com/assets/108676373/70bd8bc5-8824-4d8c-9581-144ceb291d48)
 
 <div align="center">
 <video width="100" src="https://github.com/AlvaroErd/MarvelSuperHeroes/assets/108676373/881934fe-0c29-4f94-bd69-d38eecb77a11">
