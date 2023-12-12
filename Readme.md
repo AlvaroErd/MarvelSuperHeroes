@@ -22,13 +22,22 @@ Personal tip! Check the app in dark mode 😎
 
 ## Preview 📱
 
-![Marvel Superheroes App presentation](https://gist.github.com/assets/108676373/1686f9a7-e792-4b8c-90ed-8c299adef94f)
-![Marvel Superheroes App functions](https://gist.github.com/assets/108676373/74a3f1f9-d168-40ae-8082-b404acc72d1d)
-![Marvel Superheroes App theme modes](https://gist.github.com/assets/108676373/0eb3859a-36e6-48e9-81f2-fe161d41c0b1)
-![Marvel Superheroes App Build Variants](https://gist.github.com/assets/108676373/3e21b4ba-3923-4f8d-bcd2-739afb05746d) ![Marvel Superheroes App Splash Screen](https://gist.github.com/assets/108676373/bce8eb22-3697-4691-af90-3caed3ad42c6) ![Marvel Superheroes App Loading data](https://gist.github.com/assets/108676373/70bd8bc5-8824-4d8c-9581-144ceb291d48)
+![Marvel Superheroes App presentation](https://github-production-user-asset-6210df.s3.amazonaws.com/108676373/289721472-1686f9a7-e792-4b8c-90ed-8c299adef94f.png?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=AKIAIWNJYAX4CSVEH53A%2F20231212%2Fus-east-1%2Fs3%2Faws4_request&X-Amz-Date=20231212T021720Z&X-Amz-Expires=300&X-Amz-Signature=e4e25b95480dbc663545239c218c12123121b4d457d640adb0487ea9c87ceb17&X-Amz-SignedHeaders=host&actor_id=0&key_id=0&repo_id=0)
+
+<br>
+
+![Marvel Superheroes App functions](https://github-production-user-asset-6210df.s3.amazonaws.com/108676373/289721474-74a3f1f9-d168-40ae-8082-b404acc72d1d.png?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=AKIAIWNJYAX4CSVEH53A%2F20231212%2Fus-east-1%2Fs3%2Faws4_request&X-Amz-Date=20231212T021833Z&X-Amz-Expires=300&X-Amz-Signature=2e0ca0df6706b12d9517dee760c6b66a89655b20410635bb139fc356abef2207&X-Amz-SignedHeaders=host&actor_id=0&key_id=0&repo_id=0)
+
+<br>
+
+![Marvel Superheroes App theme modes](https://github-production-user-asset-6210df.s3.amazonaws.com/108676373/289721479-0eb3859a-36e6-48e9-81f2-fe161d41c0b1.png?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=AKIAIWNJYAX4CSVEH53A%2F20231212%2Fus-east-1%2Fs3%2Faws4_request&X-Amz-Date=20231212T021834Z&X-Amz-Expires=300&X-Amz-Signature=934ca727ba27e679cab37e52fd1e24ace634b6ac353c38a88de4326c9eb0bc13&X-Amz-SignedHeaders=host&actor_id=0&key_id=0&repo_id=0)
+
+<br>
+
+![Marvel Superheroes App Build Variants](https://github-production-user-asset-6210df.s3.amazonaws.com/108676373/289725397-f0e1aea2-1f72-4fa6-b11f-73eeb41f61ce.png?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=AKIAIWNJYAX4CSVEH53A%2F20231212%2Fus-east-1%2Fs3%2Faws4_request&X-Amz-Date=20231212T022409Z&X-Amz-Expires=300&X-Amz-Signature=355d71bfdfa1890c57f865753e2f3ab37a98ff0bf855e657a97bff9157464039&X-Amz-SignedHeaders=host&actor_id=0&key_id=0&repo_id=0)
 
 <div align="center">
-<video width="100" src="https://github.com/AlvaroErd/MarvelSuperHeroes/assets/108676373/881934fe-0c29-4f94-bd69-d38eecb77a11">
+<video width="100" src="https://gist.github.com/assets/108676373/8d1798be-e97f-4cd5-8062-4ba1363954b0">
 </video>
 </div>
 
@@ -38,14 +47,11 @@ Personal tip! Check the app in dark mode 😎
 - [Kotlin](https://developer.android.com/kotlin) - Develop Android apps with Kotlin
 - [Hilt](https://dagger.dev/hilt) - Dependency injection
 - [Coroutines](https://kotlinlang.org/docs/coroutines-overview.html) - Coroutines
-- [Flow](https://developer.android.com/kotlin/flow?hl=es-419/) - Coroutine component to implement
-  reactive programming
-- [Jetpack compose](https://developer.android.com/develop/ui/views/layout/declaring-layout) -
-  Jetpack compose kit to build the UI
-- [Navigation compose](https://developer.android.com/jetpack/compose/navigation?hl=es-419) -
-  NavGraph for navigation
+- [Flow](https://developer.android.com/kotlin/flow?hl=es-419/) - Coroutine component to implement reactive programming
+- [Jetpack compose](https://developer.android.com/develop/ui/views/layout/declaring-layout) - Jetpack compose kit to build the UI
+- [Navigation compose](https://developer.android.com/jetpack/compose/navigation?hl=es-419) - NavGraph for navigation
 - [Material Design](https://m3.material.io/) - Material components for the UI
-- [Room](Desarrolladores de Android &nbsp;|&nbsp; Android Developers](https://developer.android.com/jetpack/androidx/releases/room) - A persistence library that provides an abstraction layer over SQLite
+- [Room](https://developer.android.com/jetpack/androidx/releases/room) - A persistence library that provides an abstraction layer over SQLite
 - [Paging 3.0](https://developer.android.com/topic/libraries/architecture/paging/v3-overview?hl=es-419) - Implementation of the Paging
 - [Retrofit](https://square.github.io/retrofit/) - Retrofit to receive data from Internet
 - [Coil](https://coil-kt.github.io/coil/) - Library to load images
