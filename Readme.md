@@ -6,20 +6,6 @@
 
 This repository contains the technical test to put into practice the knowledge acquired about Android, Kotlin, Clean Architecture, Jetpack Compose, Retrofit and much more. I hope you enjoy it!
 
-## How to run the application 🏗️
-
-As long as this application is kept with moderate use, I have added my own apikey and private apikey in the gradle.properties file.
-
-If you don't find it added, you can put your own api key and private api key with the following format:
-
-API_KEY_PUBLIC=11111111111
-API_KEY_PRIVATE=222222222222222
-
-You can provide your own api key from
-here [Marvel docs](https://developer.marvel.com/documentation/getting_started).
-
-Personal tip! Check the app in dark mode 😎
-
 ## Preview 📱
 
 ![Marvel Superheroes App presentation](https://github-production-user-asset-6210df.s3.amazonaws.com/108676373/289721472-1686f9a7-e792-4b8c-90ed-8c299adef94f.png?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=AKIAIWNJYAX4CSVEH53A%2F20231212%2Fus-east-1%2Fs3%2Faws4_request&X-Amz-Date=20231212T021720Z&X-Amz-Expires=300&X-Amz-Signature=e4e25b95480dbc663545239c218c12123121b4d457d640adb0487ea9c87ceb17&X-Amz-SignedHeaders=host&actor_id=0&key_id=0&repo_id=0)
@@ -88,6 +74,7 @@ Personal tip! Check the app in dark mode 😎
 - Long texts have a displacement animation so that they can be read in full without having to go into detail
 - A library to show the error capture in logcat inside the app, only for develop pourposes
 - A bunch of composables as a private repository
+- Personal tip! Check the app in dark mode 😎
 
 ## Others 👾
 
@@ -118,6 +105,18 @@ Personal tip! Check the app in dark mode 😎
 - ~~Detail view comics are not an infinite list~~ (Fixed)
 - ~~You can't zoom in on the images~~ (Fixed)
 - Does not support horizontal orientation (In consideration)
+
+## How to run the application 🏗️
+
+As long as this application is kept with moderate use, I have added my own apikey and private apikey in the gradle.properties file.
+
+If you don't find it added, you can put your own api key and private api key with the following format:
+
+API_KEY_PUBLIC=11111111111
+API_KEY_PRIVATE=222222222222222
+
+You can provide your own api key from
+here [Marvel docs](https://developer.marvel.com/documentation/getting_started).
 
 ## License ⚖️
 
