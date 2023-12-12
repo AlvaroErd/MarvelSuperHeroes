@@ -16,7 +16,7 @@ This repository contains the technical test to put into practice the knowledge a
 
 <br>
 
-![Marvel Superheroes App theme modes](https://github-production-user-asset-6210df.s3.amazonaws.com/108676373/289721479-0eb3859a-36e6-48e9-81f2-fe161d41c0b1.png?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=AKIAIWNJYAX4CSVEH53A%2F20231212%2Fus-east-1%2Fs3%2Faws4_request&X-Amz-Date=20231212T021834Z&X-Amz-Expires=300&X-Amz-Signature=934ca727ba27e679cab37e52fd1e24ace634b6ac353c38a88de4326c9eb0bc13&X-Amz-SignedHeaders=host&actor_id=0&key_id=0&repo_id=0)
+![Marvel Superheroes App theme modes](https://github-production-user-asset-6210df.s3.amazonaws.com/108676373/289996943-13dcd9bf-12ad-4bba-99c6-f69230536489.png?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=AKIAIWNJYAX4CSVEH53A%2F20231212%2Fus-east-1%2Fs3%2Faws4_request&X-Amz-Date=20231212T203611Z&X-Amz-Expires=300&X-Amz-Signature=d81598021f3b9e909710e62e91ed77de50cb8ec61775189fa12a0e6b71eead31&X-Amz-SignedHeaders=host&actor_id=0&key_id=0&repo_id=0)
 
 <br>
 
