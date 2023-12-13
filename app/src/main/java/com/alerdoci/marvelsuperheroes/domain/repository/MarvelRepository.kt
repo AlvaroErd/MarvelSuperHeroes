@@ -8,19 +8,19 @@ import kotlinx.coroutines.flow.Flow
 
 interface MarvelRepository {
 
-    suspend fun getMarvelSuperHeroesPaging(
+    fun getMarvelSuperHeroesPaging(
         offset: Int,
         limit: Int,
         name: String?,
     ): Flow<List<ModelResult>>
 
-    suspend fun getMarvelSuperHero(
+    fun getMarvelSuperHero(
         superHeroId: Int,
         offset: Int = OFFSET,
         limit: Int = PAGE_SIZE
     ): Flow<List<ModelResult>>
 
-    suspend fun getMarvelSuperHeroComics(
+    fun getMarvelSuperHeroComics(
         offset: Int,
         limit: Int,
         superHeroId: Int,

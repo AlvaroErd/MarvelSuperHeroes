@@ -1,4 +1,4 @@
-package com.alerdoci.marvelsuperheroes.datasource.features.superheroes.remote.mappers
+package com.alerdoci.marvelsuperheroes.datasource.features.superheroes.mappers
 
 import com.alerdoci.marvelsuperheroes.datasource.features.superheroes.cache.entity.CacheSuperHeroesResult
 import com.alerdoci.marvelsuperheroes.datasource.features.superheroes.remote.models.RemoteResult

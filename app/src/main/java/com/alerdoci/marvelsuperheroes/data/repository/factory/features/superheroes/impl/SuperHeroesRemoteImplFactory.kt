@@ -14,7 +14,7 @@ open class SuperHeroesRemoteImplFactory @Inject constructor(
     private val factory: SuperHeroesDataFactory
 ) : MarvelRepository {
 
-    override suspend fun getMarvelSuperHeroesPaging(
+    override fun getMarvelSuperHeroesPaging(
         offset: Int,
         limit: Int,
         name: String?,
@@ -83,7 +83,7 @@ open class SuperHeroesRemoteImplFactory @Inject constructor(
         }
     }
 
-    override suspend fun getMarvelSuperHero(
+    override fun getMarvelSuperHero(
         superHeroId: Int,
         offset: Int,
         limit: Int
@@ -140,7 +140,7 @@ open class SuperHeroesRemoteImplFactory @Inject constructor(
 //        }
 //    }
 
-    override suspend fun getMarvelSuperHeroComics(
+    override fun getMarvelSuperHeroComics(
         offset: Int,
         limit: Int,
         superHeroId: Int

@@ -3,8 +3,8 @@ package com.alerdoci.marvelsuperheroes.datasource.features.superheroes.remote.im
 import com.alerdoci.marvelsuperheroes.BuildConfig
 import com.alerdoci.marvelsuperheroes.data.datastore.features.superheroes.SuperheroesDataStore
 import com.alerdoci.marvelsuperheroes.datasource.di.remote.NetworkModule
-import com.alerdoci.marvelsuperheroes.datasource.features.superherocomics.remote.mappers.toDomain
-import com.alerdoci.marvelsuperheroes.datasource.features.superheroes.remote.mappers.toDomain
+import com.alerdoci.marvelsuperheroes.datasource.features.superherocomics.mappers.toDomain
+import com.alerdoci.marvelsuperheroes.datasource.features.superheroes.mappers.toDomain
 import com.alerdoci.marvelsuperheroes.datasource.remote.service.MarvelService
 import com.alerdoci.marvelsuperheroes.domain.constants.Constants.Companion.OFFSET
 import com.alerdoci.marvelsuperheroes.domain.constants.Constants.Companion.PAGE_SIZE
@@ -18,7 +18,7 @@ open class SuperHeroesRemoteDataStoreImpl @Inject constructor(
     private val remoteService: MarvelService,
 ) : SuperheroesDataStore {
 
-    override suspend fun getMarvelSuperHeroesPaging(
+    override fun getMarvelSuperHeroesPaging(
         offset: Int,
         limit: Int,
         name: String?
@@ -41,7 +41,7 @@ open class SuperHeroesRemoteDataStoreImpl @Inject constructor(
 //            Completable.error(RemoteExceptionMapper.getException(superheroes.message))
         }
     }
-    override suspend fun getMarvelSuperHeroesByName(
+    override fun getMarvelSuperHeroesByName(
         offset: Int,
         limit: Int,
         name: String?
@@ -63,7 +63,7 @@ open class SuperHeroesRemoteDataStoreImpl @Inject constructor(
         }
     }
 
-    override suspend fun getMarvelSuperHero(
+    override fun getMarvelSuperHero(
         superHeroId: Int,
         offset: Int,
         limit: Int
@@ -89,7 +89,7 @@ open class SuperHeroesRemoteDataStoreImpl @Inject constructor(
         }
     }
 
-    override suspend fun getMarvelSuperHeroComics(
+    override fun getMarvelSuperHeroComics(
         offset: Int,
         limit: Int,
         superHeroId: Int,
