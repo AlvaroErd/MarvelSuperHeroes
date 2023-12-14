@@ -14,7 +14,7 @@ open class SuperHeroesRemoteImplFactory @Inject constructor(
     private val factory: SuperHeroesDataFactory
 ) : MarvelRepository {
 
-    override suspend fun getMarvelSuperHeroesPaging(
+    override fun getMarvelSuperHeroesPaging(
         offset: Int,
         limit: Int,
         name: String?,
@@ -55,7 +55,7 @@ open class SuperHeroesRemoteImplFactory @Inject constructor(
                 name = name
             )
             remoteResultSearch.collectLatest { remoteSuperHeroSearched ->
-                factory.cacheDataStore.insertOrUpdateSuperHeroes(*remoteSuperHeroSearched.toTypedArray())
+                factory.cacheDataStore.insertOrUpdateSuperHeroes(remoteSuperHeroSearched)
                 channel.send(remoteSuperHeroSearched)
             }
         } catch (exception: Exception) {
@@ -75,7 +75,7 @@ open class SuperHeroesRemoteImplFactory @Inject constructor(
                 name = null
             )
             remoteResult.collectLatest { remoteSuperHeroesPaging ->
-                factory.cacheDataStore.insertOrUpdateSuperHeroes(*remoteSuperHeroesPaging.toTypedArray())
+                factory.cacheDataStore.insertOrUpdateSuperHeroes(remoteSuperHeroesPaging)
                 channel.send(remoteSuperHeroesPaging)
             }
         } catch (exception: Exception) {
@@ -83,7 +83,7 @@ open class SuperHeroesRemoteImplFactory @Inject constructor(
         }
     }
 
-    override suspend fun getMarvelSuperHero(
+    override fun getMarvelSuperHero(
         superHeroId: Int,
         offset: Int,
         limit: Int
@@ -97,7 +97,7 @@ open class SuperHeroesRemoteImplFactory @Inject constructor(
                         factory.remoteDataStore.getMarvelSuperHero(
                             superHeroId = superHeroId
                         ).collectLatest { remoteSuperHero ->
-                            factory.cacheDataStore.insertOrUpdateSuperHeroes(*remoteSuperHero.toTypedArray())
+                            factory.cacheDataStore.insertOrUpdateSuperHeroes(remoteSuperHero)
                             send(remoteSuperHero)
                         }
 
@@ -110,37 +110,7 @@ open class SuperHeroesRemoteImplFactory @Inject constructor(
             }
     }
 
-//    override suspend fun getMarvelSuperHeroComics(
-//        offset: Int,
-//        limit: Int,
-//        superHeroId: Int
-//    ): Flow<List<ModelComicsResult>> = channelFlow {
-//        factory.cacheDataStore.getMarvelSuperHeroComics(
-//            offset = offset,
-//            limit = limit,
-//            superHeroId = superHeroId
-//        ).collectLatest { superheroComic ->
-//            if (superheroComic.isEmpty()) {
-//                try {
-//                    factory.remoteDataStore.getMarvelSuperHeroComics(
-//                        offset = offset,
-//                        limit = limit,
-//                        superHeroId = superHeroId,
-//                    ).collectLatest { remoteSuperHeroComics ->
-//                        factory.cacheDataStore.insertOrUpdateSuperHeroesComic(*remoteSuperHeroComics.toTypedArray())
-//                        send(remoteSuperHeroComics)
-//                    }
-//
-//                } catch (exception: Exception) {
-//                    send(emptyList())
-//                }
-//            } else {
-//                send(superheroComic)
-//            }
-//        }
-//    }
-
-    override suspend fun getMarvelSuperHeroComics(
+    override fun getMarvelSuperHeroComics(
         offset: Int,
         limit: Int,
         superHeroId: Int
@@ -161,7 +131,7 @@ open class SuperHeroesRemoteImplFactory @Inject constructor(
                             superHeroId = superHeroId,
                         )
                         remoteResult.collectLatest { remoteSuperHeroComics ->
-                            factory.cacheDataStore.insertOrUpdateSuperHeroesComic(*remoteSuperHeroComics.toTypedArray())
+                            factory.cacheDataStore.insertOrUpdateSuperHeroesComic(remoteSuperHeroComics)
                             send(remoteSuperHeroComics)
                         }
                     } catch (exception: Exception) {
@@ -177,33 +147,3 @@ open class SuperHeroesRemoteImplFactory @Inject constructor(
     }
 
 }
-
-//    override suspend fun getMarvelSuperHeroesPaging(
-//        offset: Int,
-//        limit: Int,
-//        name: String?,
-//    ): Flow<List<ModelResult>> = channelFlow {
-//        factory.cacheDataStore.getMarvelSuperHeroesPaging(
-//            offset = offset,
-//            limit = limit,
-//            name = name
-//        ).collectLatest { superheroes ->
-//            if (superheroes.isEmpty()) {
-//                try {
-//                    factory.remoteDataStore.getMarvelSuperHeroesPaging(
-//                        offset = offset,
-//                        limit = limit,
-//                        name = name
-//                    ).collectLatest { remoteSuperHeroesPaging ->
-//                        factory.cacheDataStore.insertOrUpdateSuperHeroes(*remoteSuperHeroesPaging.toTypedArray())
-//                        send(remoteSuperHeroesPaging)
-//                    }
-//
-//                } catch (exception: Exception) {
-//                    send(emptyList())
-//                }
-//            } else {
-//                send(superheroes)
-//            }
-//        }
-//    }

@@ -2,20 +2,20 @@ package com.alerdoci.marvelsuperheroes.datasource.features.superheroes.cache.imp
 
 import com.alerdoci.marvelsuperheroes.data.datastore.features.superheroes.SuperheroesDataStore
 import com.alerdoci.marvelsuperheroes.datasource.cache.database.SuperHeroesDatabase
-import com.alerdoci.marvelsuperheroes.datasource.features.superherocomics.remote.mappers.toDomain
-import com.alerdoci.marvelsuperheroes.datasource.features.superheroes.remote.mappers.toDomain
+import com.alerdoci.marvelsuperheroes.datasource.features.superherocomics.mappers.toDomain
+import com.alerdoci.marvelsuperheroes.datasource.features.superheroes.mappers.toCache
+import com.alerdoci.marvelsuperheroes.datasource.features.superheroes.mappers.toDomain
 import com.alerdoci.marvelsuperheroes.model.features.superherocomic.ModelComicsResult
 import com.alerdoci.marvelsuperheroes.model.features.superheroes.ModelResult
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 import javax.inject.Inject
 
-
 open class SuperHeroesCacheDataStoreImpl @Inject constructor(
     private val superHeroesDatabase: SuperHeroesDatabase,
 ) : SuperheroesDataStore {
 
-    override suspend fun getMarvelSuperHeroesPaging(
+    override fun getMarvelSuperHeroesPaging(
         offset: Int,
         limit: Int,
         name: String?
@@ -25,24 +25,28 @@ open class SuperHeroesCacheDataStoreImpl @Inject constructor(
                 cacheSuperHeroes.map { cacheSuperHero -> cacheSuperHero.toDomain() }
             }
 
-    override suspend fun getMarvelSuperHeroesByName(
+    override fun getMarvelSuperHeroesByName(
         offset: Int,
         limit: Int,
         name: String?
     ): Flow<List<ModelResult>> =
-        superHeroesDatabase.superHeroesDao().getSuperHeroesByName(limit = limit, offset = offset, name = name)
+        superHeroesDatabase.superHeroesDao()
+            .getSuperHeroesByName(limit = limit, offset = offset, name = name)
             .map { cacheSuperHeroes ->
                 cacheSuperHeroes.map { cacheSuperHero -> cacheSuperHero.toDomain() }
             }
 
-    override suspend fun insertOrUpdateSuperHeroes(vararg superHeroesList: ModelResult) {
-        superHeroesDatabase.superHeroesDao().insertOrUpdateSuperHeroes(
-            *superHeroesList.map { domainSuperHeroesList -> domainSuperHeroesList.toDomain() }
-                .toTypedArray()
-        )
+    override suspend fun insertOrUpdateSuperHeroes(superHeroesList: List<ModelResult>) {
+        try {
+            superHeroesDatabase.superHeroesDao().insertOrUpdateSuperHeroes(
+                superHeroesList.map { domainSuperHeroesList -> domainSuperHeroesList.toCache() }
+            )
+        } catch (e: Exception) {
+            throw IllegalStateException("${this.javaClass.simpleName} has an error, check here: ${e.message}")
+        }
     }
 
-    override suspend fun getMarvelSuperHero(
+    override fun getMarvelSuperHero(
         superHeroId: Int,
         offset: Int,
         limit: Int
@@ -52,7 +56,7 @@ open class SuperHeroesCacheDataStoreImpl @Inject constructor(
                 cacheSuperHeroes.map { cacheSuperHero -> cacheSuperHero.toDomain() }
             }
 
-    override suspend fun getMarvelSuperHeroComics(
+    override fun getMarvelSuperHeroComics(
         offset: Int,
         limit: Int,
         superHeroId: Int,
@@ -63,10 +67,13 @@ open class SuperHeroesCacheDataStoreImpl @Inject constructor(
                 cacheSuperHeroes.map { cacheSuperHero -> cacheSuperHero.toDomain() }
             }
 
-    override suspend fun insertOrUpdateSuperHeroesComic(vararg superHeroesComicList: ModelComicsResult) {
-        superHeroesDatabase.superHeroesDao().insertOrUpdateComicsSuperheroes(
-            *superHeroesComicList.map { domainSuperHeroesComicList -> domainSuperHeroesComicList.toDomain() }
-                .toTypedArray()
-        )
+    override suspend fun insertOrUpdateSuperHeroesComic(superHeroesComicList: List<ModelComicsResult>) {
+        try {
+            superHeroesDatabase.superHeroesDao().insertOrUpdateComicsSuperheroes(
+                superHeroesComicList.map { domainSuperHeroesComicList -> domainSuperHeroesComicList.toDomain() }
+            )
+        } catch (e: Exception) {
+            throw IllegalStateException("${this.javaClass.simpleName} has an error, check here: ${e.message}")
+        }
     }
 }

@@ -6,32 +6,24 @@
 
 This repository contains the technical test to put into practice the knowledge acquired about Android, Kotlin, Clean Architecture, Jetpack Compose, Retrofit and much more. I hope you enjoy it!
 
-## How to run the application 🏗️
-
-As long as this application is kept with moderate use, I have added my own apikey and private apikey in the gradle.properties file.
-
-If you don't find it added, you can put your own api key and private api key with the following format:
-
-API_KEY_PUBLIC=11111111111
-API_KEY_PRIVATE=222222222222222
-
-You can provide your own api key from
-here [Marvel docs](https://developer.marvel.com/documentation/getting_started).
-
-Personal tip! Check the app in dark mode 😎
-
 ## Preview 📱
 
-<p align="center">
-<img width="200" src="https://github.com/AlvaroErd/MarvelSuperHeroes/assets/108676373/c5c9b471-23ca-44e8-acd3-035cbd78b88b"> <img width="200" src="https://github.com/AlvaroErd/MarvelSuperHeroes/assets/108676373/e43cc4e0-b9db-43eb-aa47-8e9d2d33a9ce"> <img width="200" src="https://github.com/AlvaroErd/MarvelSuperHeroes/assets/108676373/6441eee0-3ecd-426c-8a3a-72b65b2df24a"> <img width="200" src="https://github.com/AlvaroErd/MarvelSuperHeroes/assets/108676373/bbc9b453-313c-4985-bfbb-026cc797adfc">
-</p>
+![Marvel Superheroes App presentation](https://github-production-user-asset-6210df.s3.amazonaws.com/108676373/289721472-1686f9a7-e792-4b8c-90ed-8c299adef94f.png?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=AKIAIWNJYAX4CSVEH53A%2F20231212%2Fus-east-1%2Fs3%2Faws4_request&X-Amz-Date=20231212T021720Z&X-Amz-Expires=300&X-Amz-Signature=e4e25b95480dbc663545239c218c12123121b4d457d640adb0487ea9c87ceb17&X-Amz-SignedHeaders=host&actor_id=0&key_id=0&repo_id=0)
 
-<p align="center">
-<img width="200" src="https://github.com/AlvaroErd/MarvelSuperHeroes/assets/108676373/81a0e9a4-5bee-4d80-8104-00dbe129467f"> <img width="200" src="https://github.com/AlvaroErd/MarvelSuperHeroes/assets/108676373/6c8b1727-ae3f-4642-b527-733f5a4f1ad6"> <img width="200" src="https://github.com/AlvaroErd/MarvelSuperHeroes/assets/108676373/47bbdc0a-647a-4c25-957b-3deae8bb2bc5"> <img width="200" src="https://github.com/AlvaroErd/MarvelSuperHeroes/assets/108676373/e0c23f9a-ea1c-435e-8780-afcda86717e8">
-</p>
+<br>
+
+![Marvel Superheroes App functions](https://github-production-user-asset-6210df.s3.amazonaws.com/108676373/289721474-74a3f1f9-d168-40ae-8082-b404acc72d1d.png?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=AKIAIWNJYAX4CSVEH53A%2F20231212%2Fus-east-1%2Fs3%2Faws4_request&X-Amz-Date=20231212T021833Z&X-Amz-Expires=300&X-Amz-Signature=2e0ca0df6706b12d9517dee760c6b66a89655b20410635bb139fc356abef2207&X-Amz-SignedHeaders=host&actor_id=0&key_id=0&repo_id=0)
+
+<br>
+
+![Marvel Superheroes App theme modes](https://github-production-user-asset-6210df.s3.amazonaws.com/108676373/289996943-13dcd9bf-12ad-4bba-99c6-f69230536489.png?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=AKIAIWNJYAX4CSVEH53A%2F20231212%2Fus-east-1%2Fs3%2Faws4_request&X-Amz-Date=20231212T203611Z&X-Amz-Expires=300&X-Amz-Signature=d81598021f3b9e909710e62e91ed77de50cb8ec61775189fa12a0e6b71eead31&X-Amz-SignedHeaders=host&actor_id=0&key_id=0&repo_id=0)
+
+<br>
+
+![Marvel Superheroes App Build Variants](https://github-production-user-asset-6210df.s3.amazonaws.com/108676373/289725397-f0e1aea2-1f72-4fa6-b11f-73eeb41f61ce.png?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=AKIAIWNJYAX4CSVEH53A%2F20231212%2Fus-east-1%2Fs3%2Faws4_request&X-Amz-Date=20231212T022409Z&X-Amz-Expires=300&X-Amz-Signature=355d71bfdfa1890c57f865753e2f3ab37a98ff0bf855e657a97bff9157464039&X-Amz-SignedHeaders=host&actor_id=0&key_id=0&repo_id=0)
 
 <div align="center">
-<video width="100" src="https://github.com/AlvaroErd/MarvelSuperHeroes/assets/108676373/881934fe-0c29-4f94-bd69-d38eecb77a11">
+<video width="100" src="https://gist.github.com/assets/108676373/8d1798be-e97f-4cd5-8062-4ba1363954b0">
 </video>
 </div>
 
@@ -41,14 +33,11 @@ Personal tip! Check the app in dark mode 😎
 - [Kotlin](https://developer.android.com/kotlin) - Develop Android apps with Kotlin
 - [Hilt](https://dagger.dev/hilt) - Dependency injection
 - [Coroutines](https://kotlinlang.org/docs/coroutines-overview.html) - Coroutines
-- [Flow](https://developer.android.com/kotlin/flow?hl=es-419/) - Coroutine component to implement
-  reactive programming
-- [Jetpack compose](https://developer.android.com/develop/ui/views/layout/declaring-layout) -
-  Jetpack compose kit to build the UI
-- [Navigation compose](https://developer.android.com/jetpack/compose/navigation?hl=es-419) -
-  NavGraph for navigation
+- [Flow](https://developer.android.com/kotlin/flow?hl=es-419/) - Coroutine component to implement reactive programming
+- [Jetpack compose](https://developer.android.com/develop/ui/views/layout/declaring-layout) - Jetpack compose kit to build the UI
+- [Navigation compose](https://developer.android.com/jetpack/compose/navigation?hl=es-419) - NavGraph for navigation
 - [Material Design](https://m3.material.io/) - Material components for the UI
-- [Room](Desarrolladores de Android &nbsp;|&nbsp; Android Developers](https://developer.android.com/jetpack/androidx/releases/room) - A persistence library that provides an abstraction layer over SQLite
+- [Room](https://developer.android.com/jetpack/androidx/releases/room) - A persistence library that provides an abstraction layer over SQLite
 - [Paging 3.0](https://developer.android.com/topic/libraries/architecture/paging/v3-overview?hl=es-419) - Implementation of the Paging
 - [Retrofit](https://square.github.io/retrofit/) - Retrofit to receive data from Internet
 - [Coil](https://coil-kt.github.io/coil/) - Library to load images
@@ -85,6 +74,7 @@ Personal tip! Check the app in dark mode 😎
 - Long texts have a displacement animation so that they can be read in full without having to go into detail
 - A library to show the error capture in logcat inside the app, only for develop pourposes
 - A bunch of composables as a private repository
+- Personal tip! Check the app in dark mode 😎
 
 ## Others 👾
 
@@ -115,6 +105,18 @@ Personal tip! Check the app in dark mode 😎
 - ~~Detail view comics are not an infinite list~~ (Fixed)
 - ~~You can't zoom in on the images~~ (Fixed)
 - Does not support horizontal orientation (In consideration)
+
+## How to run the application 🏗️
+
+As long as this application is kept with moderate use, I have added my own apikey and private apikey in the gradle.properties file.
+
+If you don't find it added, you can put your own api key and private api key with the following format:
+
+API_KEY_PUBLIC=11111111111
+API_KEY_PRIVATE=222222222222222
+
+You can provide your own api key from
+here [Marvel docs](https://developer.marvel.com/documentation/getting_started).
 
 ## License ⚖️
 
