@@ -36,9 +36,12 @@ open class SuperHeroesRemoteDataStoreImpl @Inject constructor(
             val results = superheroes.body()?.data?.results
             emit(results?.map { superhero -> superhero.toDomain() } ?: emptyList())
         } else {
-            //ToDo Show error message
             emit(emptyList())
-//            Completable.error(RemoteExceptionMapper.getException(superheroes.message))
+            throw throw IllegalStateException(
+                "ErrorCode: ${superheroes.code()}, Message:${
+                    superheroes.errorBody()?.string()
+                }"
+            )
         }
     }
     override fun getMarvelSuperHeroesByName(
@@ -60,6 +63,11 @@ open class SuperHeroesRemoteDataStoreImpl @Inject constructor(
             emit(results?.map { superhero -> superhero.toDomain() } ?: emptyList())
         } else {
             emit(emptyList())
+            throw throw IllegalStateException(
+                "ErrorCode: ${superheroes.code()}, Message:${
+                    superheroes.errorBody()?.string()
+                }"
+            )
         }
     }
 
@@ -80,12 +88,17 @@ open class SuperHeroesRemoteDataStoreImpl @Inject constructor(
         if (superhero.isSuccessful) {
             val results = superhero.body()?.data?.results
             if (!results.isNullOrEmpty()) {
-                emit(results.map { superhero -> superhero.toDomain() })
+                emit(results.map { superheroRemote -> superheroRemote.toDomain() })
             } else {
                 emit(emptyList())
             }
         } else {
             emit(emptyList())
+            throw throw IllegalStateException(
+                "ErrorCode: ${superhero.code()}, Message:${
+                    superhero.errorBody()?.string()
+                }"
+            )
         }
     }
 
@@ -108,14 +121,19 @@ open class SuperHeroesRemoteDataStoreImpl @Inject constructor(
             emit(results?.map { superheroComic -> superheroComic.toDomain() } ?: emptyList())
         } else {
             emit(emptyList())
+            throw throw IllegalStateException(
+                "ErrorCode: ${superhero.code()}, Message:${
+                    superhero.errorBody()?.string()
+                }"
+            )
         }
     }
 
-    override suspend fun insertOrUpdateSuperHeroes(vararg superHeroesList: ModelResult) {
-        TODO("Not yet implemented")
+    override suspend fun insertOrUpdateSuperHeroes(superHeroesList: List<ModelResult>) {
+        throw UnsupportedOperationException("This operation is not supported in remote dataStore")
     }
 
-    override suspend fun insertOrUpdateSuperHeroesComic(vararg superHeroesComicList: ModelComicsResult) {
-        TODO("Not yet implemented")
+    override suspend fun insertOrUpdateSuperHeroesComic(superHeroesComicList: List<ModelComicsResult>) {
+        throw UnsupportedOperationException("This operation is not supported in remote dataStore")
     }
 }
