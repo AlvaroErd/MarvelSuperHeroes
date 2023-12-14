@@ -32,6 +32,6 @@ interface SuperheroesDataStore {
         superHeroId: Int,
     ): Flow<List<ModelComicsResult>>
 
-    suspend fun insertOrUpdateSuperHeroes(vararg superHeroesList: ModelResult)
-    suspend fun insertOrUpdateSuperHeroesComic(vararg superHeroesComicList: ModelComicsResult)
+    suspend fun insertOrUpdateSuperHeroes(superHeroesList: List<ModelResult>)
+    suspend fun insertOrUpdateSuperHeroesComic(superHeroesComicList: List<ModelComicsResult>)
 }

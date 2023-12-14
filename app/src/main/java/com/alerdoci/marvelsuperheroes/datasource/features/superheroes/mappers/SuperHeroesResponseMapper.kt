@@ -40,7 +40,7 @@ fun CacheSuperHeroesResult.toDomain(): ModelResult = ModelResult(
 //endregion
 
 //region Source of truth
-fun ModelResult.toDomain(): CacheSuperHeroesResult = CacheSuperHeroesResult(
+fun ModelResult.toCache(): CacheSuperHeroesResult = CacheSuperHeroesResult(
     comics = comics,
     description = description,
     events = events,
@@ -49,9 +49,3 @@ fun ModelResult.toDomain(): CacheSuperHeroesResult = CacheSuperHeroesResult(
     series = series,
     image = image
 )
-
-//endregion
-
-//override fun toDomain(): ModelResult {
-//    throw IllegalMappingException("${this.javaClass.simpleName} can't be mapped to Domain Entity")
-//}

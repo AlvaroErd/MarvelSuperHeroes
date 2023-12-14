@@ -109,16 +109,6 @@ object NetworkModule {
             context = context,
             klass = SuperHeroesDatabase::class.java,
             name = MarvelConstants.DATABASE_NAME
-        )
-            //region automigrations
-            .addMigrations(*SuperHeroesDatabase.migrations.toTypedArray())
-            .enableMultiInstanceInvalidation()
-            .setQueryCallback(object : RoomDatabase.QueryCallback {
-                override fun onQuery(sqlQuery: String, bindArgs: List<Any?>) {
-                    Log.d("SqlQuery", "$sqlQuery, $bindArgs")
-                }
-            }, Executors.newSingleThreadExecutor())
-            //endregion
-            .build()
+        ).build()
 
 }
