@@ -52,7 +52,8 @@ class MainActivity : ComponentActivity() {
         superHeroViewModel = ViewModelProvider(this)[SuperHeroViewModel::class.java]
         settingsViewModel = ViewModelProvider(this)[SettingsViewModel::class.java]
 
-        ThemeMode.entries.find { it.ordinal == settingsViewModel.getThemeValue()}
+        ThemeMode.entries.find { themeMode ->
+            themeMode == settingsViewModel.getThemeValue()}
             ?.let { settingsViewModel.setTheme(it) }
 
         installSplashScreen().apply {

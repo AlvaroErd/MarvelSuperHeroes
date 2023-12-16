@@ -9,6 +9,7 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.basicMarquee
 import androidx.compose.foundation.gestures.detectTapGestures
+import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -144,24 +145,25 @@ fun HomeScreen(
     val infoDialog = remember { mutableStateOf(false) }
     val sheetState = rememberModalBottomSheetState()
 
+    val isSystemInDarkTheme: Boolean = isSystemInDarkTheme()
+    val currentTheme = settingsViewModel.getCurrentTheme(isSystemInDarkTheme)
     val systemUiController = rememberSystemUiController()
 
-    systemUiController.setStatusBarColor(
-        color = MaterialTheme.colorScheme.background,
-        darkIcons = settingsViewModel.getCurrentTheme() == ThemeMode.Light
-    )
-
-    systemUiController.setNavigationBarColor(
-        color = MaterialTheme.colorScheme.background,
-        darkIcons = settingsViewModel.getCurrentTheme() == ThemeMode.Light
-    )
+        systemUiController.setStatusBarColor(
+            color = MaterialTheme.colorScheme.background,
+            darkIcons = currentTheme == ThemeMode.Light
+        )
+        systemUiController.setNavigationBarColor(
+            color = MaterialTheme.colorScheme.background,
+            darkIcons = currentTheme == ThemeMode.Light
+        )
 
     val displayDialog = remember { mutableStateOf(false) }
     val radioOptions = listOf("Light", "Dark", "System")
     val displayValue =
         when (settingsViewModel.getThemeValue()) {
-            ThemeMode.Light.ordinal -> "Light"
-            ThemeMode.Dark.ordinal -> "Dark"
+            ThemeMode.Light -> "Light"
+            ThemeMode.Dark -> "Dark"
             else -> "System"
         }
     val (selectedOption, onOptionSelected) = remember { mutableStateOf(displayValue) }

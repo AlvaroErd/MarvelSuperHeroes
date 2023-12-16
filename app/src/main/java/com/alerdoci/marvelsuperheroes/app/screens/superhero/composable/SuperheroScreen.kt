@@ -224,7 +224,7 @@ fun SuperheroScreen(
                             Column {
                                 when (superHeroComic.loadState.refresh) {
                                     is LoadState.Loading -> {
-                                        Box(modifier = Modifier.height(300.dp)) {
+                                        Box(modifier = Modifier.height(200.dp)) {
                                             LoadingScreen()
                                         }
                                     }
