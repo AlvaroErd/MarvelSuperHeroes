@@ -88,7 +88,7 @@ fun InfoDialog(
                                 .padding(top = 10.dp, bottom = 15.dp, start = 25.dp, end = 25.dp)
                                 .fillMaxWidth(),
                             style = MaterialTheme.typography.titleSmall,
-                            color = MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.9f),
+                            color = MaterialTheme.colorScheme.onBackground.copy(alpha = 0.9f),
                         )
 
                         Button(

@@ -29,7 +29,7 @@ import com.alerdoci.marvelsuperheroes.app.theme.RocGrotesk
 fun AnimatedPlaceholder(
     hints: List<String>,
     textStyle: FontFamily = RocGrotesk,
-    textColor: Color = MaterialTheme.colorScheme.onSurfaceVariant,
+    textColor: Color = MaterialTheme.colorScheme.onBackground,
 ) {
     val iterator = hints.listIterator()
 
@@ -86,7 +86,8 @@ fun AnimatedPlaceholderPreview() {
         leadingIcon = {
             Icon(
                 imageVector = Icons.Default.Search,
-                contentDescription = "Search icon"
+                contentDescription = "Search icon",
+                tint = MaterialTheme.colorScheme.onBackground
             )
         },
         trailingIcon = {
