@@ -1,13 +1,9 @@
 package com.alerdoci.marvelsuperheroes.app.screens.home.viewmodel
 
-import androidx.compose.foundation.isSystemInDarkTheme
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.runtime.Composable
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.alerdoci.marvelsuperheroes.app.common.utils.PreferenceUtil
-import com.alerdoci.marvelsuperheroes.app.common.utils.SystemUiControllerProvider
 import com.alerdoci.marvelsuperheroes.app.common.utils.ThemeMode
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject

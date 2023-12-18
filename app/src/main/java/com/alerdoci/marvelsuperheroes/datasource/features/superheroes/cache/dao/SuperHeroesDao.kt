@@ -41,15 +41,14 @@ interface SuperHeroesDao {
 
     // region SuperHeroesComics
     @Transaction
-    @Query("$QUERY_SUPERHEROES_COMICS WHERE id = :superheroId ORDER BY onSaleDate ASC LIMIT :limit OFFSET :offset * :limit ")
-    fun getAllComicsCharacter(offset: Int, limit: Int, superheroId: Int): Flow<List<CacheComicsResult>>
+    @Query("$QUERY_SUPERHEROES_COMICS WHERE superHeroId = :superHeroId ORDER BY onSaleDate ASC LIMIT :limit OFFSET :offset * :limit")
+    fun getAllComicsCharacter(offset: Int, limit: Int, superHeroId: Int): Flow<List<CacheComicsResult>>
 
     @Insert(onConflict = REPLACE)
     suspend fun insertOrUpdateComicsSuperheroes(cacheComicsResult: List<CacheComicsResult>)
 
     @Delete
     suspend fun deleteAllSuperHeroesComics(cacheComicsResult: List<CacheComicsResult>)
-
     //endregion
 
 }

@@ -31,7 +31,4 @@ interface SuperheroesDataStore {
         limit: Int,
         superHeroId: Int,
     ): Flow<List<ModelComicsResult>>
-
-    suspend fun insertOrUpdateSuperHeroes(superHeroesList: List<ModelResult>)
-    suspend fun insertOrUpdateSuperHeroesComic(superHeroesComicList: List<ModelComicsResult>)
 }

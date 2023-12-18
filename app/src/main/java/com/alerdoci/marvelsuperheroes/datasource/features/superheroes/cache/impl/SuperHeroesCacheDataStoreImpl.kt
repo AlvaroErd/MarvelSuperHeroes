@@ -1,6 +1,7 @@
 package com.alerdoci.marvelsuperheroes.datasource.features.superheroes.cache.impl
 
 import com.alerdoci.marvelsuperheroes.data.datastore.features.superheroes.SuperheroesDataStore
+import com.alerdoci.marvelsuperheroes.data.datastore.features.superheroes.cache.SuperheroesCacheDataStore
 import com.alerdoci.marvelsuperheroes.datasource.cache.database.SuperHeroesDatabase
 import com.alerdoci.marvelsuperheroes.datasource.features.superherocomics.mappers.toDomain
 import com.alerdoci.marvelsuperheroes.datasource.features.superheroes.mappers.toCache
@@ -13,7 +14,7 @@ import javax.inject.Inject
 
 open class SuperHeroesCacheDataStoreImpl @Inject constructor(
     private val superHeroesDatabase: SuperHeroesDatabase,
-) : SuperheroesDataStore {
+) : SuperheroesCacheDataStore {
 
     override fun getMarvelSuperHeroesPaging(
         offset: Int,
@@ -62,9 +63,9 @@ open class SuperHeroesCacheDataStoreImpl @Inject constructor(
         superHeroId: Int,
     ): Flow<List<ModelComicsResult>> =
         superHeroesDatabase.superHeroesDao()
-            .getAllComicsCharacter(limit = limit, offset = offset, superheroId = superHeroId)
+            .getAllComicsCharacter(limit = limit, offset = offset, superHeroId = superHeroId)
             .map { cacheSuperHeroes ->
-                cacheSuperHeroes.map { cacheSuperHero -> cacheSuperHero.toDomain() }
+                cacheSuperHeroes.map { cacheSuperHero -> cacheSuperHero.toDomain(superHeroId = superHeroId) }
             }
 
     override suspend fun insertOrUpdateSuperHeroesComic(superHeroesComicList: List<ModelComicsResult>) {

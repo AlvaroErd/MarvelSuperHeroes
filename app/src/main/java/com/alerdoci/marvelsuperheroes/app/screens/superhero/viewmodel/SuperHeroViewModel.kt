@@ -12,6 +12,7 @@ import com.alerdoci.marvelsuperheroes.domain.usecases.app.GetMarvelSuperHeroUseC
 import com.alerdoci.marvelsuperheroes.model.features.superherocomic.ModelComicsResult
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
@@ -36,13 +37,12 @@ class SuperHeroViewModel @Inject constructor(
     val currentSuperHero: StateFlow<ResourceState<*>>
         get() = _currentSuperHero
 
-    val searchQuery = MutableStateFlow("")
-
     val loadSuperHeroComic: StateFlow<PagingData<ModelComicsResult>> =
-        searchQuery.flatMapLatest {
-            val superheroIdToCall = this.superheroId ?: 0
-            getMarvelSuperHeroComicsUseCase(superheroIdToCall).cachedIn(viewModelScope)
-        }.stateIn(viewModelScope, SharingStarted.Lazily, PagingData.empty())
+        superheroId?.let { id ->
+            getMarvelSuperHeroComicsUseCase(id)
+                .cachedIn(viewModelScope)
+        }?.stateIn(viewModelScope, SharingStarted.Lazily, PagingData.empty())
+            ?: MutableStateFlow(PagingData.empty())
 
     fun loadSuperHero(superHeroId: Int) {
         _currentSuperHero.update { ResourceState.Loading("") }

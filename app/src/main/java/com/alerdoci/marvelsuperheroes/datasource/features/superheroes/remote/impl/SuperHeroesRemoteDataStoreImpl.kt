@@ -118,7 +118,7 @@ open class SuperHeroesRemoteDataStoreImpl @Inject constructor(
         )
         if (superhero.isSuccessful) {
             val results = superhero.body()?.data?.results
-            emit(results?.map { superheroComic -> superheroComic.toDomain() } ?: emptyList())
+            emit(results?.map { superheroComic -> superheroComic.toDomain(superHeroId = superHeroId) } ?: emptyList())
         } else {
             emit(emptyList())
             throw throw IllegalStateException(
@@ -129,11 +129,4 @@ open class SuperHeroesRemoteDataStoreImpl @Inject constructor(
         }
     }
 
-    override suspend fun insertOrUpdateSuperHeroes(superHeroesList: List<ModelResult>) {
-        throw UnsupportedOperationException("This operation is not supported in remote dataStore")
-    }
-
-    override suspend fun insertOrUpdateSuperHeroesComic(superHeroesComicList: List<ModelComicsResult>) {
-        throw UnsupportedOperationException("This operation is not supported in remote dataStore")
-    }
 }

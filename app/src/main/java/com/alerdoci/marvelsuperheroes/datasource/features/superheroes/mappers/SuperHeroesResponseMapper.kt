@@ -1,7 +1,9 @@
 package com.alerdoci.marvelsuperheroes.datasource.features.superheroes.mappers
 
+import com.alerdoci.marvelsuperheroes.app.common.extensions.Extensions.replaceHttp
 import com.alerdoci.marvelsuperheroes.datasource.features.superheroes.cache.entity.CacheSuperHeroesResult
 import com.alerdoci.marvelsuperheroes.datasource.features.superheroes.remote.models.RemoteResult
+import com.alerdoci.marvelsuperheroes.domain.constants.Constants.Companion.DOT
 import com.alerdoci.marvelsuperheroes.model.features.superheroes.ModelResult
 
 /**
@@ -19,10 +21,7 @@ fun RemoteResult.toDomain(): ModelResult = ModelResult(
     id = id,
     name = name,
     series = series?.available,
-    image = (thumbnail?.path + "." + thumbnail?.extension).replace(
-        "http",
-        "https"
-    )
+    image = (thumbnail?.path + DOT + thumbnail?.extension).replaceHttp()
 )
 //endregion
 
