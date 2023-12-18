@@ -4,7 +4,7 @@
     <string name="app_name_release" translatable="false">Marvel SuperHeroes</string>
 
     //Loading control
-    <string name="loading">Loading...</string>
+    <string name="loading">Loading…</string>
 
     <!-- region Error -->
     <string name="error">Oops! Something went wrong</string>

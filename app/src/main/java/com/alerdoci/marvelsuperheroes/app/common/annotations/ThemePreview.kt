@@ -1,0 +1,18 @@
+package com.alerdoci.marvelsuperheroes.app.common.annotations
+
+import android.content.res.Configuration.UI_MODE_NIGHT_NO
+import android.content.res.Configuration.UI_MODE_NIGHT_YES
+import androidx.compose.runtime.Composable
+import androidx.compose.ui.tooling.preview.Preview
+import com.alerdoci.marvelsuperheroes.app.components.ListItemPreview
+
+@Preview(name = "Dark Mode", showBackground = true, uiMode = UI_MODE_NIGHT_YES)
+@Preview(name = "Light Mode", showBackground = true, uiMode = UI_MODE_NIGHT_NO)
+annotation class ThemePreview
+
+@ThemePreview
+@Composable
+fun PreviewsListItem() {
+    //Also interactive preview
+    ListItemPreview()
+}

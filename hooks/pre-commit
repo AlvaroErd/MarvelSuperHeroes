@@ -1,0 +1,33 @@
+#!/bin/bash
+
+# Run gradlew detekt before committing and display the output in the terminal
+detekt_output=$(./gradlew detekt 2>&1)
+
+# Check the return code of detekt
+if [ $? -ne 0 ]; then
+    echo "Error: Static analysis with Detekt failed. Please fix the issues before committing."
+    echo "Detekt Output:"
+    echo "$detekt_output"
+    exit 1
+else
+    echo "Detekt passed successfully. Committing..."
+    BUILD_VERSION_PATH="buildSrc/src/main/kotlin/BuildVersion.kt"
+
+    if [[ -e "$BUILD_VERSION_PATH" ]]; then
+        COMMIT_MESSAGE=$(git log --format=%B -n 1 HEAD)
+        echo "COMMIT MESSAGE: $COMMIT_MESSAGE"
+
+        if [[ "$COMMIT_MESSAGE" == "MINOR-"* || "$COMMIT_MESSAGE" == "Merge"* ]]; then
+            awk '/private const val minorVersion/ {gsub(/[0-9]+/, $NF + 1)} 1' "$BUILD_VERSION_PATH" > "$BUILD_VERSION_PATH.tmp" && mv "$BUILD_VERSION_PATH.tmp" "$BUILD_VERSION_PATH"
+        elif [[ "$COMMIT_MESSAGE" == "MAJOR-"* ]]; then
+            awk '/private const val majorVersion/ {gsub(/[0-9]+/, $NF + 1)} 1' "$BUILD_VERSION_PATH" > "$BUILD_VERSION_PATH.tmp" && mv "$BUILD_VERSION_PATH.tmp" "$BUILD_VERSION_PATH"
+        elif [[ "$COMMIT_MESSAGE" == "BUGFIX-"* ]]; then
+            awk '/private const val bugfixVersion/ {gsub(/[0-9]+/, $NF + 1)} 1' "$BUILD_VERSION_PATH" > "$BUILD_VERSION_PATH.tmp" && mv "$BUILD_VERSION_PATH.tmp" "$BUILD_VERSION_PATH"
+        fi
+
+        BRANCH_NAME=$(git rev-parse --abbrev-ref HEAD)
+        awk -v branchName="$BRANCH_NAME" '/private const val branchName/ {gsub(/".*"/, "\"" branchName "\"")} 1' "$BUILD_VERSION_PATH" > "$BUILD_VERSION_PATH.tmp" && mv "$BUILD_VERSION_PATH.tmp" "$BUILD_VERSION_PATH"
+
+        git add "$BUILD_VERSION_PATH"
+    fi
+fi

@@ -777,7 +777,7 @@ fun SuperheroItem(
                         }
                 )
                 Text(
-                    text = if (superHero.description.isNullOrBlank()) stringResource(R.string.description_not_available) else superHero.description.orEmpty(),
+                    text = if (superHero.description.isNullOrBlank()) stringResource(R.string.description_not_available) else superHero.description,
                     style = MaterialTheme.typography.bodyLarge,
                     color = MaterialTheme.colorScheme.onBackground,
                     modifier = Modifier

@@ -1,0 +1,387 @@
+<?xml version="1.0" ?>
+<SmellBaseline>
+  <ManuallySuppressedIssues></ManuallySuppressedIssues>
+  <CurrentIssues>
+    <ID>ComplexCondition:RoundedTextFieldColors.kt$isError &amp;&amp; !loading &amp;&amp; supportingText != null &amp;&amp; supportingTextVisible</ID>
+    <ID>CyclomaticComplexMethod:ContactEntity.kt$@OptIn(ExperimentalTextApi::class) @Composable fun ContactPage(navCtrl: NavHostController, title: String)</ID>
+    <ID>CyclomaticComplexMethod:HomeScreen.kt$@SuppressLint("UnusedMaterial3ScaffoldPaddingParameter") @OptIn( ExperimentalMaterial3Api::class, ExperimentalFoundationApi::class, ) @Composable fun HomeScreen( navController: NavHostController, viewModel: HomeViewModel = hiltViewModel(), settingsViewModel: SettingsViewModel, searchQuery: String?, onSearchComplete: (String) -&gt; Unit )</ID>
+    <ID>EmptyClassBlock:AppSettingsUseCase.kt$AppSettingsUseCase${ }</ID>
+    <ID>EmptyClassBlock:SuperHeroesConverters.kt$SuperHeroesConverters${ }</ID>
+    <ID>EmptyFunctionBlock:RotationState.kt$&lt;no name provided&gt;${}</ID>
+    <ID>ForEachOnRange:ContactEntity.kt$forEach { letter -&gt; // val random = (5..20).random() val random = 5 repeat(random) { index -&gt; contactList.add( ContactEntity( letter = letter.toChar(), name = "联系人 $index", color = Color( red = (0..255).random(), blue = (0..255).random(), green = (0..255).random() ) ) ) } }</ID>
+    <ID>ForEachOnRange:ContactEntity.kt$forEach { letter -&gt; charList.add(letter.toChar()) }</ID>
+    <ID>FunctionOnlyReturningConstant:ErrorHandling.kt$fun getErrorMessage(e: Exception): String</ID>
+    <ID>FunctionParameterNaming:PagerCircleReveal.kt$nav_to_login: () -&gt; Unit = {}</ID>
+    <ID>FunctionParameterNaming:PagerCircleReveal.kt$navigate_to_login: () -&gt; Unit</ID>
+    <ID>FunctionParameterNaming:PagerCircleReveal.kt$navigate_to_login: () -&gt; Unit = {}</ID>
+    <ID>ImplicitDefaultLocale:CurrencyUtils.kt$CurrencyUtils$String.format("%s %s", currency, nf.format(amount))</ID>
+    <ID>ImplicitDefaultLocale:Utils.kt$String.format("%02d", hh - 12)</ID>
+    <ID>ImplicitDefaultLocale:Utils.kt$String.format("%02d", hh)</ID>
+    <ID>ImplicitDefaultLocale:Utils.kt$String.format("%02d", mm)</ID>
+    <ID>LongMethod:BlurTransformation.kt$private suspend fun Bitmap.blur( scale: Float, radius: Int ): Bitmap?</ID>
+    <ID>LongMethod:Dot.kt$fun Modifier.dotsAndLines( contentColor: Color = Color.White, threshold: Float, maxThickness: Float, dotRadius: Float, speed: Float, populationFactor: Float )</ID>
+    <ID>LongMethod:WeightEntry.kt$private fun Modifier.weightScaleBackground( weight: Int, valueRange: ClosedRange&lt;Int&gt;, )</ID>
+    <ID>LongParameterList:FancySwitch.kt$SwitchColors$( private val uncheckedTrackColor: Color, private val checkedTrackColor: Color, private val disabledTrackColor: Color, private val uncheckedThumbColor: Color, private val checkedThumbColor: Color, private val disabledThumbColor: Color, private val uncheckedIconTint: Color, private val checkedIconTint: Color, private val disabledIconTint: Color, private val rippleColor: Color )</ID>
+    <ID>LongParameterList:MarvelService.kt$MarvelService$( @Path("id") superHeroId: Int, @Query("apikey") apikey: String, @Query("ts") ts: String, @Query("hash") hash: String, @Query("offset") offset: Int, @Query("limit") limit: Int )</ID>
+    <ID>LongParameterList:MarvelService.kt$MarvelService$( @Path("id") superHeroId: Int, @Query("offset") offset: Int, @Query("limit") limit: Int, @Query("apikey") apikey: String, @Query("ts") ts: String, @Query("hash") hash: String, )</ID>
+    <ID>MagicNumber:AnimateTextStyleAsState.kt$500</ID>
+    <ID>MagicNumber:AnimatedBorder.kt$0xFFA9A9A9</ID>
+    <ID>MagicNumber:AnimatedBorder.kt$10f</ID>
+    <ID>MagicNumber:AnimatedBorder.kt$200</ID>
+    <ID>MagicNumber:AnimatedBorder.kt$40</ID>
+    <ID>MagicNumber:AnimatedBorder2.kt$0xFF4DD0E1</ID>
+    <ID>MagicNumber:AnimatedBorder2.kt$0xFF9575CD</ID>
+    <ID>MagicNumber:AnimatedBorder2.kt$0xFFAED581</ID>
+    <ID>MagicNumber:AnimatedBorder2.kt$0xFFBA68C8</ID>
+    <ID>MagicNumber:AnimatedBorder2.kt$0xFFE57373</ID>
+    <ID>MagicNumber:AnimatedBorder2.kt$0xFFFFB74D</ID>
+    <ID>MagicNumber:AnimatedBorder2.kt$0xFFFFF176</ID>
+    <ID>MagicNumber:AnimatedTapRectangle.kt$100f</ID>
+    <ID>MagicNumber:AnimatedTapRectangle.kt$10f</ID>
+    <ID>MagicNumber:AnimationBlur.kt$5000</ID>
+    <ID>MagicNumber:AppAction.kt$AppAction.SIGN_OUT$3L</ID>
+    <ID>MagicNumber:BlurTransformation.kt$0x0000ff</ID>
+    <ID>MagicNumber:BlurTransformation.kt$0x00ff00</ID>
+    <ID>MagicNumber:BlurTransformation.kt$0xff0000</ID>
+    <ID>MagicNumber:BlurTransformation.kt$16</ID>
+    <ID>MagicNumber:BlurTransformation.kt$256</ID>
+    <ID>MagicNumber:BlurTransformation.kt$3</ID>
+    <ID>MagicNumber:BlurTransformation.kt$8</ID>
+    <ID>MagicNumber:BorderAnimation.kt$0.3f</ID>
+    <ID>MagicNumber:BorderAnimation.kt$0xFFF44336</ID>
+    <ID>MagicNumber:BorderAnimation.kt$1000</ID>
+    <ID>MagicNumber:BorderAnimation.kt$50</ID>
+    <ID>MagicNumber:BorderAnimation.kt$8</ID>
+    <ID>MagicNumber:BottomSheetGrid.kt$0.9f</ID>
+    <ID>MagicNumber:BottomSheetGrid.kt$0xFF888888</ID>
+    <ID>MagicNumber:BottomSheetGrid.kt$20</ID>
+    <ID>MagicNumber:BottomSheetGrid.kt$3</ID>
+    <ID>MagicNumber:BottomSheetGrid.kt$38</ID>
+    <ID>MagicNumber:BottomSheetGrid.kt$52</ID>
+    <ID>MagicNumber:BottomSheetGrid.kt$61</ID>
+    <ID>MagicNumber:BoxConstraint.kt$0.2f</ID>
+    <ID>MagicNumber:Card3D.kt$0.4f</ID>
+    <ID>MagicNumber:Card3D.kt$0xFF00FFFF</ID>
+    <ID>MagicNumber:Card3D.kt$0xFFFF00FF</ID>
+    <ID>MagicNumber:Card3D.kt$0xFFFFFF00</ID>
+    <ID>MagicNumber:Card3D.kt$3f</ID>
+    <ID>MagicNumber:Card3D.kt$6f</ID>
+    <ID>MagicNumber:CardWithImageGradientAndText.kt$0.5f</ID>
+    <ID>MagicNumber:Carousel.kt$0.25f</ID>
+    <ID>MagicNumber:Carousel.kt$0.85f</ID>
+    <ID>MagicNumber:Carousel.kt$10</ID>
+    <ID>MagicNumber:ChangeColorFaded.kt$1000</ID>
+    <ID>MagicNumber:CircleProgressCustom.kt$0xFF2295F8</ID>
+    <ID>MagicNumber:CircleProgressCustom.kt$0xFFD8DCF5</ID>
+    <ID>MagicNumber:CircleProgressCustom.kt$0xFFF76400</ID>
+    <ID>MagicNumber:CircleProgressCustom.kt$0xFFFEEAD9</ID>
+    <ID>MagicNumber:CircleProgressCustom.kt$360f</ID>
+    <ID>MagicNumber:CircularReveal.kt$1.5f</ID>
+    <ID>MagicNumber:CircularReveal.kt$2.5f</ID>
+    <ID>MagicNumber:ConfettiParticles.kt$0xb48def</ID>
+    <ID>MagicNumber:ConfettiParticles.kt$0xf4306d</ID>
+    <ID>MagicNumber:ConfettiParticles.kt$0xfce18a</ID>
+    <ID>MagicNumber:ConfettiParticles.kt$0xff726d</ID>
+    <ID>MagicNumber:ConfettiParticles.kt$100</ID>
+    <ID>MagicNumber:ConfettiParticles.kt$30</ID>
+    <ID>MagicNumber:ContactEntity.kt$0xA403A9F4</ID>
+    <ID>MagicNumber:ContactEntity.kt$0xFF333333</ID>
+    <ID>MagicNumber:ContactEntity.kt$10f</ID>
+    <ID>MagicNumber:ContactEntity.kt$25</ID>
+    <ID>MagicNumber:ContactEntity.kt$5</ID>
+    <ID>MagicNumber:ContactEntity.kt$65</ID>
+    <ID>MagicNumber:ContactEntity.kt$90</ID>
+    <ID>MagicNumber:CustomAnimatedDialog.kt$0xE9EE8888</ID>
+    <ID>MagicNumber:CustomAnimatedDialog.kt$0xFFE4BD79</ID>
+    <ID>MagicNumber:CustomAnimatedDialog.kt$0xFFFF332C</ID>
+    <ID>MagicNumber:CustomAnimatedDialog.kt$8</ID>
+    <ID>MagicNumber:Dot.kt$0.5f</ID>
+    <ID>MagicNumber:Dot.kt$100_000L</ID>
+    <ID>MagicNumber:Dot.kt$Dot.Companion$100f</ID>
+    <ID>MagicNumber:Dot.kt$Dot.Companion$10f</ID>
+    <ID>MagicNumber:Dot.kt$DotsAndLinesState.Companion$10_000</ID>
+    <ID>MagicNumber:DropDown.kt$0.5f</ID>
+    <ID>MagicNumber:DropDown.kt$0xFF101010</ID>
+    <ID>MagicNumber:Extensions.kt$Extensions$10</ID>
+    <ID>MagicNumber:Extensions.kt$Extensions$100</ID>
+    <ID>MagicNumber:Extensions.kt$Extensions$1000</ID>
+    <ID>MagicNumber:Extensions.kt$Extensions$1000.0</ID>
+    <ID>MagicNumber:Extensions.kt$Extensions$1000000</ID>
+    <ID>MagicNumber:Extensions.kt$Extensions$1000000.0</ID>
+    <ID>MagicNumber:Extensions.kt$Extensions$14</ID>
+    <ID>MagicNumber:Extensions.kt$Extensions$6</ID>
+    <ID>MagicNumber:Extensions.kt$Extensions$86399</ID>
+    <ID>MagicNumber:Extensions.kt$Extensions$999999</ID>
+    <ID>MagicNumber:Extensions.kt$Extensions.RangeDateFilter.Monthly$3</ID>
+    <ID>MagicNumber:Glyphs.kt$100L</ID>
+    <ID>MagicNumber:Glyphs.kt$20f</ID>
+    <ID>MagicNumber:Glyphs.kt$500</ID>
+    <ID>MagicNumber:Glyphs.kt$75L</ID>
+    <ID>MagicNumber:GradientButtons.kt$0xFF333399</ID>
+    <ID>MagicNumber:GradientButtons.kt$0xFFff00cc</ID>
+    <ID>MagicNumber:Gradients.kt$500.0f</ID>
+    <ID>MagicNumber:HexagonalProgressIndicator.kt$0.58f</ID>
+    <ID>MagicNumber:HexagonalProgressIndicator.kt$0.5f</ID>
+    <ID>MagicNumber:HexagonalProgressIndicator.kt$1000</ID>
+    <ID>MagicNumber:HexagonalProgressIndicator.kt$200</ID>
+    <ID>MagicNumber:HexagonalProgressIndicator.kt$3</ID>
+    <ID>MagicNumber:HexagonalProgressIndicator.kt$360f</ID>
+    <ID>MagicNumber:HexagonalProgressIndicator.kt$4</ID>
+    <ID>MagicNumber:HexagonalProgressIndicator.kt$6</ID>
+    <ID>MagicNumber:HexagonalProgressIndicator.kt$7f</ID>
+    <ID>MagicNumber:HomeScreen.kt$0.3f</ID>
+    <ID>MagicNumber:HomeScreen.kt$0.6f</ID>
+    <ID>MagicNumber:HomeScreen.kt$180f</ID>
+    <ID>MagicNumber:HomeScreen.kt$200</ID>
+    <ID>MagicNumber:HomeScreen.kt$4f</ID>
+    <ID>MagicNumber:HomeScreen.kt$5</ID>
+    <ID>MagicNumber:HomeScreen.kt$500</ID>
+    <ID>MagicNumber:LandscapeListItem.kt$0.3f</ID>
+    <ID>MagicNumber:LoadGif.kt$28</ID>
+    <ID>MagicNumber:LocalToastHostState.kt$0.95f</ID>
+    <ID>MagicNumber:LocalToastHostState.kt$100000L</ID>
+    <ID>MagicNumber:LocalToastHostState.kt$1000L</ID>
+    <ID>MagicNumber:LocalToastHostState.kt$3500L</ID>
+    <ID>MagicNumber:LocalToastHostState.kt$6500L</ID>
+    <ID>MagicNumber:LoginPage.kt$0.6f</ID>
+    <ID>MagicNumber:LoginPage.kt$0.8f</ID>
+    <ID>MagicNumber:MainActivity.kt$MainActivity$2500</ID>
+    <ID>MagicNumber:NetworkModule.kt$NetworkModule$16</ID>
+    <ID>MagicNumber:NetworkModule.kt$NetworkModule$32</ID>
+    <ID>MagicNumber:OnOffLampPassword.kt$2.4f</ID>
+    <ID>MagicNumber:OnOffLampPassword.kt$40</ID>
+    <ID>MagicNumber:OnOffLampPassword.kt$50</ID>
+    <ID>MagicNumber:OnboardingScreen.kt$0.5f</ID>
+    <ID>MagicNumber:OnboardingScreen.kt$10.0f</ID>
+    <ID>MagicNumber:OptView.kt$300</ID>
+    <ID>MagicNumber:OptView.kt$4</ID>
+    <ID>MagicNumber:OurCarousel.kt$0.7f</ID>
+    <ID>MagicNumber:OurCarousel.kt$4</ID>
+    <ID>MagicNumber:PagerCircleReveal.kt$.4f</ID>
+    <ID>MagicNumber:PagerCircleReveal.kt$0xFFFAF4F4</ID>
+    <ID>MagicNumber:PagerCircleReveal.kt$20f</ID>
+    <ID>MagicNumber:PagerCircleReveal.kt$60</ID>
+    <ID>MagicNumber:PagerCircleReveal.kt$CirclePath$.5f</ID>
+    <ID>MagicNumber:PagerIndicators.kt$.5f</ID>
+    <ID>MagicNumber:PagerIndicators.kt$0xFF000000</ID>
+    <ID>MagicNumber:PagerIndicators.kt$135f</ID>
+    <ID>MagicNumber:PagerIndicators.kt$3f</ID>
+    <ID>MagicNumber:Parallax.kt$0.5f</ID>
+    <ID>MagicNumber:Picture.kt$28</ID>
+    <ID>MagicNumber:ProgressDots.kt$100L</ID>
+    <ID>MagicNumber:ProgressDots.kt$200</ID>
+    <ID>MagicNumber:ProgressDots.kt$2000</ID>
+    <ID>MagicNumber:ProgressDots.kt$400</ID>
+    <ID>MagicNumber:PulsatingHeartIcon.kt$1200</ID>
+    <ID>MagicNumber:RainbowBorder.kt$5f</ID>
+    <ID>MagicNumber:RotationState.kt$3</ID>
+    <ID>MagicNumber:RotationState.kt$9</ID>
+    <ID>MagicNumber:RoundedTextFieldColors.kt$0.2f</ID>
+    <ID>MagicNumber:ShimmerListItem.kt$0.7f</ID>
+    <ID>MagicNumber:ShimmerListItem.kt$0xFF8F8B8B</ID>
+    <ID>MagicNumber:ShimmerListItem.kt$0xFFB8B5B5</ID>
+    <ID>MagicNumber:ShimmerListItem.kt$1000</ID>
+    <ID>MagicNumber:ShimmerListItem.kt$20</ID>
+    <ID>MagicNumber:ShimmerListItem.kt$2000</ID>
+    <ID>MagicNumber:StoryThumbnail.kt$.02</ID>
+    <ID>MagicNumber:StoryThumbnail.kt$.29f</ID>
+    <ID>MagicNumber:StoryThumbnail.kt$360</ID>
+    <ID>MagicNumber:SuperheroScreen.kt$.7f</ID>
+    <ID>MagicNumber:SuperheroScreen.kt$0.5f</ID>
+    <ID>MagicNumber:SuperheroScreen.kt$180f</ID>
+    <ID>MagicNumber:SwipeRefresh.kt$100</ID>
+    <ID>MagicNumber:SwipeRefreshViewModel.kt$SwipeRefreshViewModel$3000L</ID>
+    <ID>MagicNumber:SwitchThemeChanger.kt$0.8f</ID>
+    <ID>MagicNumber:SwitchThemeChanger.kt$300</ID>
+    <ID>MagicNumber:TextTransition.kt$200f</ID>
+    <ID>MagicNumber:TextTransition.kt$300f</ID>
+    <ID>MagicNumber:TextUtils.kt$10.0f</ID>
+    <ID>MagicNumber:TextUtils.kt$5.0f</ID>
+    <ID>MagicNumber:TextUtils.kt$50</ID>
+    <ID>MagicNumber:ToastHost.kt$0.95f</ID>
+    <ID>MagicNumber:ToastHost.kt$3500L</ID>
+    <ID>MagicNumber:ToastHost.kt$6500L</ID>
+    <ID>MagicNumber:UniqueLazyColumn.kt$10</ID>
+    <ID>MagicNumber:UniqueLazyColumn.kt$3</ID>
+    <ID>MagicNumber:UniqueLazyColumn.kt$4</ID>
+    <ID>MagicNumber:UniqueLazyColumn.kt$5</ID>
+    <ID>MagicNumber:UniqueLazyColumn.kt$6</ID>
+    <ID>MagicNumber:UniqueLazyColumn.kt$7</ID>
+    <ID>MagicNumber:UniqueLazyColumn.kt$8</ID>
+    <ID>MagicNumber:Utils.kt$12</ID>
+    <ID>MagicNumber:Utils.kt$13</ID>
+    <ID>MagicNumber:Utils.kt$23</ID>
+    <ID>MagicNumber:Utils.kt$24</ID>
+    <ID>MagicNumber:Validation.kt$6</ID>
+    <ID>MagicNumber:WeightEntry.kt$0.6f</ID>
+    <ID>MagicNumber:WeightEntry.kt$1.1f</ID>
+    <ID>MagicNumber:WeightEntry.kt$10</ID>
+    <ID>MagicNumber:WeightEntry.kt$10f</ID>
+    <ID>MagicNumber:WeightEntry.kt$14</ID>
+    <ID>MagicNumber:WeightEntry.kt$15f</ID>
+    <ID>MagicNumber:WeightEntry.kt$165f</ID>
+    <ID>MagicNumber:WeightEntry.kt$180f</ID>
+    <ID>MagicNumber:WeightEntry.kt$2.2f</ID>
+    <ID>MagicNumber:WeightEntry.kt$3</ID>
+    <ID>MagicNumber:WeightEntry.kt$30</ID>
+    <ID>MagicNumber:WeightEntry.kt$30f</ID>
+    <ID>MagicNumber:WeightEntry.kt$45</ID>
+    <ID>MagicNumber:WeightEntry.kt$4f</ID>
+    <ID>MagicNumber:WeightEntry.kt$5</ID>
+    <ID>MagicNumber:WeightEntry.kt$6f</ID>
+    <ID>MagicNumber:WeightEntry.kt$7</ID>
+    <ID>MagicNumber:WeightEntry.kt$8f</ID>
+    <ID>MagicNumber:ZoomAnimation.kt$1000</ID>
+    <ID>MagicNumber:ZoomAnimation.kt$400</ID>
+    <ID>MagicNumber:ZoomAnimation.kt$50</ID>
+    <ID>MatchingDeclarationName:CacheComicsSuperHeroes.kt$CacheComicsResult</ID>
+    <ID>MatchingDeclarationName:CacheSuperHeroes.kt$CacheSuperHeroesResult</ID>
+    <ID>MatchingDeclarationName:PreferencesUtils.kt$PreferenceUtil</ID>
+    <ID>MatchingDeclarationName:SuperHeroesDataStoreFactory.kt$SuperHeroesDataFactory : DataFactory</ID>
+    <ID>MatchingDeclarationName:ZoomAnimation.kt$BoxState</ID>
+    <ID>MaxLineLength:AnimatedBorderCard.kt$text = "Lorem ipsum, or lipsum as it is sometimes known, is dummy text used in laying out print, graphic or web designs. The passage is attributed to an unknown typesetter in the 15th century who is thought to have scrambled parts of Cicero's De Finibus Bonorum et Malorum for use in a type specimen book. It usually begins with:"</ID>
+    <ID>MaxLineLength:Card3D.kt$Row</ID>
+    <ID>MaxLineLength:Card3DAnim.kt$Image(painter = painterResource(R.drawable.marvel_superheroes_onboarding), contentDescription ="", modifier = Modifier.fillMaxHeight())</ID>
+    <ID>MaxLineLength:Carousel.kt$(1f - minOf(1f, abs(currentItem.offset + (currentItem.size / 2) - halfRowWidth).toFloat() / halfRowWidth) * 0.25f)</ID>
+    <ID>MaxLineLength:Carousel.kt$// contentPadding = PaddingValues(top = 100.dp, end = 100.dp), //пространство между последним item и границей</ID>
+    <ID>MaxLineLength:Carousel.kt$//// .firstOrNull { it.index == globalIndex } ?: return@derivedStateOf StateListItem(12.dp,0.85f)</ID>
+    <ID>MaxLineLength:Carousel.kt$val currentItem = listState.layoutInfo.visibleItemsInfo.firstOrNull { it.index == globalIndex } ?: return@derivedStateOf 0.85f</ID>
+    <ID>MaxLineLength:Constants.kt$Constants$"Lorem ipsum dolor sit amet, consectetur adipisci elit, sed eiusmod tempor incidunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur. "</ID>
+    <ID>MaxLineLength:Constants.kt$Constants$"Lorem ipsum dolor sit amet, consectetur adipisci elit, sed eiusmod tempor incidunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur. Quis aute iure reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint obcaecat cupiditat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."</ID>
+    <ID>MaxLineLength:Constants.kt$Constants$"Lorem ipsum dolor sit amet, consectetur adipisci elit, sed eiusmod tempor incidunt ut labore et dolore magna aliqua."</ID>
+    <ID>MaxLineLength:ContactEntity.kt$fontWeight = if (touchLetterIndex.value == index) FontWeight.SemiBold else FontWeight.Medium</ID>
+    <ID>MaxLineLength:ContactEntity.kt$if</ID>
+    <ID>MaxLineLength:Dot.kt$Dot.Companion$listOf(-1f, 1f).random()</ID>
+    <ID>MaxLineLength:EditTextEqualsCompareValidator.kt$EditTextEqualsCompareValidator$class</ID>
+    <ID>MaxLineLength:EditTextNotEqualsCompareValidator.kt$EditTextNotEqualsCompareValidator$class</ID>
+    <ID>MaxLineLength:EditTextRegexValidator.kt$EditTextRegexValidator$class</ID>
+    <ID>MaxLineLength:EditTextRequiredInputValidator.kt$EditTextRequiredInputValidator$class</ID>
+    <ID>MaxLineLength:EditTextUtils.kt$EditTextUtils$}</ID>
+    <ID>MaxLineLength:Extensions.kt$Extensions$/* val currentTime = System.currentTimeMillis() val fakeNumberInSeconds = "2023-11-01" val newsTime = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssXXX").parse(fakeNumberInSeconds)?.time val diff = currentTime - newsTime!! if (diff &lt; 60000) { // Less than 1 minute holder.subtitle.text = holder.itemView.context.getString(R.string.time_ago_seconds) } else if (diff &lt; 3600000) { // Less than 1 hour val minutes = diff / 60000 holder.subtitle.text = holder.itemView.context.getString(R.string.time_ago_minutes, minutes) } else if (diff &lt; 86400000) { // Less than 1 day val hours = diff / 3600000 if (hours == 1L) { holder.subtitle.text = holder.itemView.context.getString(R.string.time_ago_hour) } else { val date = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssXXX").parse(lastNewsList.attributes.emision.date) val yesterday = Calendar.getInstance().apply { add(Calendar.DATE, -1) }.time val isYesterday = date?.after(yesterday) ?: false if (isYesterday) { val dateFormat = SimpleDateFormat("HH:mm") val formattedDate = holder.itemView.context.getString(R.string.time_yesterday) + dateFormat.format(date!!) holder.subtitle.text = formattedDate } else { holder.subtitle.text = holder.itemView.context.getString(R.string.time_ago_hours, hours) } } } else if (diff &lt; 172800000) { // Less than 2 days val dateFormat = SimpleDateFormat("HH:mm") val date = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssXXX").parse(lastNewsList.attributes.emision.date) val calendar = Calendar.getInstance().apply { timeInMillis = newsTime } val today = Calendar.getInstance() val formattedDate = if (calendar.get(Calendar.DAY_OF_YEAR) == today.get(Calendar.DAY_OF_YEAR) - 1 &amp;&amp; calendar.get(Calendar.YEAR) == today.get(Calendar.YEAR)) { holder.itemView.context.getString(R.string.time_yesterday) + dateFormat.format(date!!) } else { holder.itemView.context.getString(R.string.the_day_before_yesterday) + dateFormat.format(date!!) } holder.subtitle.text = formattedDate } else if (diff &lt; 259200000) { // Less than 3 days val dateFormat = SimpleDateFormat("HH:mm") val date = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssXXX").parse(lastNewsList.attributes.emision.date) val yesterday = Calendar.getInstance() yesterday.add(Calendar.DAY_OF_MONTH, -1) if (date!!.before(yesterday.time)) { val dateFormatEee = SimpleDateFormat("EEEE, HH:mm") val formattedDate = dateFormatEee.format(date!!) holder.subtitle.text = formattedDate.replaceFirstChar { it.uppercase() } } else { val formattedDate = holder.itemView.context.getString(R.string.time_yesterday) + dateFormat.format(date) holder.subtitle.text = formattedDate } } else { // More than 3 days val dateFormat = SimpleDateFormat("EEEE, HH:mm") val date = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssXXX").parse(lastNewsList.attributes.emision.date) val formattedDate = dateFormat.format(date!!) holder.subtitle.text = formattedDate.replaceFirstChar { it.uppercase() } } &lt;string name="time_ago_seconds"&gt;Hace unos segundos&lt;/string&gt; &lt;string name="time_ago_minutes"&gt;Hace %1$d minutos&lt;/string&gt; &lt;string name="time_ago_hour"&gt;Hace 1 hora&lt;/string&gt; &lt;string name="time_ago_hours"&gt;Hace %1$d horas&lt;/string&gt; &lt;string name="time_yesterday"&gt;"Ayer, "&lt;/string&gt; &lt;string name="the_day_before_yesterday"&gt;"Anteayer, "&lt;/string&gt;*/</ID>
+    <ID>MaxLineLength:Haptic.kt$// Most of the constants are off by default: for example, clicking on a button doesn't cause the phone to vibrate anymore</ID>
+    <ID>MaxLineLength:HomeScreen.kt$Spacer(modifier = Modifier.height(if (scrollState.isScrollInProgress) MaterialTheme.dimens.custom0 else MaterialTheme.dimens.custom40))</ID>
+    <ID>MaxLineLength:HomeScreen.kt$text = if (superHero.description.isNullOrBlank()) stringResource(R.string.description_not_available) else superHero.description</ID>
+    <ID>MaxLineLength:LoginPage.kt$visualTransformation = if (passwordVisibility.value) VisualTransformation.None else PasswordVisualTransformation()</ID>
+    <ID>MaxLineLength:MockModelResult.kt$description = "Ante vocent suscipit disputationi persecuti noluisse. Dolorem congue dolores finibus ipsum option. Iusto aliquip ligula omittantur purus comprehensam platonem rhoncus."</ID>
+    <ID>MaxLineLength:MockModelResult.kt$description = "Fabulas reformidans viverra invidunt errem vis vitae fastidii. Convenire odio ipsum mutat ligula sociosqu scripserit civibus dicit. Expetenda tortor bibendum instructior maiestatis."</ID>
+    <ID>MaxLineLength:MockModelResult.kt$description = "Te theophrastus idque pro hinc mediocritatem metus definiebas rutrum. Sed affert sapientem delicata vituperata at quaestio molestiae turpis gubergren. Neglegentur deserunt ferri dicam feugiat nisl expetendis dolore iuvaret."</ID>
+    <ID>MaxLineLength:OutlinedTextFieldPassword.kt$keyboardOptions = KeyboardOptions.Default.copy(imeAction = ImeAction.Done, keyboardType = KeyboardType.Password)</ID>
+    <ID>MaxLineLength:Parallax.kt$Image</ID>
+    <ID>MaxLineLength:RegisterPage.kt$// IconButton(onClick = { confirmPasswordVisibility.value = !confirmPasswordVisibility.value }) {</ID>
+    <ID>MaxLineLength:RegisterPage.kt$// visualTransformation = if (confirmPasswordVisibility.value) VisualTransformation.None else PasswordVisualTransformation()</ID>
+    <ID>MaxLineLength:RegisterPage.kt$// visualTransformation = if (passwordVisibility.value) VisualTransformation.None else PasswordVisualTransformation()</ID>
+    <ID>MaxLineLength:RoundedTextFieldColors.kt$borderColor.animateTo(if (isError &amp;&amp; focused) colorScheme.error else if (focused) colorScheme.primary else Color.Transparent)</ID>
+    <ID>MaxLineLength:SuperHeroesDao.kt$SuperHeroesDao$@Query("$QUERY_SUPERHEROES_COMICS WHERE superHeroId = :superHeroId ORDER BY onSaleDate ASC LIMIT :limit OFFSET :offset * :limit")</ID>
+    <ID>MaxLineLength:SuperHeroesDao.kt$SuperHeroesDao$@Query("SELECT * FROM superheroes_table WHERE name LIKE '%' || :name || '%' ORDER BY name ASC LIMIT :limit OFFSET :offset * :limit")</ID>
+    <ID>MayBeConst:PagerIndicators.kt$val NUM_OF_PAGES = 4</ID>
+    <ID>NewLineAtEndOfFile:ConnectivityObserver.kt$com.alerdoci.marvelsuperheroes.app.common.network.ConnectivityObserver.kt</ID>
+    <ID>NewLineAtEndOfFile:Constants.kt$com.alerdoci.marvelsuperheroes.app.common.utils.Constants.kt</ID>
+    <ID>NewLineAtEndOfFile:DataFactory.kt$com.alerdoci.marvelsuperheroes.data.repository.factory.common.DataFactory.kt</ID>
+    <ID>NewLineAtEndOfFile:DialogTextButtons.kt$com.alerdoci.marvelsuperheroes.app.components.DialogTextButtons.kt</ID>
+    <ID>NewLineAtEndOfFile:Dimens.kt$com.alerdoci.marvelsuperheroes.app.theme.Dimens.kt</ID>
+    <ID>NewLineAtEndOfFile:ExampleUnitTest.kt$com.alerdoci.marvelsuperheroes.ExampleUnitTest.kt</ID>
+    <ID>NewLineAtEndOfFile:Filters.kt$com.alerdoci.marvelsuperheroes.app.components.Filters.kt</ID>
+    <ID>NewLineAtEndOfFile:GradientButtons.kt$com.alerdoci.marvelsuperheroes.app.components.GradientButtons.kt</ID>
+    <ID>NewLineAtEndOfFile:Gradients.kt$com.alerdoci.marvelsuperheroes.app.components.Gradients.kt</ID>
+    <ID>NewLineAtEndOfFile:HTTPException.kt$com.alerdoci.marvelsuperheroes.model.exception.HTTPException.kt</ID>
+    <ID>NewLineAtEndOfFile:HalfCircle.kt$com.alerdoci.marvelsuperheroes.app.components.HalfCircle.kt</ID>
+    <ID>NewLineAtEndOfFile:NetworkConnectivityObserver.kt$com.alerdoci.marvelsuperheroes.app.common.network.NetworkConnectivityObserver.kt</ID>
+    <ID>NewLineAtEndOfFile:OutlinedTextFieldPassword.kt$com.alerdoci.marvelsuperheroes.app.components.OutlinedTextFieldPassword.kt</ID>
+    <ID>NewLineAtEndOfFile:ResourceState.kt$com.alerdoci.marvelsuperheroes.app.common.states.ResourceState.kt</ID>
+    <ID>NewLineAtEndOfFile:Shape.kt$com.alerdoci.marvelsuperheroes.app.theme.Shape.kt</ID>
+    <ID>NewLineAtEndOfFile:Spacing.kt$com.alerdoci.marvelsuperheroes.app.theme.Spacing.kt</ID>
+    <ID>NewLineAtEndOfFile:StartAnimation.kt$com.alerdoci.marvelsuperheroes.app.navigation.StartAnimation.kt</ID>
+    <ID>NewLineAtEndOfFile:TextFieldUtils.kt$com.alerdoci.marvelsuperheroes.app.components.TextFieldUtils.kt</ID>
+    <ID>NewLineAtEndOfFile:ThemeMode.kt$com.alerdoci.marvelsuperheroes.app.common.utils.ThemeMode.kt</ID>
+    <ID>SwallowedException:Converters.kt$Converters$ex:Exception</ID>
+    <ID>SwallowedException:Extensions.kt$Extensions$ex: Exception</ID>
+    <ID>SwallowedException:SuperHeroesCacheDataStoreImpl.kt$SuperHeroesCacheDataStoreImpl$e: Exception</ID>
+    <ID>SwallowedException:SuperHeroesRemoteImplFactory.kt$SuperHeroesRemoteImplFactory$exception: Exception</ID>
+    <ID>ThrowingExceptionsWithoutMessageOrCause:Converters.kt$Converters$IllegalArgumentException()</ID>
+    <ID>TooGenericExceptionCaught:Converters.kt$Converters$ex:Exception</ID>
+    <ID>TooGenericExceptionCaught:Extensions.kt$Extensions$ex: Exception</ID>
+    <ID>TooGenericExceptionCaught:MarvelSuperHeroesComicPagingSource.kt$MarvelSuperHeroesComicPagingSource$exception: Exception</ID>
+    <ID>TooGenericExceptionCaught:MarvelSuperHeroesPagingSource.kt$MarvelSuperHeroesPagingSource$exception: Exception</ID>
+    <ID>TooGenericExceptionCaught:SuperHeroesCacheDataStoreImpl.kt$SuperHeroesCacheDataStoreImpl$e: Exception</ID>
+    <ID>TooGenericExceptionCaught:SuperHeroesRemoteImplFactory.kt$SuperHeroesRemoteImplFactory$exception: Exception</ID>
+    <ID>TooManyFunctions:EditTextUtils.kt$EditTextUtils</ID>
+    <ID>TooManyFunctions:Extensions.kt$Extensions</ID>
+    <ID>TooManyFunctions:FancySwitch.kt$com.alerdoci.marvelsuperheroes.app.components.FancySwitch.kt</ID>
+    <ID>TooManyFunctions:Glyphs.kt$GlyphDrawScopeImpl : GlyphDrawScope</ID>
+    <ID>TooManyFunctions:ModifierExtensions.kt$ModifierExtensions</ID>
+    <ID>TooManyFunctions:Picture.kt$ZoomableState</ID>
+    <ID>TooManyFunctions:TextUtils.kt$com.alerdoci.marvelsuperheroes.app.components.TextUtils.kt</ID>
+    <ID>UnusedParameter:ContactEntity.kt$navCtrl: NavHostController</ID>
+    <ID>UnusedParameter:ContactEntity.kt$title: String</ID>
+    <ID>UnusedParameter:CustomDialog.kt$modifier: Modifier = Modifier</ID>
+    <ID>UnusedParameter:ErrorHandling.kt$e: Exception</ID>
+    <ID>UnusedParameter:GradientText.kt$modifier: Modifier = Modifier</ID>
+    <ID>UnusedParameter:LoginPage.kt$navController: NavController</ID>
+    <ID>UnusedParameter:SuperheroScreen.kt$modifier: Modifier</ID>
+    <ID>UnusedParameter:Utils.kt$view: View</ID>
+    <ID>UnusedPrivateMember:BlurTransformation.kt$private suspend fun Bitmap.blur( scale: Float, radius: Int ): Bitmap?</ID>
+    <ID>UnusedPrivateMember:CircularReveal.kt$private fun lerp(start: Float, stop: Float, fraction: Float): Float</ID>
+    <ID>UnusedPrivateProperty:AppSettingsUseCase.kt$AppSettingsUseCase$private val appPreferencesRepository: DataStoreRepository</ID>
+    <ID>UnusedPrivateProperty:ModifierExtensions.kt$ModifierExtensions$i</ID>
+    <ID>UnusedPrivateProperty:ModifierExtensions.kt$ModifierExtensions$private const val ShakeDurationMillis = 800</ID>
+    <ID>UnusedPrivateProperty:OnboardingScreen.kt$val haptic = LocalHapticFeedback.current</ID>
+    <ID>UnusedPrivateProperty:OnboardingScreen.kt$val view = LocalView.current</ID>
+    <ID>UnusedPrivateProperty:PagerCircleReveal.kt$private const val INDICATOR_FADE_IN_ANIMATION_DELAY = 200</ID>
+    <ID>UnusedPrivateProperty:Theme.kt$val context = LocalContext.current</ID>
+    <ID>UnusedPrivateProperty:UniqueLazyColumn.kt$val itemList2 = listOf( Item(1, "Raptor"), Item(2, "Iron Impact"), Item(3, "Hell Breaker"), Item(4, "Elixir"), Item(5, "Iron Belt"), Item(6, "Shard"), Item(7, "Mirage Dagger") )</ID>
+    <ID>UnusedPrivateProperty:Utils.kt$val chooser = Intent.createChooser(intent,"Share this using...")</ID>
+    <ID>UseCheckOrError:SuperHeroesCacheDataStoreImpl.kt$SuperHeroesCacheDataStoreImpl$throw IllegalStateException("${this.javaClass.simpleName} has an error, check here: ${e.message}")</ID>
+    <ID>UseCheckOrError:SuperHeroesRemoteDataStoreImpl.kt$SuperHeroesRemoteDataStoreImpl$throw throw IllegalStateException( "ErrorCode: ${superhero.code()}, Message:${ superhero.errorBody()?.string() }" )</ID>
+    <ID>UseCheckOrError:SuperHeroesRemoteDataStoreImpl.kt$SuperHeroesRemoteDataStoreImpl$throw throw IllegalStateException( "ErrorCode: ${superheroes.code()}, Message:${ superheroes.errorBody()?.string() }" )</ID>
+    <ID>UseRequire:Converters.kt$Converters$throw IllegalArgumentException()</ID>
+    <ID>VariableNaming:UniqueLazyColumn.kt$val _elements = remember { mutableStateListOf&lt;Item&gt;() }</ID>
+    <ID>VariableNaming:Utils.kt$val formatYYYY_MM_DD = SimpleDateFormat("yyyy-MM-dd", Locale.ENGLISH)</ID>
+    <ID>WildcardImport:AnimateTextStyleAsState.kt$import androidx.compose.animation.core.*</ID>
+    <ID>WildcardImport:AnimateTextStyleAsState.kt$import androidx.compose.runtime.*</ID>
+    <ID>WildcardImport:AnimatedBorder.kt$import androidx.compose.foundation.layout.*</ID>
+    <ID>WildcardImport:AnimatedBorder.kt$import androidx.compose.runtime.*</ID>
+    <ID>WildcardImport:AnimatedBorder2.kt$import androidx.compose.animation.core.*</ID>
+    <ID>WildcardImport:AnimatedBorder2.kt$import androidx.compose.foundation.layout.*</ID>
+    <ID>WildcardImport:AnimatedBorder2.kt$import androidx.compose.ui.graphics.*</ID>
+    <ID>WildcardImport:BorderAnimation.kt$import androidx.compose.animation.core.*</ID>
+    <ID>WildcardImport:BorderAnimation.kt$import androidx.compose.material.*</ID>
+    <ID>WildcardImport:BorderAnimation.kt$import androidx.compose.runtime.*</ID>
+    <ID>WildcardImport:ContactEntity.kt$import androidx.compose.foundation.layout.*</ID>
+    <ID>WildcardImport:ContactEntity.kt$import androidx.compose.runtime.*</ID>
+    <ID>WildcardImport:ContactEntity.kt$import androidx.compose.ui.text.*</ID>
+    <ID>WildcardImport:CustomDialog.kt$import androidx.compose.foundation.layout.*</ID>
+    <ID>WildcardImport:Dot.kt$import androidx.compose.runtime.*</ID>
+    <ID>WildcardImport:DropdownMenu.kt$import androidx.compose.material.*</ID>
+    <ID>WildcardImport:DropdownMenu.kt$import androidx.compose.runtime.*</ID>
+    <ID>WildcardImport:ExampleUnitTest.kt$import org.junit.Assert.*</ID>
+    <ID>WildcardImport:GsonInstantDeserializer.kt$import com.google.gson.*</ID>
+    <ID>WildcardImport:LocalToastHostState.kt$import androidx.compose.animation.*</ID>
+    <ID>WildcardImport:LocalToastHostState.kt$import androidx.compose.foundation.layout.*</ID>
+    <ID>WildcardImport:LocalToastHostState.kt$import androidx.compose.material3.*</ID>
+    <ID>WildcardImport:LocalToastHostState.kt$import androidx.compose.runtime.*</ID>
+    <ID>WildcardImport:LocalToastHostState.kt$import kotlinx.coroutines.*</ID>
+    <ID>WildcardImport:NoPaddingAlertDialog.kt$import androidx.compose.foundation.layout.*</ID>
+    <ID>WildcardImport:NoPaddingAlertDialog.kt$import androidx.compose.material.*</ID>
+    <ID>WildcardImport:OnOffLampPassword.kt$import androidx.compose.foundation.layout.*</ID>
+    <ID>WildcardImport:OnOffLampPassword.kt$import androidx.compose.material.*</ID>
+    <ID>WildcardImport:OnOffLampPassword.kt$import androidx.compose.runtime.*</ID>
+    <ID>WildcardImport:OnboardingScreen.kt$import androidx.compose.animation.core.*</ID>
+    <ID>WildcardImport:OnboardingScreen.kt$import androidx.compose.runtime.*</ID>
+    <ID>WildcardImport:OptView.kt$import androidx.compose.foundation.layout.*</ID>
+    <ID>WildcardImport:Parallax.kt$import androidx.compose.foundation.layout.*</ID>
+    <ID>WildcardImport:RoundedTextFieldColors.kt$import androidx.compose.foundation.layout.*</ID>
+    <ID>WildcardImport:RoundedTextFieldColors.kt$import androidx.compose.material3.*</ID>
+    <ID>WildcardImport:RoundedTextFieldColors.kt$import androidx.compose.runtime.*</ID>
+    <ID>WildcardImport:ShimmerListItem.kt$import androidx.compose.foundation.layout.*</ID>
+    <ID>WildcardImport:ShimmerListItem.kt$import androidx.compose.runtime.*</ID>
+    <ID>WildcardImport:SnackbarSample.kt$import androidx.compose.foundation.layout.*</ID>
+    <ID>WildcardImport:SnackbarSample.kt$import androidx.compose.material.*</ID>
+    <ID>WildcardImport:SnackbarSample.kt$import androidx.compose.runtime.*</ID>
+    <ID>WildcardImport:ToastHost.kt$import androidx.compose.animation.*</ID>
+    <ID>WildcardImport:ToastHost.kt$import androidx.compose.foundation.layout.*</ID>
+    <ID>WildcardImport:ToastHost.kt$import androidx.compose.material3.*</ID>
+    <ID>WildcardImport:ToastHost.kt$import androidx.compose.runtime.*</ID>
+    <ID>WildcardImport:ToastHost.kt$import kotlinx.coroutines.*</ID>
+    <ID>WildcardImport:WeightEntry.kt$import androidx.compose.foundation.layout.*</ID>
+  </CurrentIssues>
+</SmellBaseline>
