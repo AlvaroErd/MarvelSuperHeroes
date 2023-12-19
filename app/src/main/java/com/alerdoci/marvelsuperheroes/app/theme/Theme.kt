@@ -89,19 +89,12 @@ fun MarvelSuperHeroesTheme(
     val themeState = settingsViewModel.theme.observeAsState(initial = ThemeMode.Auto)
 
     val colorScheme = when (themeState.value) {
-        ThemeMode.Light -> if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) dynamicLightColorScheme(
-            context
-        ) else LightColorScheme
+        ThemeMode.Light -> LightColorScheme
 
-        ThemeMode.Dark -> if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) dynamicDarkColorScheme(
-            context
-        ) else DarkColorScheme
+        ThemeMode.Dark -> DarkColorScheme
 
-        ThemeMode.Auto -> if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
-            if (darkTheme) dynamicDarkColorScheme(context) else dynamicLightColorScheme(context)
-        } else {
+        ThemeMode.Auto ->
             if (darkTheme) DarkColorScheme else LightColorScheme
-        }
     }
 
     CompositionLocalProvider(LocalDimens provides Dimens()) {

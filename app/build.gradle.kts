@@ -12,7 +12,7 @@ plugins {
 val versionMajor = 1
 val versionMinor = 0
 val versionPatch = 0
-val versionBuild = 0
+val versionBuild = 0 // bump for dogfood builds, public betas, etc.
 
 android {
     compileSdk = libs.versions.compileSdk.get().toInt()

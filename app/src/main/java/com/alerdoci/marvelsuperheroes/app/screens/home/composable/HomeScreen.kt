@@ -2,13 +2,14 @@ package com.alerdoci.marvelsuperheroes.app.screens.home.composable
 
 import android.annotation.SuppressLint
 import android.content.res.Configuration
+import androidx.compose.animation.core.LinearOutSlowInEasing
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.basicMarquee
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.gestures.detectTapGestures
+import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -52,6 +53,8 @@ import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.material3.VerticalDivider
+import androidx.compose.material3.pulltorefresh.PullToRefreshContainer
+import androidx.compose.material3.pulltorefresh.rememberPullToRefreshState
 import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -60,7 +63,6 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableFloatStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
@@ -74,6 +76,8 @@ import androidx.compose.ui.draw.rotate
 import androidx.compose.ui.draw.scale
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.graphicsLayer
+import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
@@ -102,8 +106,6 @@ import com.alerdoci.marvelsuperheroes.app.common.extensions.ModifierExtensions.n
 import com.alerdoci.marvelsuperheroes.app.common.states.error.ErrorScreen
 import com.alerdoci.marvelsuperheroes.app.common.states.loading.LoadingScreen
 import com.alerdoci.marvelsuperheroes.app.common.utils.ThemeMode
-import com.alerdoci.marvelsuperheroes.app.common.utils.ToastDuration
-import com.alerdoci.marvelsuperheroes.app.common.utils.ToastHostState
 import com.alerdoci.marvelsuperheroes.app.components.AnimatedPlaceholder
 import com.alerdoci.marvelsuperheroes.app.components.DiagonalDivider
 import com.alerdoci.marvelsuperheroes.app.components.InfoDialog
@@ -120,18 +122,12 @@ import com.alerdoci.marvelsuperheroes.app.theme.spacing
 import com.alerdoci.marvelsuperheroes.model.features.superheroes.ModelResult
 import com.alerdoci.marvelsuperheroes.model.features.superheroes.mock.marvelSuperHeroMock1
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
-import compose.icons.EvaIcons
-import compose.icons.evaicons.Outline
-import compose.icons.evaicons.outline.Search
 import kotlinx.coroutines.delay
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.launch
 import me.saket.telephoto.zoomable.rememberZoomableState
 import me.saket.telephoto.zoomable.zoomable
 import nl.dionsegijn.konfetti.compose.KonfettiView
 import nl.dionsegijn.konfetti.compose.OnParticleSystemUpdateListener
 import nl.dionsegijn.konfetti.core.PartySystem
-import java.text.DecimalFormat
 
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @OptIn(
@@ -147,40 +143,47 @@ fun HomeScreen(
     onSearchComplete: (String) -> Unit
 ) {
     val infoDialog = remember { mutableStateOf(false) }
-    var showConfetti by remember { mutableStateOf(false) }
-
-    var isSheetOpen by rememberSaveable {
-        mutableStateOf(false)
-    }
     val sheetState = rememberModalBottomSheetState()
 
+    val isSystemInDarkTheme: Boolean = isSystemInDarkTheme()
+    val currentTheme = settingsViewModel.getCurrentTheme(isSystemInDarkTheme)
     val systemUiController = rememberSystemUiController()
 
     systemUiController.setStatusBarColor(
         color = MaterialTheme.colorScheme.background,
-        darkIcons = settingsViewModel.getCurrentTheme() == ThemeMode.Light
+        darkIcons = currentTheme == ThemeMode.Light
     )
-
     systemUiController.setNavigationBarColor(
         color = MaterialTheme.colorScheme.background,
-        darkIcons = settingsViewModel.getCurrentTheme() == ThemeMode.Light
+        darkIcons = currentTheme == ThemeMode.Light
     )
-
-    val coroutineScope = rememberCoroutineScope()
 
     val displayDialog = remember { mutableStateOf(false) }
     val radioOptions = listOf("Light", "Dark", "System")
     val displayValue =
         when (settingsViewModel.getThemeValue()) {
-            ThemeMode.Light.ordinal -> "Light"
-            ThemeMode.Dark.ordinal -> "Dark"
+            ThemeMode.Light -> "Light"
+            ThemeMode.Dark -> "Dark"
             else -> "System"
         }
     val (selectedOption, onOptionSelected) = remember { mutableStateOf(displayValue) }
 
+    var showConfetti by remember { mutableStateOf(false) }
+    var isSheetOpen by rememberSaveable { mutableStateOf(false) }
+    var confettiShownInitially by remember { mutableStateOf(false) }
+
+    LaunchedEffect(isSheetOpen) {
+        if (isSheetOpen && !confettiShownInitially) {
+            showConfetti = true
+            confettiShownInitially = true
+        } else if (!isSheetOpen && confettiShownInitially) {
+            confettiShownInitially = false
+            showConfetti = false
+        }
+    }
+
     Surface(
         modifier = Modifier.fillMaxSize(),
-        color = MaterialTheme.colorScheme.background,
     ) {
         val superHeroListPagingState: LazyPagingItems<ModelResult> =
             viewModel.allCharacters.collectAsLazyPagingItems()
@@ -199,8 +202,6 @@ fun HomeScreen(
 
         val marvelTitle by rememberLottieComposition(LottieCompositionSpec.RawRes(R.raw.lottie_marvel_title))
 
-        val toastHostState = remember { ToastHostState() }
-
         var scaleState by remember { mutableFloatStateOf(1f) }
         val scale by animateFloatAsState(scaleState, label = "")
 
@@ -209,14 +210,23 @@ fun HomeScreen(
         val savedList = rememberSaveable(saver = LazyListState.Saver) {
             lazyState
         }
+        val state = rememberPullToRefreshState()
 
+        if (state.isRefreshing) {
+            LaunchedEffect(true) {
+                viewModel.searchCharacters(searchQuery)
+                delay(500)
+                state.endRefresh()
+            }
+        }
 
-        Scaffold(snackbarHost = { SnackbarHost(hostState = snackbarHostState) }
+        Scaffold(
+            snackbarHost = { SnackbarHost(hostState = snackbarHostState) },
+            containerColor = MaterialTheme.colorScheme.background,
         ) {
             Column(
                 modifier = Modifier
                     .fillMaxSize()
-                    .background(MaterialTheme.colorScheme.background),
             )
             {
                 Column(
@@ -298,6 +308,7 @@ fun HomeScreen(
                         modifier = Modifier
                             .background(red_800)
                             .fillMaxWidth()
+                            .zIndex(4f)
                             .padding(
                                 top = MaterialTheme.spacing.tiny,
                             ),
@@ -335,24 +346,26 @@ fun HomeScreen(
                             leadingIcon = {
                                 Icon(
                                     imageVector = Icons.Default.Search,
-                                    contentDescription = "Search icon"
+                                    contentDescription = "Search icon",
+                                    tint = MaterialTheme.colorScheme.onBackground,
                                 )
                             },
                             colors = SearchBarDefaults.colors(dividerColor = red_800),
                             trailingIcon = {
-                                if (searchQuery.isNotEmpty()){
+                                if (searchQuery.isNotEmpty()) {
                                     IconButton(onClick = {
                                         viewModel.searchCharacters("")
                                     }) {
                                         Icon(
                                             imageVector = Icons.Default.Close,
                                             contentDescription = "Close icon",
+                                            tint = MaterialTheme.colorScheme.onBackground,
                                         )
                                     }
                                 }
                             },
                             modifier = Modifier.padding(
-                                bottom = MaterialTheme.spacing.tiny
+                                bottom = MaterialTheme.spacing.tiny,
                             )
                         )
                         {
@@ -379,35 +392,60 @@ fun HomeScreen(
                                 }
 
                                 is LoadState.NotLoading -> {
-                                    LazyColumn(
-                                        verticalArrangement = Arrangement.spacedBy(MaterialTheme.spacing.tiny),
-                                        modifier = Modifier
-                                            .fillMaxWidth()
-                                            .zIndex(1f),
-                                        state = savedList,
-                                    ) {
-                                        item {
-                                            Spacer(modifier = Modifier.height(if (scrollState.isScrollInProgress) MaterialTheme.dimens.custom0 else MaterialTheme.dimens.custom40))
-                                        }
-                                        items(
-                                            count = superHeroListPagingState.itemCount,
-                                            key = superHeroListPagingState.itemKey { superhero -> superhero.id }
-                                        ) { superHeroItem ->
-                                            superHeroListPagingState[superHeroItem]?.let { item ->
-                                                println("superHeroItem: ${item.name}")
-                                                SuperheroItem(
-                                                    superHero = item,
-                                                    modifier = Modifier.animateItemPlacement(),
-                                                ) {
-                                                    navController.navigate(
-                                                        route = Screen.Superhero.navigateWithId(
-                                                            item.id
-                                                        )
-                                                    )
+                                    Box(Modifier.nestedScroll(state.nestedScrollConnection)) {
+                                        LazyColumn(
+                                            verticalArrangement = Arrangement.spacedBy(MaterialTheme.spacing.tiny),
+                                            modifier = Modifier
+                                                .fillMaxSize()
+                                                .zIndex(1f),
+                                            state = savedList,
+                                        ) {
+                                            if (!state.isRefreshing) {
+                                                item {
+                                                    Spacer(modifier = Modifier.height(if (scrollState.isScrollInProgress) MaterialTheme.dimens.custom0 else MaterialTheme.dimens.custom40))
+                                                }
+                                                items(
+                                                    count = superHeroListPagingState.itemCount,
+                                                    key = superHeroListPagingState.itemKey { superhero -> superhero.id }
+                                                ) { superHeroItem ->
+                                                    superHeroListPagingState[superHeroItem]?.let { item ->
+                                                        println("superHeroItem: ${item.name}")
+                                                        SuperheroItem(
+                                                            superHero = item,
+                                                            modifier = Modifier.animateItemPlacement(),
+                                                        ) {
+                                                            navController.navigate(
+                                                                route = Screen.Superhero.navigateWithId(
+                                                                    item.id
+                                                                )
+                                                            )
+                                                        }
+                                                    }
                                                 }
                                             }
                                         }
+                                        Box(
+                                            modifier = Modifier
+                                                .fillMaxSize()
+                                                .zIndex(2f)
+                                        )
+                                        {
+                                            val scaleFraction = if (state.isRefreshing) 1f else
+                                                LinearOutSlowInEasing.transform(state.progress)
+                                                    .coerceIn(0f, 1f)
+
+                                            PullToRefreshContainer(
+                                                state = state,
+                                                modifier = Modifier
+                                                    .align(Alignment.TopCenter)
+                                                    .graphicsLayer(
+                                                        scaleX = scaleFraction,
+                                                        scaleY = scaleFraction
+                                                    ),
+                                            )
+                                        }
                                     }
+
                                 }
 
                                 is LoadState.Error -> {
@@ -449,14 +487,15 @@ fun HomeScreen(
             parties = remember { particles(primary) },
             updateListener = object : OnParticleSystemUpdateListener {
                 override fun onParticleSystemEnded(system: PartySystem, activeSystems: Int) {
-                    if (activeSystems == 0) showConfetti = false
+                    if (activeSystems == 0 && isSheetOpen) {
+                        showConfetti = false
+                    }
                 }
             }
         )
     }
 
     if (isSheetOpen) {
-        showConfetti = true
         ModalBottomSheet(
             sheetState = sheetState,
             onDismissRequest = {
@@ -483,7 +522,8 @@ fun HomeScreen(
                                 end = Offset(size.width, verticalOffset)
                             )
                         },
-                    style = MaterialTheme.typography.displayLarge
+                    style = MaterialTheme.typography.displayLarge,
+                    color = MaterialTheme.colorScheme.onBackground,
                 )
                 Text(
                     text = stringResource(R.string.modal_subtitle),
@@ -492,6 +532,7 @@ fun HomeScreen(
                         .padding(bottom = 5.dp)
                         .fillMaxWidth(),
                     style = MaterialTheme.typography.bodyLarge,
+                    color = MaterialTheme.colorScheme.onBackground,
                 )
                 Text(
                     text = stringResource(R.string.modal_body),
@@ -500,6 +541,7 @@ fun HomeScreen(
                         .padding(bottom = 20.dp)
                         .fillMaxWidth(),
                     style = MaterialTheme.typography.bodyLarge,
+                    color = MaterialTheme.colorScheme.onBackground,
                 )
                 Image(
                     painter = painterResource(id = R.drawable.cheems),
@@ -518,7 +560,9 @@ fun HomeScreen(
             shape = CutCornerShape(topStart = 24.dp, bottomEnd = 24.dp),
             onDismissRequest = {
                 displayDialog.value = false
-            }, title = {
+            },
+            containerColor = MaterialTheme.colorScheme.surfaceContainerHigh,
+            title = {
                 Text(
                     text = stringResource(id = R.string.theme_dialog_title),
                     textAlign = TextAlign.Center,
@@ -550,8 +594,10 @@ fun HomeScreen(
                                 selected = (text == selectedOption),
                                 onClick = null,
                                 colors = RadioButtonDefaults.colors(
-                                    selectedColor = MaterialTheme.colorScheme.primary,
-                                    unselectedColor = MaterialTheme.colorScheme.inversePrimary,
+                                    selectedColor = MaterialTheme.colorScheme.surfaceTint,
+                                    unselectedColor = MaterialTheme.colorScheme.surfaceTint.copy(
+                                        alpha = 0.4f
+                                    ),
                                     disabledSelectedColor = Color.Black,
                                     disabledUnselectedColor = Color.Black
                                 ),
@@ -560,7 +606,7 @@ fun HomeScreen(
                                 text = text,
                                 modifier = Modifier.padding(start = 16.dp),
                                 style = MaterialTheme.typography.titleSmall,
-                                color = MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.9f),
+                                color = MaterialTheme.colorScheme.surfaceTint.copy(alpha = 0.9f),
                             )
                         }
                     }
@@ -589,13 +635,19 @@ fun HomeScreen(
                         }
                     }
                 }) {
-                    Text(stringResource(id = R.string.theme_dialog_apply_button))
+                    Text(
+                        stringResource(id = R.string.theme_dialog_apply_button),
+                        color = MaterialTheme.colorScheme.surfaceTint,
+                    )
                 }
             }, dismissButton = {
                 TextButton(onClick = {
                     displayDialog.value = false
                 }) {
-                    Text(stringResource(id = R.string.cancel))
+                    Text(
+                        stringResource(id = R.string.cancel),
+                        color = MaterialTheme.colorScheme.surfaceTint.copy(alpha = 0.7f),
+                    )
                 }
             }
         )
@@ -604,7 +656,7 @@ fun HomeScreen(
 }
 
 @SuppressLint("StateFlowValueCalledInComposition")
-@OptIn(ExperimentalFoundationApi::class, ExperimentalMaterial3Api::class)
+@OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun SuperheroItem(
     superHero: ModelResult,
@@ -672,8 +724,7 @@ fun SuperheroItem(
                             .clip(CutCornerShape(topStart = MaterialTheme.spacing.extraMedium))
                             .aspectRatio(1 / 1f),
                     )
-                }
-                else{
+                } else {
                     SubcomposeAsyncImage(
                         model = ImageRequest.Builder(LocalContext.current)
                             .data(superHero.image)
@@ -711,6 +762,7 @@ fun SuperheroItem(
                 Text(
                     text = superHero.name.orEmpty(),
                     maxLines = 2,
+                    color = MaterialTheme.colorScheme.onBackground,
                     style = MaterialTheme.typography.displaySmall,
                     modifier = Modifier
                         .padding(bottom = MaterialTheme.spacing.small)
@@ -725,8 +777,9 @@ fun SuperheroItem(
                         }
                 )
                 Text(
-                    text = if (superHero.description.isNullOrBlank()) stringResource(R.string.description_not_available) else superHero.description.orEmpty(),
+                    text = if (superHero.description.isNullOrBlank()) stringResource(R.string.description_not_available) else superHero.description,
                     style = MaterialTheme.typography.bodyLarge,
+                    color = MaterialTheme.colorScheme.onBackground,
                     modifier = Modifier
                         .basicMarquee(
                             iterations = Int.MAX_VALUE,
@@ -745,7 +798,6 @@ fun SuperheroItem(
                         modifier = Modifier.padding(top = MaterialTheme.spacing.semiSmall),
                         horizontalAlignment = CenterHorizontally,
                         verticalArrangement = Arrangement.Center
-
                     ) {
                         Icon(
                             painterResource(id = R.drawable.ic_event),
@@ -757,10 +809,12 @@ fun SuperheroItem(
                         )
                         Row {
                             Text(
+                                color = MaterialTheme.colorScheme.onBackground,
                                 text = formatNumber(superHero.events ?: 1),
                                 style = MaterialTheme.typography.bodyMedium,
                             )
                             Text(
+                                color = MaterialTheme.colorScheme.onBackground,
                                 text = pluralStringResource(
                                     id = R.plurals.events,
                                     count = superHero.events ?: 1,
@@ -793,6 +847,7 @@ fun SuperheroItem(
                         )
                         Row {
                             Text(
+                                color = MaterialTheme.colorScheme.onBackground,
                                 text = formatNumber(superHero.comics ?: 1),
                                 style = MaterialTheme.typography.bodyMedium,
                             )
@@ -803,6 +858,7 @@ fun SuperheroItem(
                                     superHero.comics ?: 1
                                 ),
                                 style = MaterialTheme.typography.bodyMedium,
+                                color = MaterialTheme.colorScheme.onBackground,
                             )
                         }
                     }
@@ -831,6 +887,7 @@ fun SuperheroItem(
                             Text(
                                 text = formatNumber(superHero.series ?: 1),
                                 style = MaterialTheme.typography.bodyMedium,
+                                color = MaterialTheme.colorScheme.onBackground,
                             )
                             Text(
                                 text = pluralStringResource(
@@ -839,6 +896,7 @@ fun SuperheroItem(
                                     superHero.series ?: 1
                                 ),
                                 style = MaterialTheme.typography.bodyMedium,
+                                color = MaterialTheme.colorScheme.onBackground,
                             )
                         }
                     }

@@ -1,7 +1,5 @@
 package com.alerdoci.marvelsuperheroes.app.screens.home.viewmodel
 
-import androidx.compose.foundation.isSystemInDarkTheme
-import androidx.compose.runtime.Composable
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -23,14 +21,17 @@ class SettingsViewModel @Inject constructor(
         preferenceUtil.putInt(PreferenceUtil.APP_THEME_INT, newTheme.ordinal)
     }
 
-    fun getThemeValue() = preferenceUtil.getInt(
-        PreferenceUtil.APP_THEME_INT, ThemeMode.Auto.ordinal
-    )
+    fun getThemeValue(): ThemeMode {
+        val savedThemeOrdinal = preferenceUtil.getInt(
+            PreferenceUtil.APP_THEME_INT, ThemeMode.Auto.ordinal
+        )
+        return ThemeMode.entries.toTypedArray().getOrElse(savedThemeOrdinal) { ThemeMode.Auto }
+    }
 
-    @Composable
-    fun getCurrentTheme(): ThemeMode {
-        return if (theme.value == ThemeMode.Auto) {
-            if (isSystemInDarkTheme()) ThemeMode.Dark else ThemeMode.Light
-        } else theme.value!!
+    fun getCurrentTheme(isSystemInDarkTheme: Boolean): ThemeMode {
+        return when (val currentTheme = getThemeValue()) {
+            ThemeMode.Auto -> if (isSystemInDarkTheme) ThemeMode.Dark else ThemeMode.Light
+            else -> currentTheme
+        }
     }
 }

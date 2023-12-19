@@ -4,6 +4,8 @@ import android.content.Context
 import android.content.ContextWrapper
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import com.alerdoci.marvelsuperheroes.domain.constants.Constants.Companion.HTTP
+import com.alerdoci.marvelsuperheroes.domain.constants.Constants.Companion.HTTPS
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import java.text.DecimalFormat
@@ -19,6 +21,7 @@ import java.util.Calendar
 import java.util.Date
 import java.util.Locale
 
+// Kotlin Extensions
 object Extensions {
 
     fun String.capitalized(): String {
@@ -260,4 +263,10 @@ object Extensions {
         <string name="time_ago_hours">Hace %1$d horas</string>
         <string name="time_yesterday">"Ayer, "</string>
         <string name="the_day_before_yesterday">"Anteayer, "</string>*/
+
+    fun String.replaceHttp(): String {
+        val http = HTTP
+        val https = HTTPS
+        return this.replace(http, https)
+    }
 }

@@ -13,6 +13,8 @@ data class CacheComicsResult(
     @PrimaryKey(autoGenerate = false)
     @ColumnInfo(name = "id")
     val id: Int,
+    @ColumnInfo(name = "superHeroId")
+    val superHeroId: Int,
     @ColumnInfo(name = "onSaleDate")
     val onSaleDate: String?,
     @ColumnInfo(name = "title")

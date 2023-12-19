@@ -26,10 +26,10 @@ interface SuperHeroesDao {
     fun getSuperHeroesByName(limit: Int, offset: Int, name: String?): Flow<List<CacheSuperHeroesResult>>
 
     @Insert(onConflict = REPLACE)
-    suspend fun insertOrUpdateSuperHeroes(vararg cacheSuperHeroes: CacheSuperHeroesResult)
+    suspend fun insertOrUpdateSuperHeroes(cacheSuperHeroes: List<CacheSuperHeroesResult>)
 
     @Delete
-    suspend fun deleteAllSuperHeroes(vararg cacheSuperHeroes: CacheSuperHeroesResult)
+    suspend fun deleteAllSuperHeroes(cacheSuperHeroes: List<CacheSuperHeroesResult>)
     //endregion
 
     // region SuperHero Detail
@@ -41,15 +41,14 @@ interface SuperHeroesDao {
 
     // region SuperHeroesComics
     @Transaction
-    @Query("$QUERY_SUPERHEROES_COMICS WHERE id = :superheroId ORDER BY onSaleDate ASC LIMIT :limit OFFSET :offset * :limit ")
-    fun getAllComicsCharacter(offset: Int, limit: Int, superheroId: Int): Flow<List<CacheComicsResult>>
+    @Query("$QUERY_SUPERHEROES_COMICS WHERE superHeroId = :superHeroId ORDER BY onSaleDate ASC LIMIT :limit OFFSET :offset * :limit")
+    fun getAllComicsCharacter(offset: Int, limit: Int, superHeroId: Int): Flow<List<CacheComicsResult>>
 
     @Insert(onConflict = REPLACE)
-    suspend fun insertOrUpdateComicsSuperheroes(vararg cacheComicsResult: CacheComicsResult)
+    suspend fun insertOrUpdateComicsSuperheroes(cacheComicsResult: List<CacheComicsResult>)
 
     @Delete
-    suspend fun deleteAllSuperHeroesComics(vararg cacheComicsResult: CacheComicsResult)
-
+    suspend fun deleteAllSuperHeroesComics(cacheComicsResult: List<CacheComicsResult>)
     //endregion
 
 }

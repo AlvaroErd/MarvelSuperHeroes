@@ -8,6 +8,7 @@ import com.alerdoci.marvelsuperheroes.BuildConfig
 import com.alerdoci.marvelsuperheroes.app.common.serializer.GsonDateDeserializer
 import com.alerdoci.marvelsuperheroes.data.constants.BASE_URL
 import com.alerdoci.marvelsuperheroes.data.datastore.features.superheroes.SuperheroesDataStore
+import com.alerdoci.marvelsuperheroes.data.datastore.features.superheroes.cache.SuperheroesCacheDataStore
 import com.alerdoci.marvelsuperheroes.data.repository.factory.features.superheroes.factory.SuperHeroesDataFactory
 import com.alerdoci.marvelsuperheroes.data.repository.factory.features.superheroes.impl.SuperHeroesRemoteImplFactory
 import com.alerdoci.marvelsuperheroes.datasource.cache.database.SuperHeroesDatabase
@@ -48,7 +49,7 @@ object NetworkModule {
 
     @Named("cache")
     @Provides
-    fun providesCacheSuperHeroesDataStore(superHeroesDatabase: SuperHeroesDatabase): SuperheroesDataStore =
+    fun providesCacheSuperHeroesDataStore(superHeroesDatabase: SuperHeroesDatabase): SuperheroesCacheDataStore =
         SuperHeroesCacheDataStoreImpl(superHeroesDatabase)
 
     @Named("remote")
@@ -109,16 +110,6 @@ object NetworkModule {
             context = context,
             klass = SuperHeroesDatabase::class.java,
             name = MarvelConstants.DATABASE_NAME
-        )
-            //region automigrations
-            .addMigrations(*SuperHeroesDatabase.migrations.toTypedArray())
-            .enableMultiInstanceInvalidation()
-            .setQueryCallback(object : RoomDatabase.QueryCallback {
-                override fun onQuery(sqlQuery: String, bindArgs: List<Any?>) {
-                    Log.d("SqlQuery", "$sqlQuery, $bindArgs")
-                }
-            }, Executors.newSingleThreadExecutor())
-            //endregion
-            .build()
+        ).build()
 
 }

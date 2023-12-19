@@ -3,8 +3,8 @@ package com.alerdoci.marvelsuperheroes.datasource.features.superheroes.remote.im
 import com.alerdoci.marvelsuperheroes.BuildConfig
 import com.alerdoci.marvelsuperheroes.data.datastore.features.superheroes.SuperheroesDataStore
 import com.alerdoci.marvelsuperheroes.datasource.di.remote.NetworkModule
-import com.alerdoci.marvelsuperheroes.datasource.features.superherocomics.remote.mappers.toDomain
-import com.alerdoci.marvelsuperheroes.datasource.features.superheroes.remote.mappers.toDomain
+import com.alerdoci.marvelsuperheroes.datasource.features.superherocomics.mappers.toDomain
+import com.alerdoci.marvelsuperheroes.datasource.features.superheroes.mappers.toDomain
 import com.alerdoci.marvelsuperheroes.datasource.remote.service.MarvelService
 import com.alerdoci.marvelsuperheroes.domain.constants.Constants.Companion.OFFSET
 import com.alerdoci.marvelsuperheroes.domain.constants.Constants.Companion.PAGE_SIZE
@@ -18,7 +18,7 @@ open class SuperHeroesRemoteDataStoreImpl @Inject constructor(
     private val remoteService: MarvelService,
 ) : SuperheroesDataStore {
 
-    override suspend fun getMarvelSuperHeroesPaging(
+    override fun getMarvelSuperHeroesPaging(
         offset: Int,
         limit: Int,
         name: String?
@@ -36,12 +36,15 @@ open class SuperHeroesRemoteDataStoreImpl @Inject constructor(
             val results = superheroes.body()?.data?.results
             emit(results?.map { superhero -> superhero.toDomain() } ?: emptyList())
         } else {
-            //ToDo Show error message
             emit(emptyList())
-//            Completable.error(RemoteExceptionMapper.getException(superheroes.message))
+            throw throw IllegalStateException(
+                "ErrorCode: ${superheroes.code()}, Message:${
+                    superheroes.errorBody()?.string()
+                }"
+            )
         }
     }
-    override suspend fun getMarvelSuperHeroesByName(
+    override fun getMarvelSuperHeroesByName(
         offset: Int,
         limit: Int,
         name: String?
@@ -60,10 +63,15 @@ open class SuperHeroesRemoteDataStoreImpl @Inject constructor(
             emit(results?.map { superhero -> superhero.toDomain() } ?: emptyList())
         } else {
             emit(emptyList())
+            throw throw IllegalStateException(
+                "ErrorCode: ${superheroes.code()}, Message:${
+                    superheroes.errorBody()?.string()
+                }"
+            )
         }
     }
 
-    override suspend fun getMarvelSuperHero(
+    override fun getMarvelSuperHero(
         superHeroId: Int,
         offset: Int,
         limit: Int
@@ -80,16 +88,21 @@ open class SuperHeroesRemoteDataStoreImpl @Inject constructor(
         if (superhero.isSuccessful) {
             val results = superhero.body()?.data?.results
             if (!results.isNullOrEmpty()) {
-                emit(results.map { superhero -> superhero.toDomain() })
+                emit(results.map { superheroRemote -> superheroRemote.toDomain() })
             } else {
                 emit(emptyList())
             }
         } else {
             emit(emptyList())
+            throw throw IllegalStateException(
+                "ErrorCode: ${superhero.code()}, Message:${
+                    superhero.errorBody()?.string()
+                }"
+            )
         }
     }
 
-    override suspend fun getMarvelSuperHeroComics(
+    override fun getMarvelSuperHeroComics(
         offset: Int,
         limit: Int,
         superHeroId: Int,
@@ -105,17 +118,15 @@ open class SuperHeroesRemoteDataStoreImpl @Inject constructor(
         )
         if (superhero.isSuccessful) {
             val results = superhero.body()?.data?.results
-            emit(results?.map { superheroComic -> superheroComic.toDomain() } ?: emptyList())
+            emit(results?.map { superheroComic -> superheroComic.toDomain(superHeroId = superHeroId) } ?: emptyList())
         } else {
             emit(emptyList())
+            throw throw IllegalStateException(
+                "ErrorCode: ${superhero.code()}, Message:${
+                    superhero.errorBody()?.string()
+                }"
+            )
         }
     }
 
-    override suspend fun insertOrUpdateSuperHeroes(vararg superHeroesList: ModelResult) {
-        TODO("Not yet implemented")
-    }
-
-    override suspend fun insertOrUpdateSuperHeroesComic(vararg superHeroesComicList: ModelComicsResult) {
-        TODO("Not yet implemented")
-    }
 }

@@ -14,9 +14,8 @@ open class GetMarvelSuperHeroesPagingUseCase @Inject constructor(
         config = PagingConfig(
             pageSize = PAGE_SIZE,
             enablePlaceholders = true,
-            maxSize = 30,
-            prefetchDistance = 5,
-            initialLoadSize = 40,
+            prefetchDistance = PAGE_SIZE / 2,
+            initialLoadSize = PAGE_SIZE / 2,
         ),
         pagingSourceFactory = { MarvelSuperHeroesPagingSource(repository, query) }
     ).flow

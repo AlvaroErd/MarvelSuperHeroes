@@ -14,9 +14,8 @@ class GetMarvelSuperHeroComicsUseCase @Inject constructor(
         config = PagingConfig(
             pageSize = PAGE_SIZE,
             enablePlaceholders = true,
-            maxSize = 30,
-            prefetchDistance = 5,
-            initialLoadSize = 40,
+            prefetchDistance = 0,
+            initialLoadSize = 1,
         ),
         pagingSourceFactory = {
             MarvelSuperHeroesComicPagingSource(repository, superHeroId)

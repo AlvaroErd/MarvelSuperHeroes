@@ -6,10 +6,10 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.drawBehind
 import androidx.compose.ui.graphics.Path
-import com.alerdoci.marvelsuperheroes.app.common.annotations.FullPreview
+import androidx.compose.ui.tooling.preview.Preview
 import com.alerdoci.marvelsuperheroes.app.theme.MarvelColors.red_800
 
-@FullPreview
+@Preview
 @Composable
 fun DiagonalDivider(modifier: Modifier = Modifier) {
     Box(

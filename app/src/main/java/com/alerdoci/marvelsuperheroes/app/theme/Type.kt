@@ -51,7 +51,7 @@ val Typography = Typography(
     bodyMedium = TextStyle(
         fontFamily = RocGrotesk,
         fontWeight = FontWeight.Normal,
-        fontSize = 12.sp
+        fontSize = 10.sp
     ),
     bodySmall = TextStyle(
         fontFamily = RocGrotesk,

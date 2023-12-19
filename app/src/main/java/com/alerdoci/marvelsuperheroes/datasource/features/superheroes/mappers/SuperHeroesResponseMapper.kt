@@ -1,7 +1,9 @@
-package com.alerdoci.marvelsuperheroes.datasource.features.superheroes.remote.mappers
+package com.alerdoci.marvelsuperheroes.datasource.features.superheroes.mappers
 
+import com.alerdoci.marvelsuperheroes.app.common.extensions.Extensions.replaceHttp
 import com.alerdoci.marvelsuperheroes.datasource.features.superheroes.cache.entity.CacheSuperHeroesResult
 import com.alerdoci.marvelsuperheroes.datasource.features.superheroes.remote.models.RemoteResult
+import com.alerdoci.marvelsuperheroes.domain.constants.Constants.Companion.DOT
 import com.alerdoci.marvelsuperheroes.model.features.superheroes.ModelResult
 
 /**
@@ -19,10 +21,7 @@ fun RemoteResult.toDomain(): ModelResult = ModelResult(
     id = id,
     name = name,
     series = series?.available,
-    image = (thumbnail?.path + "." + thumbnail?.extension).replace(
-        "http",
-        "https"
-    )
+    image = (thumbnail?.path + DOT + thumbnail?.extension).replaceHttp()
 )
 //endregion
 
@@ -40,7 +39,7 @@ fun CacheSuperHeroesResult.toDomain(): ModelResult = ModelResult(
 //endregion
 
 //region Source of truth
-fun ModelResult.toDomain(): CacheSuperHeroesResult = CacheSuperHeroesResult(
+fun ModelResult.toCache(): CacheSuperHeroesResult = CacheSuperHeroesResult(
     comics = comics,
     description = description,
     events = events,
@@ -49,9 +48,3 @@ fun ModelResult.toDomain(): CacheSuperHeroesResult = CacheSuperHeroesResult(
     series = series,
     image = image
 )
-
-//endregion
-
-//override fun toDomain(): ModelResult {
-//    throw IllegalMappingException("${this.javaClass.simpleName} can't be mapped to Domain Entity")
-//}
