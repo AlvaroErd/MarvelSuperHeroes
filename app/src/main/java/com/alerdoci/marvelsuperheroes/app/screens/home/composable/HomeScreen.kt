@@ -149,14 +149,14 @@ fun HomeScreen(
     val currentTheme = settingsViewModel.getCurrentTheme(isSystemInDarkTheme)
     val systemUiController = rememberSystemUiController()
 
-        systemUiController.setStatusBarColor(
-            color = MaterialTheme.colorScheme.background,
-            darkIcons = currentTheme == ThemeMode.Light
-        )
-        systemUiController.setNavigationBarColor(
-            color = MaterialTheme.colorScheme.background,
-            darkIcons = currentTheme == ThemeMode.Light
-        )
+    systemUiController.setStatusBarColor(
+        color = MaterialTheme.colorScheme.background,
+        darkIcons = currentTheme == ThemeMode.Light
+    )
+    systemUiController.setNavigationBarColor(
+        color = MaterialTheme.colorScheme.background,
+        darkIcons = currentTheme == ThemeMode.Light
+    )
 
     val displayDialog = remember { mutableStateOf(false) }
     val radioOptions = listOf("Light", "Dark", "System")
@@ -656,7 +656,7 @@ fun HomeScreen(
 }
 
 @SuppressLint("StateFlowValueCalledInComposition")
-@OptIn(ExperimentalFoundationApi::class, ExperimentalMaterial3Api::class)
+@OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun SuperheroItem(
     superHero: ModelResult,
@@ -798,7 +798,6 @@ fun SuperheroItem(
                         modifier = Modifier.padding(top = MaterialTheme.spacing.semiSmall),
                         horizontalAlignment = CenterHorizontally,
                         verticalArrangement = Arrangement.Center
-
                     ) {
                         Icon(
                             painterResource(id = R.drawable.ic_event),
