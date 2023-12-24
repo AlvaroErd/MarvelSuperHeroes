@@ -194,7 +194,7 @@ fun HomeScreen(
             }
         }
 
-        val searchQuery by viewModel.searchQuery.collectAsState()
+        val query by viewModel.searchQuery.collectAsState()
         var textActive by remember { mutableStateOf(false) }
         val snackbarHostState = remember { SnackbarHostState() }
 
@@ -214,7 +214,7 @@ fun HomeScreen(
 
         if (state.isRefreshing) {
             LaunchedEffect(true) {
-                viewModel.searchCharacters(searchQuery)
+                viewModel.searchCharacters(query)
                 delay(500)
                 state.endRefresh()
             }
@@ -316,7 +316,7 @@ fun HomeScreen(
                     ) {
 
                         SearchBar(
-                            query = searchQuery,
+                            query = query,
                             onQueryChange = { newTextSearched ->
                                 if (textActive) {
                                     viewModel.searchCharacters(newTextSearched)
@@ -325,8 +325,8 @@ fun HomeScreen(
                             onSearch = {
                                 textActive = false
                                 superHeroListPagingState.refresh()
-                                viewModel.searchCharacters(searchQuery)
-                                onSearchComplete(searchQuery)
+                                viewModel.searchCharacters(query)
+                                onSearchComplete(query)
                             },
                             active = textActive,
                             onActiveChange = {
@@ -352,7 +352,7 @@ fun HomeScreen(
                             },
                             colors = SearchBarDefaults.colors(dividerColor = red_800),
                             trailingIcon = {
-                                if (searchQuery.isNotEmpty()) {
+                                if (query.isNotEmpty()) {
                                     IconButton(onClick = {
                                         viewModel.searchCharacters("")
                                     }) {
@@ -923,4 +923,3 @@ fun SuperheroItemPreview() {
         onClick = { }
     )
 }
-
