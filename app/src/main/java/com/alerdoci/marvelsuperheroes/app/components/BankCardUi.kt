@@ -25,29 +25,13 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.TextStyle
-import androidx.compose.ui.text.font.Font
-import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.alerdoci.marvelsuperheroes.R
-
-// Defining the LatoFont
-val LatoFont = FontFamily(
-    Font(R.font.lato_black, FontWeight.Black),
-    Font(R.font.lato_black_italic, FontWeight.Black, FontStyle.Italic),
-    Font(R.font.lato_bold, FontWeight.Bold),
-    Font(R.font.lato_bold_italic, FontWeight.Bold, FontStyle.Italic),
-    Font(R.font.lato_italic, FontWeight.Normal, FontStyle.Italic),
-    Font(R.font.lato_light, FontWeight.Light),
-    Font(R.font.lato_light_italic, FontWeight.Light, FontStyle.Italic),
-    Font(R.font.lato_regular, FontWeight.Normal),
-    Font(R.font.lato_thin, FontWeight.Thin),
-    Font(R.font.lato_thin_italic, FontWeight.Thin, FontStyle.Italic)
-)
+import com.alerdoci.marvelsuperheroes.app.theme.RocGrotesk
 
 // Our star of the show: BankCardUi
 @Composable
@@ -105,7 +89,7 @@ fun BankCardUi(
                 // Feel free to use an image instead
                 Text(
                     text = brand, style = TextStyle(
-                        fontFamily = LatoFont,
+                        fontFamily = RocGrotesk,
                         fontWeight = FontWeight.W500,
                         fontStyle = FontStyle.Italic,
                         fontSize = 22.sp,
@@ -161,7 +145,7 @@ fun BankCardNumber(cardNumber: String) {
         Text(
             text = cardNumber.takeLast(4),
             style = TextStyle(
-                fontFamily = LatoFont,
+                fontFamily = RocGrotesk,
                 fontWeight = FontWeight.Bold,
                 fontSize = 20.sp,
                 letterSpacing = 1.sp,
@@ -201,7 +185,7 @@ fun BankCardLabelAndText(label: String, text: String) {
         Text(
             text = label.uppercase(),
             style = TextStyle(
-                fontFamily = LatoFont,
+                fontFamily = RocGrotesk,
                 fontWeight = FontWeight.W300,
                 fontSize = 12.sp,
                 letterSpacing = 1.sp,
@@ -212,7 +196,7 @@ fun BankCardLabelAndText(label: String, text: String) {
         Text(
             text = text,
             style = TextStyle(
-                fontFamily = LatoFont,
+                fontFamily = RocGrotesk,
                 fontWeight = FontWeight.W400,
                 fontSize = 16.sp,
                 letterSpacing = 1.sp,
@@ -253,10 +237,10 @@ fun BankCardUiPreview() {
             modifier = Modifier.align(Alignment.Center),
             baseColor = Color(0xFFFF9800),
             cardNumber = "1234567890123456",
-            cardHolder = "John Doe",
+            cardHolder = "Churumbel Calata",
             expires = "01/29",
             cvv = "901",
-            brand = "WISA"
+            brand = "Openbank"
         )
     }
 }

@@ -12,7 +12,7 @@ plugins {
 val versionMajor = 1
 val versionMinor = 0
 val versionPatch = 0
-val versionBuild = 0 // bump for dogfood builds, public betas, etc.
+val versionBuild = 1 // bump for dogfood builds, public betas, etc.
 
 android {
     compileSdk = libs.versions.compileSdk.get().toInt()
@@ -185,9 +185,10 @@ dependencies {
     implementation(libs.androidx.compose.materialWindow)
     implementation(libs.androidx.compose.runtime.livedata)
     debugImplementation(libs.androidx.compose.ui.test.manifest)
-//    debugImplementation(libs.androidx.compose.ui.tooling.preview.android)
+    debugImplementation(libs.androidx.compose.ui.tooling.preview.android)
     implementation(libs.androidx.ui.tooling.preview)
     debugImplementation(libs.androidx.compose.ui.tooling)
+    debugImplementation(libs.androidx.compose.ui.graphics)
     implementation(libs.androidx.constraintlayout.compose)
     implementation(libs.accompanist.swiperefresh)
     implementation(libs.accompanist.systemuicontroller)
