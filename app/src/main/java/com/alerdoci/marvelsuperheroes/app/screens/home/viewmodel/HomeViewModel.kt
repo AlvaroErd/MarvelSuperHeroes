@@ -1,6 +1,7 @@
 package com.alerdoci.marvelsuperheroes.app.screens.home.viewmodel
 
 import android.util.Log
+import androidx.compose.runtime.mutableStateListOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.paging.PagingData
@@ -22,6 +23,7 @@ class HomeViewModel @Inject constructor(
 ) : ViewModel() {
 
     val searchQuery = MutableStateFlow("")
+    val recentSearches = mutableStateListOf<String>()
 
     val allCharacters: StateFlow<PagingData<ModelResult>> =
         searchQuery.flatMapLatest { query ->
@@ -33,6 +35,14 @@ class HomeViewModel @Inject constructor(
         if (searchQuery.value != query) {
             searchQuery.value = query
         }
+    }
+
+    fun addRecentSearch(query: String) {
+        recentSearches.add(query)
+    }
+
+    fun removeRecentSearch(index: Int) {
+        recentSearches.removeAt(index)
     }
 
 }

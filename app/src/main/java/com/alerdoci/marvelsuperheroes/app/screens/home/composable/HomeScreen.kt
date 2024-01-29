@@ -8,6 +8,7 @@ import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.basicMarquee
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.Arrangement
@@ -32,6 +33,8 @@ import androidx.compose.foundation.shape.CutCornerShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Close
+import androidx.compose.material.icons.filled.DeleteOutline
+import androidx.compose.material.icons.filled.History
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Card
@@ -61,12 +64,14 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableFloatStateOf
+import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Alignment.Companion.CenterHorizontally
+import androidx.compose.ui.Alignment.Companion.CenterVertically
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.draw.blur
@@ -240,7 +245,7 @@ fun HomeScreen(
                         modifier = Modifier
                             .fillMaxWidth()
                             .height(50.dp),
-                        verticalAlignment = Alignment.CenterVertically
+                        verticalAlignment = CenterVertically
                     ) {
                         Box(
                             Modifier
@@ -314,7 +319,6 @@ fun HomeScreen(
                             ),
                         Alignment.Center
                     ) {
-
                         SearchBar(
                             query = query,
                             onQueryChange = { newTextSearched ->
@@ -327,6 +331,9 @@ fun HomeScreen(
                                 superHeroListPagingState.refresh()
                                 viewModel.searchCharacters(query)
                                 onSearchComplete(query)
+                                if (query.isNotBlank()) {
+                                    viewModel.addRecentSearch(query)
+                                }
                             },
                             active = textActive,
                             onActiveChange = {
@@ -350,7 +357,10 @@ fun HomeScreen(
                                     tint = MaterialTheme.colorScheme.onBackground,
                                 )
                             },
-                            colors = SearchBarDefaults.colors(dividerColor = red_800),
+                            colors = SearchBarDefaults.colors(
+                                dividerColor = red_800,
+                                containerColor = MaterialTheme.colorScheme.background
+                            ),
                             trailingIcon = {
                                 if (query.isNotEmpty()) {
                                     IconButton(onClick = {
@@ -364,22 +374,65 @@ fun HomeScreen(
                                     }
                                 }
                             },
-                            modifier = Modifier.padding(
-                                bottom = MaterialTheme.spacing.tiny,
-                            )
                         )
                         {
-
+                            if (textActive) {
+                                viewModel.recentSearches.forEachIndexed { index, recentSearch ->
+                                    Row(
+                                        modifier = Modifier
+                                            .fillMaxWidth()
+                                            .clickable {
+                                                viewModel.searchCharacters(recentSearch)
+                                                textActive = false
+                                            }
+                                            .padding(vertical = 4.dp)
+                                            .height(60.dp),
+                                        verticalAlignment = CenterVertically
+                                    ) {
+                                        Icon(
+                                            modifier = Modifier.padding(start = 16.dp, end = 10.dp),
+                                            imageVector = Icons.Default.History,
+                                            contentDescription = "History Icon",
+                                            tint = MaterialTheme.colorScheme.onBackground,
+                                        )
+                                        Text(
+                                            text = recentSearch,
+                                            modifier = Modifier.weight(1f)
+                                        )
+                                        IconButton(
+                                            onClick = {
+                                                viewModel.removeRecentSearch(index)
+                                            },
+                                            modifier = Modifier.padding(end = 4.dp)
+                                        ) {
+                                            Icon(
+                                                imageVector = Icons.Default.DeleteOutline,
+                                                contentDescription = "Delete Icon",
+                                                tint = MaterialTheme.colorScheme.onBackground,
+                                            )
+                                        }
+                                    }
+                                }
+                            }
                         }
-
                     }
-                    Box()
-                    {
-                        DiagonalDivider(
+                    Box{
+                        Column(
                             modifier = Modifier
-                                .height(40.dp)
                                 .zIndex(1f)
-                        )
+                        )  {
+                            Column(
+                                modifier = Modifier
+                                    .height(MaterialTheme.spacing.tiny)
+                                    .fillMaxWidth()
+                                    .background(red_800)
+                            )
+                            { }
+                            DiagonalDivider(
+                                modifier = Modifier
+                                    .height(40.dp)
+                            )
+                        }
                         Column(
                             modifier = Modifier
                                 .fillMaxSize()
@@ -402,7 +455,7 @@ fun HomeScreen(
                                         ) {
                                             if (!state.isRefreshing) {
                                                 item {
-                                                    Spacer(modifier = Modifier.height(if (scrollState.isScrollInProgress) MaterialTheme.dimens.custom0 else MaterialTheme.dimens.custom40))
+                                                    Spacer(modifier = Modifier.height(if (scrollState.isScrollInProgress) MaterialTheme.dimens.custom0 else MaterialTheme.dimens.custom50))
                                                 }
                                                 items(
                                                     count = superHeroListPagingState.itemCount,
