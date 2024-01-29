@@ -1,9 +1,9 @@
 @file:Suppress("UnstableApiUsage")
 pluginManagement {
     repositories {
-        gradlePluginPortal()
-        google()
         mavenCentral()
+        google()
+        gradlePluginPortal()
         maven ("https://jitpack.io")
     }
 }
@@ -11,10 +11,12 @@ pluginManagement {
 dependencyResolutionManagement {
     repositoriesMode.set(RepositoriesMode.FAIL_ON_PROJECT_REPOS)
     repositories {
-        google()
         mavenCentral()
         maven("https://jitpack.io")
+        google()
     }
 }
-rootProject.name = "Marvel SuperHeroes"
+rootProject.name = "marvel-superheroes"
 include(":app")
+
+enableFeaturePreview("TYPESAFE_PROJECT_ACCESSORS")
