@@ -2,7 +2,9 @@ package com.alerdoci.marvelsuperheroes.model.features.superheroes
 
 import android.os.Parcelable
 import kotlinx.parcelize.Parcelize
+import androidx.compose.runtime.Immutable
 
+@Immutable
 @Parcelize
 data class ModelResult(
     val comics: Int?,

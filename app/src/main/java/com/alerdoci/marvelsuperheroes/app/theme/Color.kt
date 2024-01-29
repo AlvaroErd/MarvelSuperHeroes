@@ -19,18 +19,18 @@ val md_theme_light_error = Color(0xFFBA1A1A)
 val md_theme_light_errorContainer = Color(0xFFFFDAD6)
 val md_theme_light_onError = Color(0xFFFFFFFF)
 val md_theme_light_onErrorContainer = Color(0xFF410002)
-val md_theme_light_background = Color(0xFFF8FDFF)
+val md_theme_light_background = Color(0xFFFFFFFE)
 val md_theme_light_onBackground = Color(0xFF000000)
-val md_theme_light_surface = Color(0xFFF8FDFF)
+val md_theme_light_surface = Color(0xFFFFFFFF)
 val md_theme_light_onSurface = Color(0xFF001F25)
-val md_theme_light_surfaceVariant = Color(0xFFF5DDDA)
+val md_theme_light_surfaceVariant = Color(0xFFE7E7E7)
 val md_theme_light_onSurfaceVariant = Color(0xFF534341)
 val md_theme_light_outline = Color(0xFF857371)
 val md_theme_light_inverseOnSurface = Color(0xFFD6F6FF)
 val md_theme_light_inverseSurface = Color(0xFF00363F)
 val md_theme_light_inversePrimary = Color(0xFFFFB4AB)
 val md_theme_light_shadow = Color(0xFF000000)
-val md_theme_light_surfaceTint = Color(0xFFC00014)
+val md_theme_light_surfaceTint = Color(0xFF3C2627)
 val md_theme_light_outlineVariant = Color(0xFFD8C2BF)
 val md_theme_light_scrim = Color(0xFF000000)
 
@@ -72,6 +72,7 @@ object MarvelColors {
     // Resource Colors
     val black = Color(0xFF000000)
     val white = Color(0xFFFFFFFF)
+    val white99 = Color(0xFFFFFFFE)
     val transparent = Color(0x00FFFFFF)
 
     // Reds
@@ -367,4 +368,8 @@ object MarvelColors {
     val blue_grey_700 = Color(0xFF455A64)
     val blue_grey_800 = Color(0xFF37474F)
     val blue_grey_900 = Color(0xFF263238)
+
+    val Snow = Color(0xFFFAFAFA)
+    val Jelly = Color(0xFF4A3439)
+    val OchreGrass = Color(0xFFC6A366)
 }

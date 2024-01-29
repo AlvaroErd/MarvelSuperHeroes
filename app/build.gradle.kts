@@ -69,7 +69,7 @@ android {
                 "API_KEY_PRIVATE",
                 "\"${project.properties["API_KEY_PRIVATE"]}\""
             )
-            resValue("string", "app_name", "@string/app_name_debug")
+//            resValue("string", "app_name", "@string/app_name_debug")
 
         }
 

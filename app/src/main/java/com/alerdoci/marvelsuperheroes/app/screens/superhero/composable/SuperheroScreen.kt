@@ -199,8 +199,7 @@ fun SuperheroScreen(
                                             .padding(top = 16.dp),
                                         colors = ButtonDefaults.buttonColors(
                                             containerColor = transparent,
-                                            contentColor = amber_400
-                                        ),
+                                            contentColor = MaterialTheme.colorScheme.onBackground),
                                         border = BorderStroke(2.dp, amber_400),
                                         shape = CutCornerShape(
                                             topStart = MaterialTheme.dimens.custom20,
@@ -246,8 +245,7 @@ fun SuperheroScreen(
                                                         )
                                                     }
                                             )
-                                        }
-                                        else {
+                                        } else {
                                             Text(
                                                 text = stringResource(id = R.string.comics_appear),
                                                 style = MaterialTheme.typography.titleMedium,
@@ -334,23 +332,23 @@ fun SuperheroScreen(
                                                     rememberZoomableState()
                                                 )
                                         )
-                                            OutlinedButton(
-                                                onClick = { showDialog = false },
-                                                colors = ButtonDefaults.buttonColors(
-                                                    containerColor = MaterialTheme.colorScheme.background,
-                                                ),
-                                                border = BorderStroke(
-                                                    2.dp,
-                                                    MaterialTheme.colorScheme.onBackground
-                                                )
-                                            ) {
-                                                Icon(
-                                                    imageVector = Icons.Filled.Close,
-                                                    contentDescription = "",
-                                                    tint = MaterialTheme.colorScheme.onBackground,
-                                                    modifier = Modifier.size(30.dp)
-                                                )
-                                            }
+                                        OutlinedButton(
+                                            onClick = { showDialog = false },
+                                            colors = ButtonDefaults.buttonColors(
+                                                containerColor = MaterialTheme.colorScheme.background,
+                                            ),
+                                            border = BorderStroke(
+                                                2.dp,
+                                                MaterialTheme.colorScheme.onBackground
+                                            )
+                                        ) {
+                                            Icon(
+                                                imageVector = Icons.Filled.Close,
+                                                contentDescription = "",
+                                                tint = MaterialTheme.colorScheme.onBackground,
+                                                modifier = Modifier.size(30.dp)
+                                            )
+                                        }
                                     }
 
                                 }

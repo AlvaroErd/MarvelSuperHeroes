@@ -1,13 +1,12 @@
 package com.alerdoci.marvelsuperheroes.datasource.features.superherocomics.cache.entity
 
+import androidx.compose.runtime.Immutable
 import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
-import androidx.room.TypeConverter
 import com.alerdoci.marvelsuperheroes.datasource.features.superheroes.cache.constants.MarvelConstants.SUPERHEROES_COMICS_TABLE_NAME
-import com.google.gson.Gson
-import com.google.gson.reflect.TypeToken
 
+@Immutable
 @Entity(tableName = SUPERHEROES_COMICS_TABLE_NAME)
 data class CacheComicsResult(
     @PrimaryKey(autoGenerate = false)
