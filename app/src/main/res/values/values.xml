@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <integer name="animation_duration">300</integer>
+    <integer name="rotation_arrow_back">0</integer>
+    <integer name="rotation_close">90</integer>
+</resources>

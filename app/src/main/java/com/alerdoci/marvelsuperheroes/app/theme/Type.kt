@@ -80,6 +80,10 @@ val Typography = Typography(
     ),
 )
 
+val digitalFont = FontFamily(
+    Font(R.font.digital_regular)
+)
+
 // Material 3 typography guideline
 //val Typography = Typography(
 //    displayLarge = TextStyle(

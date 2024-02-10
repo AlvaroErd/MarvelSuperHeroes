@@ -269,4 +269,39 @@ object Extensions {
         val https = HTTPS
         return this.replace(http, https)
     }
+
+    fun getYear(date: Date): Int{
+        return date.year+1900
+    }
+
+    fun getNameOfMonthByNumber(monthNumber: Int, context: Context): String {
+        return when(monthNumber) {
+            0 -> "Enero"//context.resources.getString(R.string.january)
+            1 -> "Febrero"//context.resources.getString(R.string.february)
+            2 -> "Marzo"//context.resources.getString(R.string.march)
+            3 -> "Abril"//context.resources.getString(R.string.april)
+            4 -> "Mayo"//context.resources.getString(R.string.may)
+            5 -> "Junio"//context.resources.getString(R.string.june)
+            6 -> "Julio"//context.resources.getString(R.string.july)
+            7 -> "Agosto"//context.resources.getString(R.string.august)
+            8 -> "Septiembre"//context.resources.getString(R.string.september)
+            9 -> "Octubre"//context.resources.getString(R.string.october)
+            10-> "Noviembre"//context.resources.getString(R.string.november)
+            else -> "Diciembre"//context.resources.getString(R.string.december)
+        }
+    }
+
+    fun getNameOfDayByDate(date: Date, context: Context): String {
+        val calendar = Calendar.getInstance()
+        calendar.time = date
+        return when(calendar[Calendar.DAY_OF_WEEK]) {
+            1 -> "Lunes"//MainActivity.instance!!.applicationContext.getString(R.string.sunday)
+            2 -> "Martes"//context.resources.getString(R.string.monday)
+            3 -> "Miercoles"//context.resources.getString(R.string.tuesday)
+            4 -> "Jueves"//context.resources.getString(R.string.wednesday)
+            5 -> "Viernes"//context.resources.getString(R.string.thursday)
+            6 -> "Sabado"//context.resources.getString(R.string.friday)
+            else -> "Domingo"//context.resources.getString(R.string.saturday)
+        }
+    }
 }

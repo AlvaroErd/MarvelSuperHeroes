@@ -72,7 +72,7 @@ android {
             resValue("string", "app_name", "@string/app_name_debug")
         }
 
-        getByName("release") {
+        getByName(libs.versions.buildTypeNameRelease.get()) {
             isMinifyEnabled = false
             signingConfig = signingConfigs.getByName("debug")
             resValue("string", "app_name", "@string/app_name_release")
@@ -255,6 +255,7 @@ dependencies {
     implementation(libs.retrofitAdapter)
     implementation(libs.okhttp.logging)
     implementation(libs.okhttp3)
+    implementation(libs.androidx.animation.graphics)
 
     //Shimmer
     implementation(libs.shimmer)

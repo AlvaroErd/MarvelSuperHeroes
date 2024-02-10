@@ -2,9 +2,11 @@
 
 #General, lifecycle and core
 androidGradlePlugin = "8.2.2"
+animationGraphics = "1.6.0"
 kotlin = "1.9.22"
 kotlinx_immutable = "0.3.5"
 ksp = "1.9.22-1.0.17"
+buildTypeNameRelease = "release"
 
 compileSdk = "34"
 targetSdk = "34"
@@ -130,6 +132,7 @@ detekt = "1.23.0"
 eva = "1.0.0"
 
 [libraries]
+androidx-animation-graphics = { module = "androidx.compose.animation:animation-graphics", version.ref = "animationGraphics" }
 kotlin-stdlib = { module = "org.jetbrains.kotlin:kotlin-stdlib-jdk8", version.ref = "kotlin" }
 kotlinx-collections-immutable = { module = "org.jetbrains.kotlinx:kotlinx-collections-immutable", version.ref = "kotlinx_immutable" }
 

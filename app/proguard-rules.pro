@@ -19,3 +19,6 @@
 # If you keep the line number information, uncomment this to
 # hide the original source file name.
 #-renamesourcefileattribute SourceFile
+
+#-keep class com.alerdoci.marvelsuperheroes.datasource.features.superheroes.remote.models.*
+#-keep class com.alerdoci.marvelsuperheroes.datasource.features.superherocomics.remote.models.*

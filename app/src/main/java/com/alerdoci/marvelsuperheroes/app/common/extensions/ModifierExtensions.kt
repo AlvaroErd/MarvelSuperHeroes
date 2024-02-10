@@ -1,6 +1,10 @@
 package com.alerdoci.marvelsuperheroes.app.common.extensions
 
+import android.annotation.SuppressLint
 import android.content.Context
+import android.graphics.BlurMaskFilter
+import android.graphics.PorterDuff
+import android.graphics.PorterDuffXfermode
 import android.os.Build
 import android.os.CombinedVibration
 import android.os.VibrationEffect
@@ -16,19 +20,23 @@ import androidx.compose.animation.core.rememberInfiniteTransition
 import androidx.compose.animation.core.spring
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.ExperimentalFoundationApi
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.combinedClickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.ripple.RippleAlpha
 import androidx.compose.material.ripple.RippleTheme
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
@@ -39,19 +47,32 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.composed
 import androidx.compose.ui.draw.clipToBounds
 import androidx.compose.ui.draw.drawBehind
+import androidx.compose.ui.draw.drawWithContent
+import androidx.compose.ui.geometry.Offset
+import androidx.compose.ui.geometry.Rect
 import androidx.compose.ui.graphics.BlendMode
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.Color.Companion.Black
+import androidx.compose.ui.graphics.Color.Companion.Blue
+import androidx.compose.ui.graphics.Color.Companion.Gray
+import androidx.compose.ui.graphics.Color.Companion.Yellow
 import androidx.compose.ui.graphics.Paint
 import androidx.compose.ui.graphics.drawscope.drawIntoCanvas
 import androidx.compose.ui.graphics.drawscope.rotate
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.hapticfeedback.HapticFeedbackType
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.platform.LocalHapticFeedback
+import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
+import com.alerdoci.marvelsuperheroes.R
+import com.alerdoci.marvelsuperheroes.app.common.extensions.ModifierExtensions.innerShadow
 import com.alerdoci.marvelsuperheroes.app.theme.MarvelColors
 
 object ModifierExtensions {
@@ -59,6 +80,7 @@ object ModifierExtensions {
     private const val ShakeDurationMillis = 800
 
     //For clickable elements
+    @SuppressLint("ModifierFactoryUnreferencedReceiver")
     fun Modifier.noRippleClickable(onClick: () -> Unit): Modifier = composed {
         clickable(indication = null,
             interactionSource = remember { MutableInteractionSource() }) {
@@ -218,6 +240,7 @@ object ModifierExtensions {
         return clickable { onClick() }
     }
 
+    @SuppressLint("ModifierFactoryUnreferencedReceiver")
     fun Modifier.hapticClickable(
         hapticFeedbackType: HapticFeedbackType = HapticFeedbackType.TextHandleMove,
         enabled: Boolean = true,
@@ -232,6 +255,7 @@ object ModifierExtensions {
         }
     }
 
+    @SuppressLint("ModifierFactoryUnreferencedReceiver")
     fun Modifier.animatedHeight(height: Dp): Modifier {
         return composed {
             var previousValue by remember { mutableStateOf<Float?>(null) }
@@ -317,6 +341,7 @@ object ModifierExtensions {
             )
     )
 
+    @SuppressLint("ModifierFactoryUnreferencedReceiver")
     inline fun Modifier.noRippleClickableV2(crossinline onClick: () -> Unit): Modifier = composed {
         clickable(
             indication = null,
@@ -356,6 +381,212 @@ object ModifierExtensions {
             }
             .background(backgroundColor)
     }
+
+    fun Modifier.innerShadow(
+        color: Color = Black,
+        cornersRadius: Dp = 0.dp,
+        spread: Dp = 0.dp,
+        blur: Dp = 0.dp,
+        offsetY: Dp = 0.dp,
+        offsetX: Dp = 0.dp
+    ) = drawWithContent {
+
+        drawContent()
+
+        val rect = Rect(Offset.Zero, size)
+        val paint = Paint()
+
+        drawIntoCanvas {
+
+            paint.color = color
+            paint.isAntiAlias = true
+            it.saveLayer(rect, paint)
+            it.drawRoundRect(
+                left = rect.left,
+                top = rect.top,
+                right = rect.right,
+                bottom = rect.bottom,
+                cornersRadius.toPx(),
+                cornersRadius.toPx(),
+                paint
+            )
+            val frameworkPaint = paint.asFrameworkPaint()
+            frameworkPaint.xfermode = PorterDuffXfermode(PorterDuff.Mode.DST_OUT)
+            if (blur.toPx() > 0) {
+                frameworkPaint.maskFilter = BlurMaskFilter(blur.toPx(), BlurMaskFilter.Blur.NORMAL)
+            }
+            val left = if (offsetX > 0.dp) {
+                rect.left + offsetX.toPx()
+            } else {
+                rect.left
+            }
+            val top = if (offsetY > 0.dp) {
+                rect.top + offsetY.toPx()
+            } else {
+                rect.top
+            }
+            val right = if (offsetX < 0.dp) {
+                rect.right + offsetX.toPx()
+            } else {
+                rect.right
+            }
+            val bottom = if (offsetY < 0.dp) {
+                rect.bottom + offsetY.toPx()
+            } else {
+                rect.bottom
+            }
+            paint.color = Black
+            it.drawRoundRect(
+                left = left + spread.toPx() / 2,
+                top = top + spread.toPx() / 2,
+                right = right - spread.toPx() / 2,
+                bottom = bottom - spread.toPx() / 2,
+                cornersRadius.toPx(),
+                cornersRadius.toPx(),
+                paint
+            )
+            frameworkPaint.xfermode = null
+            frameworkPaint.maskFilter = null
+        }
+    }
+
+    fun Modifier.customShadow(
+        color: Color = Black,
+        borderRadius: Dp = 0.dp,
+        blurRadius: Dp = 0.dp,
+        spread: Dp = 0f.dp,
+        widthOffset: Dp = 0.dp,
+        heightOffset: Dp = 0.dp,
+        offsetY: Dp = 0.dp,
+        offsetX: Dp = 0.dp,
+    ) = this.drawBehind {
+        this.drawIntoCanvas {
+            size.height
+            val paint = Paint()
+            val frameworkPaint = paint.asFrameworkPaint()
+            val spreadPixel = spread.toPx()
+            val leftPixel = (0f - spreadPixel) + offsetX.toPx() - widthOffset.toPx()
+            val topPixel = (0f - spreadPixel) + offsetY.toPx() - heightOffset.toPx()
+            val rightPixel = (this.size.width + spreadPixel) + widthOffset.toPx()
+            val bottomPixel = (this.size.height + spreadPixel) + heightOffset.toPx()
+
+            if (blurRadius != 0.dp) {
+                frameworkPaint.maskFilter =
+                    (BlurMaskFilter(blurRadius.toPx(), BlurMaskFilter.Blur.NORMAL))
+            }
+
+            frameworkPaint.color = color.toArgb()
+            it.drawRoundRect(
+                left = leftPixel,
+                top = topPixel,
+                right = rightPixel,
+                bottom = bottomPixel,
+                radiusX = borderRadius.toPx(),
+                radiusY = borderRadius.toPx(),
+                paint
+            )
+        }
+    }
+
+
+    @SuppressLint("ModifierFactoryUnreferencedReceiver")
+    fun Modifier.bottomBorder(strokeWidth: Dp, color: Color) = composed(
+        factory = {
+            val density = LocalDensity.current
+            val strokeWidthPx = density.run { strokeWidth.toPx() }
+
+            Modifier.drawWithContent {
+                drawContent()
+                val width = size.width
+                val height = size.height - strokeWidthPx / 2
+
+                drawLine(
+                    color = color,
+                    start = Offset(x = 0f, y = height),
+                    end = Offset(x = width, y = height),
+                    strokeWidth = strokeWidthPx
+                )
+            }
+        }
+    )
+
+    @SuppressLint("ModifierFactoryUnreferencedReceiver")
+    fun Modifier.topBorder(strokeWidth: Dp, color: Color) = composed(
+        factory = {
+            val density = LocalDensity.current
+            val strokeWidthPx = density.run { strokeWidth.toPx() }
+
+            Modifier.drawWithContent {
+                drawContent()
+                val width = size.width
+                val height = strokeWidthPx / 2
+
+                drawLine(
+                    color = color,
+                    start = Offset(x = 0f, y = height),
+                    end = Offset(x = width, y = height),
+                    strokeWidth = strokeWidthPx
+                )
+            }
+        }
+    )
+
+    @SuppressLint("ModifierFactoryUnreferencedReceiver")
+    fun Modifier.leftBorder(strokeWidth: Dp, color: Color) = composed(
+        factory = {
+            val density = LocalDensity.current
+            val strokeWidthPx = density.run { strokeWidth.toPx() }
+
+            Modifier.drawWithContent {
+                drawContent()
+                val width = size.width
+                val height = size.height - strokeWidthPx / 2
+
+                drawLine(
+                    color = color,
+                    start = Offset(x = 0f, y = 0f),
+                    end = Offset(x = 0f, y = height),
+                    strokeWidth = strokeWidthPx
+                )
+            }
+        }
+    )
+
+    @SuppressLint("ModifierFactoryUnreferencedReceiver")
+    fun Modifier.rightBorder(strokeWidth: Dp, color: Color) = composed(
+        factory = {
+            val density = LocalDensity.current
+            val strokeWidthPx = density.run { strokeWidth.toPx() }
+
+            Modifier.drawWithContent {
+                drawContent()
+                val width = size.width
+                val height = size.height - strokeWidthPx / 2
+
+                drawLine(
+                    color = color,
+                    start = Offset(x = width, y = 0f),
+                    end = Offset(x = width, y = height),
+                    strokeWidth = strokeWidthPx
+                )
+            }
+        }
+    )
+
+    fun Modifier.clickableOrNull(clickable: Boolean?, onClick: () -> Unit): Modifier {
+        return if (clickable != null) {
+            this.then(
+                Modifier.clickable(
+                    enabled = clickable
+                ) {
+                    onClick()
+                }
+            )
+        } else {
+            this
+        }
+    }
+
 }
 
 private object NoRippleTheme : RippleTheme {
@@ -366,3 +597,45 @@ private object NoRippleTheme : RippleTheme {
     override fun rippleAlpha(): RippleAlpha = RippleAlpha(0.0f, 0.0f, 0.0f, 0.0f)
 }
 
+@Preview
+@Composable
+fun CardScreen(
+    cardModifier: Modifier = Modifier,
+    screenModifier: Modifier = Modifier,
+    cardPadding: PaddingValues = PaddingValues(10.dp),
+    cardBorderSize: PaddingValues = PaddingValues(10.dp),
+    cardCorner: Dp = 8.dp,
+    cardInternBackground: Color = Blue,
+    screenCorner: Dp = 6.dp,
+//    content: @Composable () -> Unit
+) {
+    Surface(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(cardPadding)
+            .then(cardModifier),
+        color = Gray,
+        shape = RoundedCornerShape(cardCorner)
+    ) {
+        Surface(
+            modifier = Modifier
+                .padding(cardBorderSize)
+                .innerShadow(
+                    color = Black,
+                    cornersRadius = screenCorner,
+                    blur = 5.dp
+                )
+                .then(screenModifier),
+            color = cardInternBackground,
+            shape = RoundedCornerShape(screenCorner)
+        ) {
+            Image(
+                painter = painterResource(id = R.drawable.groot_placeholder),
+                contentDescription = null,
+                contentScale = ContentScale.Crop,
+                modifier = Modifier
+                    .fillMaxSize()
+            )
+        }
+    }
+}
