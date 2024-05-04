@@ -1,7 +1,11 @@
 package com.alerdoci.marvelsuperheroes.app.screens.home.composable
 
 import android.annotation.SuppressLint
+import android.content.Context
 import android.content.res.Configuration
+import android.media.AudioManager
+import android.media.MediaPlayer
+import android.view.SoundEffectConstants
 import androidx.compose.animation.core.LinearOutSlowInEasing
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.foundation.ExperimentalFoundationApi
@@ -37,6 +41,7 @@ import androidx.compose.material.icons.filled.DeleteOutline
 import androidx.compose.material.icons.filled.History
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.material3.AlertDialog
+import androidx.compose.material3.Button
 import androidx.compose.material3.Card
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -86,6 +91,7 @@ import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.LocalView
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.pluralStringResource
 import androidx.compose.ui.res.stringResource
@@ -286,13 +292,17 @@ fun HomeScreen(
                                 .weight(1f)
                                 .padding(horizontal = 80.dp)
                         )
+                        val clickSound = MediaPlayer.create(LocalContext.current, R.raw.click)
                         IconButton(
                             modifier = Modifier
                                 .padding(end = 20.dp)
                                 .fillMaxHeight(),
                             onClick = {
                                 displayDialog.value = true
-                            },
+//                                clickSound.start()
+                            }
+                                .withSound(LocalContext.current)
+                            ,
                         )
                         {
                             Icon(
@@ -975,4 +985,10 @@ fun SuperheroItemPreview() {
         modifier = Modifier,
         onClick = { }
     )
+}
+
+fun (() -> Unit).withSound(context: Context): () -> Unit = {
+    (context.getSystemService(Context.AUDIO_SERVICE) as AudioManager)
+        .playSoundEffect(AudioManager.FX_KEY_CLICK)
+    this()
 }
