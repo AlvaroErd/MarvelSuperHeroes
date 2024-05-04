@@ -7,6 +7,7 @@ plugins {
     alias(libs.plugins.spotless) apply false
     alias(libs.plugins.detekt) apply false
     alias(libs.plugins.kotlin.parcelize) apply false
+    alias(libs.plugins.compose.compiler) apply false
 }
 
 subprojects {

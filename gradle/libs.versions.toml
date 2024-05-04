@@ -3,9 +3,9 @@
 #General, lifecycle and core
 androidGradlePlugin = "8.2.2"
 animationGraphics = "1.6.0"
-kotlin = "1.9.22"
+kotlin = "2.0.0-RC2"
 kotlinx_immutable = "0.3.5"
-ksp = "1.9.22-1.0.17"
+ksp = "2.0.0-RC2-1.0.20"
 buildTypeNameRelease = "release"
 
 compileSdk = "34"
@@ -309,6 +309,7 @@ detekt-formatting = { module = "io.gitlab.arturbosch.detekt:detekt-formatting", 
 [plugins]
 #Kotlin
 kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
+compose-compiler = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin" }
 kotlin-parcelize = { id = "org.jetbrains.kotlin.plugin.parcelize", version.ref = "kotlin" }
 ksp = { id = "com.google.devtools.ksp", version.ref = "ksp" }
 spotless = { id = "com.diffplug.spotless", version.ref = "spotless" }
